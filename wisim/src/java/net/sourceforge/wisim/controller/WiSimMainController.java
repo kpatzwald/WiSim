@@ -190,6 +190,10 @@ public class WiSimMainController extends javax.swing.JFrame {
         jLabelFactor = new javax.swing.JLabel();
         jComboBoxFactor = new javax.swing.JComboBox();
         jCheckBoxOneWeek = new javax.swing.JCheckBox();
+        jPanelStatus = new javax.swing.JPanel();
+        jLabelGreen = new javax.swing.JLabel();
+        jLabelYellow = new javax.swing.JLabel();
+        jLabelRed = new javax.swing.JLabel();
         jMenuBarWiSim = new javax.swing.JMenuBar();
         jMenuDatei = new javax.swing.JMenu();
         jMenuItemInfo = new javax.swing.JMenuItem();
@@ -220,7 +224,7 @@ public class WiSimMainController extends javax.swing.JFrame {
         jMenuRechnungswesen = new javax.swing.JMenu();
         jMenuItemZahlungseingang = new javax.swing.JMenuItem();
         jMenuSimulation = new javax.swing.JMenu();
-        jMenuItemSimAnalysis = new javax.swing.JMenuItem();
+        jMenuItemSimStart = new javax.swing.JMenuItem();
 
         setTitle("Wirtschaftssimulation");
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -276,6 +280,20 @@ public class WiSimMainController extends javax.swing.JFrame {
 
         jCheckBoxOneWeek.setText("Beende nach 1 Woche");
         jPanel2.add(jCheckBoxOneWeek);
+
+        jLabelGreen.setIcon(new javax.swing.ImageIcon("C:\\Dokumente und Einstellungen\\Ben.BENOWAR\\Desktop\\Ampel WiSim\\Final\\ampel_gruen.gif"));
+        jLabelGreen.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0)));
+        jPanelStatus.add(jLabelGreen);
+
+        jLabelYellow.setIcon(new javax.swing.ImageIcon("C:\\Dokumente und Einstellungen\\Ben.BENOWAR\\Desktop\\Ampel WiSim\\Final\\ampel_aus.gif"));
+        jLabelYellow.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0)));
+        jPanelStatus.add(jLabelYellow);
+
+        jLabelRed.setIcon(new javax.swing.ImageIcon("C:\\Dokumente und Einstellungen\\Ben.BENOWAR\\Desktop\\Ampel WiSim\\Final\\ampel_aus.gif"));
+        jLabelRed.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0)));
+        jPanelStatus.add(jLabelRed);
+
+        jPanel2.add(jPanelStatus);
 
         jPanel1.add(jPanel2, java.awt.BorderLayout.CENTER);
 
@@ -495,15 +513,15 @@ public class WiSimMainController extends javax.swing.JFrame {
 
         jMenuSimulation.setMnemonic('S');
         jMenuSimulation.setText("Simulation");
-        jMenuItemSimAnalysis.setMnemonic('A');
-        jMenuItemSimAnalysis.setText("Auswertung");
-        jMenuItemSimAnalysis.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItemSimStart.setMnemonic('S');
+        jMenuItemSimStart.setText("Start / Stop");
+        jMenuItemSimStart.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemSimAnalysisActionPerformed(evt);
+                jMenuItemSimStartActionPerformed(evt);
             }
         });
 
-        jMenuSimulation.add(jMenuItemSimAnalysis);
+        jMenuSimulation.add(jMenuItemSimStart);
 
         jMenuBarWiSim.add(jMenuSimulation);
 
@@ -512,6 +530,10 @@ public class WiSimMainController extends javax.swing.JFrame {
         java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
         setBounds((screenSize.width-800)/2, (screenSize.height-600)/2, 800, 600);
     }//GEN-END:initComponents
+
+    private void jMenuItemSimStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSimStartActionPerformed
+        // Add your handling code here:
+    }//GEN-LAST:event_jMenuItemSimStartActionPerformed
 
 	private void jMenuItemNetzplanActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jMenuItemNetzplanActionPerformed
 		addPanel("Networkplan");
@@ -905,6 +927,9 @@ public class WiSimMainController extends javax.swing.JFrame {
     private javax.swing.JComboBox jComboBoxFactor;
     private javax.swing.JLabel jLabelDate;
     private javax.swing.JLabel jLabelFactor;
+    private javax.swing.JLabel jLabelGreen;
+    private javax.swing.JLabel jLabelRed;
+    private javax.swing.JLabel jLabelYellow;
     private javax.swing.JMenuBar jMenuBarWiSim;
     private javax.swing.JMenu jMenuDatei;
     private javax.swing.JMenu jMenuEinkauf;
@@ -924,7 +949,7 @@ public class WiSimMainController extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItemNeuerLieferant;
     private javax.swing.JMenuItem jMenuItemNeuerVertrag;
     private javax.swing.JMenuItem jMenuItemOptions;
-    private javax.swing.JMenuItem jMenuItemSimAnalysis;
+    private javax.swing.JMenuItem jMenuItemSimStart;
     private javax.swing.JMenuItem jMenuItemVertragEinsehen;
     private javax.swing.JMenuItem jMenuItemZahlungseingang;
     private javax.swing.JMenu jMenuKunde;
@@ -937,6 +962,7 @@ public class WiSimMainController extends javax.swing.JFrame {
     private javax.swing.JMenu jMenuVertrieb;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanelStatus;
     private javax.swing.JSeparator jSeparator2;
     // End of variables declaration//GEN-END:variables
 
