@@ -31,75 +31,71 @@ import java.util.*;
  *  @author benjamin.pasero
  */
 public class UpdateSimulationAnalysis extends Thread {
-    private ActualTime actTime;
-    private int actDay;
-    private java.util.Date actDate;
-    private WiSimMainController wiSimMainController;
-    private GregorianCalendar gc;
-    private boolean beendeNachEinerWoche;
-    private int dayChanges;
-    
-    //JPanes
-    private JPanelSimulationStart jPanelSimulationStart;
-    
-    
-    /** Erzeugt eine neue Instanz UpdateSimulationAnalysis.
-     * @param beendeNachEinerWoche
-     * @param wiSimMainController
-     * @param actTime Der aktuelle Tag
-     */
-    public UpdateSimulationAnalysis(ActualTime actTime, WiSimMainController wiSimMainController, boolean beendeNachEinerWoche) {
-        super("UpdateSimulationAnalysis");
-        this.actTime = actTime;
-        this.wiSimMainController = wiSimMainController;
-        this.beendeNachEinerWoche = beendeNachEinerWoche;
-        actDay = 0;
-        gc = new GregorianCalendar();
-        dayChanges = 0;
-        
-        jPanelSimulationStart = (JPanelSimulationStart) wiSimMainController.getActions().get("SimulationStart");
-    }
-    
-    /** Startet diesen Thread und wartet solange bis sich die Minute im Objekt actTime
-     * geändert hat.
-     */
-    public void run() {
-        while (true) {
-            if (isInterrupted()) {
-                break;
-            }
-            
-            actDate = actTime.getDate(this);
-            if (isInterrupted())
-            {
-            	break;
-            }
-            gc.setTimeInMillis(actDate.getTime());
-            
-            //Refresh
-            jPanelSimulationStart.setActDate(new java.sql.Date(actDate.getTime()));
-            
-            if (jPanelSimulationStart.getIsActive())
-                jPanelSimulationStart.refreshTextFieldDate(actDate);
-            
-            //Zeitanzeige im Menü wird aktualisiert
-            wiSimMainController.refreshTextFieldDate(actDate);
-            
-            //Bei Tageswechsel Refresh der Auswertung
-            if (gc.get(5) != actDay) {
-                actDay = gc.get(5);
-                dayChanges++;
-                jPanelSimulationStart.refreshJTreeEinkauf();
-                jPanelSimulationStart.refreshJTreeProduktion();
-                jPanelSimulationStart.refreshJTreeVertrieb();
-            }
-            
-            //Beende nach 5 Tagen falls beendeNachEinerWoche == TRUE
-            if (beendeNachEinerWoche && dayChanges == 5) {
-                jPanelSimulationStart.startStopButtonDoClick();
-                jPanelSimulationStart.enableControll();
-                break;
-            }
-        }
-    }
+	private ActualTime actTime;
+	private int actDay;
+	private java.util.Date actDate;
+	private WiSimMainController wiSimMainController;
+	private GregorianCalendar gc;
+	private boolean beendeNachEinerWoche;
+	private int dayChanges;
+
+	//JPanes
+	private JPanelSimulationStart jPanelSimulationStart;
+
+	/** Erzeugt eine neue Instanz UpdateSimulationAnalysis.
+	 * @param beendeNachEinerWoche
+	 * @param wiSimMainController
+	 * @param actTime Der aktuelle Tag
+	 */
+	public UpdateSimulationAnalysis(ActualTime actTime, WiSimMainController wiSimMainController, boolean beendeNachEinerWoche) {
+		super("UpdateSimulationAnalysis");
+		this.actTime = actTime;
+		this.wiSimMainController = wiSimMainController;
+		this.beendeNachEinerWoche = beendeNachEinerWoche;
+		actDay = 0;
+		gc = new GregorianCalendar();
+		dayChanges = 0;
+
+		jPanelSimulationStart = (JPanelSimulationStart) wiSimMainController.getActions().get("SimulationStart");
+	}
+
+	/** Startet diesen Thread und wartet solange bis sich die Minute im Objekt actTime
+	 * geändert hat.
+	 */
+	public void run() {
+		while (true) {
+			if (isInterrupted()) {
+				break;
+			}
+
+			actDate = actTime.getDate(this);
+			if (isInterrupted()) {
+				break;
+			}
+			gc.setTimeInMillis(actDate.getTime());
+
+			//Refresh
+			jPanelSimulationStart.setActDate(new java.sql.Date(actDate.getTime()));
+
+			if (jPanelSimulationStart.getIsActive())
+				jPanelSimulationStart.refreshTextFieldDate(actDate);
+
+			//Zeitanzeige im Menü wird aktualisiert
+			wiSimMainController.refreshTextFieldDate(actDate);
+
+			//Bei Tageswechsel Refresh der Auswertung
+			if (gc.get(5) != actDay) {
+				actDay = gc.get(5);
+				dayChanges++;
+				jPanelSimulationStart.refreshJTreeEinkauf();
+				jPanelSimulationStart.refreshJTreeProduktion();
+				jPanelSimulationStart.refreshJTreeVertrieb();
+			}
+
+			//Beende nach 5 Tagen falls beendeNachEinerWoche == TRUE
+			if (beendeNachEinerWoche && dayChanges == 5) {
+				break;
+			}
+		}
+	}
 }
