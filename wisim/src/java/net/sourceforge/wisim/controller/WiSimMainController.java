@@ -182,10 +182,9 @@ public class WiSimMainController extends javax.swing.JFrame {
 			dao = factory.getDAO();
 			authDAO = factory.getAuthDAO();
 		} catch (Throwable t) {
-			wiSimLogger.log(Level.WARNING, "initDAO", t,true);
+			wiSimLogger.log(Level.WARNING, "initDAO", t, true);
 		}
-		
-		
+
 	}
 
 	/** This method is called from within the constructor to
@@ -936,19 +935,22 @@ public class WiSimMainController extends javax.swing.JFrame {
 	private void resetSimulation() {
 		setTrafficLightsOff();
 		WiSimDAO dao = this.getDAO();
-		try {
-			dao.simulationReset();
-			resetFields();
-		} catch (WiSimDAOException e) {
-			wiSimLogger.log(Level.WARNING, "resetDB()", e, false);
-		}
+		int choise = JOptionPane.showConfirmDialog(this, "Die Simulation wird zurückgesetzt.", "Achtung!", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+		if (choise == JOptionPane.YES_OPTION) {
+			try {
+				dao.simulationReset();
+				resetFields();
+			} catch (WiSimDAOException e) {
+				wiSimLogger.log(Level.WARNING, "resetDB()", e, false);
+			}
 
-		Iterator it = activPanels.iterator();
-		while (it.hasNext()) {
-			SimulationPane simPane = (SimulationPane) it.next();
-			simPane.refresh();
+			Iterator it = activPanels.iterator();
+			while (it.hasNext()) {
+				SimulationPane simPane = (SimulationPane) it.next();
+				simPane.refresh();
+			}
+			JOptionPane.showMessageDialog(this, "Die Simulation wurde zurückgesetzt!");
 		}
-		JOptionPane.showMessageDialog(this, "Die Simulation wurde zurückgesetzt!");
 	}
 
 	/**
@@ -1009,7 +1011,7 @@ public class WiSimMainController extends javax.swing.JFrame {
 		jLabelYellow.setToolTipText("");
 		jLabelRed.setToolTipText("");
 	}
-	
+
 	/**
 	 * @return
 	 */
