@@ -34,11 +34,12 @@ import java.util.Iterator;
  */
 public class NetzplanElement {
 
-	private int nummer;
-	private double dauer;
+	private int index;
+	private int number;
+	private double duration;
 	private boolean criticalPath;
-	private int[] vorgaenger;
-	private int[] nachfolger;
+	private int[] parent;
+	private int[] child;
 
 	private double faz;
 	private double fez;
@@ -47,9 +48,9 @@ public class NetzplanElement {
 	private double gp;
 	private double fp;
 
-	private String bezeichnung;
+	private String description;
 
-	private Collection vorgaengerBasket;
+	private Collection parentBasket;
 
 	private double anchorTopXPos = 0;
 	private double anchorBottomXPos = 0;
@@ -58,17 +59,17 @@ public class NetzplanElement {
 
 	/**
 	 * Class representating one networkplan element
-	 * @param nummer
-	 * @param dauer
-	 * @param nachfolger
-	 * @param bezeichnung
+	 * @param number
+	 * @param duration
+	 * @param child
+	 * @param description
 	 */
-	public NetzplanElement(int nummer, double dauer, int[] nachfolger, String bezeichnung) {
-		this.nummer = nummer;
-		this.dauer = dauer;
-		this.nachfolger = nachfolger;
-		vorgaengerBasket = new Vector();
-		this.bezeichnung = bezeichnung;
+	public NetzplanElement(int number, double duration, int[] child, String description) {
+		this.number = number;
+		this.duration = duration;
+		this.child = child;
+		parentBasket = new Vector();
+		this.description = description;
 		criticalPath = false;
 	}
 
@@ -76,16 +77,16 @@ public class NetzplanElement {
 	 * Get the duration of the network plan element
 	 * @return
 	 */
-	public double getDauer() {
-		return dauer;
+	public double getDuration() {
+		return duration;
 	}
 
 	/**
 	 * Set the duration
-	 * @param dauer
+	 * @param duration
 	 */
-	public void setDauer(double dauer) {
-		this.dauer = dauer;
+	public void setDuration(double duration) {
+		this.duration = duration;
 	}
 
 	/**
@@ -186,105 +187,105 @@ public class NetzplanElement {
 
 	/**
 	 * Get number
-	 * @return nummer
+	 * @return index
 	 */
-	public int getNummer() {
-		return nummer;
+	public int getIndex() {
+		return index;
 	}
 
 	/**
-	 * Set number
-	 * @param nummer
+	 * Set the index in the vector of all networkplan elements
+	 * @param index
 	 */
-	public void setNummer(int nummer) {
-		this.nummer = nummer;
+	public void setIndex(int index) {
+		this.index = index;
 	}
 
 	/**
 	 * Get array with number of parent elements
-	 * @return vorgaenger
+	 * @return parent
 	 */
-	public int[] getVorgaenger() {
-		return vorgaenger;
+	public int[] getParent() {
+		return parent;
 	}
 
 	/**
 	 * Set parents
-	 * @param vorgaenger
+	 * @param parent
 	 */
-	public void setVorgaenger(int[] vorgaenger) {
-		this.vorgaenger = vorgaenger;
+	public void setParent(int[] parent) {
+		this.parent = parent;
 	}
 
 	/**
 	 * Get array with number of child elements
-	 * @return nachfolger
+	 * @return child
 	 */
-	public int[] getNachfolger() {
-		return nachfolger;
+	public int[] getChild() {
+		return child;
 	}
 
 	/**
 	 * Set childs
-	 * @param nachfolger
+	 * @param child
 	 */
-	public void setNachfolger(int[] nachfolger) {
-		this.nachfolger = nachfolger;
+	public void setChild(int[] child) {
+		this.child = child;
 	}
 
 	/**
-	 * @return vorgaengerBasket
+	 * @return parentBasket
 	 */
-	public Collection getVorgaengerBasket() {
-		return vorgaengerBasket;
+	public Collection getParentBasket() {
+		return parentBasket;
 	}
 
 	/**
-	 * @param vorgaengerBasket
+	 * @param parentBasket
 	 */
-	public void setVorgaengerBasket(Collection vorgaengerBasket) {
-		this.vorgaengerBasket = vorgaengerBasket;
+	public void setParentBasket(Collection parentBasket) {
+		this.parentBasket = parentBasket;
 	}
 
 	/**
-	 * @param vorgaenger
+	 * @param parent
 	 */
-	public void addIntoVorgaengerBasket(Integer vorgaenger) {
-		vorgaengerBasket.add(vorgaenger);
+	public void addIntoParentBasket(Integer parent) {
+		parentBasket.add(parent);
 	}
 
 	/** Set this elements parents */
-	public void getFromVorgaengerBasket() {
-		Iterator vorgaengerBasketIt = vorgaengerBasket.iterator();
-		vorgaenger = new int[vorgaengerBasket.size()];
+	public void getFromParentBasket() {
+		Iterator parentBasketIt = parentBasket.iterator();
+		parent = new int[parentBasket.size()];
 		int i = 0;
-		while (vorgaengerBasketIt.hasNext()) {
-			vorgaenger[i] = ((Integer) vorgaengerBasketIt.next()).intValue();
+		while (parentBasketIt.hasNext()) {
+			parent[i] = ((Integer) parentBasketIt.next()).intValue();
 			i++;
 		}
 	}
 
 	/**
 	 * Get the description
-	 * @return bezeichnung
+	 * @return description
 	 */
-	public String getBezeichnung() {
-		return bezeichnung;
+	public String getDescription() {
+		return description;
 	}
 
 	/**
 	 * Set the description
 	 * @param description
 	 */
-	public void setBezeichnung(String bezeichnung) {
-		this.bezeichnung = bezeichnung;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	/**
 	 * @return
 	 */
 	public boolean isStartElem() {
-		if (vorgaenger[0] == 0)
+		if (parent[0] == 0)
 			return true;
 		else
 			return false;
@@ -294,7 +295,7 @@ public class NetzplanElement {
 	 * @return
 	 */
 	public boolean isEndElem() {
-		if (nachfolger[0] == 0)
+		if (child[0] == 0)
 			return true;
 		else
 			return false;
@@ -375,5 +376,18 @@ public class NetzplanElement {
 	 */
 	public void setAnchorTopYPos(double anchorTopYPos) {
 		this.anchorTopYPos = anchorTopYPos;
+	}
+	/**
+	 * @return
+	 */
+	public int getNumber() {
+		return number;
+	}
+
+	/**
+	 * @param number
+	 */
+	public void setNumber(int number) {
+		this.number = number;
 	}
 }

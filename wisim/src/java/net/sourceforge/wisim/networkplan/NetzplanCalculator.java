@@ -23,6 +23,7 @@
 
 package net.sourceforge.wisim.networkplan;
 
+import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Vector;
 
@@ -44,11 +45,11 @@ public class NetzplanCalculator {
 		this.npElemente = npElemente;
 		npElemIt = npElemente.iterator();
 
-		/** Sort the Vector holding the networkplan elements */
-		sortNp();
+		/** Set index */
+		setIndex();
 
 		/** Set the parent networkplan elements */
-		setVorgaenger();
+		setParents();
 
 		/** Calculation */
 		calculateFazFez();
@@ -58,16 +59,15 @@ public class NetzplanCalculator {
 
 	/** 
 	 * Determination of the parent network elements 
-	 * [DoItBen] Array mit Vorgaengern sind leider nicht korrekt sortiert!
 	 * */
-	public void setVorgaenger() {
+	public void setParents() {
 		npElemIt = npElemente.iterator();
 		while (npElemIt.hasNext()) {
 			NetzplanElement npElem = (NetzplanElement) npElemIt.next();
-			int[] nachfolger = npElem.getNachfolger();
+			int[] child = npElem.getChild();
 			int i = 0;
-			while (i < nachfolger.length && nachfolger[i] != 0) {
-				((NetzplanElement) npElemente.get(nachfolger[i] - 1)).addIntoVorgaengerBasket(new Integer(npElem.getNummer()));
+			while (i < child.length && child[i] != 0) {
+				((NetzplanElement) npElemente.get(child[i] - 1)).addIntoParentBasket(new Integer(npElem.getIndex()));
 				i++;
 			}
 		}
@@ -75,11 +75,11 @@ public class NetzplanCalculator {
 		npElemIt = npElemente.iterator();
 		while (npElemIt.hasNext()) {
 			NetzplanElement npElem = (NetzplanElement) npElemIt.next();
-			if (npElem.getVorgaengerBasket().size() > 0) {
-				npElem.getFromVorgaengerBasket();
+			if (npElem.getParentBasket().size() > 0) {
+				npElem.getFromParentBasket();
 			} else {
-				npElem.addIntoVorgaengerBasket(new Integer(0));
-				npElem.getFromVorgaengerBasket();
+				npElem.addIntoParentBasket(new Integer(0));
+				npElem.getFromParentBasket();
 			}
 		}
 	}
@@ -90,21 +90,21 @@ public class NetzplanCalculator {
 		while (npElemIt.hasNext()) {
 			NetzplanElement npElem = (NetzplanElement) npElemIt.next();
 
-			int vorgaenger[] = npElem.getVorgaenger();
-			if (vorgaenger[0] == 0) {
+			int parent[] = npElem.getParent();
+			if (parent[0] == 0) {
 				npElem.setFaz(0);
-				npElem.setFez(npElem.getDauer());
+				npElem.setFez(npElem.getDuration());
 			} else {
 				int i = 0;
 				double maxFez = 0;
-				while (i < vorgaenger.length) {
-					NetzplanElement npElemVorgaenger = (NetzplanElement) npElemente.get(vorgaenger[i] - 1);
-					if (maxFez < npElemVorgaenger.getFez())
-						maxFez = npElemVorgaenger.getFez();
+				while (i < parent.length) {
+					NetzplanElement npElemParent = (NetzplanElement) npElemente.get(parent[i] - 1);
+					if (maxFez < npElemParent.getFez())
+						maxFez = npElemParent.getFez();
 					i++;
 				}
 				npElem.setFaz(maxFez);
-				npElem.setFez(npElem.getFaz() + npElem.getDauer());
+				npElem.setFez(npElem.getFaz() + npElem.getDuration());
 			}
 		}
 	}
@@ -123,20 +123,20 @@ public class NetzplanCalculator {
 		while (npElemIt.hasNext()) {
 			NetzplanElement npElem = (NetzplanElement) npElemIt.next();
 
-			int nachfolger[] = npElem.getNachfolger();
-			if (nachfolger[0] == 0) {
+			int child[] = npElem.getChild();
+			if (child[0] == 0) {
 				npElem.setSaz(npElem.getFaz());
 				npElem.setSez(npElem.getFez());
 			} else {
 				int i = 1;
-				double minSaz = ((NetzplanElement) npElemente.get(nachfolger[0] - 1)).getSaz();
-				while (i < nachfolger.length) {
-					NetzplanElement npElemNachfolger = (NetzplanElement) npElemente.get(nachfolger[i] - 1);
-					if (minSaz > npElemNachfolger.getSaz())
-						minSaz = npElemNachfolger.getSaz();
+				double minSaz = ((NetzplanElement) npElemente.get(child[0] - 1)).getSaz();
+				while (i < child.length) {
+					NetzplanElement npElemChild = (NetzplanElement) npElemente.get(child[i] - 1);
+					if (minSaz > npElemChild.getSaz())
+						minSaz = npElemChild.getSaz();
 					i++;
 				}
-				npElem.setSaz(minSaz - npElem.getDauer());
+				npElem.setSaz(minSaz - npElem.getDuration());
 				npElem.setSez(minSaz);
 			}
 		}
@@ -157,15 +157,15 @@ public class NetzplanCalculator {
 		while (npElemIt.hasNext()) {
 			NetzplanElement npElem = (NetzplanElement) npElemIt.next();
 
-			int nachfolger[] = npElem.getNachfolger();
-			if (nachfolger[0] != 0) {
+			int child[] = npElem.getChild();
+			if (child[0] != 0) {
 				int i = 1;
-				double minFaz = ((NetzplanElement) npElemente.get(nachfolger[0] - 1)).getFaz();
+				double minFaz = ((NetzplanElement) npElemente.get(child[0] - 1)).getFaz();
 				;
-				while (i < nachfolger.length) {
-					NetzplanElement npElemVorgaenger = (NetzplanElement) npElemente.get(nachfolger[i] - 1);
-					if (minFaz > npElemVorgaenger.getFaz())
-						minFaz = npElemVorgaenger.getFaz();
+				while (i < child.length) {
+					NetzplanElement npElemParent = (NetzplanElement) npElemente.get(child[i] - 1);
+					if (minFaz > npElemParent.getFaz())
+						minFaz = npElemParent.getFaz();
 					i++;
 				}
 				npElem.setFp(minFaz - npElem.getFez());
@@ -185,7 +185,7 @@ public class NetzplanCalculator {
 		while (npElemIt.hasNext()) {
 			NetzplanElement npElem = (NetzplanElement) npElemIt.next();
 			if (npElem.getFp() == 0 && npElem.getGp() == 0)
-				criticalPath.add(new Integer(npElem.getNummer()));
+				criticalPath.add(new Integer(npElem.getIndex()));
 		}
 		return criticalPath;
 	}
@@ -199,7 +199,7 @@ public class NetzplanCalculator {
 		npElemIt = npElemente.iterator();
 		while (npElemIt.hasNext()) {
 			NetzplanElement npElem = (NetzplanElement) npElemIt.next();
-			int actWidth = npElem.getNachfolger().length;
+			int actWidth = npElem.getChild().length;
 
 			if (actWidth > 1)
 				countedBranches += actWidth;
@@ -214,15 +214,30 @@ public class NetzplanCalculator {
 		return npElemente;
 	}
 
-	/** Resort element-Vector. Each element is set at element-number -1. */
-	public void sortNp() {
-		
-		Vector sortedNpElemente = new Vector();
+	/** Set Index */
+	public void setIndex() {
+		int a = 0;
+		Hashtable newElemPos = new Hashtable();
 
-		while (npElemIt.hasNext()) {
-			NetzplanElement np = (NetzplanElement) npElemIt.next();
-			sortedNpElemente.add(np.getNummer() - 1, np);
+		while (a < npElemente.size()) {
+			NetzplanElement np = ((NetzplanElement) npElemente.get(a));
+			np.setIndex(a + 1);
+			newElemPos.put(new Integer(np.getNumber()), new Integer(np.getIndex()));
+			a++;
 		}
-		npElemente = sortedNpElemente;
+
+		/** Reset the child-Numbers */
+		a = 0;
+		while (a < npElemente.size()) {
+			NetzplanElement np = (NetzplanElement) npElemente.get(a);
+			int child[] = np.getChild();
+
+			int b = 0;
+			while (b < child.length && child[b] != 0) {
+				child[b] = ((Integer) newElemPos.get(new Integer(child[b]))).intValue();
+				b++;
+			}
+			a++;
+		}
 	}
 }

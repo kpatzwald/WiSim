@@ -184,16 +184,16 @@ public class Old_ShowNetzplan extends JPanel {
 		Vector filled = new Vector();
 
 		/** Elements of the network plan */
-		filled.add(new NetzplanElement(1, 20, new int[] { 2, 6, 8 }, "Entwicklung, Planung und Test der einzelnen"));
-		filled.add(new NetzplanElement(2, 3, new int[] { 3 }, "Erdaushub Fundamente"));
-		filled.add(new NetzplanElement(3, 2, new int[] { 4 }, "Ausgieﬂen Fundamente"));
-		filled.add(new NetzplanElement(4, 5, new int[] { 5 }, "Verschalung Betonsockel"));
-		filled.add(new NetzplanElement(5, 3, new int[] { 9 }, "Betonierung Betonsockel"));
-		filled.add(new NetzplanElement(6, 10, new int[] { 7 }, "Bestellung und Auslieferung Betonteile"));
-		filled.add(new NetzplanElement(7, 2, new int[] { 9 }, "Aushub Ver- und Entsorgungsleitung"));
-		filled.add(new NetzplanElement(8, 5, new int[] { 9 }, "Leitungsverlegung"));
-		filled.add(new NetzplanElement(9, 7, new int[] { 10 }, "Montage Lagerhalle"));
-		filled.add(new NetzplanElement(10, 4, new int[] { 0 }, "Installationsarbeiten"));
+//		filled.add(new NetzplanElement(1, 20, new int[] { 2, 6, 8 }, "Entwicklung, Planung und Test der einzelnen"));
+//		filled.add(new NetzplanElement(2, 3, new int[] { 3 }, "Erdaushub Fundamente"));
+//		filled.add(new NetzplanElement(3, 2, new int[] { 4 }, "Ausgieﬂen Fundamente"));
+//		filled.add(new NetzplanElement(4, 5, new int[] { 5 }, "Verschalung Betonsockel"));
+//		filled.add(new NetzplanElement(5, 3, new int[] { 9 }, "Betonierung Betonsockel"));
+//		filled.add(new NetzplanElement(6, 10, new int[] { 7 }, "Bestellung und Auslieferung Betonteile"));
+//		filled.add(new NetzplanElement(7, 2, new int[] { 9 }, "Aushub Ver- und Entsorgungsleitung"));
+//		filled.add(new NetzplanElement(8, 5, new int[] { 9 }, "Leitungsverlegung"));
+//		filled.add(new NetzplanElement(9, 7, new int[] { 10 }, "Montage Lagerhalle"));
+//		filled.add(new NetzplanElement(10, 4, new int[] { 0 }, "Installationsarbeiten"));
 
 		//		filled.add(new NetzplanElement(1, 3, new int[] { 2,3 }, "Erdaushub Fundamente"));
 		//		filled.add(new NetzplanElement(2, 2, new int[] { 4,5 }, "Ausgieﬂen Fundamente"));

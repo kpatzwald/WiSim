@@ -179,7 +179,7 @@ public class NetzplanElementSwingGenerator {
 		/** Writing Duration */
 		jLabelDuration.setFont(innerTextFont);
 		jLabelDuration.setHorizontalAlignment(SwingConstants.CENTER);
-		jLabelDuration.setText(String.valueOf(np.getDauer()));
+		jLabelDuration.setText(String.valueOf(np.getDuration()));
 		jLabelDuration.setBorder(new LineBorder(lineColor));
 		npElementRect.add(jLabelDuration);
 		jLabelDuration.setBounds(0, 70, 80, 80);
@@ -187,15 +187,15 @@ public class NetzplanElementSwingGenerator {
 		/** Writing Number */
 		jLabelNumber.setFont(innerTextFont);
 		jLabelNumber.setHorizontalAlignment(SwingConstants.CENTER);
-		jLabelNumber.setText(String.valueOf(np.getNummer()));
+		jLabelNumber.setText(String.valueOf(np.getNumber()));
 		jLabelNumber.setBorder(new LineBorder(lineColor));
 		npElementRect.add(jLabelNumber);
 		jLabelNumber.setBounds(0, 0, 80, 71);
 
 		/** Get the width of the description in pixel */
-		int textWidth = getTextLength(np.getBezeichnung(), descriptionFont);
+		int textWidth = getTextLength(np.getDescription(), descriptionFont);
 
-		String description = np.getBezeichnung();
+		String description = np.getDescription();
 		String s1 = description;
 		String s2 = "";
 		boolean twoLines = false;
@@ -436,7 +436,7 @@ public class NetzplanElementSwingGenerator {
 
 	/** Something happens when the user clicks the element ;-) */
 	private void npElementRectMouseClicked(java.awt.event.MouseEvent evt) {
-		String message = String.valueOf(currentNpElem.getNummer());
+		String message = String.valueOf(currentNpElem.getIndex());
 		JOptionPane.showMessageDialog(npElementContainer, "This is activity number " + message);
 	}
 }

@@ -115,7 +115,7 @@ public class Old_NetzplanGrafikGenerator {
 			for (int c = 0; c < 20; c++) {
 				if (position[b][c] != 0) {
 					NetzplanElement np = (NetzplanElement) npElemente.get(position[b][c] - 1);
-					if (!paintedElements.contains(new Integer(np.getNummer()))) {
+					if (!paintedElements.contains(new Integer(np.getIndex()))) {
 
 						npElemImg = npGen[i].generateNetzplanelement(np);
 
@@ -124,14 +124,14 @@ public class Old_NetzplanGrafikGenerator {
 
 						g.drawImage(npElemImg, 30 + b * 400 + freeWidth, 30 + c * 160, null);
 
-						int nachfolger[] = np.getNachfolger();
+						int nachfolger[] = np.getChild();
 
 						/** Horizontal Connection Line */
 						if (nachfolger.length > 1) {
 							g.drawLine(230 + b * 400, 190 + c * 160, 630 + (nachfolger.length - 2) * 400, 190 + c * 160);
 						}
 
-						int vorgaenger[] = np.getVorgaenger();
+						int vorgaenger[] = np.getParent();
 
 						/** Horizontal Connection Line */
 						if (vorgaenger.length > 1) {
@@ -146,7 +146,7 @@ public class Old_NetzplanGrafikGenerator {
 						g.drawLine(230 + b * 400, 10 + c * 160, 230 + b * 400, 190 + c * 160);
 					}
 
-					paintedElements.add(new Integer(np.getNummer()));
+					paintedElements.add(new Integer(np.getIndex()));
 				}
 			}
 		}
@@ -220,11 +220,11 @@ public class Old_NetzplanGrafikGenerator {
 
 		/** START-Element is stored in  Vector Tupel */
 		tupel[0] = new Vector();
-		tupel[0].add(new Integer(((NetzplanElement) npElemente.get(0)).getNummer()));
-		completedAll.add(new Integer(((NetzplanElement) npElemente.get(0)).getNummer()));
+		tupel[0].add(new Integer(((NetzplanElement) npElemente.get(0)).getIndex()));
+		completedAll.add(new Integer(((NetzplanElement) npElemente.get(0)).getIndex()));
 
 		/** Followers of the START-Element */
-		int nachfolger[] = ((NetzplanElement) npElemente.get(0)).getNachfolger();
+		int nachfolger[] = ((NetzplanElement) npElemente.get(0)).getChild();
 
 		/** All followers of the START-Element are stored in a Vector */
 		int y = 0;
@@ -244,7 +244,7 @@ public class Old_NetzplanGrafikGenerator {
 
 			/** Get the parent activitiys of the followers */
 			while (a < nachfolgerBasket.size()) {
-				int[] vorgaenger = ((NetzplanElement) npElemente.get(((Integer) nachfolgerBasket.get(a)).intValue() - 1)).getVorgaenger();
+				int[] vorgaenger = ((NetzplanElement) npElemente.get(((Integer) nachfolgerBasket.get(a)).intValue() - 1)).getParent();
 				boolean complete = true;
 
 				/** Check if all parent activites were already stored in the tupel */
@@ -254,7 +254,7 @@ public class Old_NetzplanGrafikGenerator {
 					while (h < vorgaenger.length) {
 						NetzplanElement checkCompleted = (NetzplanElement) npElemente.get(vorgaenger[h] - 1);
 						h++;
-						if (!completedAll.contains(new Integer(checkCompleted.getNummer()))) {
+						if (!completedAll.contains(new Integer(checkCompleted.getIndex()))) {
 							complete = false;
 							break;
 						}
@@ -278,7 +278,7 @@ public class Old_NetzplanGrafikGenerator {
 
 			/** Get all followers of the current tupel[]-network elements */
 			while (b < tupel[i].size()) {
-				nachfolger = ((NetzplanElement) npElemente.get(((Integer) tupel[i].get(b)).intValue() - 1)).getNachfolger();
+				nachfolger = ((NetzplanElement) npElemente.get(((Integer) tupel[i].get(b)).intValue() - 1)).getChild();
 				int c = 0;
 				while (c < nachfolger.length) {
 					if (nachfolger[c] != 0) {
@@ -333,7 +333,7 @@ public class Old_NetzplanGrafikGenerator {
 					//if (actTupel.size() < maxWidth - 1)
 					//position[k + (int)Math.round((maxWidth/2)) - 1][j] = actNpElem.getNummer();
 					//else
-					position[k][j] = actNpElem.getNummer();
+					position[k][j] = actNpElem.getIndex();
 				}
 				k++;
 			}

@@ -60,9 +60,9 @@ public class Old_NetzplanElementGrafikGenerator {
 	public Image generateNetzplanelement(NetzplanElement np) {
 
 		/** Get the width of the description in pixel */
-		int textWidth = getTextLength(np.getBezeichnung());
+		int textWidth = getTextLength(np.getDescription());
 
-		String description = np.getBezeichnung();
+		String description = np.getDescription();
 		String s1 = description;
 		String s2 = "";
 		boolean twoLines = false;
@@ -245,18 +245,18 @@ public class Old_NetzplanElementGrafikGenerator {
 		g.setColor(Color.BLACK);
 		g.setFont(new Font("SansSerif", 0, 30));
 
-		if (String.valueOf(np.getNummer()).matches("^[0-9]{2}$"))
-			g.drawString(String.valueOf(np.getNummer()), 12, 66);
+		if (String.valueOf(np.getIndex()).matches("^[0-9]{2}$"))
+			g.drawString(String.valueOf(np.getIndex()), 12, 66);
 		else
-			g.drawString(String.valueOf(np.getNummer()), 22, 66);
+			g.drawString(String.valueOf(np.getIndex()), 22, 66);
 
 		/** Drawing the duration */
 		g.setFont(new Font("SansSerif", 0, 25));
 
-		if (String.valueOf(np.getDauer()).length() < 4)
-			g.drawString(String.valueOf(np.getDauer()), 12, 116);
+		if (String.valueOf(np.getDuration()).length() < 4)
+			g.drawString(String.valueOf(np.getDuration()), 12, 116);
 		else
-			g.drawString(String.valueOf(np.getDauer()), 5, 116);
+			g.drawString(String.valueOf(np.getDuration()), 5, 116);
 
 		g.setFont(new Font("SansSerif", 0, 15));
 

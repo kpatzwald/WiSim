@@ -97,11 +97,9 @@ public class NetzplanShow extends JFrame {
 			String errorMessage =
 				"Error: The network plan seems not to be correct!"
 					+ "\n\nPlease check your networkplan:"
-					+ "\n\n- Make sure you have more than one networkplan element"
-					+ "\n- Make sure each element has a parent and a child"
+					+ "\n\n- Make sure each element has a child element that exists"
 					+ "\n- Make sure you dont used one number for two elements"
-					+ "\n- Make sure you used numbers from 1 to number of elements"
-					+ "\n- Make sure you dont used 0 as a number for an element";
+					+ "\n- Use 0 for the child of the last element";
 
 			JTextArea errorDescription = new JTextArea(errorMessage);
 			errorDescription.setEditable(false);
@@ -142,7 +140,6 @@ public class NetzplanShow extends JFrame {
 
 		/** Some network plans to choose */
 		switch (show) {
-
 			case 0 :
 				filled.add(new NetzplanElement(1, 20, new int[] { 2, 6, 8 }, "Entwurf, Planung"));
 				filled.add(new NetzplanElement(2, 3, new int[] { 3 }, "Erdaushub Fundamente"));
@@ -190,7 +187,7 @@ public class NetzplanShow extends JFrame {
 			case 4 : //Buggy
 				filled.add(new NetzplanElement(1, 2, new int[] { 2, 3 }, "Ausgieﬂen Fundamente"));
 				filled.add(new NetzplanElement(2, 2, new int[] { 4, 5 }, "Ausgieﬂen Fundamente"));
-				filled.add(new NetzplanElement(3, 5, new int[] { 8 }, "Verschalung Betonsockel"));
+				filled.add(new NetzplanElement(3, 5, new int[] { 8 }, "erschalung Betonsockel"));
 				filled.add(new NetzplanElement(4, 3, new int[] { 8 }, "Betonierung Betonsockel"));
 				filled.add(new NetzplanElement(5, 10, new int[] { 6, 7 }, "Bestellung Betonteile"));
 				filled.add(new NetzplanElement(6, 3, new int[] { 8 }, "Betonierung Betonsockel"));
@@ -199,8 +196,8 @@ public class NetzplanShow extends JFrame {
 				break;
 
 			case 5 : //Testing a wrong networkplan element
-				filled.add(new NetzplanElement(0, 2, new int[] { 2 }, "Ausgieﬂen Fundamente"));
-				filled.add(new NetzplanElement(2, 2, new int[] { 0 }, "Aushub Versorgungsleitung"));
+				filled.add(new NetzplanElement(0, 2, new int[] { 1 }, "Ausgieﬂen Fundamente"));
+				filled.add(new NetzplanElement(1, 2, new int[] { 0 }, "Ausgieﬂen Fundamente"));
 				break;
 		}
 		return filled;

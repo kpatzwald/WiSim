@@ -24,6 +24,7 @@
 package net.sourceforge.wisim.networkplan;
 
 import java.awt.Color;
+import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Vector;
@@ -59,12 +60,10 @@ public class NetzplanSwingGenerator {
 	 */
 	public NetzplanSwingGenerator(Vector npElemente) {
 
-		/** Guess the x and y spread of the network plan 
-		  * [DoItBen] tupel-size merkwürdig! 
-		  */
+		/** Guess the x and y spread of the network plan */
 		maxPosX = npElemente.size();
 		maxPosY = npElemente.size();
-		tupel = new Vector[maxPosY*2];
+		tupel = new Vector[maxPosY + 1];
 
 		/** 
 		 * Matrix for positioning of the elements 
@@ -113,6 +112,8 @@ public class NetzplanSwingGenerator {
 
 	/** Sets the swing elements and builds the network plan */
 	public void paintSwingElmements() {
+
+		boolean onlyOneElement = false;
 
 		/** Count the elements of the tupel */
 		int a = 0;
@@ -165,6 +166,10 @@ public class NetzplanSwingGenerator {
 
 			NetzplanElement np = (NetzplanElement) npElemente.get(currentElementNumber - 1);
 
+			int child[] = np.getChild();
+			if (child[0] == 0)
+				onlyOneElement = true;
+
 			/** This element is not a vertical connection line */
 			if (checkIfLine > 0) {
 				npElemPanel = npGen[i].generateNetzplanelement(np);
@@ -188,7 +193,7 @@ public class NetzplanSwingGenerator {
 
 		int topPos = middlePos - 1;
 
-		while (topPos >= 0) {
+		while (topPos >= 0 && !onlyOneElement) {
 
 			Vector topElements = tupel[topPos];
 
@@ -202,7 +207,7 @@ public class NetzplanSwingGenerator {
 					currentElementNumber *= -1;
 
 				NetzplanElement np = (NetzplanElement) npElemente.get(currentElementNumber - 1);
-				childCount += np.getNachfolger().length;
+				childCount += np.getChild().length;
 			}
 
 			int topElementsCount = tupel[topPos].size();
@@ -223,8 +228,8 @@ public class NetzplanSwingGenerator {
 
 				NetzplanElement np = (NetzplanElement) npElemente.get(currentElementNumber - 1);
 
-				int nachfolger[] = np.getNachfolger();
-				double relFreeSize = ((double) nachfolger.length / (double) childCount) * stomachSize; //korrekt
+				int child[] = np.getChild();
+				double relFreeSize = ((double) child.length / (double) childCount) * stomachSize; //korrekt
 
 				/** Center the element */
 				freeWidth = (int) relFreeSize / 2 - 215 + occupied;
@@ -257,7 +262,7 @@ public class NetzplanSwingGenerator {
 
 		int bottomPos = middlePos + 1;
 
-		while (tupel[bottomPos] != null) {
+		while (tupel[bottomPos] != null && !onlyOneElement) {
 
 			int y = 0;
 			Vector bottomElements = tupel[bottomPos];
@@ -279,7 +284,7 @@ public class NetzplanSwingGenerator {
 				NetzplanElement np = (NetzplanElement) npElemente.get(currentElementNumber - 1);
 
 				Hashtable childWidth = getRelWidthOfChilds(bottomPos);
-				double freeWidthProzent = ((Double) childWidth.get(new Integer(np.getNummer()))).doubleValue();
+				double freeWidthProzent = ((Double) childWidth.get(new Integer(np.getIndex()))).doubleValue();
 				freeWidth = (int) ((double) stomachSize / (double) 100 * freeWidthProzent) / 2 - 215 + occupied;
 
 				occupied = freeWidth * 2;
@@ -308,22 +313,21 @@ public class NetzplanSwingGenerator {
 		}
 
 		/** Paint the horizontal and vertical connection lines */
-		Iterator npElemIt = npElemente.iterator();
-		while (npElemIt.hasNext()) {
-			NetzplanElement np = (NetzplanElement) npElemIt.next();
+		Enumeration npElemIt = npElemente.elements();
+		while (npElemIt.hasMoreElements()) {
+			NetzplanElement np = (NetzplanElement) npElemIt.nextElement();
 
 			/** Horizontal Connection Line connecting the childs */
-			int nachfolger[] = np.getNachfolger();
-			if (nachfolger.length > 1) {
+			int child[] = np.getChild();
+			if (child.length > 1) {
 
 				int r = 1;
 				int width = 0;
-				int xPosStart = (int) ((NetzplanElement) npElemente.get(nachfolger[0] - 1)).getAnchorTopXPos();
-				int yPosStart = (int) ((NetzplanElement) npElemente.get(nachfolger[0] - 1)).getAnchorTopYPos();
+				int xPosStart = (int) ((NetzplanElement) npElemente.get(child[0] - 1)).getAnchorTopXPos();
+				int yPosStart = (int) ((NetzplanElement) npElemente.get(child[0] - 1)).getAnchorTopYPos();
 
 				int xPosLength =
-					(int) ((NetzplanElement) npElemente.get(nachfolger[nachfolger.length - 1] - 1)).getAnchorTopXPos()
-						- xPosStart;
+					(int) ((NetzplanElement) npElemente.get(child[child.length - 1] - 1)).getAnchorTopXPos() - xPosStart;
 
 				JSeparator jSeparatorHorizontalCon = new JSeparator();
 				jSeparatorHorizontalCon.setOrientation(SwingConstants.HORIZONTAL);
@@ -337,12 +341,12 @@ public class NetzplanSwingGenerator {
 			}
 
 			/** Horizontal Connection Line connecting the parents */
-			int vorgaenger[] = np.getVorgaenger();
-			if (vorgaenger.length > 1) {
+			int parent[] = np.getParent();
+			if (parent.length > 1) {
 
 				int r = 1;
 				int width = 0;
-				int xPosStartMin = (int) ((NetzplanElement) npElemente.get(vorgaenger[0] - 1)).getAnchorBottomXPos();
+				int xPosStartMin = (int) ((NetzplanElement) npElemente.get(parent[0] - 1)).getAnchorBottomXPos();
 				int xPosStartMax = 0;
 
 				int yPosStart = 0;
@@ -350,17 +354,17 @@ public class NetzplanSwingGenerator {
 				int u = 0;
 
 				/** 
-				 * Get the max. Width and min. Width because the getVorgaenger-Function gives
+				 * Get the max. Width and min. Width because the getParent-Function gives
 				 * back an unsorted list of elements!! Perhaps i'll fix this in future versions
 				 */
-				while (u < vorgaenger.length) {
-					if ((int) ((NetzplanElement) npElemente.get(vorgaenger[u] - 1)).getAnchorBottomXPos() < xPosStartMin)
-						xPosStartMin = (int) ((NetzplanElement) npElemente.get(vorgaenger[u] - 1)).getAnchorBottomXPos();
-					if ((int) ((NetzplanElement) npElemente.get(vorgaenger[u] - 1)).getAnchorBottomXPos() > xPosStartMax)
-						xPosStartMax = (int) ((NetzplanElement) npElemente.get(vorgaenger[u] - 1)).getAnchorBottomXPos();
+				while (u < parent.length) {
+					if ((int) ((NetzplanElement) npElemente.get(parent[u] - 1)).getAnchorBottomXPos() < xPosStartMin)
+						xPosStartMin = (int) ((NetzplanElement) npElemente.get(parent[u] - 1)).getAnchorBottomXPos();
+					if ((int) ((NetzplanElement) npElemente.get(parent[u] - 1)).getAnchorBottomXPos() > xPosStartMax)
+						xPosStartMax = (int) ((NetzplanElement) npElemente.get(parent[u] - 1)).getAnchorBottomXPos();
 
-					if (yPosStart < (int) ((NetzplanElement) npElemente.get(vorgaenger[u] - 1)).getAnchorBottomYPos())
-						yPosStart = (int) ((NetzplanElement) npElemente.get(vorgaenger[u] - 1)).getAnchorBottomYPos();
+					if (yPosStart < (int) ((NetzplanElement) npElemente.get(parent[u] - 1)).getAnchorBottomYPos())
+						yPosStart = (int) ((NetzplanElement) npElemente.get(parent[u] - 1)).getAnchorBottomYPos();
 					u++;
 				}
 
@@ -378,7 +382,7 @@ public class NetzplanSwingGenerator {
 
 		/** Paint the vertical connection lines. */
 		int z = 0;
-		while (tupel[z] != null) {
+		while (tupel[z] != null && !onlyOneElement) {
 			Vector temp = tupel[z];
 
 			int g = 0;
@@ -415,21 +419,24 @@ public class NetzplanSwingGenerator {
 
 		/** START-Element is stored in  Vector Tupel */
 		tupel[0] = new Vector();
-		tupel[0].add(new Integer(((NetzplanElement) npElemente.get(0)).getNummer()));
+		tupel[0].add(new Integer(((NetzplanElement) npElemente.get(0)).getIndex()));
 
 		/** Followers of the START-Element */
-		int nachfolger[] = ((NetzplanElement) npElemente.get(0)).getNachfolger();
+		int child[] = ((NetzplanElement) npElemente.get(0)).getChild();
 
 		/** All followers of the START-Element are stored in tupel[1] */
 		int y = 0;
 		tupel[1] = new Vector();
-		while (y < nachfolger.length) {
-			tupel[1].add(new Integer(nachfolger[y]));
+		while (y < child.length) {
+			tupel[1].add(new Integer(child[y]));
 			y++;
 		}
 
 		int i = 1;
 		boolean lastElement = false;
+
+		if (child[0] == 0)
+			lastElement = true;
 
 		while (!lastElement) {
 
@@ -447,34 +454,34 @@ public class NetzplanSwingGenerator {
 					currentElem *= -1;
 				}
 
-				nachfolger = ((NetzplanElement) npElemente.get(currentElem - 1)).getNachfolger();
+				child = ((NetzplanElement) npElemente.get(currentElem - 1)).getChild();
 
 				/** Last tupel reached */
-				if (nachfolger[0] == 0) {
+				if (child[0] == 0) {
 					lastElement = true;
 					break;
 				}
 
 				/** Foreach child-element */
 				int b = 0;
-				while (b < nachfolger.length) {
+				while (b < child.length) {
 
-					int vorgaenger[] = ((NetzplanElement) npElemente.get(nachfolger[b] - 1)).getVorgaenger();
+					int parent[] = ((NetzplanElement) npElemente.get(child[b] - 1)).getParent();
 
 					/** Add this element because the parent exists */
-					if (vorgaenger.length == 1) {
-						tupel[i + 1].add(new Integer(nachfolger[b]));
+					if (parent.length == 1) {
+						tupel[i + 1].add(new Integer(child[b]));
 					}
 
 					/** The child-element has more than one parents */
 					else {
 						int c = 0;
 						boolean parentsExists = true;
-						while (c < vorgaenger.length) {
+						while (c < parent.length) {
 
 							/** The current tupel (row) does not contain the parents */
-							if (!tupel[i].contains(new Integer(vorgaenger[c]))
-								&& !tupel[i].contains(new Integer(vorgaenger[c] * (-1)))) {
+							if (!tupel[i].contains(new Integer(parent[c]))
+								&& !tupel[i].contains(new Integer(parent[c] * (-1)))) {
 								parentsExists = false;
 								break;
 							}
@@ -485,15 +492,15 @@ public class NetzplanSwingGenerator {
 						if (parentsExists) {
 
 							/** Only add if its not yet in! */
-							if (!tupel[i + 1].contains(new Integer(nachfolger[b])))
-								tupel[i + 1].add(new Integer(nachfolger[b]));
+							if (!tupel[i + 1].contains(new Integer(child[b])))
+								tupel[i + 1].add(new Integer(child[b]));
 
 							/** 
 							 * Add the negative value of the parent again, because some parents for 
 							 * this child dont exist 
 							 */
 						} else {
-							tupel[i + 1].add(new Integer(((NetzplanElement) npElemente.get(currentElem - 1)).getNummer() * (-1)));
+							tupel[i + 1].add(new Integer(((NetzplanElement) npElemente.get(currentElem - 1)).getIndex() * (-1)));
 						}
 					}
 					b++;
@@ -516,7 +523,7 @@ public class NetzplanSwingGenerator {
 
 				if (actInt > 0) {
 					NetzplanElement actNpElem = (NetzplanElement) npElemente.get(actInt - 1);
-					position[k][j] = actNpElem.getNummer();
+					position[k][j] = actNpElem.getIndex();
 				}
 				k++;
 			}
@@ -638,11 +645,11 @@ public class NetzplanSwingGenerator {
 				currentPos *= -1;
 
 			if (tempPos > 0) {
-				int vorgaenger[] = ((NetzplanElement) npElemente.get(currentPos - 1)).getVorgaenger();
+				int parent[] = ((NetzplanElement) npElemente.get(currentPos - 1)).getParent();
 				int b = 0;
-				while (b < vorgaenger.length) {
-					if (!parents.contains(new Integer(vorgaenger[b])))
-						parents.add(new Integer(vorgaenger[b]));
+				while (b < parent.length) {
+					if (!parents.contains(new Integer(parent[b])))
+						parents.add(new Integer(parent[b]));
 					b++;
 				}
 			} else {
@@ -671,9 +678,9 @@ public class NetzplanSwingGenerator {
 				currentPos *= -1;
 
 			if (tempPos > 0) {
-				int nachfolger[] = ((NetzplanElement) npElemente.get(currentPos - 1)).getNachfolger();
+				int child[] = ((NetzplanElement) npElemente.get(currentPos - 1)).getChild();
 
-				int countChilds = nachfolger.length;
+				int countChilds = child.length;
 
 				double widthForChild = (double) widthForChildGroup / (double) countChilds;
 
@@ -681,12 +688,12 @@ public class NetzplanSwingGenerator {
 					widthForChild = widthForChildGroup;
 
 				int d = 0;
-				while (d < nachfolger.length) {
-					if (childWidth.containsKey(new Integer(nachfolger[d]))) {
-						double temp = ((Double) childWidth.get(new Integer(nachfolger[d]))).doubleValue();
-						childWidth.put(new Integer(nachfolger[d]), new Double(widthForChild + temp));
+				while (d < child.length) {
+					if (childWidth.containsKey(new Integer(child[d]))) {
+						double temp = ((Double) childWidth.get(new Integer(child[d]))).doubleValue();
+						childWidth.put(new Integer(child[d]), new Double(widthForChild + temp));
 					} else {
-						childWidth.put(new Integer(nachfolger[d]), new Double(widthForChild));
+						childWidth.put(new Integer(child[d]), new Double(widthForChild));
 					}
 					d++;
 				}
