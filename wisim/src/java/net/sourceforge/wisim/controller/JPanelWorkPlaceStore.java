@@ -41,7 +41,7 @@ import javax.swing.*;
  * pro WorkPlace einstellen.
  * @author  benjamin.pasero
  */
-public class JPanelWorkPlaceStore extends javax.swing.JPanel {
+public class JPanelWorkPlaceStore extends javax.swing.JPanel implements SimulationPane {
     
     private WiSimDAO dao;
     private Vector arbeitsplaetze;
@@ -53,6 +53,7 @@ public class JPanelWorkPlaceStore extends javax.swing.JPanel {
     private boolean isActive;
     private Vector tempEingangslagerBestand;
     private Vector tempAusgangslagerBestand;
+    private WiSimMainController wiSimMainController;
     
     //Logger
     private WiSimLogger wiSimLogger;
@@ -61,6 +62,7 @@ public class JPanelWorkPlaceStore extends javax.swing.JPanel {
      * @param wiSimMainController
      */
     public JPanelWorkPlaceStore(WiSimMainController wiSimMainController) {
+		this.wiSimMainController = wiSimMainController;
         wiSimLogger = wiSimMainController.getWiSimLogger();
         initDAO(wiSimMainController);
         arbeitsplaetze = new Vector();
@@ -282,11 +284,13 @@ public class JPanelWorkPlaceStore extends javax.swing.JPanel {
     
     private void formAncestorRemoved(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_formAncestorRemoved
         setIsActive(false);
+        wiSimMainController.removeActivPanel(this);
     }//GEN-LAST:event_formAncestorRemoved
     
     private void formAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_formAncestorAdded
         setIsActive(true);
         setIsBuilt(true);
+        wiSimMainController.addActivPanel(this);
     }//GEN-LAST:event_formAncestorAdded
     
     private void jPanelArbeiterAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jPanelArbeiterAncestorAdded
@@ -725,4 +729,11 @@ public class JPanelWorkPlaceStore extends javax.swing.JPanel {
     public boolean getIsActive() {
         return isActive;
     }
+
+	/* (non-Javadoc)
+	 * @see net.sourceforge.wisim.model.SimulationPane#refresh()
+	 */
+	public void refresh() {
+		refreshArbeitsplatzLagerElementeTabelle();		
+	}
 }

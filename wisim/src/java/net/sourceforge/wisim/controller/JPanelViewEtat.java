@@ -39,7 +39,7 @@ import java.awt.image.*;
 /** Gibt eine Übersicht aller Einzelteilaufträge aus.
  * @author benjamin.pasero
  */
-public class JPanelViewEtat extends javax.swing.JPanel {
+public class JPanelViewEtat extends javax.swing.JPanel implements SimulationPane {
 
 	private WiSimDAO dao;
 	private Vector etatListe;
@@ -409,10 +409,12 @@ public class JPanelViewEtat extends javax.swing.JPanel {
 
 	private void formAncestorRemoved(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_formAncestorRemoved
 		setIsActive(false);
+		wiSimMainController.removeActivPanel(this);
 	} //GEN-LAST:event_formAncestorRemoved
 
 	private void formAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_formAncestorAdded
 		setIsActive(true);
+		wiSimMainController.addActivPanel(this);
 	} //GEN-LAST:event_formAncestorAdded
 
 	private void jTableEtatListeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableEtatListeMouseClicked
@@ -786,5 +788,12 @@ public class JPanelViewEtat extends javax.swing.JPanel {
 		}
 
 		etatAnzahl = etatListe.size();
+	}
+
+	/* (non-Javadoc)
+	 * @see net.sourceforge.wisim.model.SimulationPane#refresh()
+	 */
+	public void refresh() {
+		refreshEtatListe();
 	}
 }

@@ -47,13 +47,14 @@ import net.sourceforge.wisim.dao.WiSimDAOWriteException;
 import net.sourceforge.wisim.model.Contract;
 import net.sourceforge.wisim.model.ContractAccount;
 import net.sourceforge.wisim.model.Customer;
+import net.sourceforge.wisim.model.SimulationPane;
 import net.sourceforge.wisim.model.WiSimLogger;
 
 /**
  * JPanelZahlungseingang ermöglicht Übersicht und Bearbeitung aller Zahlungseingänge.
  */
 
-public class JPanelIncomingPayments extends javax.swing.JPanel {
+public class JPanelIncomingPayments extends javax.swing.JPanel implements SimulationPane {
 
 	private WiSimDAO dao;
 	private Hashtable vertragObjekte;
@@ -343,10 +344,12 @@ public class JPanelIncomingPayments extends javax.swing.JPanel {
 
 	private void formAncestorRemoved(javax.swing.event.AncestorEvent evt) { //GEN-FIRST:event_formAncestorRemoved
 		setIsActive(false);
+		wiSimMainController.removeActivPanel(this);
 	} //GEN-LAST:event_formAncestorRemoved
 
 	private void formAncestorAdded(javax.swing.event.AncestorEvent evt) { //GEN-FIRST:event_formAncestorAdded
 		setIsActive(true);
+		wiSimMainController.addActivPanel(this);
 	} //GEN-LAST:event_formAncestorAdded
 
 	private void jButtonResetActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jButtonResetActionPerformed
@@ -713,5 +716,12 @@ public class JPanelIncomingPayments extends javax.swing.JPanel {
 	     */
 	public boolean getIsActive() {
 		return isActive;
+	}
+
+	/* (non-Javadoc)
+	 * @see net.sourceforge.wisim.model.SimulationPane#refresh()
+	 */
+	public void refresh() {
+		refreshTabelle();
 	}
 }
