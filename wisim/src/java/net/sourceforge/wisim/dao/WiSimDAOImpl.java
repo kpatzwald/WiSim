@@ -76,7 +76,15 @@ import sun.misc.BASE64Encoder;
  *
  * @author Kay Patzwald
  */
-public class WiSimDAOImpl implements WiSimDAO {
+public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
+	/** Authentification-Informations
+	 * 
+	 */
+	private String hostName;
+	private String port;
+	private String dbName; //durch die Applikation vorgegeben
+	private String user;
+	private String password;
 
 	/** a java.util.Logger for all logging in this package...
 	 */
@@ -100,11 +108,11 @@ public class WiSimDAOImpl implements WiSimDAO {
 		} catch (Exception e) {
 		}
 
-		String hostname = "";
-		String port = "";
-		String dbname = "wisim"; //durch die Applikation vorgegeben
-		String user = "";
-		String password = "";
+		hostName = "";
+		port = "";
+		dbName = "wisim"; //durch die Applikation vorgegeben
+		user = "";
+		password = "";
 
 		logger.finest("com.pixelpark.wisim.dao.WiSimDAOImpl.initialize() Action: start");
 		// Serverlog
@@ -149,7 +157,7 @@ public class WiSimDAOImpl implements WiSimDAO {
 			}
 
 			//Variablen bekommen die Werte aus der "config.dat"
-			hostname = daten[0].trim();
+			hostName = daten[0].trim();
 
 			port = daten[1].trim();
 
@@ -167,7 +175,7 @@ public class WiSimDAOImpl implements WiSimDAO {
 			// syntax as <host>:<port>:<sid>.
 
 			//Zunächst wird überprüft ob eine Datenbank mit dem Namen "wisim" vorhanden ist
-			conn = DriverManager.getConnection("jdbc:mysql://" + hostname + ":" + port + "/", user, password);
+			conn = DriverManager.getConnection("jdbc:mysql://" + hostName + ":" + port + "/", user, password);
 			conn.setAutoCommit(false);
 
 			boolean wisimExists = false;
@@ -278,7 +286,7 @@ public class WiSimDAOImpl implements WiSimDAO {
 							// You must put a database name after the @ sign in the connection URL.
 							// You can use either the fully specified SQL*net syntax or a short cut
 							// syntax as <host>:<port>:<sid>.
-							conn = DriverManager.getConnection("jdbc:mysql://" + hostname + ":" + port + "/" + dbname, user, password);
+							conn = DriverManager.getConnection("jdbc:mysql://" + hostName + ":" + port + "/" + dbName, user, password);
 							conn.setAutoCommit(false);
 
 							try {
@@ -305,7 +313,7 @@ public class WiSimDAOImpl implements WiSimDAO {
 				}
 			}
 
-			conn = DriverManager.getConnection("jdbc:mysql://" + hostname + ":" + port + "/" + dbname, user, password);
+			conn = DriverManager.getConnection("jdbc:mysql://" + hostName + ":" + port + "/" + dbName, user, password);
 			conn.setAutoCommit(false);
 		}
 
@@ -317,12 +325,12 @@ public class WiSimDAOImpl implements WiSimDAO {
 			String nachricht = "Verbindung zu der Datenbank konnte nicht hergestellt werden!\n" + "Bitte überprüfen Sie die vorhandenen Zugangsdaten.\n" + "(Zum Beenden bitte auf \"Abbrechen\" klicken)\n\n";
 
 			//IP muss evtl. geändert werden
-			hostname = JOptionPane.showInputDialog(nachricht + "Schritt 1) IP überprüfen: ", hostname);
-			if (hostname == null) {
+			hostName = JOptionPane.showInputDialog(nachricht + "Schritt 1) IP überprüfen: ", hostName);
+			if (hostName == null) {
 				System.exit(1);
 			}
-			if (hostname.equals("")) {
-				hostname = "localhost";
+			if (hostName.equals("")) {
+				hostName = "localhost";
 			}
 
 			//Port muss evtl. geändert werden
@@ -351,7 +359,7 @@ public class WiSimDAOImpl implements WiSimDAO {
 
 			//Die Daten werden wieder in die "config.dat" geschrieben
 
-			String values = hostname + "\n" + port + "\n" + user + "\n" + password;
+			String values = hostName + "\n" + port + "\n" + user + "\n" + password;
 			byte[] b = values.getBytes();
 			BASE64Encoder encoder = new BASE64Encoder();
 			values = encoder.encode(b);
@@ -2179,17 +2187,17 @@ public class WiSimDAOImpl implements WiSimDAO {
 			throw new WiSimDAOWriteException(sqlE.getMessage());
 		}
 	} /** Erhöht / Erniedrigt den Bestand eines Artikels im Lager.
-								     * @param artNr Article Nummer
-								     * @param menge neue Menge = aktuelleMenge + menge
-								     * Das heißt, wenn eine negative Menge angegeben wird, so erniedrigt man den Bestand.
-								     * @throws WiSimDAOWriteException if a database problem occurs or the connection was never initialized
-								     * @return True: Bestand wurde erhöht / erniedrigt.
-								     * False:
-								     * Bei Erhöhung: Gelieferte Menege übertrifft den Maximal Bestand. Der neue Bestand
-								     * ist jetzt der Maximal Bestand, der Rest der Lieferung wird ignoriert.
-								     * Bei Erniedrigung:
-								     * Der Bestand dieses Artikels ist schon auf 0.
-								     */
+												     * @param artNr Article Nummer
+												     * @param menge neue Menge = aktuelleMenge + menge
+												     * Das heißt, wenn eine negative Menge angegeben wird, so erniedrigt man den Bestand.
+												     * @throws WiSimDAOWriteException if a database problem occurs or the connection was never initialized
+												     * @return True: Bestand wurde erhöht / erniedrigt.
+												     * False:
+												     * Bei Erhöhung: Gelieferte Menege übertrifft den Maximal Bestand. Der neue Bestand
+												     * ist jetzt der Maximal Bestand, der Rest der Lieferung wird ignoriert.
+												     * Bei Erniedrigung:
+												     * Der Bestand dieses Artikels ist schon auf 0.
+												     */
 	public synchronized boolean setArtikelLagerBestand(int artNr, int menge) throws WiSimDAOWriteException {
 		// Serverlog
 		logger.finest("com.pixelpark.wisim.dao.WiSimDAOImpl.getEtat Action: start");
@@ -2548,83 +2556,7 @@ public class WiSimDAOImpl implements WiSimDAO {
 	 * @throws WiSimDAOException If an error occurs
 	 */
 	public void dbReset() throws WiSimDAOException {
-		String result;
-		Pattern p;
-		URL url = getClass().getResource("/sql/complete.sql");
-
-		byte buffer[] = null;
-		try {
-			InputStream in = url.openStream();
-			DataInputStream data = new DataInputStream(in);
-
-			buffer = new byte[in.available()];
-			data.readFully(buffer);
-			in.close();
-		} catch (IOException e) {
-			throw new WiSimDAOException(e.getMessage());
-		}
-
-		result = new String(buffer, 0, buffer.length);
-		p = Pattern.compile("\n");
-
-		String[] anweisungen = p.split(result);
-		int n = 0;
-		for (int i = 0; i < anweisungen.length; i++) {
-			if (anweisungen[i].startsWith("#") || anweisungen[i].toCharArray().length == 1) {
-				anweisungen[i] = null;
-				n++;
-			}
-		}
-
-		String[] queries = new String[anweisungen.length - n];
-		int j = 0;
-		for (int i = 0; i < anweisungen.length; i++) {
-			if (anweisungen[i] != null) {
-				queries[j] = anweisungen[i];
-				j++;
-			}
-		}
-
-		int i = 0;
-		int m = 1;
-		while (i < queries.length) {
-			if (queries[i].startsWith(" ")) {
-				queries[i - m] = queries[i - m].concat(queries[i]);
-				m++;
-				queries[i] = null;
-			} else if (queries[i].startsWith(")")) {
-				queries[i - m] = queries[i - m].concat(queries[i]);
-				queries[i] = null;
-			} else
-				m = 1;
-			i++;
-		}
-
-		int a = 0;
-		for (int b = 0; b < queries.length; b++) {
-			if (queries[b] == null) {
-				a++;
-			}
-		}
-
-		String[] queriesFinal = new String[queries.length - a];
-		int c = 0;
-		for (int d = 0; d < queries.length; d++) {
-			if (queries[d] != null) {
-				queriesFinal[c] = queries[d];
-				c++;
-			}
-		}
-
-		for (int z = 0; z < queriesFinal.length; z++) {
-			char ersetzen[] = queriesFinal[z].toCharArray();
-			for (int e = 0; e < ersetzen.length; e++) {
-				if (ersetzen[e] == ';' || ersetzen[e] == '\n') {
-					ersetzen[e] = ' ';
-				}
-			}
-			queriesFinal[z] = String.valueOf(ersetzen);
-		}
+		String[] queriesFinal = parseSQLFile("/sql/complete.sql");
 
 		try {
 
@@ -2644,9 +2576,25 @@ public class WiSimDAOImpl implements WiSimDAO {
 		 * @throws WiSimDAOException If an error occurs
 		 */
 	public void simulationReset() throws WiSimDAOException {
+		String[] queriesFinal = parseSQLFile("/sql/simulation.sql");
+
+		try {
+
+			Statement stmt = conn.createStatement();
+			for (int k = 0; k < queriesFinal.length; k++) {
+				stmt.executeUpdate(queriesFinal[k]);
+			}
+
+		} catch (SQLException e) {
+			throw new WiSimDAOException(e.getMessage());
+		}
+
+	}
+
+	private String[] parseSQLFile(String file) throws WiSimDAOException {
 		String result;
 		Pattern p;
-		URL url = getClass().getResource("/sql/simulation.sql");
+		URL url = getClass().getResource(file);
 
 		byte buffer[] = null;
 		try {
@@ -2721,17 +2669,59 @@ public class WiSimDAOImpl implements WiSimDAO {
 			}
 			queriesFinal[z] = String.valueOf(ersetzen);
 		}
+		return queriesFinal;
+	}
+
+	/**
+	 * @return
+	 */
+	public String getDbName() {
+		return dbName;
+	}
+
+	/**
+	 * @return
+	 */
+	public String getHostName() {
+		return hostName;
+	}
+
+	/**
+	 * @return
+	 */
+	public String getPassword() {
+		return password;
+	}
+
+	/**
+	 * @return
+	 */
+	public String getPort() {
+		return port;
+	}
+
+	/**
+	 * @return
+	 */
+	public String getUser() {
+		return user;
+	}
+
+	public void updateDBSettings(String hostname, String port, String user, String password) {
+
+		String values = hostname + "\n" + port + "\n" + user + "\n" + password;
+		byte[] b = values.getBytes();
+		BASE64Encoder encoder = new BASE64Encoder();
+		values = encoder.encode(b);
 
 		try {
-
-			Statement stmt = conn.createStatement();
-			for (int k = 0; k < queriesFinal.length; k++) {
-				stmt.executeUpdate(queriesFinal[k]);
-			}
-
-		} catch (SQLException e) {
-			throw new WiSimDAOException(e.getMessage());
+			File file = new File("config.dat");
+			FileWriter fw = new FileWriter(file);
+			fw.write(values);
+			fw.close();
+		} catch (IOException e) {
+			//KTODO
 		}
-
 	}
+
 }
