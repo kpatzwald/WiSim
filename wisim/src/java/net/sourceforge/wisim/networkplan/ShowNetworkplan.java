@@ -27,6 +27,12 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Hashtable;
 import java.util.Vector;
 
 import javax.swing.JFrame;
@@ -75,9 +81,8 @@ public class ShowNetworkplan extends JFrame {
 			/** Get the Panel to use. */
 			netzplanGrafik.setLayout(null);
 			netzplanGrafik.setBackground(Color.WHITE);
-			netzplanGrafik.setPreferredSize(
-				new Dimension(netzplanGrafik.getMaxWidthPos() * 430, netzplanGrafik.getMaxHeightPos() * 280));
-
+			netzplanGrafik.setPreferredSize(new Dimension(netzplanGrafik.getMaxWidthPos() * 430, netzplanGrafik.getMaxHeightPos() * 280));
+			
 			/** Stop stopwatch */
 			long endTime = System.currentTimeMillis();
 
@@ -204,6 +209,79 @@ public class ShowNetworkplan extends JFrame {
 			case 6 :
 				filled.add(new NetworkplanElement(1, 2, new int[] { 2 }, "Ausgieﬂen Fundamente"));
 				filled.add(new NetworkplanElement(2, 2, new int[] { 0 }, "Ausgieﬂen Fundamente"));
+				break;
+
+			case 7 :
+				/** Get the informations from the database */
+
+				try {
+
+					DriverManager.registerDriver(new org.gjt.mm.mysql.Driver());
+
+					/** DB Settings */
+					String hostname = "localhost";
+					String port = "3306";
+					String user = "root";
+					String password = "root";
+					String dbname = "wisim";
+
+					/** Get a connection */
+					Connection conn = DriverManager.getConnection("jdbc:mysql://" + hostname + ":" + port + "/" + dbname, user, password);
+					conn.setAutoCommit(false);
+
+					/** Select Statement */
+					Statement stmt = conn.createStatement();
+					String sql = "SELECT ap_Nr, ap_Dauer, ap_Beschreibung, nf_nachfolger FROM ap, nf WHERE ap_Nr = f_ap_nr";
+
+					ResultSet rset = stmt.executeQuery(sql);
+
+					Hashtable childBasket = new Hashtable();
+					Vector completed = new Vector();
+
+					while (rset.next()) {
+
+						NetworkplanElement np =
+							new NetworkplanElement(
+								rset.getInt(1),
+								new Double(String.valueOf(rset.getInt(2))).doubleValue(),
+								new int[0],
+								rset.getString(3));
+
+						/** This is a new element */
+						if (!completed.contains(new Integer(np.getNumber()))) {
+							completed.add(new Integer(np.getNumber()));
+							filled.add(np);
+							Vector child = new Vector();
+							child.add(new Integer(rset.getInt(4)));
+							childBasket.put(new Integer(np.getNumber()), child);
+
+							/** This is an existing element with more than one child */
+						} else {
+							((Vector) childBasket.get(new Integer(np.getNumber()))).add(new Integer(rset.getInt(4)));
+						}
+					}
+
+					int a = 0;
+
+					/** Set each element's childs from the childBasket */
+					while (a < filled.size()) {
+						NetworkplanElement np = (NetworkplanElement) filled.get(a);
+						Vector child = (Vector) childBasket.get(new Integer(np.getNumber()));
+
+						int childs[] = new int[child.size()];
+
+						int b = 0;
+						while (b < child.size()) {
+							childs[b] = ((Integer) child.get(b)).intValue();
+							b++;
+						}
+
+						np.setChild(childs);
+						a++;
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 				break;
 		}
 		return filled;
