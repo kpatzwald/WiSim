@@ -48,7 +48,6 @@ public class JPanelWarehouse extends javax.swing.JPanel {
     private Collection artikelListe;
     private int etAnzahl;
     private Vector etElems;
-    private WiSimMainController wiSimMainController;
     private String actLgPlatz;
     private boolean isBuilt;
     private boolean isActive;
@@ -74,7 +73,6 @@ public class JPanelWarehouse extends javax.swing.JPanel {
         artikelListe = new Vector();
         etElems = new Vector();
         etAnzahl = 0;
-        this.wiSimMainController = wiSimMainController;
         actLgPlatz = "";
         isBuilt = false;
         isActive = false;

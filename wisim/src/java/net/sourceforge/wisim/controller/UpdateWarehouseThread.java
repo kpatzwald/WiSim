@@ -35,8 +35,6 @@ package net.sourceforge.wisim.controller;
  * @author benjamin.pasero
  */
 public class UpdateWarehouseThread extends Thread {
-
-    private WiSimMainController wiSimMainController;
     
     //JPanes
     private JPanelWarehouse lager;
@@ -49,7 +47,6 @@ public class UpdateWarehouseThread extends Thread {
      */
     public UpdateWarehouseThread(WiSimMainController wiSimMainController) {
     	super("UpdateWarehouseThread");
-		this.wiSimMainController = wiSimMainController;
         lager = (JPanelWarehouse) wiSimMainController.getActions().get("Lager");
         apLager = (JPanelWorkPlaceStore) wiSimMainController.getActions().get("Arbeitsplatzlager");
         etatEinsehen = (JPanelViewEtat) wiSimMainController.getActions().get("EtatEinsehen");

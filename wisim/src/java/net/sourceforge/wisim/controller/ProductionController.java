@@ -47,14 +47,12 @@ public class ProductionController
 	private static final int HUB = 26;
 	private WiSimDAO dao;
 	private WiSimLogger wiSimLogger;
-	private WiSimMainController wiSimMainController;
 
 	/** Creates a new instance of ProductionController
    * @param wiSimMainController WiSimMainController
    */
 	public ProductionController(WiSimMainController wiSimMainController)
 	{
-		this.wiSimMainController = wiSimMainController;
 		dao = wiSimMainController.getDAO();
 		wiSimLogger = wiSimMainController.getWiSimLogger();
 	}

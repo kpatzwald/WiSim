@@ -50,14 +50,12 @@ public class JPanelModifySupplier extends javax.swing.JPanel {
   private int position;
   //Logger
   private WiSimLogger wiSimLogger;
-  private WiSimMainController wiSimMainController;
   
   /** Creates new form JPanelLieferantBearbeiten
      * @param wiSimMainController Der Maincontroller
      */
   
   public JPanelModifySupplier(WiSimMainController wiSimMainController) { 
-  		this.wiSimMainController = wiSimMainController;
   		wiSimLogger = wiSimMainController.getWiSimLogger();
         initComponents();
         initDAO(wiSimMainController);

@@ -44,7 +44,6 @@ public class ProductionSimulationThread extends Thread
 	private WorkPlace ap;
 	private ProductionController runController;
 	private WiSimDAO dao;
-	private WiSimMainController wiSimMainController;
 	private int timestep;
 	private static final int HUB = 26;
 	private int faktor;
@@ -67,7 +66,6 @@ public class ProductionSimulationThread extends Thread
 		super("ProduktionsThreat-" + ap.getNr());
 		this.runController = runController;
 		this.ap = ap;
-		this.wiSimMainController = wiSimMainController;
 		this.faktor = faktor;
 		this.timestep = timestep;
 		this.dao = wiSimMainController.getDAO();
