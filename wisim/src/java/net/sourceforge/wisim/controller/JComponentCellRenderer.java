@@ -32,17 +32,16 @@ import javax.swing.*;
  * http://www.codeguru.com/java/articles/162.shtml
  */
 public class JComponentCellRenderer implements TableCellRenderer {
-    /**
-     * @param table
-     * @param value
-     * @param isSelected
-     * @param hasFocus
-     * @param row
-     * @param column
-     * @return WiSimComponent
-     */
-    public Component getTableCellRendererComponent(JTable table, Object value,
-    boolean isSelected, boolean hasFocus, int row, int column) {
-        return (JComponent)value;
-    }
+	/**
+	 * @param table
+	 * @param value
+	 * @param isSelected
+	 * @param hasFocus
+	 * @param row
+	 * @param column
+	 * @return WiSimComponent
+	 */
+	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+		return (JComponent) value;
+	}
 }
