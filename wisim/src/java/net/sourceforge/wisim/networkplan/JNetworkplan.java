@@ -44,12 +44,24 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
+import net.sourceforge.wisim.controller.WiSimLogger;
+import net.sourceforge.wisim.controller.WiSimMainController;
+import net.sourceforge.wisim.dao.WiSimDAO;
+import net.sourceforge.wisim.dao.WiSimDAOWriteException;
+import net.sourceforge.wisim.model.WorkPlace;
+
 /**
  * JNetworkplan extends JPanel and represents the networkplan
  * @author benjamin.pasero
  * @version 0.7a
  */
 public class JNetworkplan extends JPanel implements MouseListener, MouseMotionListener {
+
+	private WiSimDAO dao;
+	private WiSimMainController wiSimMainController;
+
+	//	Logger
+	private WiSimLogger wiSimLogger;
 
 	private Vector npElemente;
 	private NetworkplanCalculator npCalc;
@@ -101,6 +113,80 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 	 * Add each networkplan element on this JPanel. 
 	 * @param npElemente Vector with all networkplan elements
 	 */
+	public JNetworkplan(WiSimMainController wiSimMainController, Vector npElemente) {
+
+		this.wiSimMainController = wiSimMainController;
+		wiSimLogger = wiSimMainController.getWiSimLogger();
+		initDAO(wiSimMainController);
+
+		/** Initializing */
+		x1 = 0;
+		y1 = 0;
+		elementsConLine = new Hashtable();
+		elementsPosition = new Hashtable();
+		editPanelOpen = false;
+		this.npElemente = npElemente;
+
+		/** Listener for user-interaction with the mouse */
+		addMouseListener(this);
+		addMouseMotionListener(this);
+
+		/** Guess the x and y spread of the network plan */
+		maxPosX = npElemente.size();
+		maxPosY = npElemente.size();
+		tupel = new Vector[maxPosY * 2]; //[DoItBen] Dynamische Tupel Größe!
+
+		/** Matrix for positioning of the elements */
+		position = new int[maxPosX][maxPosY];
+
+		/** Calculate the networkplan elements */
+		npCalc = new NetworkplanCalculator(npElemente, false);
+		npElemente = npCalc.getNpElemente();
+
+		/** Display the critical path */
+		showCriticalPath();
+
+		/** Get positions of each element */
+		calculatePositions();
+
+		/** Max. size of networkplan: Width */
+		maxWidthPos = 0;
+		for (int a = 0; a < maxPosX; a++) {
+			for (int b = 0; b < maxPosY; b++) {
+				if (position[a][b] != 0) {
+					maxWidthPos = a + 1;
+				}
+			}
+		}
+
+		/** Max. size of networkplan: Height */
+		maxHeightPos = 0;
+		for (int a = 0; a < maxPosY; a++) {
+			for (int b = 0; b < maxPosX; b++) {
+				if (position[b][a] != 0) {
+					maxHeightPos = a + 1;
+				}
+			}
+		}
+
+		/** Get all JNetworkplanElements on this JNetworkplan */
+		paintJNetworkplanElements();
+
+		/** Get the max width and hight in px */
+		for (int a = 0; a < jNpElem.length; a++) {
+			if ((jNpElem[a].getLocation().getX() + jNpElem[a].getSize().getWidth()) > maxX)
+				maxX = (int) jNpElem[a].getLocation().getX() + (int) jNpElem[a].getSize().getWidth();
+
+			if ((jNpElem[a].getLocation().getY() + jNpElem[a].getSize().getHeight()) > maxY)
+				maxY = (int) jNpElem[a].getLocation().getY() + (int) jNpElem[a].getSize().getHeight();
+		}
+	}
+
+	/**
+		 * Initialize the position-Matrix and tupel-Array for each row.
+		 * Add each networkplan element on this JPanel. 
+		 * @param npElemente Vector with all networkplan elements
+		 */
 	public JNetworkplan(Vector npElemente) {
 
 		/** Initializing */
@@ -170,6 +256,10 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 	public JNetworkplan() {
 		maxPosX = 0;
 		maxPosY = 0;
+	}
+
+	private void initDAO(WiSimMainController wiSimMainController) {
+		dao = wiSimMainController.getDAO();
 	}
 
 	/** Sets the swing elements and builds the network plan */
@@ -760,6 +850,7 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 
 			/** Set new dimension with padding */
 			Dimension newD = new Dimension(maxX + jNPaddingX, maxY + jNPaddingY);
+
 			scrollRectToVisible(new Rectangle(newD));
 			setPreferredSize(newD);
 
@@ -906,6 +997,18 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 
 					remove(jPanelEdit);
 					editPanelOpen = false;
+
+					/** Update the activity in the database */
+					WorkPlace workplace = new WorkPlace();
+					workplace.setNr(clickedComponent.getNp().getNumber());
+					workplace.setDauer((int) clickedComponent.getNp().getDuration());
+					workplace.setBeschreibung(clickedComponent.getNp().getDescription());
+
+					try {
+						dao.updateWorkplace(workplace);
+					} catch (WiSimDAOWriteException e) {
+						wiSimLogger.log("updateWorkplace", e);
+					}
 				}
 			});
 
@@ -1056,7 +1159,7 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 				horizontalCon[a] = new JSeparator();
 
 				/** This Element is a pseudo Activity */
-				if (jNpElem[a].getNp().isPseudoActivity() || ((NetworkplanElement)npElemente.get(parent[0] - 1)).isPseudoActivity())
+				if (jNpElem[a].getNp().isPseudoActivity() || ((NetworkplanElement) npElemente.get(parent[0] - 1)).isPseudoActivity())
 					horizontalCon[a] = new JDottedLine();
 
 				add(horizontalCon[a]);
@@ -1092,7 +1195,7 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 				horizontalCon[a] = new JSeparator();
 
 				/** This Element is a pseudo Activity */
-				if (jNpElem[a].getNp().isPseudoActivity() || ((NetworkplanElement)npElemente.get(child[0] - 1)).isPseudoActivity())
+				if (jNpElem[a].getNp().isPseudoActivity() || ((NetworkplanElement) npElemente.get(child[0] - 1)).isPseudoActivity())
 					horizontalCon[a] = new JDottedLine();
 
 				add(horizontalCon[a]);
