@@ -708,10 +708,10 @@ public class JPanelNewContract extends JPanel {
 			GregorianCalendar nettoDatum = new GregorianCalendar();
 			nettoDatum.setTimeInMillis(nettoDatumMili);
 
-			String Tag = String.valueOf(nettoDatum.get(Calendar.DATE));
-			String Monat = String.valueOf(nettoDatum.get(Calendar.MONTH) + 1);
-			String Jahr = String.valueOf(nettoDatum.get(Calendar.YEAR));
-			jTextFieldNeuerVertragNettozahldatum.setText(Tag + "." + Monat + "." + Jahr);
+			String tag = String.valueOf(nettoDatum.get(Calendar.DATE));
+			String monat = String.valueOf(nettoDatum.get(Calendar.MONTH) + 1);
+			String jahr = String.valueOf(nettoDatum.get(Calendar.YEAR));
+			jTextFieldNeuerVertragNettozahldatum.setText(tag + "." + monat + "." + jahr);
 		} else {
 			jTextFieldNeuerVertragNettozahldatum.setText("Keins vorhanden!");
 		}

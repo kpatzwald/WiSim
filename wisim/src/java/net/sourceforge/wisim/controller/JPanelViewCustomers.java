@@ -347,8 +347,8 @@ public class JPanelViewCustomers extends javax.swing.JPanel {
                 }
                 
                 //DefaultTableModel mit Variablen Zeilen, 3 TableHeads und nicht editierbaren Zellen
-                boolean Delete = false;
-                updateKundenTable(Delete);
+                boolean delete = false;
+                updateKundenTable(delete);
                 
                 if (tableTempRow.size() > 0) {
                     Iterator it_tableTempRow = tableTempRow.iterator();
@@ -396,10 +396,10 @@ public class JPanelViewCustomers extends javax.swing.JPanel {
     }
     
     //Schreibt die Positions-Tabelle neu
-    public void updateKundenTable(boolean Delete) {
+    public void updateKundenTable(boolean delete) {
         int rows;
         
-        if (Delete) {
+        if (delete) {
             rows = positionen;
         } else {
             rows = positionen + 1;
@@ -449,12 +449,12 @@ public class JPanelViewCustomers extends javax.swing.JPanel {
     /** Lädt Kundenverlauf zum Bearbeiten aus der Datenbank
      * @param KdNr Kunden Nummer
      */
-    private void ladeVerlauf(int KdNr){
+    private void ladeVerlauf(int kdNr){
         DefaultListModel mymodel = (DefaultListModel) jListTextFieldKundenUebersichtVerlauf.getModel();
         mymodel.removeAllElements();
         try {
             verlauf.clear();
-            verlauf = (Vector)dao.getNotizen(KdNr);
+            verlauf = (Vector)dao.getNotizen(kdNr);
             Iterator it = verlauf.iterator();
             Memo einzelnotiz = new Memo();
             while (it.hasNext()) {

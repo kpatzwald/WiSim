@@ -631,11 +631,11 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
 	/** Lädt einen Kunden zum Bearbeiten aus der Datenbank
 	 * @param KdID Kunden ID
 	 */
-	private void ladeKunde(int KdID) {
-		if (KdID != 0) {
+	private void ladeKunde(int kdID) {
+		if (kdID != 0) {
 			Customer lkunde = new Customer();
 			try {
-				lkunde = dao.getKunde(KdID);
+				lkunde = dao.getKunde(kdID);
 			} catch (WiSimDAOException e) {
 				logger.log("ladeKunden(int)", e);
 			}
@@ -661,12 +661,12 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
 	/** Lädt Kundenverlauf zum Bearbeiten aus der Datenbank
 	 * @param KdNr Kunden ID
 	 */
-	private void ladeVerlauf(int KdNr) {
+	private void ladeVerlauf(int kdNr) {
 		DefaultListModel mymodel = (DefaultListModel) jListTextFieldKundeBearbeitenVerlauf.getModel();
 		mymodel.removeAllElements();
 		try {
 			verlauf.clear();
-			verlauf = (Vector) dao.getNotizen(KdNr);
+			verlauf = (Vector) dao.getNotizen(kdNr);
 			Iterator it = verlauf.iterator();
 			Memo einzelnotiz = new Memo();
 			while (it.hasNext()) {
@@ -704,15 +704,15 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
 		} else {
 			neu = JOptionPane.showInputDialog("Neue Notiz eingeben:", neu);
 			if (neu != null && neu.length() > 1) {
-				int KdNr = getSelKundeID();
-				if (KdNr != 0) {
+				int kdNr = getSelKundeID();
+				if (kdNr != 0) {
 					Memo dieneu = new Memo();
 					try {
 						dieneu.setText(neu);
 						dieneu.setDate(new java.sql.Date(wiSimMainController.getActDate().getTime()));
-						dieneu.setKundenNr(KdNr);
+						dieneu.setKundenNr(kdNr);
 						dao.neueNotiz(dieneu);
-						ladeVerlauf(KdNr);
+						ladeVerlauf(kdNr);
 					} catch (WiSimDAOException e) {
 						logger.log("neueNotiz()", e);
 					} catch (WiSimDAOWriteException e) {
@@ -744,11 +744,11 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
 	/** Loescht einen Kunden
 	 * @param KdId ID des Kunden
 	 */
-	private void loescheKunde(int KdId) {
+	private void loescheKunde(int kdId) {
 		int submit = JOptionPane.showConfirmDialog(this, "Wollen Sie den Kunden aus der Kundenliste löschen?", "Kunden löschen", JOptionPane.YES_NO_OPTION);
 		if (submit == 0) {
 			try {
-				dao.setKundenLoeschStatus(KdId, true);
+				dao.setKundenLoeschStatus(kdId, true);
 				ladeKunden();
 			} catch (WiSimDAOException e) {
 				logger.log("loescheKunde(int)", e);

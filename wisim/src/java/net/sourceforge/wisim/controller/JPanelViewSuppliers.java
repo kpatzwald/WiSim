@@ -288,8 +288,8 @@ public class JPanelViewSuppliers extends javax.swing.JPanel {
 				}
 
 				//DefaultTableModel mit Variablen Zeilen, 3 TableHeads und nicht editierbaren Zellen
-				boolean Delete = false;
-				updateLieferantenTable(Delete);
+				boolean delete = false;
+				updateLieferantenTable(delete);
 
 				if (tableTempRow.size() > 0) {
 					Iterator it_tableTempRow = tableTempRow.iterator();
@@ -321,8 +321,8 @@ public class JPanelViewSuppliers extends javax.swing.JPanel {
 		Supplier auswahlLieferant = (Supplier) lieferantenObjekte.get(listItem);
 
 		position = 0;
-		boolean Deleted = true;
-		updatePositionsTable(Deleted);
+		boolean deleted = true;
+		updatePositionsTable(deleted);
 
 		if (auswahlLieferant != null) {
 			jTextFieldLieferantName.setText(auswahlLieferant.getNachname());
@@ -364,8 +364,8 @@ public class JPanelViewSuppliers extends javax.swing.JPanel {
 				}
 
 				//DefaultTableModel mit Variablen Zeilen, 3 TableHeads und nicht editierbaren Zellen
-				boolean Deleted = false;
-				updatePositionsTable(Deleted);
+				boolean deleted = false;
+				updatePositionsTable(deleted);
 
 				if (tableTempRow.size() > 0) {
 					Iterator it_tableTempRow = tableTempRow.iterator();
@@ -394,10 +394,10 @@ public class JPanelViewSuppliers extends javax.swing.JPanel {
 	/** Schreibt die Positions-Tabelle neu
 	 * @param Deleted boolean
 	 */
-	public void updatePositionsTable(boolean Deleted) {
+	public void updatePositionsTable(boolean deleted) {
 		int rows;
 
-		if (Deleted) {
+		if (deleted) {
 			rows = position;
 		} else {
 			rows = position + 1;
@@ -437,10 +437,10 @@ public class JPanelViewSuppliers extends javax.swing.JPanel {
 	/** Schreibt die Lieferanten-Tabelle neu
 	 * @param Delete boolean
 	 */
-	public void updateLieferantenTable(boolean Delete) {
+	public void updateLieferantenTable(boolean delete) {
 		int rows;
 
-		if (Delete) {
+		if (delete) {
 			rows = positionen;
 		} else {
 			rows = positionen + 1;
@@ -472,8 +472,8 @@ public class JPanelViewSuppliers extends javax.swing.JPanel {
 		jTextLieferantLieferqualitaet.setText("");
 		jTextLieferantZuverlaessigkeit.setText("");
 		position = 0;
-		boolean Deleted = true;
-		updatePositionsTable(Deleted);
+		boolean deleted = true;
+		updatePositionsTable(deleted);
 	}
 	// Variables declaration - do not modify
 	private javax.swing.JTextField jTextFieldLieferantStrasse;

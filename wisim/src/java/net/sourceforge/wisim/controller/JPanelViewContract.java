@@ -45,9 +45,9 @@ import java.awt.*;
 public class JPanelViewContract extends javax.swing.JPanel {
 
 	private WiSimDAO dao;
-	private String Tag;
-	private String Monat;
-	private String Jahr;
+	private String tag;
+	private String monat;
+	private String jahr;
 	private int kdId;
 	private Hashtable auftragObjekt1;
 	private Hashtable auftragObjekt2;
@@ -589,13 +589,13 @@ public class JPanelViewContract extends javax.swing.JPanel {
 
 		if ((eingabeDatumTag == 0) && (eingabeDatumMonat == 0) && (eingabeDatumJahr == 0)) {
 
-			Tag = String.valueOf(jComboBoxVertraegeEinsehenAuftragsdatumTag.getSelectedItem());
-			Monat = String.valueOf(jComboBoxVertraegeEinsehenAuftragsdatumMonat.getSelectedItem());
-			Jahr = String.valueOf(jComboBoxVertraegeEinsehenAuftragsdatumJahr.getSelectedItem());
+			tag = String.valueOf(jComboBoxVertraegeEinsehenAuftragsdatumTag.getSelectedItem());
+			monat = String.valueOf(jComboBoxVertraegeEinsehenAuftragsdatumMonat.getSelectedItem());
+			jahr = String.valueOf(jComboBoxVertraegeEinsehenAuftragsdatumJahr.getSelectedItem());
 
-			int auftragTag = Integer.parseInt(Tag);
-			int auftragMonat = Integer.parseInt(Monat) - 1;
-			int auftragJahr = Integer.parseInt(Jahr);
+			int auftragTag = Integer.parseInt(tag);
+			int auftragMonat = Integer.parseInt(monat) - 1;
+			int auftragJahr = Integer.parseInt(jahr);
 
 			GregorianCalendar auftragDatum = new GregorianCalendar(auftragJahr, auftragMonat, auftragTag);
 
@@ -1048,11 +1048,11 @@ public class JPanelViewContract extends javax.swing.JPanel {
 				GregorianCalendar nettoDatum = new GregorianCalendar();
 				nettoDatum.setTimeInMillis(nettoDatumMili);
 
-				String Tag = String.valueOf(nettoDatum.get(Calendar.DATE));
-				String Monat = String.valueOf(nettoDatum.get(Calendar.MONTH) + 1);
-				String Jahr = String.valueOf(nettoDatum.get(Calendar.YEAR));
+				String tag = String.valueOf(nettoDatum.get(Calendar.DATE));
+				String monat = String.valueOf(nettoDatum.get(Calendar.MONTH) + 1);
+				String jahr = String.valueOf(nettoDatum.get(Calendar.YEAR));
 				jTextFieldNettozahldatum.setForeground(Color.red);
-				jTextFieldNettozahldatum.setText(Tag + "." + Monat + "." + Jahr);
+				jTextFieldNettozahldatum.setText(tag + "." + monat + "." + jahr);
 			} else {
 				jTextFieldNettozahldatum.setText("Keins vorhanden!");
 			}
@@ -1136,11 +1136,11 @@ public class JPanelViewContract extends javax.swing.JPanel {
 				GregorianCalendar nettoDatum = new GregorianCalendar();
 				nettoDatum.setTimeInMillis(nettoDatumMili);
 
-				String Tag = String.valueOf(nettoDatum.get(Calendar.DATE));
-				String Monat = String.valueOf(nettoDatum.get(Calendar.MONTH) + 1);
-				String Jahr = String.valueOf(nettoDatum.get(Calendar.YEAR));
+				String tag = String.valueOf(nettoDatum.get(Calendar.DATE));
+				String monat = String.valueOf(nettoDatum.get(Calendar.MONTH) + 1);
+				String jahr = String.valueOf(nettoDatum.get(Calendar.YEAR));
 				jTextFieldNettozahldatum.setForeground(Color.red);
-				jTextFieldNettozahldatum.setText(Tag + "." + Monat + "." + Jahr);
+				jTextFieldNettozahldatum.setText(tag + "." + monat + "." + jahr);
 			} else {
 				jTextFieldNettozahldatum.setText("Keins vorhanden!");
 			}

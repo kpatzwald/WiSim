@@ -533,7 +533,7 @@ public class JPanelModifySupplier extends javax.swing.JPanel {
 		}
 	} //GEN-LAST:event_jTextFieldLieferantBearbeitenArtikelPreisFocusLost
 	private void jButtonLieferantBearbeitenArtikelEntfernenActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jButtonLieferantBearbeitenArtikelEntfernenActionPerformed
-		int SelectedPosition = jTable1.getSelectedRow();
+		int selectedPosition = jTable1.getSelectedRow();
 
 		//gesamter Tabelleninhalt wird Zwischengespeichert
 		Vector tableTempRow = new Vector();
@@ -546,21 +546,21 @@ public class JPanelModifySupplier extends javax.swing.JPanel {
 
 		//Selektierte Zeile wird gelöscht
 
-		if (SelectedPosition >= 0) {
+		if (selectedPosition >= 0) {
 
-			if (jTable1.getValueAt(SelectedPosition, 0) != null) {
-				zubehoerTabelle.remove(String.valueOf(jTable1.getValueAt(SelectedPosition, 0)));
-				jTable1.setValueAt(null, SelectedPosition, 0);
-				jTable1.setValueAt(null, SelectedPosition, 1);
-				jTable1.setValueAt(null, SelectedPosition, 2);
-				tableTempRow.remove(SelectedPosition);
+			if (jTable1.getValueAt(selectedPosition, 0) != null) {
+				zubehoerTabelle.remove(String.valueOf(jTable1.getValueAt(selectedPosition, 0)));
+				jTable1.setValueAt(null, selectedPosition, 0);
+				jTable1.setValueAt(null, selectedPosition, 1);
+				jTable1.setValueAt(null, selectedPosition, 2);
+				tableTempRow.remove(selectedPosition);
 				position--;
 			}
 		}
 
 		//DefaultTableModel mit Variablen Zeilen, 3 TableHeads und nicht editierbaren Zellen
-		boolean Deleted = true;
-		updatePositionsTable(Deleted);
+		boolean deleted = true;
+		updatePositionsTable(deleted);
 
 		//Tabelle wird neu geschrieben
 		if (tableTempRow.size() > 0) {
@@ -616,8 +616,8 @@ public class JPanelModifySupplier extends javax.swing.JPanel {
 					alleArtikel.add(alleArtikel.get(jComboBoxNeuerLieferantArtikel.getSelectedIndex()));
 
 					//DefaultTableModel mit Variablen Zeilen, 3 TableHeads und nicht editierbaren Zellen
-					boolean Deleted = false;
-					updatePositionsTable(Deleted);
+					boolean deleted = false;
+					updatePositionsTable(deleted);
 
 					//Tabelle wird neu geschrieben
 					if (tableTempRow.size() > 0) {
@@ -791,8 +791,8 @@ public class JPanelModifySupplier extends javax.swing.JPanel {
 		//sucht das aktive KundenObjekt in Hashtabelle lieferantenObjekte
 		Supplier auswahlLieferant = (Supplier) lieferantenObjekte.get(listItem);
 		position = 0;
-		boolean Deleted = true;
-		updatePositionsTable(Deleted);
+		boolean deleted = true;
+		updatePositionsTable(deleted);
 
 		if (auswahlLieferant != null) {
 			jTextFieldNeuerLieferantName.setText(auswahlLieferant.getNachname());
@@ -883,8 +883,8 @@ public class JPanelModifySupplier extends javax.swing.JPanel {
 				}
 
 				//DefaultTableModel mit Variablen Zeilen, 3 TableHeads und nicht editierbaren Zellen
-				boolean Deleted = false;
-				updatePositionsTable(Deleted);
+				boolean deleted = false;
+				updatePositionsTable(deleted);
 
 				if (tableTempRow.size() > 0) {
 					Iterator it_tableTempRow = tableTempRow.iterator();
@@ -912,11 +912,11 @@ public class JPanelModifySupplier extends javax.swing.JPanel {
 	}
 
 	//Setzt Lieferantenstatus auf gelöscht
-	private void loescheLieferant(int LtId) {
+	private void loescheLieferant(int ltId) {
 		int submit = JOptionPane.showConfirmDialog(this, "Wollen Sie den Lieferanten wirklich löschen?", "Lieferant löschen", JOptionPane.YES_NO_OPTION);
 		if (submit == 0) {
 			try {
-				dao.setLieferantLoeschStatus(LtId, true);
+				dao.setLieferantLoeschStatus(ltId, true);
 				ladeLieferanten();
 			} catch (WiSimDAOException e) {
 				wiSimLogger.log("loescheLieferant()", e);
@@ -943,17 +943,17 @@ public class JPanelModifySupplier extends javax.swing.JPanel {
 		jTextFieldLieferantBearbeitenArtikelPreis.setText("");
 		jTextFieldLieferantBearbeitenMindestAbnahme.setText("");
 		position = 0;
-		boolean Deleted = true;
-		updatePositionsTable(Deleted);
+		boolean deleted = true;
+		updatePositionsTable(deleted);
 	}
 
 	/** Schreibt die Positions-Tabelle neu
 	 * @param Deleted boolean
 	 */
-	public void updatePositionsTable(boolean Deleted) {
+	public void updatePositionsTable(boolean deleted) {
 		int rows;
 
-		if (Deleted) {
+		if (deleted) {
 			rows = position;
 		} else {
 			rows = position + 1;

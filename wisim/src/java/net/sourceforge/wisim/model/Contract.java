@@ -45,7 +45,7 @@ public class Contract {
     private java.sql.Date vertragsdatum;
     private int kd_nr;
     private int atr_nr;//Auftrags-Rechnungs-ID
-    private Collection AuftragPositionen;
+    private Collection auftragPositionen;
     
     /** Creates a new instance of Contract */
     public Contract() {
@@ -62,7 +62,7 @@ public class Contract {
      * @param Auftragsdatum
      * @param Skonto 
      */
-    public Contract(int nr, java.sql.Date lieferdatum, double skonto, long skontofrist, double rabatt, java.sql.Date vertragsdatum, int kd_nr, int atr_nr, Collection AuftragPositionen){
+    public Contract(int nr, java.sql.Date lieferdatum, double skonto, long skontofrist, double rabatt, java.sql.Date vertragsdatum, int kd_nr, int atr_nr, Collection auftragPositionen){
         this.nr = nr;
         this.lieferdatum = lieferdatum;
         this.skonto = skonto;
@@ -71,7 +71,7 @@ public class Contract {
         this.vertragsdatum = vertragsdatum;
         this.kd_nr = kd_nr;
         this.atr_nr = atr_nr;
-        this.AuftragPositionen = AuftragPositionen;    
+        this.auftragPositionen = auftragPositionen;    
     }
     
     /** Gibt die Vertrags/AuftragsID zurück
@@ -134,7 +134,7 @@ public class Contract {
      * @return Collection mit Objekten des Typs OrderItem
      */
     public Collection getAuftragPositionen() {
-        return AuftragPositionen;
+        return auftragPositionen;
     }
     
     /**
@@ -205,7 +205,7 @@ public class Contract {
      * @param col Collection mit Objekten vom Typ AuftragPosition
      */
     public void setAuftragPositionen(Collection col) {
-        this.AuftragPositionen = col;
+        this.auftragPositionen = col;
     }
     
 }
