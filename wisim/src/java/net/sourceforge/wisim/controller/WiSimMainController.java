@@ -130,7 +130,7 @@ public class WiSimMainController extends javax.swing.JFrame {
 	/*Hashtable with all possible actions. Every action represent a JPanel / JInternalFrame.*/
 	private void initActions() {
 		actions = new Hashtable();
-		actions.put("Order", new JPanelOrder(this));
+		actions.put("NewOrder", new JPanelNewOrder(this));
 		actions.put("Help", new JPanelHelp());
 		actions.put("ModifyCustomer", new JPanelModifyCustomer(this));
 		actions.put("Warehouse", new JPanelWarehouse(this));
@@ -142,7 +142,7 @@ public class WiSimMainController extends javax.swing.JFrame {
 		actions.put("NewContract", new JPanelNewContract(this));
 		actions.put("ViewContract", new JPanelViewContract(this));
 		actions.put("Options", new JPanelOptions(this));
-		actions.put("ViewEtat", new JPanelViewEtat(this));
+		actions.put("ViewOrders", new JPanelViewOrders(this));
 		actions.put("SimulationAnalysis", new JPanelSimulationAnalysis(this));
 		actions.put("WorkPlaceStore", new JPanelWorkPlaceStore(this));
 		actions.put("Networkplan", new JPanelNetworkplan(this));
@@ -159,12 +159,12 @@ public class WiSimMainController extends javax.swing.JFrame {
 		titles.put("ViewContract", "Vertrag einsehen");
 		titles.put("Warehouse", "Lager");
 		titles.put("Help", "Hilfe");
-		titles.put("Order", "Einzelteil bestellen");
+		titles.put("NewOrder", "Einzelteil bestellen");
 		titles.put("ModifySupplier", "Lieferanten bearbeiten");
 		titles.put("ViewSuppliers", "Lieferanten einsehen");
 		titles.put("NewSupplier", "Neuer Lieferant");
 		titles.put("Options", "Optionen");
-		titles.put("ViewEtat", "Einzelteilauftrag einsehen");
+		titles.put("ViewOrders", "Einzelteilauftrag einsehen");
 		titles.put("SimulationAnalysis", "Simulation auswerten");
 		titles.put("Networkplan", "Netzplaneditor");
 		titles.put("WorkPlaceStore", "Arbeitsplatzlager");
@@ -618,7 +618,7 @@ public class WiSimMainController extends javax.swing.JFrame {
 	} //GEN-LAST:event_jMenuItemLagerUebersichtActionPerformed
 
 	private void jMenuItemBestellungActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jMenuItemBestellungActionPerformed
-		addPanel("Order");
+		addPanel("NewOrder");
 	} //GEN-LAST:event_jMenuItemBestellungActionPerformed
 
 	private void jMenuItemNeuerVertragActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jMenuItemNeuerVertragActionPerformed
