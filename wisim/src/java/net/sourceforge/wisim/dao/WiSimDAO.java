@@ -536,5 +536,5 @@ public int setEinzelteilArbeitsplatzBestand(
 	 * @return int Anzahl
 	 * @throws WiSimDAOException
 	 */
-	public int getAnzahlArbeitsplätze() throws WiSimDAOException;
+	public int getAnzahlArbeitsplaetze() throws WiSimDAOException;
 }

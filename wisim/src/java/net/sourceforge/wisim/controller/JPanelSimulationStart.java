@@ -648,7 +648,7 @@ public class JPanelSimulationStart extends javax.swing.JPanel {
             
             // Simulation der Produktion
             try {
-                anzahlArbeitsplaetze = dao.getAnzahlArbeitsplätze();
+                anzahlArbeitsplaetze = dao.getAnzahlArbeitsplaetze();
             }
             catch (WiSimDAOException e) {
                 wiSimLogger.log("startStopSimulation()", e);
@@ -687,7 +687,7 @@ public class JPanelSimulationStart extends javax.swing.JPanel {
             updateLagerThread.interrupt();
             
             try {
-                anzahlArbeitsplaetze = dao.getAnzahlArbeitsplätze();
+                anzahlArbeitsplaetze = dao.getAnzahlArbeitsplaetze();
             }
             catch (WiSimDAOException e) {
                 wiSimLogger.log("startStopSimulation()", e);

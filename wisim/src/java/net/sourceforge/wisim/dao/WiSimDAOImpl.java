@@ -2682,7 +2682,7 @@ public synchronized Collection getArbeitsplatzLager(
          * @throws WiSimDAOException Fehler beim Lesen aus der DB
          * @return int
          */        
-	public int getAnzahlArbeitsplätze() throws WiSimDAOException
+	public int getAnzahlArbeitsplaetze() throws WiSimDAOException
 	{
 		String sql = "SELECT MAX(ap_nr) FROM ap";
 		int anzahl = -1;
