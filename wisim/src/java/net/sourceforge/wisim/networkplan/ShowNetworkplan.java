@@ -147,7 +147,7 @@ public class ShowNetworkplan extends JFrame {
 		Vector filled = new Vector();
 
 		/** Selected network plan */
-		int show = 3;
+		int show = 10;
 
 		/** Some network plans to choose */
 		switch (show) {
@@ -309,6 +309,10 @@ public class ShowNetworkplan extends JFrame {
 				filled.add(new NetworkplanElement(4, 2, "Ausgieﬂen Fundamente", new int[] { 2, 3 }));
 				filled.add(new NetworkplanElement(5, 2, "Ausgieﬂen Fundamente", new int[] { 4 }));
 				break;
+				
+			case 10 :
+				filled.add(new NetworkplanElement(1, 2, "Blub", new int[] { 0 }));
+				filled.add(new NetworkplanElement(2, 2, "Blub", new int[] { 1 }));
 		}
 		return filled;
 	}

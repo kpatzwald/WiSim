@@ -27,6 +27,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 
@@ -71,16 +72,37 @@ public class JNetworkplanElement extends JPanel {
 	public final static int ANCHOR_MIDDLE_RIGHT = 4;
 
 	/** Size of the transparent rectangle holding the networkplan element */
-	private static final int WIDTH = 300;
-	private static final int HEIGHT = 190;
+	private int width;
+	private int height;
 
 	/** Max. size of one textline in the description-box */
-	private static final int MAX_TEXT_WIDTH = 200;
+	private int maxTextWidth;
+
+	/** Size / Bounds of Networkplanelement */
+	private static final int SMALL_SIZE = 1;
+	private static final int BIG_SIZE = 2;
+
+	private Rectangle numberBounds;
+	private Rectangle durationBounds;
+	private Rectangle gpBounds;
+	private Rectangle fpBounds;
+	private Rectangle fazBounds;
+	private Rectangle fezBounds;
+	private Rectangle sazBounds;
+	private Rectangle sezBounds;
+	private Rectangle jLabelLine1Bounds;
+	private Rectangle jLabelLine2Bounds;
+	private Rectangle jLabelMiddleLineBounds;
+	private Rectangle npElementRectBounds;
+
+	private int[] xPoints;
+	private int[] yPoints;
 
 	/**
 	 * Paints a new networkplan element in a JLabel
 	 */
 	public JNetworkplanElement(NetworkplanElement np) {
+		setSize(JNetworkplanElement.BIG_SIZE);
 		npElementRect = new JPanel();
 		jLabelGP = new JLabel();
 		jLabelFP = new JLabel();
@@ -93,9 +115,6 @@ public class JNetworkplanElement extends JPanel {
 		jLabelSAZ = new JLabel();
 		jLabelSEZ = new JLabel();
 		isCriticalPathElement = false;
-		innerTextFont = new Font("Dialog", 1, 24);
-		outerTextFont = new Font("Dialog", 1, 16);
-		descriptionFont = new Font("Dialog", 1, 14);
 		this.np = np;
 		displayArrow = true;
 
@@ -104,6 +123,7 @@ public class JNetworkplanElement extends JPanel {
 	}
 
 	public JNetworkplanElement() {
+		setSize(JNetworkplanElement.BIG_SIZE);
 		npElementRect = new JPanel();
 		jLabelGP = new JLabel();
 		jLabelFP = new JLabel();
@@ -116,9 +136,6 @@ public class JNetworkplanElement extends JPanel {
 		jLabelSAZ = new JLabel();
 		jLabelSEZ = new JLabel();
 		isCriticalPathElement = false;
-		innerTextFont = new Font("Dialog", 1, 24);
-		outerTextFont = new Font("Dialog", 1, 16);
-		descriptionFont = new Font("Dialog", 1, 14);
 		displayArrow = true;
 	}
 
@@ -154,7 +171,7 @@ public class JNetworkplanElement extends JPanel {
 		jLabelGP.setText(String.valueOf(np.getGp()));
 		jLabelGP.setBorder(new LineBorder(lineColor));
 		npElementRect.add(jLabelGP);
-		jLabelGP.setBounds(79, 75, 110, 75);
+		jLabelGP.setBounds(gpBounds);
 
 		/** Writing free buffer */
 		jLabelFP.setFont(innerTextFont);
@@ -162,7 +179,7 @@ public class JNetworkplanElement extends JPanel {
 		jLabelFP.setText(String.valueOf(np.getFp()));
 		jLabelFP.setBorder(new LineBorder(lineColor));
 		npElementRect.add(jLabelFP);
-		jLabelFP.setBounds(188, 75, 112, 75);
+		jLabelFP.setBounds(fpBounds);
 
 		/** Writing duration */
 		jLabelDuration.setFont(innerTextFont);
@@ -170,7 +187,7 @@ public class JNetworkplanElement extends JPanel {
 		jLabelDuration.setText(String.valueOf(np.getDuration()));
 		jLabelDuration.setBorder(new LineBorder(lineColor));
 		npElementRect.add(jLabelDuration);
-		jLabelDuration.setBounds(0, 75, 80, 75);
+		jLabelDuration.setBounds(durationBounds);
 
 		/** Writing number */
 		jLabelNumber.setFont(innerTextFont);
@@ -178,7 +195,7 @@ public class JNetworkplanElement extends JPanel {
 		jLabelNumber.setText(String.valueOf(np.getNumber()));
 		jLabelNumber.setBorder(new LineBorder(lineColor));
 		npElementRect.add(jLabelNumber);
-		jLabelNumber.setBounds(0, 0, 80, 76);
+		jLabelNumber.setBounds(numberBounds);
 
 		/** Get the width of the description in pixel */
 		int textWidth = getTextLength(np.getDescription(), descriptionFont);
@@ -189,7 +206,7 @@ public class JNetworkplanElement extends JPanel {
 		boolean twoLines = false;
 
 		/** Case: Description length is > 400px */
-		if (textWidth > MAX_TEXT_WIDTH * 2) {
+		if (textWidth > maxTextWidth * 2) {
 
 			s1 = "";
 			twoLines = true;
@@ -210,14 +227,14 @@ public class JNetworkplanElement extends JPanel {
 			/** Get the first line that is not longer than 200px (s1) */
 			s1 = chunks[0];
 			textLen = getTextLength(s1, descriptionFont);
-			while (i < chunks.length && textLen < MAX_TEXT_WIDTH) {
+			while (i < chunks.length && textLen < maxTextWidth) {
 				temp = s1;
 				s1 = s1 + " " + chunks[i];
 
 				textLen = getTextLength(s1, descriptionFont);
 				i++;
 
-				if (textLen > MAX_TEXT_WIDTH) {
+				if (textLen > maxTextWidth) {
 					s1 = temp;
 					i--;
 					break;
@@ -231,14 +248,14 @@ public class JNetworkplanElement extends JPanel {
 				s2 = chunks[i];
 				textLen = getTextLength(s2, descriptionFont);
 				i++;
-				while (i < chunks.length && textLen < MAX_TEXT_WIDTH) {
+				while (i < chunks.length && textLen < maxTextWidth) {
 					temp = s2;
 					s2 = s2 + " " + chunks[i];
 
 					textLen = getTextLength(s2, descriptionFont);
 					i++;
 
-					if (textLen > MAX_TEXT_WIDTH) {
+					if (textLen > maxTextWidth) {
 						s2 = temp;
 						break;
 					}
@@ -248,7 +265,7 @@ public class JNetworkplanElement extends JPanel {
 		}
 
 		/** Case: Description length is > 200px */
-		else if (textWidth > MAX_TEXT_WIDTH) {
+		else if (textWidth > maxTextWidth) {
 
 			s1 = "";
 			twoLines = true;
@@ -260,7 +277,7 @@ public class JNetworkplanElement extends JPanel {
 			if (chunks.length == 1) {
 
 				int textLen = 0;
-				while (textLen > MAX_TEXT_WIDTH) {
+				while (textLen > maxTextWidth) {
 					chunks[0] = chunks[0].substring(0, chunks[0].length() - 1);
 					textLen = getTextLength(chunks[0], descriptionFont);
 				}
@@ -275,14 +292,14 @@ public class JNetworkplanElement extends JPanel {
 			s1 = chunks[0];
 			textLen = getTextLength(s1, descriptionFont);
 
-			while (i < chunks.length && textLen < MAX_TEXT_WIDTH) {
+			while (i < chunks.length && textLen < maxTextWidth) {
 				temp = s1;
 				s1 = s1 + " " + chunks[i];
 
 				textLen = getTextLength(s1, descriptionFont);
 				i++;
 
-				if (textLen > MAX_TEXT_WIDTH) {
+				if (textLen > maxTextWidth) {
 					s1 = temp;
 					i--;
 					break;
@@ -296,14 +313,14 @@ public class JNetworkplanElement extends JPanel {
 				textLen = getTextLength(s2, descriptionFont);
 				i++;
 
-				while (i < chunks.length && textLen < MAX_TEXT_WIDTH) {
+				while (i < chunks.length && textLen < maxTextWidth) {
 					temp = s2;
 					s2 = s2 + " " + chunks[i];
 
 					textLen = getTextLength(s2, descriptionFont);
 					i++;
 
-					if (textLen > MAX_TEXT_WIDTH) {
+					if (textLen > maxTextWidth) {
 						s2 = temp;
 					}
 				}
@@ -318,15 +335,15 @@ public class JNetworkplanElement extends JPanel {
 			jLabelLine1.setHorizontalAlignment(SwingConstants.CENTER);
 			jLabelLine1.setText(s1);
 			npElementRect.add(jLabelLine1);
-			jLabelLine1.setBounds(85, 20, 210, 19);
+			jLabelLine1.setBounds(jLabelLine1Bounds);
 
 			jLabelLine2.setFont(descriptionFont);
 			jLabelLine2.setHorizontalAlignment(SwingConstants.CENTER);
 			jLabelLine2.setText(s2);
 			npElementRect.add(jLabelLine2);
-			jLabelLine2.setBounds(85, 40, 210, 19);
+			jLabelLine2.setBounds(jLabelLine2Bounds);
 		} else {
-			int middle = (MAX_TEXT_WIDTH - textWidth) / 2;
+			int middle = (maxTextWidth - textWidth) / 2;
 			if (middle < 0)
 				middle = 0;
 
@@ -334,54 +351,54 @@ public class JNetworkplanElement extends JPanel {
 			jLabelLine1.setHorizontalAlignment(SwingConstants.CENTER);
 			jLabelLine1.setText(s1);
 			npElementRect.add(jLabelLine1);
-			jLabelLine1.setBounds(85, 30, 210, 19);
+			jLabelLine1.setBounds(jLabelMiddleLineBounds);
 		}
 
 		/** Add the rectangle to this JPanel (Leave 40px for FEZ, FAZ, SAZ and SEZ */
 		this.add(npElementRect);
-		npElementRect.setBounds(0, 20, WIDTH, HEIGHT - 40);
+		npElementRect.setBounds(npElementRectBounds);
 
 		/** Writing FAZ */
 		jLabelFAZ.setFont(outerTextFont);
 		jLabelFAZ.setText(String.valueOf(np.getFaz()));
 		this.add(jLabelFAZ);
-		jLabelFAZ.setBounds(0, 0, 40, 20);
+		jLabelFAZ.setBounds(fazBounds);
 
 		/** Writing FEZ */
 		jLabelFEZ.setFont(outerTextFont);
 		jLabelFEZ.setHorizontalAlignment(SwingConstants.RIGHT);
 		jLabelFEZ.setText(String.valueOf(np.getFez()));
 		this.add(jLabelFEZ);
-		jLabelFEZ.setBounds(260, 0, 40, 20);
+		jLabelFEZ.setBounds(fezBounds);
 
 		/** Writing SAZ */
 		jLabelSAZ.setFont(outerTextFont);
 		jLabelSAZ.setText(String.valueOf(np.getSaz()));
 		this.add(jLabelSAZ);
-		jLabelSAZ.setBounds(0, 168, 40, 20);
+		jLabelSAZ.setBounds(sazBounds);
 
 		/** Writing SEZ */
 		jLabelSEZ.setFont(outerTextFont);
 		jLabelSEZ.setHorizontalAlignment(SwingConstants.RIGHT);
 		jLabelSEZ.setText(String.valueOf(np.getSez()));
 		this.add(jLabelSEZ);
-		jLabelSEZ.setBounds(260, 168, 40, 20);
+		jLabelSEZ.setBounds(sezBounds);
 
-		this.setBounds(0, 0, WIDTH, HEIGHT);
+		this.setBounds(0, 0, width, height);
 	}
 
 	/**
 	 * @return Width of the network plan element
 	 */
 	public int getWidth() {
-		return WIDTH;
+		return width;
 	}
 
 	/**
-	 * @return Height of the network plan element
+	 * @return height of the network plan element
 	 */
-	public int getHeight() {
-		return HEIGHT;
+	public int getheight() {
+		return height;
 	}
 
 	/**
@@ -427,16 +444,16 @@ public class JNetworkplanElement extends JPanel {
 		switch (anchor) {
 
 			case ANCHOR_TOP_MIDDLE :
-				return new Point((int) getLocation().getX() + WIDTH / 2, (int) getLocation().getY() + 20);
+				return new Point((int) getLocation().getX() + width / 2, (int) getLocation().getY() + 20);
 
 			case ANCHOR_BOTTOM_MIDDLE :
-				return new Point((int) getLocation().getX() + WIDTH / 2, (int) getLocation().getY() + 170);
+				return new Point((int) getLocation().getX() + width / 2, (int) getLocation().getY() + 170);
 
 			case ANCHOR_MIDDLE_LEFT :
 				return new Point((int) getLocation().getX(), (int) getLocation().getY() + 95);
 
 			case ANCHOR_MIDDLE_RIGHT :
-				return new Point((int) getLocation().getX() + WIDTH, (int) getLocation().getY() + 95);
+				return new Point((int) getLocation().getX() + width, (int) getLocation().getY() + 95);
 
 			default :
 				return new Point(0, 0);
@@ -464,7 +481,7 @@ public class JNetworkplanElement extends JPanel {
 		if (displayArrow && !np.isStartElem()) {
 			if (np.isCriticalPath())
 				g.setColor(Color.RED);
-			g.fillPolygon(new int[] { 145, 150, 155 }, new int[] { 10, 20, 10 }, 3);
+			g.fillPolygon(xPoints, yPoints, 3);
 		}
 	}
 
@@ -481,5 +498,81 @@ public class JNetworkplanElement extends JPanel {
 	 */
 	public void setDisplayArrow(boolean displayArrow) {
 		this.displayArrow = displayArrow;
+	}
+
+	public void setSize(int size) {
+
+		switch (size) {
+
+			case JNetworkplanElement.SMALL_SIZE :
+
+				/** Set Size */
+				width = 200;
+				height = 128;
+
+				/** Set Font Size */
+				innerTextFont = new Font("Dialog", 1, 16);
+				outerTextFont = new Font("Dialog", 1, 11);
+				descriptionFont = new Font("Dialog", 1, 10);
+				maxTextWidth = 133;
+
+				/** Set Bounds */
+				numberBounds = new Rectangle(0, 0, 54, 51);
+				durationBounds = new Rectangle(0, 50, 54, 50);
+				gpBounds = new Rectangle(53, 50, 73, 50);
+				fpBounds = new Rectangle(125, 50, 75, 50);
+
+				fazBounds = new Rectangle(0, 0, 27, 14);
+				fezBounds = new Rectangle(173, 0, 27, 14);
+				sazBounds = new Rectangle(0, 112, 27, 14);
+				sezBounds = new Rectangle(173, 112, 27, 14);
+
+				jLabelLine1Bounds = new Rectangle(57, 13, 140, 13);
+				jLabelLine2Bounds = new Rectangle(57, 26, 140, 13);
+				jLabelMiddleLineBounds = new Rectangle(57, 20, 140, 13);
+
+				npElementRectBounds = new Rectangle(0, 13, width, height - 28);
+
+				/** Arrow */
+				xPoints = new int[] { 97, 100, 103 };
+				yPoints = new int[] { 7, 13, 7 };
+
+				break;
+
+			case JNetworkplanElement.BIG_SIZE :
+
+				/** Set Size */
+				width = 300;
+				height = 190;
+
+				/** Set Font Size */
+				innerTextFont = new Font("Dialog", 1, 24);
+				outerTextFont = new Font("Dialog", 1, 16);
+				descriptionFont = new Font("Dialog", 1, 14);
+				maxTextWidth = 200;
+
+				/** Set Bounds */
+				numberBounds = new Rectangle(0, 0, 80, 76);
+				durationBounds = new Rectangle(0, 75, 80, 75);
+				gpBounds = new Rectangle(79, 75, 110, 75);
+				fpBounds = new Rectangle(188, 75, 112, 75);
+
+				fazBounds = new Rectangle(0, 0, 40, 20);
+				fezBounds = new Rectangle(260, 0, 40, 20);
+				sazBounds = new Rectangle(0, 168, 40, 20);
+				sezBounds = new Rectangle(260, 168, 40, 20);
+
+				jLabelLine1Bounds = new Rectangle(85, 20, 210, 19);
+				jLabelLine2Bounds = new Rectangle(85, 40, 210, 19);
+				jLabelMiddleLineBounds = new Rectangle(85, 30, 210, 19);
+
+				npElementRectBounds = new Rectangle(0, 20, width, height - 40);
+
+				/** Arrow */
+				xPoints = new int[] { 145, 150, 155 };
+				yPoints = new int[] { 10, 20, 10 };
+
+				break;
+		}
 	}
 }
