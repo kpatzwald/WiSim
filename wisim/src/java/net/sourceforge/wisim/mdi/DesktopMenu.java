@@ -113,7 +113,7 @@ public class DesktopMenu extends JMenu implements ActionListener {
             frameRadioButtonMenuItemGroup.add(menuButton);
 
             menuButton.setSelected(true); // and reselect here, so that the 
-                                          // buttongroup recognizes the change
+                                          // buttongroup recognizes the change         
 
       }
 
