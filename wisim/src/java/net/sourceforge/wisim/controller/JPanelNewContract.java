@@ -46,12 +46,13 @@ import javax.swing.JPanel;
 import net.sourceforge.wisim.dao.WiSimDAO;
 import net.sourceforge.wisim.dao.WiSimDAOException;
 import net.sourceforge.wisim.dao.WiSimDAOWriteException;
-import net.sourceforge.wisim.model.*;
 import net.sourceforge.wisim.model.Article;
-import net.sourceforge.wisim.model.OrderItem;
+import net.sourceforge.wisim.model.Contract;
 import net.sourceforge.wisim.model.ContractAccount;
 import net.sourceforge.wisim.model.Customer;
-import net.sourceforge.wisim.model.Contract;
+import net.sourceforge.wisim.model.OrderItem;
+import net.sourceforge.wisim.model.Validator;
+import net.sourceforge.wisim.model.WiSimLogger;
 
 /**
  * @author Denise Freitag
@@ -59,7 +60,7 @@ import net.sourceforge.wisim.model.Contract;
 public class JPanelNewContract extends JPanel {
 	private WiSimDAO dao;
 	private Hashtable kundeObjekt;
-	private Hashtable kundenTabelle;
+	//private Hashtable kundenTabelle;
 	private Hashtable artikelTabelle;
 	private Hashtable artikelObjekt;
 	private float mwst;
@@ -68,6 +69,7 @@ public class JPanelNewContract extends JPanel {
 	private WiSimMainController wiSimMainController;
 	//Logger
 	private WiSimLogger wiSimLogger;
+	
 	private DecimalFormat form;
 
 	/** Creates new form JPanelNeuerVertrag */
@@ -75,7 +77,7 @@ public class JPanelNewContract extends JPanel {
 		this.wiSimMainController = wiSimMainController;
 		initDAO(wiSimMainController);
 		kundeObjekt = new Hashtable();
-		kundenTabelle = new Hashtable();
+		//kundenTabelle = new Hashtable();
 		artikelTabelle = new Hashtable();
 		artikelObjekt = new Hashtable();
 		validate = new Validator();
@@ -1006,8 +1008,9 @@ public class JPanelNewContract extends JPanel {
 				String merkeName = String.valueOf(kunde.getVorname()).concat(" ");
 				merkeName = merkeName.concat(String.valueOf(kunde.getNachname()));
 				model.addElement(merkeName);
-				kundeObjekt.put(String.valueOf(kunde.getId()), kunde);
-				kundenTabelle.put(kunde.getNachname(), String.valueOf(kunde.getId()));
+				//kundeObjekt.put(String.valueOf(kunde.getId()), kunde);
+				kundeObjekt.put(merkeName, kunde);
+			//	kundenTabelle.put(kunde.getNachname(), String.valueOf(kunde.getId()));
 			}
 			jComboBoxKunde.setModel(model);
 		}
@@ -1020,7 +1023,7 @@ public class JPanelNewContract extends JPanel {
 	private void loadCustomerData() {
 
 		//liefert listItem des selektierten Eintrags
-		String listItem = String.valueOf(jComboBoxKunde.getSelectedIndex());
+		String listItem = String.valueOf(jComboBoxKunde.getSelectedItem());
 
 		//sucht das ausgewählte KundenObjekt in Hashtabelle kundeObjekt
 		Customer auswahlKunde = (Customer) kundeObjekt.get(listItem);
@@ -1279,7 +1282,7 @@ public class JPanelNewContract extends JPanel {
 		}
 
 		//liefert listItem des selektierten Eintrags aus der ComboBox vom Kunden
-		String listItem1 = String.valueOf(jComboBoxKunde.getSelectedIndex());
+		String listItem1 = String.valueOf(jComboBoxKunde.getSelectedItem());
 		//sucht das ausgewählte KundenObjekt in Hashtabelle kundeObjekt
 		Customer auswahlKunde = (Customer) kundeObjekt.get(listItem1);
 		int kdId = auswahlKunde.getId();

@@ -29,15 +29,30 @@
 
 package net.sourceforge.wisim.controller;
 
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.text.DecimalFormat;
-import java.util.*;
-import javax.swing.*;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Hashtable;
+import java.util.Iterator;
 
-import net.sourceforge.wisim.dao.*;
-import net.sourceforge.wisim.model.*;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
-import java.awt.image.*;
-import java.awt.*;
+
+import net.sourceforge.wisim.dao.WiSimDAO;
+import net.sourceforge.wisim.dao.WiSimDAOException;
+import net.sourceforge.wisim.model.Article;
+import net.sourceforge.wisim.model.Contract;
+import net.sourceforge.wisim.model.ContractAccount;
+import net.sourceforge.wisim.model.Customer;
+import net.sourceforge.wisim.model.OrderItem;
+import net.sourceforge.wisim.model.WiSimLogger;
 
 /**
  *
@@ -767,7 +782,7 @@ public class JPanelViewContract extends javax.swing.JPanel {
 			jTextFieldVertraegeEinsehen.setText("Sie haben einen Kunden gewählt!");
 
 			//liefert listItem des selektierten Eintrags
-			String listItem = String.valueOf(jComboBoxVertraegeEinsehenKunde.getSelectedIndex());
+			String listItem = String.valueOf(jComboBoxVertraegeEinsehenKunde.getSelectedItem());
 
 			//sucht das ausgewählte KundenObjekt in Hashtabelle kundeObjekt
 			Customer auswahlKunde = (Customer) kundeObjekt.get(listItem);
@@ -953,7 +968,7 @@ public class JPanelViewContract extends javax.swing.JPanel {
 				String merkeName = String.valueOf(kunde.getVorname()).concat(" ");
 				merkeName = merkeName.concat(String.valueOf(kunde.getNachname()));
 				model.addElement(merkeName);
-				kundeObjekt.put(String.valueOf(kunde.getId()), kunde);
+				kundeObjekt.put(merkeName, kunde);
 
 			}
 			jComboBoxVertraegeEinsehenKunde.setModel(model);
