@@ -225,24 +225,24 @@ public class BaseInternalFrame extends JInternalFrame {
 	}
 	
 	/** 
-		  *  selects the current frame, along with any toggle and menu 
+		  *  deselects the current frame, along with any toggle and menu 
 		  * buttons that may be associated with it
 		  */
 		public void deSelectFrameAndAssociatedButtons() {
-			// select associated toolbar button
+			// deselect associated toolbar button
 			if (associatedButton != null) {
 				associatedButton.setSelected(false);
 				((BaseToggleButton) associatedButton).flagContentsChanged(false);
 			}
 
-			// select menu button
+			// deselect menu button
 			if (associatedMenuButton != null) {
 				associatedMenuButton.setSelected(false);
 			}
 
 			try {
 				setSelected(false);
-				setIcon(true); // select and de-iconify the frame
+				setIcon(true); // deselect and iconify the frame
 			} catch (java.beans.PropertyVetoException pve) {
 				System.out.println(pve.getMessage());
 			}
