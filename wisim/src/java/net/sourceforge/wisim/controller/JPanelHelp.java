@@ -31,8 +31,6 @@ package net.sourceforge.wisim.controller;
 
 import java.io.IOException;
 
-import javax.swing.JOptionPane;
-
 /**
  *
  * @author  Kay Patzwald
@@ -55,7 +53,6 @@ public class JPanelHelp extends javax.swing.JPanel {
 		jScrollPaneHilfe = new javax.swing.JScrollPane();
 		jTextArea1 = new javax.swing.JTextArea();
 		jLabelHilfe = new javax.swing.JLabel();
-		jButton1 = new javax.swing.JButton();
 		jButtonURL = new javax.swing.JButton();
 
 		jOptionPaneVerInfo.setMessageType(1);
@@ -70,7 +67,7 @@ public class JPanelHelp extends javax.swing.JPanel {
 		jScrollPaneHilfe.setViewportView(jTextArea1);
 
 		add(jScrollPaneHilfe);
-		jScrollPaneHilfe.setBounds(20, 40, 750, 851);
+		jScrollPaneHilfe.setBounds(20, 40, 770, 330);
 
 		jLabelHilfe.setFont(new java.awt.Font("Dialog", 1, 24));
 		jLabelHilfe.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -78,25 +75,15 @@ public class JPanelHelp extends javax.swing.JPanel {
 		add(jLabelHilfe);
 		jLabelHilfe.setBounds(370, 10, 70, 20);
 
-		jButton1.setText("Version");
-		jButton1.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				jButton1ActionPerformed(evt);
-			}
-		});
-
-		jButtonURL.setText("Projekt-Homepage öffnen...");
+		jButtonURL.setText("Projekt-Homepage \u00f6ffnen");
 		jButtonURL.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				displayURL("http://wisim.sourceforge.net");
+				jButtonURLActionPerformed(evt);
 			}
 		});
 
-		add(jButton1);
-		jButton1.setBounds(230, 400, 81, 26);
-
 		add(jButtonURL);
-		jButtonURL.setBounds(330, 400, 250, 26);
+		jButtonURL.setBounds(290, 400, 200, 26);
 
 	} //GEN-END:initComponents
 
@@ -105,17 +92,16 @@ public class JPanelHelp extends javax.swing.JPanel {
 		jScrollPaneHilfe.setBounds(20, 40, 750, 355);
 	}
 
-	private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jButton1ActionPerformed
-		JOptionPane.showMessageDialog(null, "Ver. 1.0");
-	} //GEN-LAST:event_jButton1ActionPerformed
+	private void jButtonURLActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jButtonURLActionPerformed
+		displayURL("http://wisim.sourceforge.net");
+	} //GEN-LAST:event_jButtonURLActionPerformed
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables
-	private javax.swing.JButton jButton1;
+	private javax.swing.JButton jButtonURL;
 	private javax.swing.JLabel jLabelHilfe;
 	private javax.swing.JOptionPane jOptionPaneVerInfo;
 	private javax.swing.JScrollPane jScrollPaneHilfe;
 	private javax.swing.JTextArea jTextArea1;
-	private javax.swing.JButton jButtonURL;
 	// End of variables declaration//GEN-END:variables
 
 	//Used to identify the windows platform.
@@ -187,6 +173,4 @@ public class JPanelHelp extends javax.swing.JPanel {
 			return false;
 
 	}
-
-	//displayURL("http://wisim.sourceforge.net");
 }
