@@ -21,6 +21,8 @@
 **   This copyright notice MUST APPEAR in all copies of the file!           **
 **   ********************************************************************   */
 
+package net.sourceforge.wisim.controller;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
