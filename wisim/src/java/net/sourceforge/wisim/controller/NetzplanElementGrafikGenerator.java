@@ -60,9 +60,21 @@ public class NetzplanElementGrafikGenerator {
 	public Image generateNetzplanelement(NetzplanElement np) {
 
 		scaleX = (np.getBezeichnung().length() - 10) * 6;
-		if (scaleX < 0)
+		
+		if (scaleX < 0) {
 			scaleX = 0;
-
+		}
+		
+		/** Cutting descriptions that are too long */
+		else if (scaleX > 199) {			
+			while (scaleX > 199) {
+				np.setBezeichnung(np.getBezeichnung().substring(0, np.getBezeichnung().length() - 1));
+				scaleX = (np.getBezeichnung().length() - 10) * 6;
+			}
+			np.setBezeichnung(np.getBezeichnung().substring(0, np.getBezeichnung().length() - 3) + "...");
+			scaleX = 199;
+		}
+		
 		if (np.isCriticalPath())
 			g.setColor(Color.RED);
 		else
