@@ -69,11 +69,11 @@ public class JNetworkplanElement extends JPanel {
 	public final static int ANCHOR_MIDDLE_RIGHT = 4;
 
 	/** Size of the transparent rectangle holding the networkplan element */
-	private static final int width = 300;
-	private static final int height = 190;
+	private static final int WIDTH = 300;
+	private static final int HEIGHT = 190;
 
 	/** Max. size of one textline in the description-box */
-	private static final int maxTextWidth = 200;
+	private static final int MAX_TEXT_WIDTH = 200;
 
 	/**
 	 * Paints a new networkplan element in a JLabel
@@ -184,7 +184,7 @@ public class JNetworkplanElement extends JPanel {
 		boolean twoLines = false;
 
 		/** Case: Description length is > 400px */
-		if (textWidth > maxTextWidth * 2) {
+		if (textWidth > MAX_TEXT_WIDTH * 2) {
 
 			s1 = "";
 			twoLines = true;
@@ -194,10 +194,7 @@ public class JNetworkplanElement extends JPanel {
 
 			/** Handle Exception: String has no white space */
 			if (chunks.length == 1) {
-				String temp =
-					description.substring(0, description.length() / 2)
-						+ " "
-						+ description.substring(description.length() / 2, description.length());
+				String temp = description.substring(0, description.length() / 2) + " " + description.substring(description.length() / 2, description.length());
 				chunks = temp.split(" ");
 			}
 
@@ -208,14 +205,14 @@ public class JNetworkplanElement extends JPanel {
 			/** Get the first line that is not longer than 200px (s1) */
 			s1 = chunks[0];
 			textLen = getTextLength(s1, descriptionFont);
-			while (i < chunks.length && textLen < maxTextWidth) {
+			while (i < chunks.length && textLen < MAX_TEXT_WIDTH) {
 				temp = s1;
 				s1 = s1 + " " + chunks[i];
 
 				textLen = getTextLength(s1, descriptionFont);
 				i++;
 
-				if (textLen > maxTextWidth) {
+				if (textLen > MAX_TEXT_WIDTH) {
 					s1 = temp;
 					i--;
 					break;
@@ -229,14 +226,14 @@ public class JNetworkplanElement extends JPanel {
 				s2 = chunks[i];
 				textLen = getTextLength(s2, descriptionFont);
 				i++;
-				while (i < chunks.length && textLen < maxTextWidth) {
+				while (i < chunks.length && textLen < MAX_TEXT_WIDTH) {
 					temp = s2;
 					s2 = s2 + " " + chunks[i];
 
 					textLen = getTextLength(s2, descriptionFont);
 					i++;
 
-					if (textLen > maxTextWidth) {
+					if (textLen > MAX_TEXT_WIDTH) {
 						s2 = temp;
 						break;
 					}
@@ -246,7 +243,7 @@ public class JNetworkplanElement extends JPanel {
 		}
 
 		/** Case: Description length is > 200px */
-		else if (textWidth > maxTextWidth) {
+		else if (textWidth > MAX_TEXT_WIDTH) {
 
 			s1 = "";
 			twoLines = true;
@@ -258,7 +255,7 @@ public class JNetworkplanElement extends JPanel {
 			if (chunks.length == 1) {
 
 				int textLen = 0;
-				while (textLen > maxTextWidth) {
+				while (textLen > MAX_TEXT_WIDTH) {
 					chunks[0] = chunks[0].substring(0, chunks[0].length() - 1);
 					textLen = getTextLength(chunks[0], descriptionFont);
 				}
@@ -273,14 +270,14 @@ public class JNetworkplanElement extends JPanel {
 			s1 = chunks[0];
 			textLen = getTextLength(s1, descriptionFont);
 
-			while (i < chunks.length && textLen < maxTextWidth) {
+			while (i < chunks.length && textLen < MAX_TEXT_WIDTH) {
 				temp = s1;
 				s1 = s1 + " " + chunks[i];
 
 				textLen = getTextLength(s1, descriptionFont);
 				i++;
 
-				if (textLen > maxTextWidth) {
+				if (textLen > MAX_TEXT_WIDTH) {
 					s1 = temp;
 					i--;
 					break;
@@ -294,14 +291,14 @@ public class JNetworkplanElement extends JPanel {
 				textLen = getTextLength(s2, descriptionFont);
 				i++;
 
-				while (i < chunks.length && textLen < maxTextWidth) {
+				while (i < chunks.length && textLen < MAX_TEXT_WIDTH) {
 					temp = s2;
 					s2 = s2 + " " + chunks[i];
 
 					textLen = getTextLength(s2, descriptionFont);
 					i++;
 
-					if (textLen > maxTextWidth) {
+					if (textLen > MAX_TEXT_WIDTH) {
 						s2 = temp;
 					}
 				}
@@ -324,7 +321,7 @@ public class JNetworkplanElement extends JPanel {
 			npElementRect.add(jLabelLine2);
 			jLabelLine2.setBounds(85, 40, 210, 19);
 		} else {
-			int middle = (maxTextWidth - textWidth) / 2;
+			int middle = (MAX_TEXT_WIDTH - textWidth) / 2;
 			if (middle < 0)
 				middle = 0;
 
@@ -337,7 +334,7 @@ public class JNetworkplanElement extends JPanel {
 
 		/** Add the rectangle to this JPanel (Leave 40px for FEZ, FAZ, SAZ and SEZ */
 		this.add(npElementRect);
-		npElementRect.setBounds(0, 20, width, height - 40);
+		npElementRect.setBounds(0, 20, WIDTH, HEIGHT - 40);
 
 		/** Writing FAZ */
 		jLabelFAZ.setFont(outerTextFont);
@@ -365,21 +362,21 @@ public class JNetworkplanElement extends JPanel {
 		this.add(jLabelSEZ);
 		jLabelSEZ.setBounds(260, 168, 40, 20);
 
-		this.setBounds(0, 0, width, height);
+		this.setBounds(0, 0, WIDTH, HEIGHT);
 	}
 
 	/**
 	 * @return Width of the network plan element
 	 */
 	public int getWidth() {
-		return width;
+		return WIDTH;
 	}
 
 	/**
 	 * @return Height of the network plan element
 	 */
 	public int getHeight() {
-		return height;
+		return HEIGHT;
 	}
 
 	/**
@@ -389,9 +386,7 @@ public class JNetworkplanElement extends JPanel {
 	 * @return Length of the text in pixel
 	 */
 	public int getTextLength(String text, Font font) {
-		return (int) Math.round(
-			(font.getStringBounds(text, 0, text.length(), new FontRenderContext(new AffineTransform(), false, false)))
-				.getWidth());
+		return (int) Math.round((font.getStringBounds(text, 0, text.length(), new FontRenderContext(new AffineTransform(), false, false))).getWidth());
 	}
 
 	/** Paint the element blue if the mouse moves over it */
@@ -427,18 +422,20 @@ public class JNetworkplanElement extends JPanel {
 		switch (anchor) {
 
 			case ANCHOR_TOP_MIDDLE :
-				return new Point((int) getLocation().getX() + width / 2, (int) getLocation().getY() + 20);
+				return new Point((int) getLocation().getX() + WIDTH / 2, (int) getLocation().getY() + 20);
 
 			case ANCHOR_BOTTOM_MIDDLE :
-				return new Point((int) getLocation().getX() + width / 2, (int) getLocation().getY() + 170);
+				return new Point((int) getLocation().getX() + WIDTH / 2, (int) getLocation().getY() + 170);
 
 			case ANCHOR_MIDDLE_LEFT :
 				return new Point((int) getLocation().getX(), (int) getLocation().getY() + 95);
 
 			case ANCHOR_MIDDLE_RIGHT :
-				return new Point((int) getLocation().getX() + width, (int) getLocation().getY() + 95);
+				return new Point((int) getLocation().getX() + WIDTH, (int) getLocation().getY() + 95);
+		
+			default:
+				return new Point(0, 0);
 		}
-		return new Point(0, 0);
 	}
 
 	/**
@@ -456,8 +453,8 @@ public class JNetworkplanElement extends JPanel {
 	public void setNp(NetworkplanElement element) {
 		np = element;
 	}
-	
+
 	public void setDescription(String s) {
-		
+
 	}
 }

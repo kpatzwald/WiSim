@@ -399,7 +399,7 @@ public class JPanelViewCustomers extends javax.swing.JPanel {
     public void updateKundenTable(boolean Delete) {
         int rows;
         
-        if (Delete == true) {
+        if (Delete) {
             rows = positionen;
         } else {
             rows = positionen + 1;

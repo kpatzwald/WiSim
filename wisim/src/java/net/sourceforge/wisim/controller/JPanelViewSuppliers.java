@@ -48,11 +48,15 @@ public class JPanelViewSuppliers extends javax.swing.JPanel {
 	private Hashtable zubehoerTabelle;
 	private int position;
 	private int positionen;
+	
+	//	Logger
+	private WiSimLogger wiSimLogger;
 
 	/** Creates new form JPanelLieferantenliste
 	   * @param wiSimMainController Der Maincontroller
 	   */
 	public JPanelViewSuppliers(WiSimMainController wiSimMainController) {
+		wiSimLogger = wiSimMainController.getWiSimLogger();
 		initComponents();
 		initDAO(wiSimMainController);
 		zubehoerTabelle = new Hashtable();
@@ -305,7 +309,7 @@ public class JPanelViewSuppliers extends javax.swing.JPanel {
 				positionen++;
 			}
 		} catch (WiSimDAOException e) {
-			System.err.println(e.getMessage());
+			wiSimLogger.log("ladeLieferanten()", e);
 		}
 	}
 
@@ -383,7 +387,7 @@ public class JPanelViewSuppliers extends javax.swing.JPanel {
 				position++;
 			}
 		} catch (WiSimDAOException e) {
-			System.err.println(e.getMessage());
+			wiSimLogger.log("ladeZugehoerigeEinzelteile()", e);
 		}
 	}
 
@@ -393,7 +397,7 @@ public class JPanelViewSuppliers extends javax.swing.JPanel {
 	public void updatePositionsTable(boolean Deleted) {
 		int rows;
 
-		if (Deleted == true) {
+		if (Deleted) {
 			rows = position;
 		} else {
 			rows = position + 1;
@@ -436,7 +440,7 @@ public class JPanelViewSuppliers extends javax.swing.JPanel {
 	public void updateLieferantenTable(boolean Delete) {
 		int rows;
 
-		if (Delete == true) {
+		if (Delete) {
 			rows = positionen;
 		} else {
 			rows = positionen + 1;

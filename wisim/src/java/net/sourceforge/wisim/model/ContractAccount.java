@@ -34,11 +34,11 @@ package net.sourceforge.wisim.model;
  */
 public class ContractAccount {
     
-    int Nr;
-    double Betrag;
-    int AuftragNr;
-    float MwSt;
-    boolean zEingang;    
+    private int nr;
+		private double betrag;
+		private int auftragNr;
+		private float mwSt;
+		private boolean zEingang;    
     
     /** ContractAccount wenn die HUBFirma einen neuen Contract mit 
      * 	einem Kunden macht.
@@ -52,11 +52,11 @@ public class ContractAccount {
      * @param AuftragNr Referenz auf den Auftrag
      * @param MwSt Mehrwertsteuer
      */
-    public ContractAccount(int Nr, double Betrag, int AuftragNr, float MwSt, boolean zEingang) {
-        this.Nr = Nr;
-        this.Betrag = Betrag;
-        this.AuftragNr = AuftragNr;
-        this.MwSt = MwSt;
+    public ContractAccount(int nr, double betrag, int auftragNr, float mwSt, boolean zEingang) {
+        this.nr = nr;
+        this.betrag = betrag;
+        this.auftragNr = auftragNr;
+        this.mwSt = mwSt;
         this.zEingang = zEingang;
     }
        
@@ -65,7 +65,7 @@ public class ContractAccount {
      * @return float
      */
     public double getBetrag() {
-        return Betrag;
+        return betrag;
     }
     
     /**
@@ -73,7 +73,7 @@ public class ContractAccount {
      * @return int
      */
     public int getAuftragNr() {
-        return AuftragNr;
+        return auftragNr;
     }
     
     /**
@@ -81,7 +81,7 @@ public class ContractAccount {
      * @return float
      */
     public float getMwSt() {
-        return MwSt;
+        return mwSt;
     }
     
     /**
@@ -89,7 +89,7 @@ public class ContractAccount {
      * @return int
      */
     public int getNr() {
-        return Nr;
+        return nr;
     }
     
     /**
@@ -105,15 +105,15 @@ public class ContractAccount {
      * @param betrag The betrag to set
      */
     public void setBetrag(double betrag) {
-        this.Betrag = betrag;
+        this.betrag = betrag;
     }
     
     /**
      * Sets the AuftragNr.
      * @param AuftragNr The AuftragNr to set
      */
-    public void setAuftragNr(int AuftragNr) {
-        this.AuftragNr = AuftragNr;
+    public void setAuftragNr(int auftragNr) {
+        this.auftragNr = auftragNr;
     }
     
     /**
@@ -121,7 +121,7 @@ public class ContractAccount {
      * @param mwSt The mwSt to set
      */
     public void setMwSt(float mwSt) {
-        this.MwSt = mwSt;
+        this.mwSt = mwSt;
     }
     
     /**
@@ -129,7 +129,7 @@ public class ContractAccount {
      * @param nr The nr to set
      */
     public void setNr(int nr) {
-        this.Nr = nr;
+        this.nr = nr;
     }
     
     /**

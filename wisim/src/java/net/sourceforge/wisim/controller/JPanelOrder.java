@@ -50,12 +50,16 @@ public class JPanelOrder extends javax.swing.JPanel {
 	private double lieferrabattToCalc;
 	private Validator validate;
 	private WiSimMainController wiSimMainController;
+	
+	//	Logger
+	private WiSimLogger wiSimLogger;
 
 	/** Creates new form JPanelBestellung
 	 * @param wiSimMainController Der WiSimMainController
 	 */
 	public JPanelOrder(WiSimMainController wiSimMainController) {
 		this.wiSimMainController = wiSimMainController;
+		wiSimLogger = wiSimMainController.getWiSimLogger();
 		initDAO(wiSimMainController);
 		colLt = new Vector();
 		colLt.add("Select:");
@@ -937,9 +941,9 @@ public class JPanelOrder extends javax.swing.JPanel {
 		try {
 			etatNr = dao.setEinzelteilauftrag(etat);
 		} catch (WiSimDAOException e) {
-			System.err.println("Fehler:" + e.getMessage());
+			wiSimLogger.log("etatBestellen()", e);
 		} catch (WiSimDAOWriteException e) {
-			System.err.println("Fehler:" + e.getMessage());
+			wiSimLogger.log("etatBestellen()", e);
 		}
 
 		etat.setNr(etatNr);
@@ -954,7 +958,7 @@ public class JPanelOrder extends javax.swing.JPanel {
 		try {
 			mwst = dao.getMwSt();
 		} catch (WiSimDAOException e) {
-			System.err.println("Fehler: " + e.getMessage());
+			wiSimLogger.log("etatBestellen()", e);
 		}
 
 		etatr.setMwSt(mwst);
@@ -967,9 +971,9 @@ public class JPanelOrder extends javax.swing.JPanel {
 		try {
 			dao.setEinzelteilauftragsrechnung(etatr);
 		} catch (WiSimDAOException e) {
-			System.err.println("Fehler:" + e.getMessage());
+			wiSimLogger.log("etatBestellen()", e);
 		} catch (WiSimDAOWriteException e) {
-			System.err.println("Fehler:" + e.getMessage());
+			wiSimLogger.log("etatBestellen()", e);
 		}
 		clearFields();
 	}
@@ -1293,7 +1297,7 @@ public class JPanelOrder extends javax.swing.JPanel {
 				colLt.add(lieferant);
 			}
 		} catch (WiSimDAOException e) {
-			System.out.println(e.getMessage());
+			wiSimLogger.log("getLieferanten()", e);
 		}
 	}
 
@@ -1344,7 +1348,7 @@ public class JPanelOrder extends javax.swing.JPanel {
 					colArtikel.add(lieferliste);
 				}
 			} catch (WiSimDAOException e) {
-				System.out.println(e.getMessage());
+				wiSimLogger.log("getArtikel()", e);
 			}
 		}
 	}

@@ -337,8 +337,8 @@ public class NetworkplanElement {
 	public boolean isStartElem() {
 		if (parent[0] == 0)
 			return true;
-		else
-			return false;
+		
+		return false;
 	}
 
 	/**
@@ -347,8 +347,8 @@ public class NetworkplanElement {
 	public boolean isEndElem() {
 		if (child[0] == 0)
 			return true;
-		else
-			return false;
+		
+		return false;
 	}
 	/**
 	 * @return TRUE if element is member of the critical path
@@ -398,7 +398,7 @@ public class NetworkplanElement {
 	public void setLayoutManager(int i) {
 		layoutManager = i;
 	}
-	
+
 	/**
 	 * @return TRUE if the user has set the child's in the constructor
 	 */

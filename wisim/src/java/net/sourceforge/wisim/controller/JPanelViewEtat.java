@@ -581,10 +581,10 @@ public class JPanelViewEtat extends javax.swing.JPanel {
                 GregorianCalendar nettoDatum = new GregorianCalendar();
                 nettoDatum.setTimeInMillis(nettozahlDatumMili);
 
-                String Tag = String.valueOf(nettoDatum.get(Calendar.DATE));
-                String Monat = String.valueOf(nettoDatum.get(Calendar.MONTH)+1);
-                String Jahr = String.valueOf(nettoDatum.get(Calendar.YEAR));
-                jTextFieldNettozahldatum.setText(Tag + "." + Monat + "." + Jahr);               
+                String tag = String.valueOf(nettoDatum.get(Calendar.DATE));
+                String monat = String.valueOf(nettoDatum.get(Calendar.MONTH)+1);
+                String jahr = String.valueOf(nettoDatum.get(Calendar.YEAR));
+                jTextFieldNettozahldatum.setText(tag + "." + monat + "." + jahr);               
                 
 		try {
 			etatPos = dao.getEinzelteilAuftragsPositionen(etat.getNr());

@@ -732,7 +732,9 @@ public class JPanelModifySupplier extends javax.swing.JPanel {
 					ladeLieferanten();
 					ladeLieferant();
 					setzeStandard();
-				} catch (Exception e) {
+				} catch (WiSimDAOException e) {
+					wiSimLogger.log("jButtonLieferantenAnlegen1ActionPerformed()", e);
+				} catch (WiSimDAOWriteException e) {
 					wiSimLogger.log("jButtonLieferantenAnlegen1ActionPerformed()", e);
 				}
 			}
@@ -951,7 +953,7 @@ public class JPanelModifySupplier extends javax.swing.JPanel {
 	public void updatePositionsTable(boolean Deleted) {
 		int rows;
 
-		if (Deleted == true) {
+		if (Deleted) {
 			rows = position;
 		} else {
 			rows = position + 1;

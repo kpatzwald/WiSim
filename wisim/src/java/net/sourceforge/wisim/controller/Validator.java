@@ -46,8 +46,8 @@ public class Validator {
         String regExp = "^[0-9][1-9][0-9]{3}|[1-9][0-9][0-9]{3}$";
         if (text.matches(regExp))
             return true;
-        else
-            return false;
+        
+        return false;
     }
     
     /** Überprüft die eingegebene email auf Gültigkeit.
@@ -58,11 +58,10 @@ public class Validator {
         String regExpEmail = "^([a-zA-Z0-9_\\-\\.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a-zA-Z0-9\\-]+\\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\\]?)$";
         int length = text.length();
         if (length > 0) {
-            if (text.matches(regExpEmail)) {
+            if (text.matches(regExpEmail))
                 return true;
-            } else {
-                return false;
-            }
+            
+            return false;
         }
         return false;
     }
@@ -75,8 +74,8 @@ public class Validator {
         String regExp = "^([0-9]{0,7}[.]{1}[0-9]{2})$";
         if (text.matches(regExp))
             return true;
-        else
-            return false;
+        
+        return false;
     }
     
     /** Überprüft, ob eine Zahl eingegeben wurde und das nicht mehr
@@ -88,8 +87,8 @@ public class Validator {
         String regExp = "^([0-9]{0,10})$";
         if (text.matches(regExp))
             return true;
-        else
-            return false;
+        
+        return false;
     }
     
     /** Erlaubt sind nur Eingaben von 1- oder 2-stellige Zahlen mit 1 Nachkommastelle
@@ -99,11 +98,10 @@ public class Validator {
      */
     public boolean checkProzent(String text) {
         String regExp = "[0-9]{1,2}\\.[0-9]{1}";
-        if (text.matches(regExp)) {
+        if (text.matches(regExp))
             return true;
-        } else {
-            return false;
-        }
+        
+        return false;
     }
     
     /** Erlaubt sind nur Eingaben von 4-stelligen Zahlen die nicht mit 0 beginnen
@@ -112,11 +110,10 @@ public class Validator {
      */
     public boolean checkYear(String text) {
         String regExp = "^([1-9]{1}[0-9]{3})$";
-        if (text.matches(regExp)) {
+        if (text.matches(regExp))
             return true;
-        } else {
-            return false;
-        }
+        
+        return false;
     }
     
     /** Erlaubt sind nur Eingaben von 1- oder 2-stellige Zahlen
@@ -125,11 +122,10 @@ public class Validator {
      */
     public boolean checkTwoDigits(String text) {
         String regExp = "^([0-9]{1,2})$";
-        if (text.matches(regExp)) {
+        if (text.matches(regExp))
             return true;
-        } else {
-            return false;
-        }
+        
+        return false;
     }
     
     /** Erlaubt sind nur Eingaben von 1- oder 2-stellige Zahlen
@@ -138,10 +134,9 @@ public class Validator {
      */
     public boolean checkThreeDigits(String text) {
         String regExp = "^[1-9]{1}[0-9]{0,2}$";
-        if (text.matches(regExp)) {
+        if (text.matches(regExp))
             return true;
-        } else {
-            return false;
-        }
+        
+        return false;        
     }    
 }

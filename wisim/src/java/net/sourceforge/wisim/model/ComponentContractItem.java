@@ -35,10 +35,10 @@ package net.sourceforge.wisim.model;
  */
 public class ComponentContractItem {
     
-    int etNr;
-    int etatNr;
-    int Bestellmenge;
-    double preis;
+		private int etNr;
+		private int etatNr;
+		private int bestellmenge;
+		private double preis;
     
     /** Creates a new instance of EinzelteilauftragPositionen */
     public ComponentContractItem() {
@@ -50,11 +50,11 @@ public class ComponentContractItem {
      * @param etatNr
      * @param Bestellmenge
      */    
-    public ComponentContractItem(int etNr, int etatNr, int Bestellmenge, double Preis) {
+    public ComponentContractItem(int etNr, int etatNr, int bestellmenge, double preis) {
         this.etNr = etNr;
         this.etatNr = etatNr;
-        this.Bestellmenge = Bestellmenge;
-        this.preis = Preis;
+        this.bestellmenge = bestellmenge;
+        this.preis = preis;
     }
     
     /**
@@ -75,7 +75,7 @@ public class ComponentContractItem {
      * @return Bestellmenge
      */    
     public int getBestellmenge() {
-        return Bestellmenge;
+        return bestellmenge;
     }
     
     /**
@@ -102,14 +102,14 @@ public class ComponentContractItem {
     /**
      * @param Bestellmenge
      */    
-    public void setBestellmenge(int Bestellmenge) {
-        this.Bestellmenge = Bestellmenge;
+    public void setBestellmenge(int bestellmenge) {
+        this.bestellmenge = bestellmenge;
     }   
     
     /**
      * @param Preis
      */    
-    public void setPreis(double Preis) {
-        this.preis = Preis;
+    public void setPreis(double preis) {
+        this.preis = preis;
     }
 }

@@ -1279,7 +1279,7 @@ public class JPanelNewContract extends JPanel {
 		int j = 0;
 
 		//Test der Pflichtfelder
-		if (ueberpruefenFelder() != true) {
+		if (!ueberpruefenFelder()) {
 			return;
 		}
 

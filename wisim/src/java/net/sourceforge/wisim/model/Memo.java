@@ -34,10 +34,10 @@ package net.sourceforge.wisim.model;
  */
 public class Memo {
     
-    int id;
-    int KundenNr;
-    String text;
-    java.sql.Date date;
+    private int id;
+		private int kundenNr;
+		private String text;
+		private java.sql.Date date;
     
     /** Creates a new instance of Memo
      * @param id ID
@@ -45,9 +45,9 @@ public class Memo {
      * @param text Text
      * @param date Datum
      */
-    public Memo(int id, int KundenNr, String text, java.sql.Date date) {
+    public Memo(int id, int kundenNr, String text, java.sql.Date date) {
         this.id = id;
-        this.KundenNr = KundenNr;
+        this.kundenNr = kundenNr;
         this.text = text;
         this.date = date;
     }
@@ -66,8 +66,8 @@ public class Memo {
     /** Setzt die Kundennummer
      * @param KundenNr Kundennummer
      */    
-    public void setKundenNr(int KundenNr) {
-        this.KundenNr = KundenNr;
+    public void setKundenNr(int kundenNr) {
+        this.kundenNr = kundenNr;
     }
     
     /** Setzt den Text
@@ -95,7 +95,7 @@ public class Memo {
      * @return int
      */    
     public int getKundenNr() {
-        return KundenNr;
+        return kundenNr;
     }
     
     /** Liefert den Text

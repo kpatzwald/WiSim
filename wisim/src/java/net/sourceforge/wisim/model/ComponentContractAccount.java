@@ -34,10 +34,10 @@ package net.sourceforge.wisim.model;
  */
 public class ComponentContractAccount {
     
-    int Nr;
-    double Betrag;
-    int EinzelteilauftragNr;
-    float MwSt;
+		private int nr;
+		private double betrag;
+		private int einzelteilauftragNr;
+		private float mwSt;
     
     /** Einzelteileauftragsrechnung wenn die HUBFirma Einzelteile bei einem
      * Lieferanten bestellt.
@@ -51,11 +51,11 @@ public class ComponentContractAccount {
      * @param EinzelteilauftragNr Referenz auf den ComponentContract
      * @param MwSt Mehrwertsteuer
      */
-    public ComponentContractAccount(int Nr, double Betrag, int EinzelteilauftragNr, float MwSt) {
-        this.Nr = Nr;
-        this.Betrag = Betrag;
-        this.EinzelteilauftragNr = EinzelteilauftragNr;
-        this.MwSt = MwSt;
+    public ComponentContractAccount(int nr, double betrag, int einzelteilauftragNr, float mwSt) {
+        this.nr = nr;
+        this.betrag = betrag;
+        this.einzelteilauftragNr = einzelteilauftragNr;
+        this.mwSt = mwSt;
     }
     
     /**
@@ -63,7 +63,7 @@ public class ComponentContractAccount {
      * @return float
      */
     public double getBetrag() {
-        return Betrag;
+        return betrag;
     }
     
     /**
@@ -71,7 +71,7 @@ public class ComponentContractAccount {
      * @return int
      */
     public int getEinzelteilauftragNr() {
-        return EinzelteilauftragNr;
+        return einzelteilauftragNr;
     }
     
     /**
@@ -79,7 +79,7 @@ public class ComponentContractAccount {
      * @return float
      */
     public float getMwSt() {
-        return MwSt;
+        return mwSt;
     }
     
     /**
@@ -87,7 +87,7 @@ public class ComponentContractAccount {
      * @return int
      */
     public int getNr() {
-        return Nr;
+        return nr;
     }
     
     /**
@@ -95,7 +95,7 @@ public class ComponentContractAccount {
      * @param betrag The betrag to set
      */
     public void setBetrag(double betrag) {
-        Betrag = betrag;
+        this.betrag = betrag;
     }
     
     /**
@@ -103,7 +103,7 @@ public class ComponentContractAccount {
      * @param einzelteilauftragNr The einzelteilauftragNr to set
      */
     public void setEinzelteilauftragNr(int einzelteilauftragNr) {
-        EinzelteilauftragNr = einzelteilauftragNr;
+        this.einzelteilauftragNr = einzelteilauftragNr;
     }
     
     /**
@@ -111,7 +111,7 @@ public class ComponentContractAccount {
      * @param mwSt The mwSt to set
      */
     public void setMwSt(float mwSt) {
-        MwSt = mwSt;
+        this.mwSt = mwSt;
     }
     
     /**
@@ -119,6 +119,6 @@ public class ComponentContractAccount {
      * @param nr The nr to set
      */
     public void setNr(int nr) {
-        Nr = nr;
+        this.nr = nr;
     }
 }

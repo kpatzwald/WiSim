@@ -81,8 +81,7 @@ public class ShowNetworkplan extends JFrame {
 			/** Get the Panel to use. */
 			netzplanGrafik.setLayout(null);
 			netzplanGrafik.setBackground(Color.WHITE);
-			netzplanGrafik.setPreferredSize(
-				new Dimension(netzplanGrafik.getMaxWidthPos() * 430, netzplanGrafik.getMaxHeightPos() * 280));
+			netzplanGrafik.setPreferredSize(new Dimension(netzplanGrafik.getMaxWidthPos() * 430, netzplanGrafik.getMaxHeightPos() * 280));
 
 			/** Stop stopwatch */
 			long endTime = System.currentTimeMillis();
@@ -227,8 +226,7 @@ public class ShowNetworkplan extends JFrame {
 					String dbname = "wisim";
 
 					/** Get a connection */
-					Connection conn =
-						DriverManager.getConnection("jdbc:mysql://" + hostname + ":" + port + "/" + dbname, user, password);
+					Connection conn = DriverManager.getConnection("jdbc:mysql://" + hostname + ":" + port + "/" + dbname, user, password);
 					conn.setAutoCommit(false);
 
 					/** Select Statement */
@@ -242,12 +240,7 @@ public class ShowNetworkplan extends JFrame {
 
 					while (rset.next()) {
 
-						NetworkplanElement np =
-							new NetworkplanElement(
-								rset.getInt(1),
-								new Double(String.valueOf(rset.getInt(2))).doubleValue(),
-								new int[0],
-								rset.getString(3));
+						NetworkplanElement np = new NetworkplanElement(rset.getInt(1), new Double(String.valueOf(rset.getInt(2))).doubleValue(), new int[0], rset.getString(3));
 
 						/** This is a new element */
 						if (!completed.contains(new Integer(np.getNumber()))) {
@@ -286,7 +279,7 @@ public class ShowNetworkplan extends JFrame {
 				}
 				break;
 
-			case 8 : // Example with setting of parent elements instead of childs
+			default: // Example with setting of parent elements instead of childs
 				filled.add(new NetworkplanElement(1, 2, "Ausgieﬂen Fundamente", new int[] { 0 }));
 				filled.add(new NetworkplanElement(2, 2, "Ausgieﬂen Fundamente", new int[] { 1 }));
 				filled.add(new NetworkplanElement(3, 5, "Verschalung Betonsockel", new int[] { 2 }));

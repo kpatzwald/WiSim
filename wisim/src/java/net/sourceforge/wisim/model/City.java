@@ -34,17 +34,17 @@ package net.sourceforge.wisim.model;
  */
 public class City {
     
-    int Nr;
-    String plz;
-    String name;
+		private int nr;
+		private String plz;
+		private String name;
     
     /** Creates a new instance of City
      * @param Nr Nr
      * @param plz Postleitzahl des Ortes
      * @param name Ortsname
      */
-    public City(int Nr, String plz, String name) {
-        this.Nr = Nr;
+    public City(int nr, String plz, String name) {
+        this.nr = nr;
         this.plz = plz;
         this.name = name;
     }
@@ -71,7 +71,7 @@ public class City {
      * @param nr NR
      */    
     public void setNr(int nr) {
-        this.Nr = nr;
+        this.nr = nr;
     }
     
     /** Liefert die PLZ
@@ -92,6 +92,6 @@ public class City {
      * @return int
      */    
     public int getNr() {
-        return Nr;
+        return nr;
     }
 }

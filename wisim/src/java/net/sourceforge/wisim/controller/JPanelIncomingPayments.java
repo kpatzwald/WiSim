@@ -52,12 +52,14 @@ public class JPanelIncomingPayments extends javax.swing.JPanel {
 	private boolean isActive;
 	private boolean isBuilt;
 	private WiSimMainController wiSimMainController;
+	private WiSimLogger logger;
 
 	/** Creates new form JPanelZahlungseingang
 	 * @param wiSimMainController Der WiSimMainController
 	 */
 	public JPanelIncomingPayments(WiSimMainController wiSimMainController) {
 		this.wiSimMainController = wiSimMainController;
+		logger = wiSimMainController.getWiSimLogger();
 		initDAO(wiSimMainController);
 		vertragObjekte = new Hashtable();
 		rechnungObjekte = new Hashtable();
@@ -397,23 +399,23 @@ public class JPanelIncomingPayments extends javax.swing.JPanel {
 	/** Füllt die Tabelle mit den in der DB vorhadenen Rechnungen */
 	public void ladeRechnungen() {
 		try {
-			Collection Vertraege = null;
-			Vertraege = dao.getVertraege();
-			Iterator it_Vertrag = Vertraege.iterator();
+			Collection vertraege = null;
+			vertraege = dao.getVertraege();
+			Iterator it_Vertrag = vertraege.iterator();
 
 			int i = 0;
-			anzahl = Vertraege.size();
+			anzahl = vertraege.size();
 			setTabelle();
 
 			while (it_Vertrag.hasNext()) {
 				Contract vertragsliste = (Contract) it_Vertrag.next();
-				ContractAccount Auftrag = new ContractAccount();
-				Auftrag = dao.getAuftragsrechnung(vertragsliste.getAuftragsrechnungsId());
-				Customer Kunde = new Customer();
-				Kunde = dao.getKunde(vertragsliste.getKundenId());
+				ContractAccount auftrag = new ContractAccount();
+				auftrag = dao.getAuftragsrechnung(vertragsliste.getAuftragsrechnungsId());
+				Customer kunde = new Customer();
+				kunde = dao.getKunde(vertragsliste.getKundenId());
 
-				jTableRechnungListe.setValueAt(String.valueOf(Auftrag.getAuftragNr()), i, 0);
-				jTableRechnungListe.setValueAt(Kunde.getNachname() + ", " + Kunde.getVorname(), i, 1);
+				jTableRechnungListe.setValueAt(String.valueOf(auftrag.getAuftragNr()), i, 0);
+				jTableRechnungListe.setValueAt(kunde.getNachname() + ", " + kunde.getVorname(), i, 1);
 
 				if (vergleicheDatum(wiSimMainController.getActDate(), vertragsliste.getLieferdatum()) <= 0) {
 					Image imageIconGreen = new BufferedImage(28, 30, 2);
@@ -433,7 +435,7 @@ public class JPanelIncomingPayments extends javax.swing.JPanel {
 					jTableRechnungListe.setValueAt(ic, i, 2);
 				}
 
-				if (Auftrag.getzEingang()) {
+				if (auftrag.getzEingang()) {
 					Image imageIconGreen = new BufferedImage(28, 30, 2);
 					Graphics g = imageIconGreen.getGraphics();
 					g.setColor(darkgreen);
@@ -452,12 +454,12 @@ public class JPanelIncomingPayments extends javax.swing.JPanel {
 				}
 
 				vertragObjekte.put(String.valueOf(i), vertragsliste);
-				rechnungObjekte.put(String.valueOf(i), Auftrag);
-				kundeObjekte.put(String.valueOf(i), Kunde);
+				rechnungObjekte.put(String.valueOf(i), auftrag);
+				kundeObjekte.put(String.valueOf(i), kunde);
 				i++;
 			}
 		} catch (WiSimDAOException e) {
-			System.err.println(e.getMessage());
+			logger.log("ladeRechnungen()",e);
 		}
 	}
 
@@ -497,14 +499,14 @@ public class JPanelIncomingPayments extends javax.swing.JPanel {
 	}
 
 	//Setzt Rechnungsstatus auf bezahlt
-	private void aendereEingang(int Id, boolean i) {
+	private void aendereEingang(int id, boolean i) {
 		try {
-			dao.aendereAuftragsrechnung(Id, i);
+			dao.aendereAuftragsrechnung(id, i);
 			ladeRechnungen();
 		} catch (WiSimDAOException e) {
-			System.err.println("Fehler: " + e.getMessage());
+			logger.log("aendereEingang()",e);
 		} catch (WiSimDAOWriteException e) {
-			System.err.println("Fehler: " + e.getMessage());
+			logger.log("aendereEingang()",e);
 		}
 	}
 
@@ -628,16 +630,17 @@ public class JPanelIncomingPayments extends javax.swing.JPanel {
 	/** Refreshed Tabelle */
 	public void refreshTabelle() {
 		if (jTableRechnungListe.getSelectedRow() >= 0) {
-			Collection Vertraege = null;
+			Collection vertraege = null;
 			try {
-				Vertraege = dao.getVertraege();
+				vertraege = dao.getVertraege();
 			} catch (WiSimDAOException e) {
+				logger.log("refreshTabelle()",e);
 			}
-			anzahl = Vertraege.size();
+			anzahl = vertraege.size();
 			int i = 0;
 			if (anzahl > 0) {
 
-				Iterator it_Vertrag = Vertraege.iterator();
+				Iterator it_Vertrag = vertraege.iterator();
 
 				while (it_Vertrag.hasNext()) {
 					Contract vertragsliste = (Contract) it_Vertrag.next();

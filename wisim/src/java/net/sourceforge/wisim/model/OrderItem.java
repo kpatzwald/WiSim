@@ -35,9 +35,9 @@ package net.sourceforge.wisim.model;
  */
 public class OrderItem {
     
-    int atNr;
-    int artNr;
-    long Bestellmenge;
+		private int atNr;
+		private int artNr;
+		private long bestellmenge;
     
     
     /** Creates a new instance of AuftragPositionen */
@@ -49,10 +49,10 @@ public class OrderItem {
      * @param artNr Referenz auf Article
      * @param Bestellmenge Menge eines Artikels
      */    
-    public OrderItem(int atNr, int artNr, long Bestellmenge) {
+    public OrderItem(int atNr, int artNr, long bestellmenge) {
         this.atNr = atNr;
         this.artNr = artNr;
-        this.Bestellmenge = Bestellmenge;
+        this.bestellmenge = bestellmenge;
         
     }
     
@@ -74,7 +74,7 @@ public class OrderItem {
      * @return Bestellmenge
      */    
     public long getBestellmenge() {
-        return Bestellmenge;
+        return bestellmenge;
     }
     
     
@@ -96,8 +96,8 @@ public class OrderItem {
     /**
      * @param Bestellmenge
      */    
-    public void setBestellmenge(long Bestellmenge) {
-        this.Bestellmenge = Bestellmenge;
+    public void setBestellmenge(long bestellmenge) {
+        this.bestellmenge = bestellmenge;
     }   
     
     

@@ -35,15 +35,15 @@ import java.util.*;
  */
 public class ComponentContract {
     
-    int Nr;
-    int LieferantNr;
-    int EinzelteilAuftragsRechnungNr;
-    float Lieferrabatt;
-    int Skontofrist;
-    Date Lieferdatum;
-    Date Auftragsdatum;
-    float Skonto;
-    Collection EinzelteilauftragPositionen;
+		private int nr;
+		private int lieferantNr;
+		private int einzelteilAuftragsRechnungNr;
+		private float lieferrabatt;
+		private int skontofrist;
+		private Date lieferdatum;
+		private Date auftragsdatum;
+		private float skonto;
+		private Collection einzelteilauftragPositionen;
     
     
     /** Creates a new instance of ComponentContract */
@@ -61,16 +61,16 @@ public class ComponentContract {
      * @param Auftragsdatum
      * @param Skonto
      */
-    public ComponentContract(int Nr, int LieferantNr, int EinzelteilAuftragsRechnungNr, float Lieferrabatt, int Skontofrist, Date Lieferdatum, Date Auftragsdatum, float Skonto, Collection EinzelteilauftragPositionen) {
-        this.Nr = Nr;
-        this.LieferantNr = LieferantNr;
-        this.EinzelteilAuftragsRechnungNr = EinzelteilAuftragsRechnungNr;
-        this.Lieferrabatt = Lieferrabatt;
-        this.Skontofrist = Skontofrist;
-        this.Lieferdatum = Lieferdatum;
-        this.Auftragsdatum = Auftragsdatum;
-        this.Skonto = Skonto;
-        this.EinzelteilauftragPositionen = EinzelteilauftragPositionen;
+    public ComponentContract(int nr, int lieferantNr, int einzelteilAuftragsRechnungNr, float lieferrabatt, int skontofrist, Date lieferdatum, Date auftragsdatum, float skonto, Collection einzelteilauftragPositionen) {
+        this.nr = nr;
+        this.lieferantNr = lieferantNr;
+        this.einzelteilAuftragsRechnungNr = einzelteilAuftragsRechnungNr;
+        this.lieferrabatt = lieferrabatt;
+        this.skontofrist = skontofrist;
+        this.lieferdatum = lieferdatum;
+        this.auftragsdatum = auftragsdatum;
+        this.skonto = skonto;
+        this.einzelteilauftragPositionen = einzelteilauftragPositionen;
     }
     
     /**
@@ -78,7 +78,7 @@ public class ComponentContract {
      * @return Date
      */
     public Date getAuftragsdatum() {
-        return Auftragsdatum;
+        return auftragsdatum;
     }
     
     /**
@@ -86,7 +86,7 @@ public class ComponentContract {
      * @return Date
      */
     public Date getLieferdatum() {
-        return Lieferdatum;
+        return lieferdatum;
     }
     
     /**
@@ -94,7 +94,7 @@ public class ComponentContract {
      * @return float
      */
     public float getLieferrabatt() {
-        return Lieferrabatt;
+        return lieferrabatt;
     }
     
     /**
@@ -102,7 +102,7 @@ public class ComponentContract {
      * @return int
      */
     public int getNr() {
-        return Nr;
+        return nr;
     }
     
     /**
@@ -110,7 +110,7 @@ public class ComponentContract {
      * @return float
      */
     public float getSkonto() {
-        return Skonto;
+        return skonto;
     }
     
     /**
@@ -118,7 +118,7 @@ public class ComponentContract {
      * @return int
      */
     public int getSkontofrist() {
-        return Skontofrist;
+        return skontofrist;
     }
     
     /**
@@ -126,7 +126,7 @@ public class ComponentContract {
      * @return int
      */
     public int getEinzelteilAuftragsRechnungNr() {
-        return EinzelteilAuftragsRechnungNr;
+        return einzelteilAuftragsRechnungNr;
     }
     
     /**
@@ -134,14 +134,14 @@ public class ComponentContract {
      * @return int
      */
     public int getLieferantNr() {
-        return LieferantNr;
+        return lieferantNr;
     }
     
     /** Liste der einzelnen Positionen aus dem EinzelteilAuftrag
      * @return Collection mit Objekten des Typs EinzelteilAuftragsPosition
      */
     public Collection getEinzelteilauftragPositionen() {
-        return EinzelteilauftragPositionen;
+        return einzelteilauftragPositionen;
     }
     
     /**
@@ -149,7 +149,7 @@ public class ComponentContract {
      * @param auftragsdatum The auftragsdatum to set
      */
     public void setAuftragsdatum(Date auftragsdatum) {
-        Auftragsdatum = auftragsdatum;
+        this.auftragsdatum = auftragsdatum;
     }
     
     /**
@@ -157,7 +157,7 @@ public class ComponentContract {
      * @param lieferdatum The lieferdatum to set
      */
     public void setLieferdatum(Date lieferdatum) {
-        Lieferdatum = lieferdatum;
+			this.lieferdatum = lieferdatum;
     }
     
     /**
@@ -165,7 +165,7 @@ public class ComponentContract {
      * @param lieferrabatt The lieferrabatt to set
      */
     public void setLieferrabatt(float lieferrabatt) {
-        Lieferrabatt = lieferrabatt;
+			this.lieferrabatt = lieferrabatt;
     }
     
     /**
@@ -173,7 +173,7 @@ public class ComponentContract {
      * @param nr The nr to set
      */
     public void setNr(int nr) {
-        Nr = nr;
+			this.nr = nr;
     }
     
     /**
@@ -181,7 +181,7 @@ public class ComponentContract {
      * @param skonto The skonto to set
      */
     public void setSkonto(float skonto) {
-        Skonto = skonto;
+			this.skonto = skonto;
     }
     
     /**
@@ -189,7 +189,7 @@ public class ComponentContract {
      * @param skontofrist The skontofrist to set
      */
     public void setSkontofrist(int skontofrist) {
-        Skontofrist = skontofrist;
+			this.skontofrist = skontofrist;
     }
     
     /**
@@ -197,7 +197,7 @@ public class ComponentContract {
      * @param einzelteilAuftragsRechnungNr The einzelteilAuftragsRechnungNr to set
      */
     public void setEinzelteilAuftragsRechnungNr(int einzelteilAuftragsRechnungNr) {
-        EinzelteilAuftragsRechnungNr = einzelteilAuftragsRechnungNr;
+			this.einzelteilAuftragsRechnungNr = einzelteilAuftragsRechnungNr;
     }
     
     /**
@@ -205,15 +205,13 @@ public class ComponentContract {
      * @param lieferantNr The lieferantNr to set
      */
     public void setLieferantNr(int lieferantNr) {
-        LieferantNr = lieferantNr;
+			this.lieferantNr = lieferantNr;
     }
     
     /**
      * @param col Collection mit Objekten vom Typ EinzelteilAuftragPosition
      */
     public void setEinzelteilauftragPositionen(Collection col) {
-        this.EinzelteilauftragPositionen = col;
-    }
-    
-    
+        this.einzelteilauftragPositionen = col;
+    }  
 }

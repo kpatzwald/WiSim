@@ -22,7 +22,7 @@
 **   ********************************************************************   */
 
 /*
- * Validator.java
+ * JTextFieldValidation.java
  *
  * Created on 26. Februar 2003, 19:36
  */

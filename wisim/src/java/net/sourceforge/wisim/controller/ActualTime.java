@@ -33,26 +33,22 @@ import java.util.*;
  * Der CoreThread greift auf dieses Objekt zu um die Zeit zu ändern.
  * @author benjamin.pasero
  */
-public class ActualTime
-{
+public class ActualTime {
 
 	private boolean newMinute;
 	private Date actDate;
 	private GregorianCalendar actDateGC;
 
 	/** Creates a new instance of ActualTime */
-	public ActualTime()
-	{
+	public ActualTime() {
 		newMinute = false;
-		actDate =
-			new Date(new GregorianCalendar(2003, 8, 1, 0, 0).getTimeInMillis());
+		actDate = new Date(new GregorianCalendar(2003, 8, 1, 0, 0).getTimeInMillis());
 		//Standard-Start-Datum: 1.9.2003
 		actDateGC = new GregorianCalendar();
 	}
 
 	/** Inkrementiert die aktuelle Minute. */
-	public synchronized void increaseTime()
-	{
+	public synchronized void increaseTime() {
 		//Inkrementiere um 1 Minute
 		actDate.setTime(actDate.getTime() + 60000);
 		actDateGC.setTimeInMillis(actDate.getTime());
@@ -64,16 +60,11 @@ public class ActualTime
 	 * angebrochen ist (newMinute == true)
 	 * @return aktuelles Datum
 	 */
-	public synchronized Date getDate(UpdateSimulationAnalysis thread)
-	{
-		while (newMinute == false)
-		{
-			try
-			{
+	public synchronized Date getDate(UpdateSimulationAnalysis thread) {
+		while (!newMinute) {
+			try {
 				wait();
-			}
-			catch (InterruptedException e)
-			{
+			} catch (InterruptedException e) {
 				thread.interrupt();
 				break;
 			}

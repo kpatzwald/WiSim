@@ -38,14 +38,14 @@ import java.util.Collection;
 public class Contract {
     
     private int nr; //Vertrags ID
-    java.sql.Date lieferdatum;
+    private java.sql.Date lieferdatum;
     private double skonto;
     private long skontofrist;
     private double rabatt;
-    java.sql.Date vertragsdatum;
+    private java.sql.Date vertragsdatum;
     private int kd_nr;
     private int atr_nr;//Auftrags-Rechnungs-ID
-    Collection AuftragPositionen;
+    private Collection AuftragPositionen;
     
     /** Creates a new instance of Contract */
     public Contract() {
