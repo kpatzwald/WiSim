@@ -29,7 +29,7 @@ import java.util.Vector;
 /**
  * Class for calculation a network plan element.
  * @author Benjamin Pasero
- * @version 0.1a
+ * @version 0.2a
  */
 public class NetzplanCalculator {
 
@@ -165,6 +165,7 @@ public class NetzplanCalculator {
 	/** 
 	 * Critical path containing network plan elements that have total
 	 * float = 0 and free float = 0
+	 * @return Vector with network plan elements of the critical path
 	 */
 	public Vector getCriticalPath() {
 		Vector criticalPath = new Vector();
@@ -178,7 +179,10 @@ public class NetzplanCalculator {
 		return criticalPath;
 	}
 
-	/** Returns the number of branches in the network plan */
+	/** 
+	 * Returns the number of branches in the network plan 
+	 * @return Width (Branches) of the network plan
+	 */
 	public double getMaxWidthOfNetzplan() {
 		double maxWidth = 1;
 		npElemIt = npElemente.iterator();

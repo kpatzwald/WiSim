@@ -30,7 +30,7 @@ import java.util.Iterator;
 /**
  * Class for generating one network plan element
  * @author Benjamin Pasero
- * @version 0.1a
+ * @version 0.2a
  */
 public class NetzplanElement {
 
@@ -61,13 +61,15 @@ public class NetzplanElement {
 	}
 
 	/**
-	 * @return
+	 * Get the duration of the network plan element
+	 * @return 
 	 */
 	public double getDauer() {
 		return dauer;
 	}
 
 	/**
+	 *  Set the duration of the network plan element
 	 * @param d
 	 */
 	public void setDauer(double d) {
@@ -268,5 +270,4 @@ public class NetzplanElement {
 	public void setCriticalPath(boolean b) {
 		criticalPath = b;
 	}
-
 }

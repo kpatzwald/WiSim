@@ -22,9 +22,9 @@
 **   ********************************************************************   */
 
 package net.sourceforge.wisim.controller;
+
 import java.awt.Dimension;
 import java.util.Vector;
-
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -36,13 +36,13 @@ import javax.swing.JScrollPane;
 /**
  * Builds a networkplan and displays it
  * @author Benjamin Pasero
- * @version 0.1a
+ * @version 0.2a
  */
 public class ShowNetzplan extends JPanel {
 
 	private ScrollablePicture picture;
-	private static Vector npElemente;
-	private static NetzplanGrafikGenerator npGrafik;
+	private Vector npElemente;
+	private NetzplanGrafikGenerator npGrafik;
 
 	public ShowNetzplan() {
 		setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
@@ -50,7 +50,7 @@ public class ShowNetzplan extends JPanel {
 		npElemente = new Vector();
 
 		/** Elements of the network plan */
-		npElemente.add(new NetzplanElement(1, 20, new int[] { 2, 6, 8 }, "Entwurf, Planung"));
+		npElemente.add(new NetzplanElement(1, 20, new int[] { 2, 6, 8 }, "Entwicklung, Planung"));
 		npElemente.add(new NetzplanElement(2, 3, new int[] { 3 }, "Erdaushub Fundamente"));
 		npElemente.add(new NetzplanElement(3, 2, new int[] { 4 }, "Ausgieﬂen Fundamente"));
 		npElemente.add(new NetzplanElement(4, 5, new int[] { 5 }, "Verschalung Betonsockel"));
@@ -61,7 +61,7 @@ public class ShowNetzplan extends JPanel {
 		npElemente.add(new NetzplanElement(9, 7, new int[] { 10 }, "Montage Lagerhalle"));
 		npElemente.add(new NetzplanElement(10, 4, new int[] { 0 }, "Installationsarbeiten"));
 
-		/*npElemente.add(new NetzplanElement(1, 3, new int[] { 2,3 }, "Erdaushub Fundamente und so wei"));
+		/*npElemente.add(new NetzplanElement(1, 3, new int[] { 2,3 }, "Erdaushub Fundamente"));
 		npElemente.add(new NetzplanElement(2, 2, new int[] { 4,5 }, "Ausgieﬂen Fundamente"));
 		npElemente.add(new NetzplanElement(3, 5, new int[] { 6 }, "Verschalung Betonsockel"));
 		npElemente.add(new NetzplanElement(4, 3, new int[] { 6 }, "Betonierung Betonsockel"));
