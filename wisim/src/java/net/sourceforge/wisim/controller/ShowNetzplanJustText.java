@@ -1,8 +1,8 @@
 /*   ********************************************************************   **
 **   Copyright notice                                                       **
 **                                                                          **
-**   (c) 2003 WiSim Development Team					                              **
-**   http://wisim.sourceforge.net/   			                                  **
+**   (c) 2003 WiSim Development Team					                    **
+**   http://wisim.sourceforge.net/   			                            **
 **                                                                          **
 **   All rights reserved                                                    **
 **                                                                          **
@@ -22,7 +22,6 @@
 **   ********************************************************************   */
 
 package net.sourceforge.wisim.controller;
-
 import java.util.Iterator;
 import java.util.Vector;
 

@@ -1,8 +1,8 @@
 /*   ********************************************************************   **
 **   Copyright notice                                                       **
 **                                                                          **
-**   (c) 2003 WiSim Development Team					                              **
-**   http://wisim.sourceforge.net/   			                                  **
+**   (c) 2003 WiSim Development Team					                    **
+**   http://wisim.sourceforge.net/   			                            **
 **                                                                          **
 **   All rights reserved                                                    **
 **                                                                          **
@@ -22,7 +22,6 @@
 **   ********************************************************************   */
 
 package net.sourceforge.wisim.controller;
-
 import java.util.Iterator;
 import java.util.Vector;
 
@@ -35,6 +34,9 @@ import java.util.Vector;
 
 /**
  * @author Benjamin Pasero
+ *
+ * To change the template for this generated type comment go to
+ * Window>Preferences>Java>Code Generation>Code and Comments
  */
 public class NetzplanCalculator {
 
@@ -179,15 +181,17 @@ public class NetzplanCalculator {
 		}
 		return criticalPath;
 	}
-	
-	public int getMaxWidthOfNetzplan() {
-		int maxWidth = 1;
+
+	public double getMaxWidthOfNetzplan() {
+		double maxWidth = 1;
 		npElemIt = npElemente.iterator();
 		while (npElemIt.hasNext()) {
 			NetzplanElement npElem = (NetzplanElement) npElemIt.next();
 			int actWidth = npElem.getNachfolger().length;
-			maxWidth += actWidth - 1;
-		}		
+
+			if (actWidth > 1)
+				maxWidth += actWidth;
+		}
 		return maxWidth;
 	}
 

@@ -1,8 +1,8 @@
 /*   ********************************************************************   **
 **   Copyright notice                                                       **
 **                                                                          **
-**   (c) 2003 WiSim Development Team					                              **
-**   http://wisim.sourceforge.net/   			                                  **
+**   (c) 2003 WiSim Development Team					                    **
+**   http://wisim.sourceforge.net/   			                            **
 **                                                                          **
 **   All rights reserved                                                    **
 **                                                                          **
@@ -29,11 +29,15 @@ import java.util.Iterator;
 /*
  * Created on 25.05.2003
  *
+ * To change the template for this generated file go to
+ * Window>Preferences>Java>Code Generation>Code and Comments
  */
 
 /**
  * @author Benjamin Pasero
  *
+ * To change the template for this generated type comment go to
+ * Window>Preferences>Java>Code Generation>Code and Comments
  */
 public class NetzplanElement {
 
@@ -48,7 +52,7 @@ public class NetzplanElement {
 	private double sez;
 	private double gp;
 	private double fp;
-	
+
 	private String bezeichnung;
 
 	private Collection vorgaengerBasket;
@@ -242,14 +246,14 @@ public class NetzplanElement {
 	public void setBezeichnung(String string) {
 		bezeichnung = string;
 	}
-	
+
 	public boolean isStartElem() {
 		if (vorgaenger[0] == 0)
 			return true;
 		else
 			return false;
 	}
-	
+
 	public boolean isEndElem() {
 			if (nachfolger[0] == 0)
 				return true;

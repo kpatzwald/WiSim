@@ -1,8 +1,8 @@
 /*   ********************************************************************   **
 **   Copyright notice                                                       **
 **                                                                          **
-**   (c) 2003 WiSim Development Team					                              **
-**   http://wisim.sourceforge.net/   			                                  **
+**   (c) 2003 WiSim Development Team					                    **
+**   http://wisim.sourceforge.net/   			                            **
 **                                                                          **
 **   All rights reserved                                                    **
 **                                                                          **
@@ -22,7 +22,6 @@
 **   ********************************************************************   */
 
 package net.sourceforge.wisim.controller;
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -38,6 +37,9 @@ import java.awt.image.BufferedImage;
 
 /**
  * @author Benjamin Pasero
+ *
+ * To change the template for this generated type comment go to
+ * Window>Preferences>Java>Code Generation>Code and Comments
  */
 public class NetzplanElementGrafikGenerator {
 	private BufferedImage npElem;
@@ -62,28 +64,28 @@ public class NetzplanElementGrafikGenerator {
 			scaleX = 0;
 
 		g.setColor(Color.BLACK);
-		
+
 		// Gesamtes Rechteck des Elements
 		g.drawRect(0, 30, 200 + scaleX, 100);
 		//this.width = 200 + scaleX;
-		
+
 		// Senkrechte Linie von Nummer zu Dauer
 		g.drawLine(60, 30, 60, 130);
-		
+
 		// Horizontale Linie halbiert das Rechteck exakt
 		g.drawLine(0, 80, 200 + scaleX, 80);
-		
+
 		// Senkrechte Linie zwischen GP und FP
 		g.drawLine(130 + scaleX / 2 - 5, 80, 130 + scaleX / 2 - 5, 130);
 
 		// Verbindungslinie Oben
 		if (!np.isStartElem())
 			g.drawLine(140, 0, 140, 30);
-		
+
 		// Verbindungslinie Unten
 		if (!np.isEndElem())
 			g.drawLine(140, 130, 140, 160);
-		
+
 		/** Nummer wird gesetzt */
 		g.setFont(new Font("SansSerif", 0, 30));
 
@@ -131,7 +133,7 @@ public class NetzplanElementGrafikGenerator {
 
 		return npElem;
 	}
-	
+
 	/**
 	 * TODO Kommentar für getHeight()
 	 * @return
