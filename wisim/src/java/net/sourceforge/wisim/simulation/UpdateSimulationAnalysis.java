@@ -50,14 +50,22 @@ public class UpdateSimulationAnalysis extends Thread {
 	 * @param wiSimMainController
 	 * @param actTime Der aktuelle Tag
 	 */
-	public UpdateSimulationAnalysis(ActualTime actTime, WiSimMainController wiSimMainController, boolean beendeNachEinerWoche) {
+	public UpdateSimulationAnalysis(ActualTime actTime, WiSimMainController wiSimMainController, boolean beendeNachEinerWoche, boolean resumed) {
 		super("UpdateSimulationAnalysis");
 		this.actTime = actTime;
 		this.wiSimMainController = wiSimMainController;
 		this.beendeNachEinerWoche = beendeNachEinerWoche;
-		actDay = 0;
+
+		if (resumed) {
+			GregorianCalendar resumedDate = new GregorianCalendar();
+			resumedDate.setTime(wiSimMainController.getActDate());
+			actDay = resumedDate.get(5);
+			dayChanges = resumedDate.get(5);
+		} else {
+			actDay = 0;
+			dayChanges = 0;
+		}
 		gc = new GregorianCalendar();
-		dayChanges = 0;
 
 		jPanelSimulationAnalysis = (JPanelSimulationAnalysis) wiSimMainController.getActions().get("SimulationAnalysis");
 	}
@@ -78,7 +86,7 @@ public class UpdateSimulationAnalysis extends Thread {
 			gc.setTimeInMillis(actDate.getTime());
 
 			//Refresh
-			jPanelSimulationAnalysis.setActDate(new java.sql.Date(actDate.getTime()));
+			//jPanelSimulationAnalysis.setActDate(new java.sql.Date(actDate.getTime()));
 
 			//Zeitanzeige im Menü wird aktualisiert
 			wiSimMainController.refreshTextFieldDate(actDate);
@@ -88,6 +96,7 @@ public class UpdateSimulationAnalysis extends Thread {
 				actDay = gc.get(5);
 				dayChanges++;
 
+				jPanelSimulationAnalysis.setActDate(new java.sql.Date(actDate.getTime()));
 				jPanelSimulationAnalysis.refreshJTreeEinkauf();
 				jPanelSimulationAnalysis.refreshJTreeProduktion();
 				jPanelSimulationAnalysis.refreshJTreeVertrieb();
