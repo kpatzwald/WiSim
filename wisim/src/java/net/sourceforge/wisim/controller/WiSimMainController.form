@@ -46,9 +46,6 @@
             <Property name="mnemonic" type="int" value="86"/>
             <Property name="text" type="java.lang.String" value="Vertrieb"/>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuVertriebActionPerformed"/>
-          </Events>
           <SubComponents>
             <Menu class="javax.swing.JMenu" name="jMenuKunde">
               <Properties>
@@ -90,9 +87,6 @@
                 <Property name="mnemonic" type="int" value="86"/>
                 <Property name="text" type="java.lang.String" value="Vertrag"/>
               </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuVertragActionPerformed"/>
-              </Events>
               <SubComponents>
                 <MenuItem class="javax.swing.JMenuItem" name="jMenuItemNeuerVertrag">
                   <Properties>
@@ -187,9 +181,6 @@
                 <Property name="mnemonic" type="int" value="76"/>
                 <Property name="text" type="java.lang.String" value="Lieferanten"/>
               </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuLieferantenActionPerformed"/>
-              </Events>
               <SubComponents>
                 <MenuItem class="javax.swing.JMenuItem" name="jMenuItemNeuerLieferant">
                   <Properties>

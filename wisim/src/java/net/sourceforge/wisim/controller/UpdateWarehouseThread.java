@@ -47,10 +47,10 @@ public class UpdateWarehouseThread extends Thread {
      */
     public UpdateWarehouseThread(WiSimMainController wiSimMainController) {
     	super("UpdateWarehouseThread");
-        lager = (JPanelWarehouse) wiSimMainController.getActions().get("Lager");
-        apLager = (JPanelWorkPlaceStore) wiSimMainController.getActions().get("Arbeitsplatzlager");
-        etatEinsehen = (JPanelViewEtat) wiSimMainController.getActions().get("EtatEinsehen");
-        jPanelZahlungseingang = (JPanelIncomingPayments) wiSimMainController.getActions().get("Zahlungseingang");
+        lager = (JPanelWarehouse) wiSimMainController.getActions().get("Warehouse");
+        apLager = (JPanelWorkPlaceStore) wiSimMainController.getActions().get("WorkPlaceStore");
+        etatEinsehen = (JPanelViewEtat) wiSimMainController.getActions().get("ViewEtat");
+        jPanelZahlungseingang = (JPanelIncomingPayments) wiSimMainController.getActions().get("IncomingPayment");
         initialize();
     }
     
