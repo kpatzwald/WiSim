@@ -115,13 +115,6 @@ public class WiSimMainController extends javax.swing.JFrame {
 		loadStatusBar.setValue(100);
 		statusText.setText("Fertig!");
 
-		com.incors.plaf.kunststoff.KunststoffLookAndFeel plaf = new com.incors.plaf.kunststoff.KunststoffLookAndFeel();
-
-		try {
-			UIManager.setLookAndFeel(plaf);
-		} catch (Exception e) {
-		}
-
 		actDate = new Date(new GregorianCalendar(2003, 8, 1, 0, 0).getTimeInMillis());
 		actDateGC = new GregorianCalendar();
 		df = DateFormat.getDateTimeInstance(DateFormat.FULL, DateFormat.SHORT, Locale.GERMANY);
