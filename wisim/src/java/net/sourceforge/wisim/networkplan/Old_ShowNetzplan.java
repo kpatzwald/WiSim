@@ -128,11 +128,11 @@ public class Old_ShowNetzplan extends JPanel {
 		while (npElementeIt.hasNext()) {
 			NetzplanElement npElem = (NetzplanElement) npElementeIt.next();
 
-			if (npElem.getNummer() == selected) {
-				npElem.setSelected(true);
-			} else {
-				npElem.setSelected(false);
-			}
+//			if (npElem.getNummer() == selected) {
+//				npElem.setSelected(true);
+//			} else {
+//				npElem.setSelected(false);
+//			}
 		}
 
 		npGrafik = new Old_NetzplanGrafikGenerator(npElemente);

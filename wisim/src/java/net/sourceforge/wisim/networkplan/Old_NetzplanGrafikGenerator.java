@@ -65,7 +65,7 @@ public class Old_NetzplanGrafikGenerator {
 		npCalc = new NetzplanCalculator(npElemente);
 		npElemente = npCalc.getNpElemente();
 		showCriticalPath();
-		maxWidth = npCalc.getMaxWidthOfNetzplan();
+		maxWidth = npCalc.getCountedBranches();
 		
 		calculatePositions();
 
@@ -357,7 +357,6 @@ public class Old_NetzplanGrafikGenerator {
 		}
 	}
 	/**
-	 * [DoItBen] Kommentar für getPosition()
 	 * @return
 	 */
 	public int[][] getPosition() {

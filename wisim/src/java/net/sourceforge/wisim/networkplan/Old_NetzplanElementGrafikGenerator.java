@@ -195,28 +195,28 @@ public class Old_NetzplanElementGrafikGenerator {
 		}
 
 		/** Draw whole rectangle of the element */
-		if (np.isSelected()) {		
-			g.setColor(Color.LIGHT_GRAY);
-			
-			g.fillRect(0, 30, width, 100);
-
-			g.setColor(Color.BLACK);
-			g.drawRect(0, 30, width, 100);
-
-		} else {
-			/** Paint critical path element */
-			if (np.isCriticalPath())
-				g.setColor(Color.RED);
-			else
-				g.setColor(Color.BLACK);
-			g.drawRect(0, 30, width, 100);
-
-			/** Paint critical path element */
-			if (np.isCriticalPath())
-				g.setColor(Color.RED);
-			else
-				g.setColor(Color.BLACK);
-		}
+//		if (np.isSelected()) {		
+//			g.setColor(Color.LIGHT_GRAY);
+//			
+//			g.fillRect(0, 30, width, 100);
+//
+//			g.setColor(Color.BLACK);
+//			g.drawRect(0, 30, width, 100);
+//
+//		} else {
+//			/** Paint critical path element */
+//			if (np.isCriticalPath())
+//				g.setColor(Color.RED);
+//			else
+//				g.setColor(Color.BLACK);
+//			g.drawRect(0, 30, width, 100);
+//
+//			/** Paint critical path element */
+//			if (np.isCriticalPath())
+//				g.setColor(Color.RED);
+//			else
+//				g.setColor(Color.BLACK);
+//		}
 
 		/** Vertical line between number & duration */
 		g.drawLine(60, 30, 60, 130);

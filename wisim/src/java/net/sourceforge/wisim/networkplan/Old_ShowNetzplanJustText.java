@@ -76,6 +76,6 @@ public class Old_ShowNetzplanJustText {
 
 		System.out.println("Kritischer Pfad: " + criticalPathString);
 
-		System.out.println("Anzahl paralleler Tätigkeiten: " + npCalc.getMaxWidthOfNetzplan());
+		System.out.println("Anzahl paralleler Tätigkeiten: " + npCalc.getCountedBranches());
 	}
 }
