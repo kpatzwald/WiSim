@@ -369,7 +369,7 @@ public class JNetworkplanElement extends JPanel {
 		jLabelSEZ.setText(String.valueOf(np.getSez()));
 		this.add(jLabelSEZ);
 		jLabelSEZ.setBounds(260, 168, 40, 20);
-
+		
 		this.setBounds(0, 0, WIDTH, HEIGHT);
 	}
 

@@ -759,6 +759,14 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 		y1 = y - offsetY;
 
 		if (getComponentAt(x, y).getName() != null) {
+
+			/** Do not move the element out of the visible rect */
+			if (x1 < 0)
+				x1 = 0;
+
+			if (y1 < 0)
+				y1 = 0;
+
 			movedElement.setLocation(x1, y1);
 			positionConnectionLines(movedElement);
 		}
@@ -823,12 +831,12 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 			jPanelEdit.setBorder(new LineBorder(Color.BLACK));
 
 			jLabelDescription.setHorizontalAlignment(SwingConstants.RIGHT);
-			jLabelDescription.setText("Description:");
+			jLabelDescription.setText("Beschreibung:");
 			jPanelEdit.add(jLabelDescription);
 			jLabelDescription.setBounds(0, 50, 90, 16);
 
 			jLabelDuration.setHorizontalAlignment(SwingConstants.RIGHT);
-			jLabelDuration.setText("Duration:");
+			jLabelDuration.setText("Dauer:");
 			jPanelEdit.add(jLabelDuration);
 			jLabelDuration.setBounds(10, 20, 80, 20);
 
@@ -1111,6 +1119,47 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 					- (int) jNpActElem.getLocation().getY()
 					- 170;
 
+			//			/** Position the horizontal middle line alaways in the middle of the elements */
+			//			if (child.length == 1) {
+			//				int line1YPos = (int) ((JSeparator) elementsConLine.get(jNpActElem.getName() + "bottom")).getLocation().getY();
+			//				int line2YPos =
+			//					(int) ((JSeparator) elementsConLine.get(childJNpElem.getName() + "top")).getLocation().getY()
+			//						+ (int) ((JSeparator) elementsConLine.get(childJNpElem.getName() + "top")).getSize().getHeight();
+			//				difHeight = (line2YPos - line1YPos) / 2;
+			//
+			//				/** Update child */
+			//				JSeparator actLineTop = (JSeparator) elementsConLine.get(childJNpElem.getName() + "top");
+			//
+			//				int parent[] = childJNpElem.getNp().getParent();
+			//				JNetworkplanElement parentJNpElem = jNpElem[((NetworkplanElement) npElemente.get(parent[0] - 1)).getLayoutManager()];
+			//
+			//				/** Set the position and size of the connection line */
+			//				int anchorY =
+			//					(int) ((JSeparator) elementsConLine.get(parentJNpElem.getName() + "bottom")).getLocation().getY()
+			//						+ (int) ((JSeparator) elementsConLine.get(parentJNpElem.getName() + "bottom")).getSize().getHeight();
+			//
+			//				difHeight = (int) childJNpElem.getLocation().getY() - anchorY + 20;
+			//				actLineTop.setLocation((int) childJNpElem.getLocation().getX() + jNpElemWidth / 2, anchorY);
+			//				actLineTop.setSize(1, difHeight);
+			//
+			//				/** Remove the arrow if difHeight is < 15px */
+			//				if (difHeight < 15)
+			//					childJNpElem.setDisplayArrow(false);
+			//				else
+			//					childJNpElem.setDisplayArrow(true);
+			//
+			//				/** Update the horizontal connection line bottom of the element */
+			//				updateHorizontalLinesBottom(childJNpElem);
+			//
+			//				/** Update the horizontal connection line for the elements parents */
+			//				if (parent[0] != 0) {
+			//					for (int u = 0; u < parent.length; u++) {
+			//						updateHorizontalLinesBottom(jNpElem[((NetworkplanElement) npElemente.get(parent[u] - 1)).getLayoutManager()]);
+			//					}
+			//				}
+			//
+			//			}
+
 			actLineBottom.setLocation(
 				(int) jNpActElem.getLocation().getX() + jNpElemWidth / 2,
 				(int) jNpActElem.getLocation().getY() + 170);
@@ -1138,15 +1187,65 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 			int anchorY =
 				(int) ((JSeparator) elementsConLine.get(parentJNpElem.getName() + "bottom")).getLocation().getY()
 					+ (int) ((JSeparator) elementsConLine.get(parentJNpElem.getName() + "bottom")).getSize().getHeight();
+
+			//			/** Position the horizontal middle line alaways in the middle of the elements */
+			//			if (parent.length == 1) {
+			//				int line1YPos =
+			//					(int) ((JSeparator) elementsConLine.get(jNpActElem.getName() + "top")).getLocation().getY()
+			//						+ (int) ((JSeparator) elementsConLine.get(jNpActElem.getName() + "top")).getSize().getHeight();
+			//				int line2YPos = (int) ((JSeparator) elementsConLine.get(parentJNpElem.getName() + "bottom")).getLocation().getY();
+			//				int difY = (line2YPos - line1YPos) / 2;
+			//
+			//				anchorY = (int) ((JSeparator) elementsConLine.get(parentJNpElem.getName() + "bottom")).getLocation().getY() - difY;
+			//
+			//				/** Update parent */
+			//				JSeparator actLineBottom = (JSeparator) elementsConLine.get(parentJNpElem.getName() + "bottom");
+			//
+			//				int child[] = parentJNpElem.getNp().getChild();
+			//				JNetworkplanElement childJNpElem = jNpElem[((NetworkplanElement) npElemente.get(child[0] - 1)).getLayoutManager()];
+			//
+			//				/** Set the position and size of the connection line */
+			//				int difHeight =
+			//					(int) ((JSeparator) elementsConLine.get(childJNpElem.getName() + "top")).getLocation().getY()
+			//						- (int) parentJNpElem.getLocation().getY()
+			//						- 170;
+			//
+			//				actLineBottom.setLocation(
+			//					(int) parentJNpElem.getLocation().getX() + jNpElemWidth / 2,
+			//					(int) parentJNpElem.getLocation().getY() + 170);
+			//				actLineBottom.setSize(1, difHeight);
+			//
+			//				/** Update the horizontal connection line top of the element */
+			//				updateHorizontalLinesTop(parentJNpElem);
+			//
+			//				/** Update the horizontal connection line for the elements childs */
+			//				if (child[0] != 0) {
+			//					for (int u = 0; u < child.length; u++) {
+			//						updateHorizontalLinesTop(jNpElem[((NetworkplanElement) npElemente.get(child[u] - 1)).getLayoutManager()]);
+			//					}
+			//				}
+			//			}
+
 			int difHeight = (int) jNpActElem.getLocation().getY() - anchorY + 20;
 			actLineTop.setLocation((int) jNpActElem.getLocation().getX() + jNpElemWidth / 2, anchorY);
 			actLineTop.setSize(1, difHeight);
 
-			/** Remove the arrow if difHeight is < 15px */
-			if (difHeight < 15)
-				jNpActElem.setDisplayArrow(false);
-			else
-				jNpActElem.setDisplayArrow(true);
+			/** Check if to display the arrow */
+			if (parentJNpElem.getNp().getChild().length > 1) {
+
+				/** Remove the arrow if difHeight is < 15px */
+				if (difHeight < 15)
+					jNpActElem.setDisplayArrow(false);
+				else
+					jNpActElem.setDisplayArrow(true);
+			} else {
+
+				/** Remove the arrow if the two elements are touching each other */
+				if ((int) jNpActElem.getLocation().getY() < ((int) parentJNpElem.getLocation().getY() + 170))
+					jNpActElem.setDisplayArrow(false);
+				else
+					jNpActElem.setDisplayArrow(true);
+			}
 
 			/** Update the horizontal connection line bottom of the element */
 			updateHorizontalLinesBottom(jNpActElem);
