@@ -117,6 +117,7 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 
 		/** Matrix for positioning of the elements */
 		position = new int[maxPosX][maxPosY];
+
 		for (int a = 0; a < maxPosX; a++)
 			for (int b = 0; b < maxPosY; b++)
 				position[a][b] = 0;
@@ -225,6 +226,8 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 				np.setLayoutManager(i);
 				jNpElem[i].setName(String.valueOf(np.getIndex()));
 				this.add(jNpElem[i]);
+
+				/** Place the element on the JNetworkplan and save the position */
 				jNpElem[i].setBounds(jNPaddingX + x * jNpElemBoundsX, jNPaddingY + middlePos * jNpElemBoundsY, jNpElemWidth, jNpElemHeight);
 				elementsPosition.put(
 					new Integer(np.getIndex()),
@@ -291,6 +294,8 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 					np.setLayoutManager(i);
 					jNpElem[i].setName(String.valueOf(np.getIndex()));
 					this.add(jNpElem[i]);
+
+					/** Place the element on the JNetworkplan and save the position */
 					jNpElem[i].setBounds(
 						jNPaddingX + y * jNpElemBoundsX + freeWidth,
 						jNPaddingY + topPos * jNpElemBoundsY,
@@ -351,6 +356,8 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 					np.setLayoutManager(i);
 					jNpElem[i].setName(String.valueOf(np.getIndex()));
 					this.add(jNpElem[i]);
+
+					/** Place the element on the JNetworkplan and save the position */
 					jNpElem[i].setBounds(
 						jNPaddingX + y * jNpElemBoundsX + freeWidth,
 						jNPaddingY + bottomPos * jNpElemBoundsY,
@@ -396,6 +403,7 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 		int i = 1;
 		boolean lastElement = false;
 
+		/** Check if the Networkplan only exists of one networkplan element */
 		if (child[0] == 0)
 			lastElement = true;
 
@@ -895,6 +903,7 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 			jPanelEdit.setBounds(elemXPos, elemYPos, 280, 120);
 			jPanelEdit.setBackground(java.awt.SystemColor.controlHighlight);
 
+			//[DoItBen] Element wird nicht gelöscht wenn der Benutzer es aus dem Bereich des Panels gezogen hat
 		}
 	}
 
