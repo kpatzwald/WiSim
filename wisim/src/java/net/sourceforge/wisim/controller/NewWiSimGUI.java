@@ -57,8 +57,8 @@ public class NewWiSimGUI extends javax.swing.JFrame {
 
 	private void initActions() {
 		actions = new Hashtable();
-		actions.put("NewCustomer", new JPanelNewGUITest1());
-		actions.put("ModifyCustomer", new JPanelNewGUITest2());
+		//actions.put("NewCustomer", new JPanelNewGUITest1());
+		//actions.put("ModifyCustomer", new JPanelNewGUITest2());
 	}
 	
 	private void initTitles()
