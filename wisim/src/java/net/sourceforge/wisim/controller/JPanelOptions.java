@@ -588,6 +588,14 @@ public class JPanelOptions extends javax.swing.JPanel {
 		} catch (IOException e) {
 		}
 	}
+	
+	/** Enables the JButtonRefresh. It is important, that nobody can refresh
+	 * the DB if the simulation is running
+	 */
+	public void setJButtonRefreshEnable(boolean enable)
+	{
+		jButtonRefresh.setEnabled(enable);
+	}
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JButton jButtonRefresh;
