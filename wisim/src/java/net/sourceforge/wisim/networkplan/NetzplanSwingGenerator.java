@@ -34,7 +34,7 @@ import java.util.Vector;
 import javax.swing.JPanel;
 
 /**
- * TODO Kommentar Klasse NetzplanGrafikSwingGenerator
+ * TODOBen Kommentar Klasse NetzplanGrafikSwingGenerator
  * @author benjamin.pasero
  */
 public class NetzplanSwingGenerator {
@@ -120,7 +120,7 @@ public class NetzplanSwingGenerator {
 						freeWidth = Math.round((400 - npGen[i].getWidth()) / 2);
 
 						jPanelNetworkplanContainer.add(npElemPanel);
-						npElemPanel.setBounds(30 + b * 460 + freeWidth, 30 + c * 310, 360, 210);
+						npElemPanel.setBounds(30 + b * 430 + freeWidth, 30 + c * 280, 360, 210);
 
 						//						int nachfolger[] = np.getNachfolger();
 						//
@@ -150,11 +150,11 @@ public class NetzplanSwingGenerator {
 		}
 	}
 
-	/** 
-	 * Calculate the positions of the elements in the matrix position[x][y] 
+	/**
+	 * Calculate the positions of the elements in the matrix position[x][y]
 	 * position is a coordinate system with x and y axis. Each x/y-coordinate
 	 * can contain a number of a network plan element
-	 * 
+	 *
 	 * German pseudo-code:
 	 * 1.) Variablen
 	 *
@@ -164,50 +164,50 @@ public class NetzplanSwingGenerator {
 	 *
 	 *	nachfolgerBasket: Vektor mit Nummern von Vorgängen
 	 *	nachfolger[]: Nummern der Vorgänge die einem Vorgang folgen
-	 *	
-	 *	
+	 *
+	 *
 	 *	2.) Initialisierung
-	 *	
+	 *
 	 *	tupel[0] Vektor erhält die Nummer des ersten Vorganges
 	 *	completedAll erhält die Nummer des ersten Vorganges
 	 *	nachfolger[] des Startelementes werden geholt
 	 *	nachfolgerBasket wird mit nachfolger[]-Nummern gefüllt
-	 *	
-	 *	
-	 *	3.) 
+	 *
+	 *
+	 *	3.)
 	 *	Wiederhole solange != Letztes Netzplanelement, i++
 	 *
 	 *		Zurücksetzen der Vektoren:
 	 *			tupel[i] = new Vector();
-	 *			
+	 *
 	 *		Nachfolger bearbeiten:
-	 *		
-	 *			Für jedes Element im nachfolgerBasket 
-	 *	
+	 *
+	 *			Für jedes Element im nachfolgerBasket
+	 *
 	 *				Ermittle die Vorgänger
-	 *		
+	 *
 	 *				Wenn es mehr als einen Vorgänger für ein Vorgang gibt, dann:
 	 *					Überprüfe ob jeder Vorgänger im Vektor completedAll liegt
-	 *					
+	 *
 	 *				Wenn alle Vorgänger in completedAll liegen und der aktuelle Vorgang
 	 *				nicht in completed liegt, dann
-	 *				
+	 *
 	 *					Füge aktuelle Vorgangsnummer in Vektor(a) bei tupel[i]
 	 *					Füge aktuelle Vorgangsnummer in Vektor completed
-	 *					
+	 *
 	 *				sonst
-	 *					
+	 *
 	 *					Füge in tupel[i] die Nummer des Vorganges, die im vorhergehenden
 	 *					Tupel an dieser Stelle vorhanden war (a ist Breite des aktuellen Tupels)
-	 *				
+	 *
 	 *				Inkrementiere (a)
-	 *		
+	 *
 	 *		Füge Inhalt aus Vektor completed in Vektor completedAll
-	 *		
+	 *
 	 *		nachfolgerBasket = new Vector();
-	 *		
-	 *		Für jedes Element im aktuellen Tupel werden die  Nummern der Nachfolger in 
-	 *		den nachfolgerBasket geschrieben  
+	 *
+	 *		Für jedes Element im aktuellen Tupel werden die  Nummern der Nachfolger in
+	 *		den nachfolgerBasket geschrieben
 	 * */
 	public void calculatePositions() {
 
@@ -242,7 +242,8 @@ public class NetzplanSwingGenerator {
 
 			/** Get the parent activitiys of the followers */
 			while (a < nachfolgerBasket.size()) {
-				int[] vorgaenger = ((NetzplanElement) npElemente.get(((Integer) nachfolgerBasket.get(a)).intValue() - 1)).getVorgaenger();
+				int[] vorgaenger =
+					((NetzplanElement) npElemente.get(((Integer) nachfolgerBasket.get(a)).intValue() - 1)).getVorgaenger();
 				boolean complete = true;
 
 				/** Check if all parent activites were already stored in the tupel */
@@ -355,7 +356,7 @@ public class NetzplanSwingGenerator {
 		}
 	}
 	/**
-	 * TODO Kommentar für getPosition()
+	 * Returns the positions-matrix
 	 * @return
 	 */
 	public int[][] getPosition() {

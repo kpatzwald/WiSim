@@ -26,6 +26,7 @@
  */
 package net.sourceforge.wisim.networkplan;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.util.Vector;
@@ -34,7 +35,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 /**
- * TODO Kommentar Klasse ShowNetzplanSwing
+ * TODOBen Kommentar Klasse ShowNetzplanSwing
  * @author benjamin.pasero
  */
 public class ShowNetzplanSwing extends JFrame {
@@ -55,11 +56,12 @@ public class ShowNetzplanSwing extends JFrame {
 
 		/** Get the Panel to use. */
 		JPanel netzplanGrafik = new JPanel();
-		
+
 		netzplanGrafik = npGrafik.getNetzplanGraphic();
+		netzplanGrafik.setBackground(Color.WHITE);
+		netzplanGrafik.setBounds(0, 0, netzplanGrafik.getWidth(), netzplanGrafik.getHeight());
 
 		getContentPane().add(netzplanGrafik);
-		//netzplanGrafik.setBounds(30, 30, 360, 210);
 
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		setBounds((screenSize.width - 800) / 2, (screenSize.height - 600) / 2, 800, 600);
@@ -70,15 +72,15 @@ public class ShowNetzplanSwing extends JFrame {
 	}
 
 	/**
-		 * Gets a filled Vector with the network plan elements
-		 * @return Vector with network plan elements
-		 */
+	 * Gets a filled Vector with the network plan elements
+	 * @return Vector with network plan elements
+	 */
 	public Vector getNetworkPlanElements() {
 
 		Vector filled = new Vector();
 
 		/** Elements of the network plan */
-		filled.add(new NetzplanElement(1, 20, new int[] { 2, 6, 8 }, "Entwicklung, Planung"));
+		filled.add(new NetzplanElement(1, 20, new int[] { 2, 6, 8 }, "Entwurf, Planung"));
 		filled.add(new NetzplanElement(2, 3, new int[] { 3 }, "Erdaushub Fundamente"));
 		filled.add(new NetzplanElement(3, 2, new int[] { 4 }, "Ausgieﬂen Fundamente"));
 		filled.add(new NetzplanElement(4, 5, new int[] { 5 }, "Verschalung Betonsockel"));
