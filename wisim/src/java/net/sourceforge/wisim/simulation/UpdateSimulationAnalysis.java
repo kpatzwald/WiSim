@@ -29,7 +29,7 @@ import net.sourceforge.wisim.controller.JPanelSimulationStart;
 import net.sourceforge.wisim.controller.WiSimMainController;
 
 /** Überprüft das ActualTime Objekt in dem die aktuelle Zeit gespeichert wird. Bei
- *  einem Minutenwechsel aktualisiert der Thread das jPanelSimulationStart, sowie die
+ *  einem Minutenwechsel aktualisiert der Thread das jPanelSimulationAnalysis, sowie die
  *  Datumsanzeige im Menü von dem aus sich alle Panes das Datum herholen.
  *  @author benjamin.pasero
  */
@@ -43,7 +43,7 @@ public class UpdateSimulationAnalysis extends Thread {
 	private int dayChanges;
 
 	//JPanes
-	private JPanelSimulationStart jPanelSimulationStart;
+	private JPanelSimulationStart jPanelSimulationAnalysis;
 
 	/** Erzeugt eine neue Instanz UpdateSimulationAnalysis.
 	 * @param beendeNachEinerWoche
@@ -59,7 +59,7 @@ public class UpdateSimulationAnalysis extends Thread {
 		gc = new GregorianCalendar();
 		dayChanges = 0;
 
-		jPanelSimulationStart = (JPanelSimulationStart) wiSimMainController.getActions().get("SimulationStart");
+		jPanelSimulationAnalysis = (JPanelSimulationStart) wiSimMainController.getActions().get("SimulationAnalysis");
 	}
 
 	/** Startet diesen Thread und wartet solange bis sich die Minute im Objekt actTime
@@ -78,10 +78,10 @@ public class UpdateSimulationAnalysis extends Thread {
 			gc.setTimeInMillis(actDate.getTime());
 
 			//Refresh
-			jPanelSimulationStart.setActDate(new java.sql.Date(actDate.getTime()));
+			jPanelSimulationAnalysis.setActDate(new java.sql.Date(actDate.getTime()));
 
-			if (jPanelSimulationStart.getIsActive())
-				jPanelSimulationStart.refreshTextFieldDate(actDate);
+			if (jPanelSimulationAnalysis.getIsActive())
+				jPanelSimulationAnalysis.refreshTextFieldDate(actDate);
 
 			//Zeitanzeige im Menü wird aktualisiert
 			wiSimMainController.refreshTextFieldDate(actDate);
@@ -90,9 +90,10 @@ public class UpdateSimulationAnalysis extends Thread {
 			if (gc.get(5) != actDay) {
 				actDay = gc.get(5);
 				dayChanges++;
-				jPanelSimulationStart.refreshJTreeEinkauf();
-				jPanelSimulationStart.refreshJTreeProduktion();
-				jPanelSimulationStart.refreshJTreeVertrieb();
+
+				jPanelSimulationAnalysis.refreshJTreeEinkauf();
+				jPanelSimulationAnalysis.refreshJTreeProduktion();
+				jPanelSimulationAnalysis.refreshJTreeVertrieb();
 			}
 
 			//Beende nach 5 Tagen falls beendeNachEinerWoche == TRUE
