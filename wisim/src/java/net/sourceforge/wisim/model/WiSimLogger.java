@@ -28,9 +28,12 @@
  */
 package net.sourceforge.wisim.model;
 
-import java.util.logging.*;
-import java.io.*;
-import javax.swing.*;
+import java.io.IOException;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.swing.JOptionPane;
 
 /** Der Logger für die gesamte WiSim
  * @author benjamin.pasero
