@@ -53,6 +53,13 @@ public class NetzplanElement {
 
 	private boolean selected;
 
+	/**
+	 * [DoItBen] Kommentar Konstruktor NetzplanElement()
+	 * @param nummer
+	 * @param dauer
+	 * @param nachfolger
+	 * @param bezeichnung
+	 */
 	public NetzplanElement(int nummer, double dauer, int[] nachfolger, String bezeichnung) {
 		this.nummer = nummer;
 		this.dauer = dauer;
@@ -219,10 +226,18 @@ public class NetzplanElement {
 		vorgaengerBasket = collection;
 	}
 
+	/**
+	 * [DoItBen] Kommentar für addIntoVorgaengerBasket()
+	 * @param vorgaenger
+	 */
 	public void addIntoVorgaengerBasket(Integer vorgaenger) {
 		vorgaengerBasket.add(vorgaenger);
 	}
 
+	/**
+	 * [DoItBen] Kommentar für getFromVorgaengerBasket()
+	 * 
+	 */
 	public void getFromVorgaengerBasket() {
 		Iterator vorgaengerBasketIt = vorgaengerBasket.iterator();
 		vorgaenger = new int[vorgaengerBasket.size()];
@@ -247,6 +262,10 @@ public class NetzplanElement {
 		bezeichnung = string;
 	}
 
+	/**
+	 * [DoItBen] Kommentar für isStartElem()
+	 * @return
+	 */
 	public boolean isStartElem() {
 		if (vorgaenger[0] == 0)
 			return true;
@@ -254,6 +273,10 @@ public class NetzplanElement {
 			return false;
 	}
 
+	/**
+	 * [DoItBen] Kommentar für isEndElem()
+	 * @return
+	 */
 	public boolean isEndElem() {
 		if (nachfolger[0] == 0)
 			return true;
@@ -274,7 +297,7 @@ public class NetzplanElement {
 		criticalPath = b;
 	}
 	/**
-	 * TODOBen Kommentar für isSelected()
+	 * [DoItBen] Kommentar für isSelected()
 	 * @return
 	 */
 	public boolean isSelected() {
@@ -282,7 +305,7 @@ public class NetzplanElement {
 	}
 
 	/**
-	 * TODOBen Kommentar für setSelected()
+	 * [DoItBen] Kommentar für setSelected()
 	 * @param b
 	 */
 	public void setSelected(boolean b) {

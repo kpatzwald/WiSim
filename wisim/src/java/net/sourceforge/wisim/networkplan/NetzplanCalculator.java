@@ -36,6 +36,10 @@ public class NetzplanCalculator {
 	private Vector npElemente;
 	private Iterator npElemIt;
 
+	/**
+	 * [DoItBen] Kommentar Konstruktor NetzplanCalculator()
+	 * @param npElemente
+	 */
 	public NetzplanCalculator(Vector npElemente) {
 		this.npElemente = npElemente;
 		npElemIt = npElemente.iterator();
@@ -47,6 +51,8 @@ public class NetzplanCalculator {
 		calculateFazFez();
 		calculateSazSez();
 		calculatePuffer();
+		
+		System.out.println("Counted Branches (including start / end): " + getMaxWidthOfNetzplan());
 	}
 
 	/** Determination of the parent network elements */

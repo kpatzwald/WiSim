@@ -33,12 +33,16 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 /**
- * TODOBen Kommentar Klasse ShowNetzplanSwing
+ * [DoItBen] Kommentar Klasse ShowNetzplanSwing
  * @author benjamin.pasero
  * @version 0.3a
  */
 public class ShowNetzplanSwing extends JFrame {
 
+	/**
+	 * [DoItBen] Kommentar Konstruktor ShowNetzplanSwing()
+	 * 
+	 */
 	public ShowNetzplanSwing() {
 
 		Vector npElemente = getNetworkPlanElements();
@@ -121,10 +125,21 @@ public class ShowNetzplanSwing extends JFrame {
 		//		filled.add(new NetzplanElement(5, 10, new int[] { 6 }, "Bestellung Betonteile"));
 		//		filled.add(new NetzplanElement(6, 2, new int[] { 0 }, "Aushub Versorgungsleitung"));
 
+		/* Complex one (not working, will be fixed in future versions!) */
+		//		filled.add(new NetzplanElement(1, 2, new int[] { 2, 3 }, "Ausgieﬂen Fundamente"));
+		//		filled.add(new NetzplanElement(2, 2, new int[] { 4, 5 }, "Ausgieﬂen Fundamente"));
+		//		filled.add(new NetzplanElement(3, 5, new int[] { 6 }, "Verschalung Betonsockel"));
+		//		filled.add(new NetzplanElement(4, 3, new int[] { 6 }, "Betonierung Betonsockel"));
+		//		filled.add(new NetzplanElement(5, 10, new int[] { 6 }, "Bestellung Betonteile"));
+		//		filled.add(new NetzplanElement(6, 2, new int[] { 0 }, "Aushub Versorgungsleitung"));
+
 		return filled;
 	}
 
-	/** Exit the Application */
+	/**
+	 * Exit the application
+	 * @param evt
+	 */
 	private void exitForm(java.awt.event.WindowEvent evt) {
 		System.exit(0);
 	}

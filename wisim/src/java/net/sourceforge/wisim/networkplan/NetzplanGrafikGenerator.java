@@ -46,12 +46,15 @@ public class NetzplanGrafikGenerator {
 	private NetzplanCalculator npCalc;
 	private Graphics g;
 	private int[][] position;
+	private Vector tupel[];
 	private double maxWidth;
 	private BufferedImage netzplanGrafik;
 	private int selected;
 
 	public NetzplanGrafikGenerator(Vector npElemente) {
 
+		tupel = new Vector[100];
+		
 		/** Matrix for positioning of the elements */
 		position = new int[20][20];
 		for (int a = 0; a < 20; a++)
@@ -63,6 +66,7 @@ public class NetzplanGrafikGenerator {
 		npElemente = npCalc.getNpElemente();
 		showCriticalPath();
 		maxWidth = npCalc.getMaxWidthOfNetzplan();
+		
 		calculatePositions();
 
 		/** Max. size of image: Width */
@@ -209,7 +213,7 @@ public class NetzplanGrafikGenerator {
 	 * */
 	public void calculatePositions() {
 
-		Vector tupel[] = new Vector[100];
+		
 		Vector nachfolgerBasket = new Vector();
 		Vector completed = new Vector();
 		Vector completedAll = new Vector();
@@ -235,7 +239,7 @@ public class NetzplanGrafikGenerator {
 
 			int a = 0;
 
-			/** Alle activitys of the followers-Vector are stored in the current tupel[] */
+			/** All activitys of the followers-Vector are stored in the current tupel[] */
 			tupel[i] = new Vector();
 
 			/** Get the parent activitiys of the followers */
@@ -353,7 +357,7 @@ public class NetzplanGrafikGenerator {
 		}
 	}
 	/**
-	 * TODOBen Kommentar für getPosition()
+	 * [DoItBen] Kommentar für getPosition()
 	 * @return
 	 */
 	public int[][] getPosition() {

@@ -34,7 +34,7 @@ import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
 /**
- * TODOBen Kommentar Klasse NetzplanGrafikSwingGenerator
+ * [DoItBen] Kommentar Klasse NetzplanGrafikSwingGenerator
  * @author benjamin.pasero
  * @version 0.3a
  */
@@ -44,6 +44,7 @@ public class NetzplanSwingGenerator {
 	private NetzplanCalculator npCalc;
 	private Graphics g;
 	private int[][] position;
+	private Vector tupel[];
 	private double maxWidth;
 	private BufferedImage netzplanGrafik;
 	private int selected;
@@ -53,7 +54,13 @@ public class NetzplanSwingGenerator {
 
 	private JPanel jPanelNetworkplanContainer;
 
+	/**
+	 * [DoItBen] Kommentar Konstruktor NetzplanSwingGenerator()
+	 * @param npElemente
+	 */
 	public NetzplanSwingGenerator(Vector npElemente) {
+
+		tupel = new Vector[100];
 
 		/** Matrix for positioning of the elements */
 		position = new int[20][20];
@@ -69,6 +76,8 @@ public class NetzplanSwingGenerator {
 
 		maxWidth = npCalc.getMaxWidthOfNetzplan();
 		calculatePositions();
+
+		System.out.println("Row with most elements: " + getMostWidthRow());
 
 		/** Max. size of image: Width */
 		maxWidthPos = 0;
@@ -241,7 +250,7 @@ public class NetzplanSwingGenerator {
 	 * */
 	public void calculatePositions() {
 
-		Vector tupel[] = new Vector[100];
+		//		Vector tupel[] = new Vector[100];
 		Vector nachfolgerBasket = new Vector();
 		Vector completed = new Vector();
 		Vector completedAll = new Vector();
@@ -322,30 +331,30 @@ public class NetzplanSwingGenerator {
 		}
 
 		/** START Debug output */
-		//		int blub = 0;
-		//		while (blub < i) {
-		//
-		//			String string = "";
-		//			Vector test = (Vector) tupel[blub];
-		//			Iterator testIt = test.iterator();
-		//			while (testIt.hasNext()) {
-		//				int tempInt = ((Integer) testIt.next()).intValue();
-		//				if (tempInt != 0) {
-		//					NetzplanElement npEle = (NetzplanElement) npElemente.get(tempInt - 1);
-		//					string = string + " " + (npEle.getNummer());
-		//				} else {
-		//					string = string + " 0";
-		//				}
-		//			}
-		//			System.out.println("Tupel[" + blub + "]: " + string);
-		//			blub++;
-		//		}
-		//
-		//		Iterator completeIt = completed.iterator();
-		//		String completedList = "";
-		//		while (completeIt.hasNext())
-		//			completedList = completedList + " " + String.valueOf(((Integer) completeIt.next()).intValue());
-		//		System.out.println("CompletedList: " + completedList);
+				int blub = 0;
+				while (blub < i) {
+		
+					String string = "";
+					Vector test = (Vector) tupel[blub];
+					Iterator testIt = test.iterator();
+					while (testIt.hasNext()) {
+						int tempInt = ((Integer) testIt.next()).intValue();
+						if (tempInt != 0) {
+							NetzplanElement npEle = (NetzplanElement) npElemente.get(tempInt - 1);
+							string = string + " " + (npEle.getNummer());
+						} else {
+							string = string + " 0";
+						}
+					}
+					System.out.println("Tupel[" + blub + "]: " + string);
+					blub++;
+				}
+		
+				Iterator completeIt = completed.iterator();
+				String completedList = "";
+				while (completeIt.hasNext())
+					completedList = completedList + " " + String.valueOf(((Integer) completeIt.next()).intValue());
+				System.out.println("CompletedList: " + completedList);
 		/** END Debug output */
 
 		/** Set the positions */
@@ -393,7 +402,7 @@ public class NetzplanSwingGenerator {
 		return position;
 	}
 	/**
-	 * TODOBen Kommentar für getMaxHeightPos()
+	 * [DoItBen] Kommentar für getMaxHeightPos()
 	 * @return
 	 */
 	public int getMaxHeightPos() {
@@ -401,10 +410,32 @@ public class NetzplanSwingGenerator {
 	}
 
 	/**
-	 * TODOBen Kommentar für getMaxWidth()
+	 * [DoItBen] Kommentar für getMaxWidth()
 	 * @return
 	 */
 	public int getMaxWidthPos() {
 		return maxWidthPos;
+	}
+
+	/**
+	 * [DoItBen] Kommentar für getMostWidthRow()
+	 * @return
+	 */
+	public int getMostWidthRow() {
+
+		int size = 0;
+		int tupelPos = 0;
+
+		for (int b = 0; b < tupel.length; b++) {
+			if (tupel[b] != null) {
+				if (size < tupel[b].size()) {
+					tupelPos = b;
+					size = tupel[b].size();
+				}
+			} else {
+				break;
+			}			
+		}
+		return tupelPos + 1;
 	}
 }

@@ -36,7 +36,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
 /**
- * TODOBen Kommentar Klasse NetworkplanElementSwingGenerator
+ * [DoItBen] Kommentar Klasse NetworkplanElementSwingGenerator
  * @author benjamin.pasero
  * @version 0.3a
  */
@@ -61,6 +61,10 @@ public class NetzplanElementSwingGenerator {
 
 	private static final int width = 360;
 
+	/**
+	 * [DoItBen] Kommentar Konstruktor NetzplanElementSwingGenerator()
+	 * 
+	 */
 	public NetzplanElementSwingGenerator() {
 		npElementContainer = new JPanel();
 		npElementRect = new JPanel();
@@ -97,6 +101,11 @@ public class NetzplanElementSwingGenerator {
 		});
 	}
 
+	/**
+	 * [DoItBen] Kommentar für generateNetzplanelement()
+	 * @param np
+	 * @return
+	 */
 	public JPanel generateNetzplanelement(NetzplanElement np) {
 
 		currentNpElem = np;
@@ -366,8 +375,8 @@ public class NetzplanElementSwingGenerator {
 	}
 
 	/**
-		 * @return Width of the network plan element
-		 */
+	 * @return Width of the network plan element
+	 */
 	public int getWidth() {
 		return width;
 	}
