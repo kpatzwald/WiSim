@@ -26,7 +26,6 @@ package net.sourceforge.wisim.networkplan;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
-import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -35,10 +34,13 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Vector;
 
-import javax.swing.JOptionPane;
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.border.LineBorder;
 
 /**
  * JNetworkplan extends JPanel and represents the networkplan
@@ -65,6 +67,14 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 	private Component movedElement;
 	private JNetworkplanElement selectedElement;
 
+	private JNetworkplanElement npGen[];
+
+	private JSeparator line;
+
+	private JPanel jPanelEdit;
+	private boolean editPanelOpen = false;
+	private JNetworkplanElement clickedComponent;
+
 	/**
 	 * Initialize the position-Matrix and tupel-Array for each row.
 	 * Add each networkplan element on this JPanel. 
@@ -82,7 +92,7 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 		/** Guess the x and y spread of the network plan */
 		maxPosX = npElemente.size();
 		maxPosY = npElemente.size();
-		tupel = new Vector[maxPosY + 1];
+		tupel = new Vector[maxPosY * 2]; //[DoItBen] Dynamische Tupel Größe!
 
 		/** Matrix for positioning of the elements */
 		position = new int[maxPosX][maxPosY];
@@ -124,6 +134,15 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 
 		/** Get all JNetworkplanElements on this JNetworkplan */
 		paintSwingElmements();
+
+		//		line = new JSeparator();
+		//		add(line);
+		//		addLines();
+	}
+
+	public JNetworkplan() {
+		maxPosX = 0;
+		maxPosY = 0;
 	}
 
 	/** Sets the swing elements and builds the network plan */
@@ -142,7 +161,7 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 		}
 
 		/** Array with networkplan elements swing generators */
-		JNetworkplanElement npGen[] = new JNetworkplanElement[count];
+		npGen = new JNetworkplanElement[count];
 
 		int i = 0;
 		int freeWidth = 0;
@@ -804,7 +823,7 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 
 	/** Save this component if its a JNetworkplanElement for movement */
 	public void mousePressed(MouseEvent evt) {
-		if (dragging)
+		if (dragging || editPanelOpen)
 			return;
 
 		int x = evt.getX();
@@ -845,7 +864,7 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 
 	/** Move the selected JNetworkPlan */
 	public void mouseDragged(MouseEvent evt) {
-		if (dragging == false || evt.getX() < 0 || evt.getY() < 0)
+		if (dragging == false || evt.getX() < 0 || evt.getY() < 0 || editPanelOpen)
 			return;
 
 		int x = evt.getX();
@@ -855,6 +874,7 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 
 		if (getComponentAt(x, y).getName() != null) {
 			movedElement.setLocation(x1, y1);
+			//			addLines();
 		}
 	}
 
@@ -862,33 +882,165 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 	public void mouseMoved(MouseEvent evt) {
 		int x = evt.getX();
 		int y = evt.getY();
-		if (getComponentAt(x, y).getName() != null && selectedElement == null) {
-			selectedElement = (JNetworkplanElement) getComponentAt(x, y);
-			selectedElement.npElementRectMouseMoved();
-			selectedElement.setCursor(new Cursor(12));
-		} else if (getComponentAt(x, y).getName() == null && selectedElement != null) {
-			selectedElement.npElementRectMouseExited();
-			selectedElement = null;
-		} else if (getComponentAt(x, y).getName() != null && selectedElement != null) {
-			if (!getComponentAt(x, y).getName().equals(selectedElement.getName())) {
+
+		if (!editPanelOpen) {
+			if (getComponentAt(x, y).getName() != null && selectedElement == null) {
+				selectedElement = (JNetworkplanElement) getComponentAt(x, y);
+				selectedElement.npElementRectMouseMoved();
+				selectedElement.setCursor(new Cursor(12));
+			} else if (getComponentAt(x, y).getName() == null && selectedElement != null) {
 				selectedElement.npElementRectMouseExited();
 				selectedElement = null;
+			} else if (getComponentAt(x, y).getName() != null && selectedElement != null) {
+				if (!getComponentAt(x, y).getName().equals(selectedElement.getName())) {
+					selectedElement.npElementRectMouseExited();
+					selectedElement = null;
+				}
 			}
 		}
 	}
 
-	/** When the user clicks on an element, show a JOptionPanel with some informations */
+	/** 
+	 * When the user clicks on an element, show a JPanel where the user may edit
+	 * the description and the duration 
+	 */
 	public void mouseClicked(MouseEvent evt) {
 		int x = evt.getX();
 		int y = evt.getY();
-		if (getComponentAt(x, y).getName() != null) {
-			JOptionPane.showMessageDialog(
-				getComponentAt(x, y),
-				"This is Element: "
-					+ ((JNetworkplanElement) getComponentAt(x, y)).getNp().getNumber()
-					+ " ("
-					+ ((JNetworkplanElement) getComponentAt(x, y)).getNp().getDescription()
-					+ ")");
+
+		/** 
+		 * Open the JPanel for editing if the user clicked on an networkplan element 
+		 * and no other JPanel for editing is opened at that time.
+		 * [DoItBen]: Kritischer Pfad wird nach Edit nicht richtig dargestellt
+		 * [DoItBen]: Die Position des Elements geht verloren nach Edit
+		 */
+		if (getComponentAt(x, y).getName() != null && !editPanelOpen) {
+
+			editPanelOpen = true;
+
+			clickedComponent = (JNetworkplanElement) getComponentAt(x, y);
+
+			jPanelEdit = new JPanel();
+			JLabel jLabelDescription = new JLabel();
+			JLabel jLabelDuration = new JLabel();
+			final JTextField jTextFieldDuration = new JTextField();
+			final JTextField jTextFieldDescription = new JTextField();
+			JButton jButtonEdit = new JButton();
+			JButton jButtonCancle = new JButton();
+
+			jPanelEdit.setLayout(null);
+			jPanelEdit.setBorder(new LineBorder(Color.BLACK));
+
+			jLabelDescription.setHorizontalAlignment(SwingConstants.RIGHT);
+			jLabelDescription.setText("Description:");
+			jPanelEdit.add(jLabelDescription);
+			jLabelDescription.setBounds(0, 50, 90, 16);
+
+			jLabelDuration.setHorizontalAlignment(SwingConstants.RIGHT);
+			jLabelDuration.setText("Duration:");
+			jPanelEdit.add(jLabelDuration);
+			jLabelDuration.setBounds(10, 20, 80, 20);
+
+			jPanelEdit.add(jTextFieldDuration);
+			jTextFieldDuration.setBounds(100, 20, 70, 20);
+			jTextFieldDuration.setBorder(new LineBorder(new Color(0, 0, 0)));
+			jTextFieldDuration.setText(String.valueOf(clickedComponent.getNp().getDuration()));
+
+			jPanelEdit.add(jTextFieldDescription);
+			jTextFieldDescription.setBounds(100, 50, 160, 20);
+			jTextFieldDescription.setBorder(new LineBorder(new Color(0, 0, 0)));
+			jTextFieldDescription.setText(clickedComponent.getNp().getDescription());
+
+			jButtonEdit.setText("Edit");
+			jButtonEdit.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent evt) {
+
+					/** Check if the number is not a string. If its a string reset to old number */
+					try {
+						Double.parseDouble(jTextFieldDuration.getText());
+					} catch (Exception e) {
+						jTextFieldDuration.setText(String.valueOf(clickedComponent.getNp().getDuration()));
+					}
+
+					/** Check if the user made changes. If not, do nothing */
+					if (clickedComponent.getNp().getDuration() == Double.parseDouble(jTextFieldDuration.getText())
+						&& clickedComponent.getNp().getDescription().equals(jTextFieldDescription.getText())) {
+						editPanelOpen = false;
+						remove(jPanelEdit);
+						repaint();
+						return;
+					}
+
+					/** Set the changes the user made and repaint the network plan */
+					clickedComponent.getNp().setDuration(Double.parseDouble(jTextFieldDuration.getText()));
+					clickedComponent.getNp().setDescription(jTextFieldDescription.getText());
+
+					((NetworkplanElement) npElemente.get(clickedComponent.getNp().getIndex() - 1)).setDuration(
+						Double.parseDouble(jTextFieldDuration.getText()));
+					((NetworkplanElement) npElemente.get(clickedComponent.getNp().getIndex() - 1)).setDescription(
+						jTextFieldDescription.getText());
+
+					/** Remove networkplan */
+					removeAll();
+
+					/** Start stopwatch */
+					long startTime = System.currentTimeMillis();
+
+					npCalc = new NetworkplanCalculator(npElemente);
+					npElemente = npCalc.getNpElemente();
+					resetCriticalPath();
+					showCriticalPath();
+
+					/** Get all JNetworkplanElements on this JNetworkplan */
+					paintSwingElmements();
+
+					/** Stop stopwatch */
+					long endTime = System.currentTimeMillis();
+
+					/** Get the time for calculating and showing the networkplan */
+					long calculationTime = endTime - startTime;
+
+					JLabel showCalculationTime = new JLabel("Rendertime: " + (double) calculationTime / 1000 + " sec.");
+					add(showCalculationTime);
+					showCalculationTime.setBounds(20, 20, 200, 20);
+
+					remove(jPanelEdit);
+					editPanelOpen = false;
+				}
+			});
+
+			jPanelEdit.add(jButtonEdit);
+			jButtonEdit.setBounds(60, 80, 81, 26);
+
+			jButtonCancle.setText("Cancle");
+
+			jButtonCancle.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent evt) {
+					remove(jPanelEdit);
+					editPanelOpen = false;
+					repaint();
+				}
+			});
+
+			jPanelEdit.add(jButtonCancle);
+			jButtonCancle.setBounds(150, 80, 81, 26);
+
+			jPanelEdit.setCursor(new Cursor(0));
+
+			add(jPanelEdit, 0);
+
+			int elemXPos = (int) clickedComponent.getLocation().getX() + 10;
+			int elemYPos = (int) clickedComponent.getLocation().getY() + 35;
+
+			if (elemXPos < 0)
+				elemXPos = 0;
+
+			if (elemYPos < 0)
+				elemYPos = 0;
+
+			jPanelEdit.setBounds(elemXPos, elemYPos, 280, 120);
+			jPanelEdit.setBackground(java.awt.SystemColor.controlHighlight);
+
 		}
 	}
 
@@ -903,11 +1055,34 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 	}
 
 	/** Draw connection lines between the elements with drawLine() */
-	public void paintComponent(Graphics g) {
+	public void addLines() {
 
-		/** Paint background */
-		super.paintComponent(g);
+		remove(line);
+		line = new JSeparator();
+		line.setOrientation(SwingConstants.VERTICAL);
 
-		/** Paint vertical small connection lines */
+		add(line);
+
+		int xPosStart = (int) npGen[0].getAnchorPoint(JNetworkplanElement.ANCHOR_BOTTOM_MIDDLE).getX();
+		int xPosEnd = (int) npGen[1].getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE).getX();
+		int yPosStart = (int) npGen[0].getAnchorPoint(JNetworkplanElement.ANCHOR_BOTTOM_MIDDLE).getY();
+		int yPosEnd = (int) npGen[1].getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE).getY();
+
+		int xLength = xPosEnd - xPosStart;
+		int yLength = yPosEnd - yPosStart;
+
+		line.setBounds(xPosStart, yPosStart, 1, yLength);
+
+	}
+
+	/**
+	 * Sets all elements criticalpath-values to FALSE
+	 */
+	public void resetCriticalPath() {
+		int a = 0;
+		while (a < npElemente.size()) {
+			((NetworkplanElement) npElemente.get(a)).setCriticalPath(false);
+			a++;
+		}
 	}
 }

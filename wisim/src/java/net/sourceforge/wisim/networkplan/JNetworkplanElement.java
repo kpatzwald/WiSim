@@ -456,4 +456,8 @@ public class JNetworkplanElement extends JPanel {
 	public void setNp(NetworkplanElement element) {
 		np = element;
 	}
+	
+	public void setDescription(String s) {
+		
+	}
 }

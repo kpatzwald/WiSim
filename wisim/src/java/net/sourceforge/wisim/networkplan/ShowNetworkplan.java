@@ -107,7 +107,9 @@ public class ShowNetworkplan extends JFrame {
 			errorDescription.setBackground(new Color(204, 204, 204));
 			errorDescription.setFont(new Font("Dialog", 1, 20));
 
+			netzplanGrafik = new JNetworkplan();
 			netzplanGrafik.add(errorDescription);
+
 		}
 
 		/** JScrollPane holding the network plan */
@@ -197,6 +199,11 @@ public class ShowNetworkplan extends JFrame {
 			case 5 : //Testing a wrong networkplan element
 				filled.add(new NetworkplanElement(0, 2, new int[] { 1 }, "Ausgieﬂen Fundamente"));
 				filled.add(new NetworkplanElement(1, 2, new int[] { 0 }, "Ausgieﬂen Fundamente"));
+				break;
+
+			case 6 :
+				filled.add(new NetworkplanElement(1, 2, new int[] { 2 }, "Ausgieﬂen Fundamente"));
+				filled.add(new NetworkplanElement(2, 2, new int[] { 0 }, "Ausgieﬂen Fundamente"));
 				break;
 		}
 		return filled;
