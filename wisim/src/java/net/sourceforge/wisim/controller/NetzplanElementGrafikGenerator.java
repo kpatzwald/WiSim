@@ -21,34 +21,32 @@
 **   This copyright notice MUST APPEAR in all copies of the file!           **
 **   ********************************************************************   */
 
-package net.sourceforge.wisim.controller;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 
-/*
- * Created on 22.05.2003
- *
- * To change the template for this generated file go to
- * Window>Preferences>Java>Code Generation>Code and Comments
- */
-
 /**
+ * Class for generating a buffered image that represents
+ * one element of the network plan. The element's size is
+ * 400x200 px. 
+ * The generator is not yet complete dynamic. If the network
+ * plan element's description is too long, it gets cut.
+ * Line-wrap for longer descriptions will be implemented in
+ * next versions ("scaleX" is a temporary solution for this
+ * problem).
  * @author Benjamin Pasero
- *
- * To change the template for this generated type comment go to
- * Window>Preferences>Java>Code Generation>Code and Comments
+ * @version 0.1a
  */
 public class NetzplanElementGrafikGenerator {
+
 	private BufferedImage npElem;
 	private Graphics g;
 	private Font font;
 	private int scaleX;
 	private int width;
 	private int height;
-
 
 	/** Creates a new instance of IconGenerater */
 	public NetzplanElementGrafikGenerator() {
@@ -65,28 +63,27 @@ public class NetzplanElementGrafikGenerator {
 
 		g.setColor(Color.BLACK);
 
-		// Gesamtes Rechteck des Elements
+		/** Draw whole rectangle of the element */
 		g.drawRect(0, 30, 200 + scaleX, 100);
-		//this.width = 200 + scaleX;
 
-		// Senkrechte Linie von Nummer zu Dauer
+		/** Vertical line between number & duration */
 		g.drawLine(60, 30, 60, 130);
 
-		// Horizontale Linie halbiert das Rechteck exakt
+		/** Horizontal Line that cuts the rect into halves */
 		g.drawLine(0, 80, 200 + scaleX, 80);
 
-		// Senkrechte Linie zwischen GP und FP
+		/** Vertical line between total float and free float */
 		g.drawLine(130 + scaleX / 2 - 5, 80, 130 + scaleX / 2 - 5, 130);
 
-		// Verbindungslinie Oben
+		/** Connection-line between two elements on top */
 		if (!np.isStartElem())
 			g.drawLine(140, 0, 140, 30);
 
-		// Verbindungslinie Unten
+		/** Connection-line between two elements on bottom */
 		if (!np.isEndElem())
 			g.drawLine(140, 130, 140, 160);
 
-		/** Nummer wird gesetzt */
+		/** Drawing the number */
 		g.setFont(new Font("SansSerif", 0, 30));
 
 		if (String.valueOf(np.getNummer()).matches("^[0-9]{2}$"))
@@ -94,7 +91,7 @@ public class NetzplanElementGrafikGenerator {
 		else
 			g.drawString(String.valueOf(np.getNummer()), 22, 66);
 
-		/** Dauer wird gesetzt */
+		/** Drawing the duration */
 		g.setFont(new Font("SansSerif", 0, 25));
 
 		if (String.valueOf(np.getDauer()).length() < 4)
@@ -104,16 +101,19 @@ public class NetzplanElementGrafikGenerator {
 
 		g.setFont(new Font("SansSerif", 0, 15));
 
-		/** FAZ wird gesetzt */
+		/** Drawing earliest point in time of begin */
 		g.drawString(String.valueOf(np.getFaz()), 0, 25);
-		/** FEZ wird gesetzt */
+
+		/** Drawing earliest point in time of finish */
 		g.drawString(String.valueOf(np.getFez()), 173 + scaleX, 25);
-		/** SAZ wird gesetzt */
+
+		/** Drawing latest point in time of begin */
 		g.drawString(String.valueOf(np.getSaz()), 0, 147);
-		/** SEZ wird gesetzt */
+
+		/** Drawing latest point in time of finish */
 		g.drawString(String.valueOf(np.getSez()), 173 + scaleX, 147);
 
-		/** FP und GP werden gesetzt */
+		/** Drawing total float and free float */
 		g.setFont(new Font("SansSerif", 0, 25));
 
 		if (String.valueOf(np.getGp()).length() < 4)
@@ -126,28 +126,11 @@ public class NetzplanElementGrafikGenerator {
 		else
 			g.drawString(String.valueOf(np.getFp()), 138 + (scaleX / 4) * 3, 116);
 
-		/** Bezeichnung wird gesetzt */
+		/** Drawing the description */
 		g.setFont(new Font("SansSerif", 0, 15));
 
 		g.drawString(np.getBezeichnung(), 90, 63);
 
 		return npElem;
 	}
-
-	/**
-	 * TODO Kommentar für getHeight()
-	 * @return
-	 */
-	public int getHeight() {
-		return height;
-	}
-
-	/**
-	 * TODO Kommentar für getWidth()
-	 * @return
-	 */
-	public int getWidth() {
-		return width;
-	}
-
 }

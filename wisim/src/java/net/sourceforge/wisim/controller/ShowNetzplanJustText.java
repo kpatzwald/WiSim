@@ -21,17 +21,13 @@
 **   This copyright notice MUST APPEAR in all copies of the file!           **
 **   ********************************************************************   */
 
-package net.sourceforge.wisim.controller;
 import java.util.Iterator;
 import java.util.Vector;
 
-/*
- * ShowNetzplanJustText.java
- */
-
 /**
- * TODO Kommentar Klasse ShowNetzplanJustText
+ * Class for debugging purposes of the network plan generator
  * @author benjamin.pasero
+ * @version 0.1a
  */
 public class ShowNetzplanJustText {
 
@@ -41,8 +37,7 @@ public class ShowNetzplanJustText {
 
 		npElemente = new Vector();
 
-		npElemente.add(
-			new NetzplanElement(1, 20, new int[] { 2, 6, 7 }, "Entwurf, Planung und der Kay ist"));
+		npElemente.add(new NetzplanElement(1, 20, new int[] { 2, 6, 7 }, "Entwurf, Planung und der Kay ist"));
 		npElemente.add(new NetzplanElement(2, 3, new int[] { 3 }, "Erdaushub Fundamente"));
 		npElemente.add(new NetzplanElement(3, 2, new int[] { 4 }, "Ausgieﬂen Fundamente"));
 		npElemente.add(new NetzplanElement(4, 5, new int[] { 5 }, "Verschalung Betonsockel"));

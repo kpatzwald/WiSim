@@ -21,23 +21,14 @@
 **   This copyright notice MUST APPEAR in all copies of the file!           **
 **   ********************************************************************   */
 
-package net.sourceforge.wisim.controller;
 import java.util.Collection;
 import java.util.Vector;
 import java.util.Iterator;
 
-/*
- * Created on 25.05.2003
- *
- * To change the template for this generated file go to
- * Window>Preferences>Java>Code Generation>Code and Comments
- */
-
 /**
+ * Class for generating one network plan element
  * @author Benjamin Pasero
- *
- * To change the template for this generated type comment go to
- * Window>Preferences>Java>Code Generation>Code and Comments
+ * @version 0.1a
  */
 public class NetzplanElement {
 
@@ -255,10 +246,9 @@ public class NetzplanElement {
 	}
 
 	public boolean isEndElem() {
-			if (nachfolger[0] == 0)
-				return true;
-			else
-				return false;
-		}
-
+		if (nachfolger[0] == 0)
+			return true;
+		else
+			return false;
+	}
 }

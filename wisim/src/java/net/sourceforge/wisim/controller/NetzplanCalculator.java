@@ -21,22 +21,13 @@
 **   This copyright notice MUST APPEAR in all copies of the file!           **
 **   ********************************************************************   */
 
-package net.sourceforge.wisim.controller;
 import java.util.Iterator;
 import java.util.Vector;
 
-/*
- * Created on 25.05.2003
- *
- * To change the template for this generated file go to
- * Window>Preferences>Java>Code Generation>Code and Comments
- */
-
 /**
+ * Class for calculation a network plan element.
  * @author Benjamin Pasero
- *
- * To change the template for this generated type comment go to
- * Window>Preferences>Java>Code Generation>Code and Comments
+ * @version 0.1a
  */
 public class NetzplanCalculator {
 
@@ -47,16 +38,16 @@ public class NetzplanCalculator {
 		this.npElemente = npElemente;
 		npElemIt = npElemente.iterator();
 
-		/** Bestimmung der Vorgaenger */
+		/** Set the parent networkplan elements */
 		setVorgaenger();
 
-		/** Kalkulation */
+		/** Calculation */
 		calculateFazFez();
 		calculateSazSez();
 		calculatePuffer();
 	}
 
-	/** Bestimmung der Vorgaenger */
+	/** Determination of the parent network elements */
 	public void setVorgaenger() {
 		npElemIt = npElemente.iterator();
 		while (npElemIt.hasNext()) {
@@ -74,15 +65,14 @@ public class NetzplanCalculator {
 			NetzplanElement npElem = (NetzplanElement) npElemIt.next();
 			if (npElem.getVorgaengerBasket().size() > 0) {
 				npElem.getFromVorgaengerBasket();
-			}
-			else {
+			} else {
 				npElem.addIntoVorgaengerBasket(new Integer(0));
 				npElem.getFromVorgaengerBasket();
 			}
 		}
 	}
 
-	/** Kalkulation des frühsten Anfangs- und Endzeitpunkts (Forwärtsrechnung) */
+	/** Forward Calculation */
 	public void calculateFazFez() {
 		npElemIt = npElemente.iterator();
 		while (npElemIt.hasNext()) {
@@ -107,7 +97,7 @@ public class NetzplanCalculator {
 		}
 	}
 
-	/** Kalkulation des spätesten Anfangs- und Endzeitpunkts (Rückwärtsrechnung) */
+	/** Backward Calculation */
 	public void calculateSazSez() {
 		Vector npElementeDesc = new Vector();
 		int a = npElemente.size() - 1;
@@ -140,17 +130,17 @@ public class NetzplanCalculator {
 		}
 	}
 
-	/** Kalkulation des Gesamtpuffers und des Freien Puffers */
+	/** Calculation of total float and free float */
 	public void calculatePuffer() {
 
-		/** Gesamtpuffer (SAZ - FAZ) */
+		/** total float (SAZ - FAZ) */
 		npElemIt = npElemente.iterator();
 		while (npElemIt.hasNext()) {
 			NetzplanElement npElem = (NetzplanElement) npElemIt.next();
 			npElem.setGp(npElem.getSaz() - npElem.getFaz());
 		}
 
-		/** Freier Puffer (FAZ[i+1] - FEZ[i]) **/
+		/** free float (FAZ[i+1] - FEZ[i]) **/
 		npElemIt = npElemente.iterator();
 		while (npElemIt.hasNext()) {
 			NetzplanElement npElem = (NetzplanElement) npElemIt.next();
@@ -170,6 +160,10 @@ public class NetzplanCalculator {
 		}
 	}
 
+	/** 
+	 * Critical path containing network plan elements that have total
+	 * float = 0 and free float = 0
+	 */
 	public Vector getCriticalPath() {
 		Vector criticalPath = new Vector();
 
@@ -182,6 +176,7 @@ public class NetzplanCalculator {
 		return criticalPath;
 	}
 
+	/** Returns the number of branches in the network plan */
 	public double getMaxWidthOfNetzplan() {
 		double maxWidth = 1;
 		npElemIt = npElemente.iterator();
@@ -196,16 +191,9 @@ public class NetzplanCalculator {
 	}
 
 	/**
-	 * @return
+	 * @return The calculated network plan elements in a Vector
 	 */
 	public Vector getNpElemente() {
 		return npElemente;
-	}
-
-	/**
-	 * @param vector
-	 */
-	public void setNpElemente(Vector vector) {
-		npElemente = vector;
 	}
 }
