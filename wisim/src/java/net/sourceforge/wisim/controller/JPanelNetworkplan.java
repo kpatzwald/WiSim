@@ -51,13 +51,11 @@ public class JPanelNetworkplan extends javax.swing.JPanel {
 	/** Holds the JNetworkplan and displays scrollbars if necessary */
 	private JScrollPane holdAll;
 	private WiSimDAO dao;
-	private WiSimMainController wiSimMainController;
 
 	//Logger
 	private WiSimLogger wiSimLogger;
 
 	public JPanelNetworkplan(WiSimMainController wiSimMainController) {
-		this.wiSimMainController = wiSimMainController;
 		wiSimLogger = wiSimMainController.getWiSimLogger();
 		initDAO(wiSimMainController);
 
