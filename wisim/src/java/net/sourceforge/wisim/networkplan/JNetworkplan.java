@@ -1010,7 +1010,8 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 			});
 
 			jPanelEdit.add(jButtonEdit);
-			jButtonEdit.setBounds(60, 80, 81, 26);
+			jButtonEdit.setBounds(55, 82, 81, 26);
+			jButtonEdit.setBorder(new LineBorder(Color.BLACK));
 
 			jButtonCancle.setText("Cancle");
 
@@ -1023,7 +1024,8 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 			});
 
 			jPanelEdit.add(jButtonCancle);
-			jButtonCancle.setBounds(150, 80, 81, 26);
+			jButtonCancle.setBounds(145, 82, 81, 26);
+			jButtonCancle.setBorder(new LineBorder(Color.BLACK));
 
 			jPanelEdit.setCursor(new Cursor(0));
 
