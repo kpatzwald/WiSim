@@ -287,7 +287,7 @@ public class WiSimMainController extends javax.swing.JFrame {
 		jMenuSimulation = new javax.swing.JMenu();
 		jMenuItemSimulationAnalysis = new javax.swing.JMenuItem();
 
-		setTitle("Wirtschaftssimulation");
+		setTitle("WiSim - Planspiel");
 		addWindowListener(new java.awt.event.WindowAdapter() {
 			public void windowClosing(java.awt.event.WindowEvent evt) {
 				exitForm(evt);

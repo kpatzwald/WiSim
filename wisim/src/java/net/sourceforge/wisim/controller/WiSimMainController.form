@@ -271,7 +271,7 @@
     </Menu>
   </NonVisualComponents>
   <Properties>
-    <Property name="title" type="java.lang.String" value="Wirtschaftssimulation"/>
+    <Property name="title" type="java.lang.String" value="WiSim - Planspiel"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="menuBar" type="java.lang.String" value="jMenuBarWiSim"/>
