@@ -34,6 +34,7 @@ import javax.swing.JTextArea;
 
 import net.sourceforge.wisim.dao.WiSimDAO;
 import net.sourceforge.wisim.dao.WiSimDAOException;
+import net.sourceforge.wisim.model.*;
 import net.sourceforge.wisim.networkplan.JNetworkplan;
 
 /**

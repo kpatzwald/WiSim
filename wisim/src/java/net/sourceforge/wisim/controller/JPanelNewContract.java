@@ -46,6 +46,7 @@ import javax.swing.JPanel;
 import net.sourceforge.wisim.dao.WiSimDAO;
 import net.sourceforge.wisim.dao.WiSimDAOException;
 import net.sourceforge.wisim.dao.WiSimDAOWriteException;
+import net.sourceforge.wisim.model.*;
 import net.sourceforge.wisim.model.Article;
 import net.sourceforge.wisim.model.OrderItem;
 import net.sourceforge.wisim.model.ContractAccount;

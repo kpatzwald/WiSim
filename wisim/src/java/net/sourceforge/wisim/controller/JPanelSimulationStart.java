@@ -30,6 +30,8 @@
 package net.sourceforge.wisim.controller;
 import net.sourceforge.wisim.dao.*;
 import net.sourceforge.wisim.model.*;
+import net.sourceforge.wisim.simulation.*;
+
 import javax.swing.tree.*;
 import javax.swing.plaf.metal.*;
 import java.util.*;

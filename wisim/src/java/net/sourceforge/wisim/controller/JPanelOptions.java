@@ -47,6 +47,7 @@ import javax.swing.tree.DefaultTreeModel;
 
 import net.sourceforge.wisim.dao.WiSimDAO;
 import net.sourceforge.wisim.dao.WiSimDAOException;
+import net.sourceforge.wisim.model.*;
 
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
