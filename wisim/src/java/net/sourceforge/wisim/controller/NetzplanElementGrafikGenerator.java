@@ -59,7 +59,8 @@ public class NetzplanElementGrafikGenerator {
 
 	public Image generateNetzplanelement(NetzplanElement np) {
 
-		scaleX = (np.getBezeichnung().length() - 10) * 6;
+		/** If more than 14 chars increase the width of the rect */
+		scaleX = (np.getBezeichnung().length() - 14) * 10;
 
 		String bezeichnung = np.getBezeichnung();
 		String s1 = "";
@@ -80,60 +81,69 @@ public class NetzplanElementGrafikGenerator {
 
 			/** Search for whitespace left to the middle */
 			int a = textMiddle;
-			int stepsLeft = 0;
-			while (bezeichnung.charAt(a) != 32) {
-				a--;
-				stepsLeft++;
-			}
 
-			/** Search for whitespace right to the middle */
-			int b = textMiddle;
-			int stepsRight = 0;
-			while (bezeichnung.charAt(b) != 32) {
-				b++;
-				stepsRight++;
-			}
-
-			/** Split the String at the left whitespace of the Middle */
-			if (stepsLeft < stepsRight) {
-				s1 = bezeichnung.substring(0, a);
-				s2 = bezeichnung.substring(a + 1, bezeichnung.length());
-
-				/** Split the String at the right whitespace of the Middle */
+			if (np.getBezeichnung().split(" ").length < 2) {
+				s1 = np.getBezeichnung().substring(0, textMiddle);
+				s2 = np.getBezeichnung().substring(textMiddle, np.getBezeichnung().length());
+				twoLines = true;
+				scaleX = (s1.length() - 14) * 10;
 			} else {
-				s1 = bezeichnung.substring(0, b);
-				s2 = bezeichnung.substring(b + 1, bezeichnung.length());
-			}
 
-			twoLines = true;
-
-			String longerLine = "";
-
-			/** Determine the longer line of the splitted string */
-			if (s1.length() > s2.length()) {
-				scaleX = (s1.length() - 10) * 6;
-				longerLine = s1;
-			} else {
-				scaleX = (s2.length() - 10) * 6;
-				longerLine = s2;
-			}
-
-			String tempLongerLine = longerLine;
-
-			/** If the longer line is still over scaleX of 199, cut it */
-			if (scaleX > 199) {
-				while (scaleX > 199) {
-					longerLine = longerLine.substring(0, longerLine.length() - 1);
-					scaleX = (longerLine.length() - 10) * 6;
+				int stepsLeft = 0;
+				while (bezeichnung.charAt(a) != 32 && a > 0) {
+					a--;
+					stepsLeft++;
 				}
-				longerLine = longerLine.substring(0, longerLine.length() - 3) + "...";
-				scaleX = 199;
 
-				/** Set the cutted line */
-				if (s1.length() > s2.length())
-					s1 = longerLine;
-				else
-					s2 = longerLine;
+				/** Search for whitespace right to the middle */
+				int b = textMiddle;
+				int stepsRight = 0;
+				while (b < bezeichnung.length() && bezeichnung.charAt(b) != 32) {
+					b++;
+					stepsRight++;
+				}
+
+				/** Split the String at the left whitespace of the Middle */
+				if (stepsLeft < stepsRight) {
+					s1 = bezeichnung.substring(0, a);
+					s2 = bezeichnung.substring(a + 1, bezeichnung.length());
+
+					/** Split the String at the right whitespace of the Middle */
+				} else {
+					s1 = bezeichnung.substring(0, b);
+					s2 = bezeichnung.substring(b + 1, bezeichnung.length());
+				}
+
+				twoLines = true;
+
+				String longerLine = "";
+
+				/** Determine the longer line of the splitted string */
+				if (s1.length() > s2.length()) {
+					scaleX = (s1.length() - 14) * 10;
+					longerLine = s1;
+				} else {
+					scaleX = (s2.length() - 14) * 10;
+					longerLine = s2;
+				}
+
+				String tempLongerLine = longerLine;
+
+				/** If the longer line is still over scaleX of 199, cut it */
+				if (scaleX > 199) {
+					while (scaleX > 199) {
+						longerLine = longerLine.substring(0, longerLine.length() - 1);
+						scaleX = (longerLine.length() - 14) * 10;
+					}
+					longerLine = longerLine.substring(0, longerLine.length() - 3) + "...";
+					scaleX = 199;
+
+					/** Set the cutted line */
+					if (s1.length() > s2.length())
+						s1 = longerLine;
+					else
+						s2 = longerLine;
+				}
 			}
 		}
 
@@ -144,6 +154,7 @@ public class NetzplanElementGrafikGenerator {
 
 		/** Draw whole rectangle of the element */
 		g.drawRect(0, 30, 200 + scaleX, 100);
+		width = 200 + scaleX;
 
 		/** Vertical line between number & duration */
 		g.drawLine(60, 30, 60, 130);
@@ -156,11 +167,11 @@ public class NetzplanElementGrafikGenerator {
 
 		/** Connection-line between two elements on top */
 		if (!np.isStartElem())
-			g.drawLine(140, 0, 140, 30);
+			g.drawLine(width / 2, 0, width / 2, 30);
 
 		/** Connection-line between two elements on bottom */
 		if (!np.isEndElem())
-			g.drawLine(140, 130, 140, 160);
+			g.drawLine(width / 2, 130, width / 2, 160);
 
 		/** Drawing the number */
 		g.setColor(Color.BLACK);
@@ -207,16 +218,47 @@ public class NetzplanElementGrafikGenerator {
 			g.drawString(String.valueOf(np.getFp()), 138 + (scaleX / 4) * 3, 116);
 
 		/** Drawing the description */
-		g.setFont(new Font("SansSerif", 0, 15));
+		g.setFont(new Font("Courier", 0, 15));
 
-		/** Paint two lines if so */
+		/** Paint two lines if so. Center the Strings between 
+		 *  65 and 185px (equals 14 letters which 9px each)
+		 */
 		if (twoLines) {
-			g.drawString(s1, 90, 50);
-			g.drawString(s2, 90, 70);
-		} else {
-			g.drawString(bezeichnung, 90, 63);
-		}
+			int moreChars = s1.length() - 14;
+			if (moreChars < 0)
+				moreChars = 0;
 
+			int middle = (120 + moreChars * 10) / 2 - (s1.length() * 9) / 2;
+			if (middle < 0)
+				middle = 0;
+			g.drawString(s1, 65 + middle, 50);
+
+			moreChars = s2.length() - 14;
+			if (moreChars < 0)
+				moreChars = 0;
+
+			middle = (120 + moreChars * 10) / 2 - (s2.length() * 9) / 2;
+			if (middle < 0)
+				middle = 0;
+
+			g.drawString(s2, 65 + middle, 70);
+		} else {
+			int moreChars = bezeichnung.length() - 14;
+			if (moreChars < 0)
+				moreChars = 0;
+
+			int middle = (120 + moreChars * 10) / 2 - (bezeichnung.length() * 9) / 2;
+			if (middle < 0)
+				middle = 0;
+			g.drawString(bezeichnung, 65 + middle, 62);
+		}
 		return npElem;
+	}
+
+	/**
+	 * @return
+	 */
+	public int getWidth() {
+		return width;
 	}
 }

@@ -25,6 +25,7 @@ package net.sourceforge.wisim.controller;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.util.Iterator;
 import java.util.Vector;
@@ -84,7 +85,9 @@ public class NetzplanGrafikGenerator {
 		g.fillRect(0, 0, maxWidthPos * 440, maxHeightPos * 175);
 		g.setColor(Color.BLACK);
 		paintGraphic();
-	} /** Paints the network plan */
+	}
+
+	/** Paints the network plan */
 	public void paintGraphic() {
 		Vector paintedElements = new Vector();
 		NetzplanElementGrafikGenerator npGen[] = new NetzplanElementGrafikGenerator[npElemente.size()];
@@ -95,29 +98,46 @@ public class NetzplanGrafikGenerator {
 		}
 
 		int i = 0;
+		int freeWidth = 0;
+		Image npElemImg;
+		
 		for (int b = 0; b < 20; b++) {
 			for (int c = 0; c < 20; c++) {
 				if (position[b][c] != 0) {
 					NetzplanElement np = (NetzplanElement) npElemente.get(position[b][c] - 1);
 					if (!paintedElements.contains(new Integer(np.getNummer()))) {
-						g.drawImage(npGen[i].generateNetzplanelement(np), 30 + b * 350, 30 + c * 160, null);
+
+						npElemImg = npGen[i].generateNetzplanelement(np);
+						
+						/** Center the element */
+						freeWidth = (400 - npGen[i].getWidth()) / 2;
+
+						g.drawImage(npElemImg, 30 + b * 400 + freeWidth, 30 + c * 160, null);
+
 						int nachfolger[] = np.getNachfolger();
+						
+						/** Horizontal Connection Line */
 						if (nachfolger.length > 1) {
-							g.drawLine(170 + b * 350, 190 + c * 160, 520 + (nachfolger.length - 2) * 350, 190 + c * 160);
+							g.drawLine(230 + b * 400, 190 + c * 160, 630 + (nachfolger.length - 2) * 400, 190 + c * 160);
 						}
 
 						int vorgaenger[] = np.getVorgaenger();
+						
+						/** Horizontal Connection Line */
 						if (vorgaenger.length > 1) {
 							g.drawLine(
-								170 + b * 350,
+								230 + b * 400,
 								190 + (c - 1) * 160,
-								520 + (vorgaenger.length - 2) * 350,
+								630 + (vorgaenger.length - 2) * 400,
 								190 + (c - 1) * 160);
 						}
 
 						i++;
-					} else {
-						g.drawLine(170 + b * 350, 10 + c * 160, 170 + b * 350, 190 + c * 160);
+					} 
+					
+					/** Vertical long Connection Line */
+					else {
+						g.drawLine(230 + b * 400, 10 + c * 160, 230 + b * 400, 190 + c * 160);
 					}
 
 					paintedElements.add(new Integer(np.getNummer()));
@@ -125,64 +145,64 @@ public class NetzplanGrafikGenerator {
 			}
 		}
 	} /** 
-			 * Calculate the positions of the elements in the matrix position[x][y] 
-			 * position is a coordinate system with x and y axis. Each x/y-coordinate
-			 * can contain a number of a network plan element
-			 * 
-			 * German pseudo-code:
-			 * 1.) Variablen
-			 *
-			 *	tupel[]: Array mit Vektoren die jeweils die Nummer von Vorgängen einer Zeile halten
-			 *	completedAll: Vektor der die Nummer eines abgearbeiteten Vorganges speichert
-			 *	completed: Vektor der die Nummer eines aktuell abgearbeiteten Vorganges speichert
-			 *
-			 *	nachfolgerBasket: Vektor mit Nummern von Vorgängen
-			 *	nachfolger[]: Nummern der Vorgänge die einem Vorgang folgen
-			 *	
-			 *	
-			 *	2.) Initialisierung
-			 *	
-			 *	tupel[0] Vektor erhält die Nummer des ersten Vorganges
-			 *	completedAll erhält die Nummer des ersten Vorganges
-			 *	nachfolger[] des Startelementes werden geholt
-			 *	nachfolgerBasket wird mit nachfolger[]-Nummern gefüllt
-			 *	
-			 *	
-			 *	3.) 
-			 *	Wiederhole solange != Letztes Netzplanelement, i++
+				 * Calculate the positions of the elements in the matrix position[x][y] 
+				 * position is a coordinate system with x and y axis. Each x/y-coordinate
+				 * can contain a number of a network plan element
+				 * 
+				 * German pseudo-code:
+				 * 1.) Variablen
 				 *
-			 *		Zurücksetzen der Vektoren:
-			 *			tupel[i] = new Vector();
-			 *			
-			 *		Nachfolger bearbeiten:
-			 *		
-			 *			Für jedes Element im nachfolgerBasket 
-			 *	
-			 *				Ermittle die Vorgänger
-			 *		
-			 *				Wenn es mehr als einen Vorgänger für ein Vorgang gibt, dann:
-			 *					Überprüfe ob jeder Vorgänger im Vektor completedAll liegt
-			 *					
-			 *				Wenn alle Vorgänger in completedAll liegen und der aktuelle Vorgang
-			 *				nicht in completed liegt, dann
-			 *				
-			 *					Füge aktuelle Vorgangsnummer in Vektor(a) bei tupel[i]
-			 *					Füge aktuelle Vorgangsnummer in Vektor completed
-			 *					
-			 *				sonst
-			 *					
-			 *					Füge in tupel[i] die Nummer des Vorganges, die im vorhergehenden
-			 *					Tupel an dieser Stelle vorhanden war (a ist Breite des aktuellen Tupels)
-			 *				
-			 *				Inkrementiere (a)
-			 *		
-			 *		Füge Inhalt aus Vektor completed in Vektor completedAll
-			 *		
-			 *		nachfolgerBasket = new Vector();
-			 *		
-			 *		Für jedes Element im aktuellen Tupel werden die  Nummern der Nachfolger in 
-			 *		den nachfolgerBasket geschrieben  
-			 * */
+				 *	tupel[]: Array mit Vektoren die jeweils die Nummer von Vorgängen einer Zeile halten
+				 *	completedAll: Vektor der die Nummer eines abgearbeiteten Vorganges speichert
+				 *	completed: Vektor der die Nummer eines aktuell abgearbeiteten Vorganges speichert
+				 *
+				 *	nachfolgerBasket: Vektor mit Nummern von Vorgängen
+				 *	nachfolger[]: Nummern der Vorgänge die einem Vorgang folgen
+				 *	
+				 *	
+				 *	2.) Initialisierung
+				 *	
+				 *	tupel[0] Vektor erhält die Nummer des ersten Vorganges
+				 *	completedAll erhält die Nummer des ersten Vorganges
+				 *	nachfolger[] des Startelementes werden geholt
+				 *	nachfolgerBasket wird mit nachfolger[]-Nummern gefüllt
+				 *	
+				 *	
+				 *	3.) 
+				 *	Wiederhole solange != Letztes Netzplanelement, i++
+					 *
+				 *		Zurücksetzen der Vektoren:
+				 *			tupel[i] = new Vector();
+				 *			
+				 *		Nachfolger bearbeiten:
+				 *		
+				 *			Für jedes Element im nachfolgerBasket 
+				 *	
+				 *				Ermittle die Vorgänger
+				 *		
+				 *				Wenn es mehr als einen Vorgänger für ein Vorgang gibt, dann:
+				 *					Überprüfe ob jeder Vorgänger im Vektor completedAll liegt
+				 *					
+				 *				Wenn alle Vorgänger in completedAll liegen und der aktuelle Vorgang
+				 *				nicht in completed liegt, dann
+				 *				
+				 *					Füge aktuelle Vorgangsnummer in Vektor(a) bei tupel[i]
+				 *					Füge aktuelle Vorgangsnummer in Vektor completed
+				 *					
+				 *				sonst
+				 *					
+				 *					Füge in tupel[i] die Nummer des Vorganges, die im vorhergehenden
+				 *					Tupel an dieser Stelle vorhanden war (a ist Breite des aktuellen Tupels)
+				 *				
+				 *				Inkrementiere (a)
+				 *		
+				 *		Füge Inhalt aus Vektor completed in Vektor completedAll
+				 *		
+				 *		nachfolgerBasket = new Vector();
+				 *		
+				 *		Für jedes Element im aktuellen Tupel werden die  Nummern der Nachfolger in 
+				 *		den nachfolgerBasket geschrieben  
+				 * */
 	public void calculatePositions() {
 
 		Vector tupel[] = new Vector[100];
