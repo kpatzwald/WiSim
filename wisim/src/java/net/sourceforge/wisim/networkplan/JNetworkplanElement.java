@@ -453,20 +453,18 @@ public class JNetworkplanElement extends JPanel {
 
 	/**
 	 * Set the networkplan element for this JPanel
-	 * @param element
+	 * @param np
 	 */
-	public void setNp(NetworkplanElement element) {
-		np = element;
+	public void setNp(NetworkplanElement np) {
+		this.np = np;
 	}
 
 	/** Paint an arrow if necessary */
 	public void paintComponent(Graphics g) {
-		if (displayArrow) {
-			if (!np.isStartElem()) {
-				if (np.isCriticalPath())
-					g.setColor(Color.RED);
-				g.fillPolygon(new int[] { 145, 150, 155 }, new int[] { 10, 20, 10 }, 3);
-			}
+		if (displayArrow && !np.isStartElem()) {
+			if (np.isCriticalPath())
+				g.setColor(Color.RED);
+			g.fillPolygon(new int[] { 145, 150, 155 }, new int[] { 10, 20, 10 }, 3);
 		}
 	}
 

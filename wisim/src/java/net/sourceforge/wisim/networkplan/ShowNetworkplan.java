@@ -76,7 +76,7 @@ public class ShowNetworkplan extends JFrame {
 			}
 		});
 
-		long calculationTime = 0;
+		long renderTime = 0;
 		try {
 
 			/** Start stopwatch */
@@ -93,9 +93,9 @@ public class ShowNetworkplan extends JFrame {
 			long endTime = System.currentTimeMillis();
 
 			/** Get the time for calculating and showing the networkplan */
-			calculationTime = endTime - startTime;
+			renderTime = endTime - startTime;
 
-			JLabel showCalculationTime = new JLabel("Rendertime: " + (double) calculationTime / 1000 + " sec.");
+			JLabel showCalculationTime = new JLabel("Rendertime: " + (double) renderTime / 1000 + " sec.");
 			netzplanGrafik.add(showCalculationTime);
 			showCalculationTime.setBounds(10, 5, 200, 20);
 

@@ -423,7 +423,7 @@ public class NetworkplanElement {
 		return childBasket;
 	}
 	/**
-	 * @return
+	 * @return TRUE if this element is a pseudo activity
 	 */
 	public boolean isPseudoActivity() {
 		return pseudoActivity;
@@ -435,5 +435,4 @@ public class NetworkplanElement {
 	public void setPseudoActivity(boolean pseudoActivity) {
 		this.pseudoActivity = pseudoActivity;
 	}
-
 }

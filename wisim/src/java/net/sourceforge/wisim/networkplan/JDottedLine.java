@@ -33,6 +33,7 @@ import javax.swing.JSeparator;
  */
 public class JDottedLine extends JSeparator {
 
+	/** Space between two lines */
 	public static final int GRANULATION = 5;
 
 	/** Paint a dotted line in dependance of the orientation */
@@ -52,8 +53,10 @@ public class JDottedLine extends JSeparator {
 				a++;
 			}
 			
+			/** For the corners */
 			g.drawLine(0, height - 3, 0, height);
-		} else {
+			
+		} else if (getOrientation() == JSeparator.HORIZONTAL){
 
 			int width = (int) getSize().getWidth();
 			int progress = 0;
@@ -68,7 +71,9 @@ public class JDottedLine extends JSeparator {
 				a++;
 			}
 			
+			/** For the corners */
 			g.drawLine(width - 3, 0, width, 0);
+		
 		}
 	}
 }
