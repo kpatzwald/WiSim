@@ -47,7 +47,7 @@ public class WiSimLogger {
 	/** Creates a new instance of WiSimLogger */
 	public WiSimLogger(String logFile) {
 		try {
-			fh = new FileHandler("c:\\" + logFile);
+			fh = new FileHandler(logFile);
 		} catch (IOException e) {
 		}
 		logger.addHandler(fh);
