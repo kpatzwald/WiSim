@@ -63,7 +63,6 @@ public class JPanelIncomingPayments extends javax.swing.JPanel implements Simula
 	private int anzahl;
 	private Color darkgreen = new Color(51, 153, 51);
 	private Color red = new Color(255, 0, 0);
-	private boolean isActive;
 	private boolean isBuilt;
 	private WiSimMainController wiSimMainController;
 	private WiSimLogger logger;
@@ -79,7 +78,6 @@ public class JPanelIncomingPayments extends javax.swing.JPanel implements Simula
 		rechnungObjekte = new Hashtable();
 		kundeObjekte = new Hashtable();
 		anzahl = 0;
-		isActive = false;
 		isBuilt = false;
 		initComponents();
 	}
@@ -343,12 +341,10 @@ public class JPanelIncomingPayments extends javax.swing.JPanel implements Simula
   }//GEN-END:initComponents
 
 	private void formAncestorRemoved(javax.swing.event.AncestorEvent evt) { //GEN-FIRST:event_formAncestorRemoved
-		setIsActive(false);
 		wiSimMainController.removeActivPanel(this);
 	} //GEN-LAST:event_formAncestorRemoved
 
 	private void formAncestorAdded(javax.swing.event.AncestorEvent evt) { //GEN-FIRST:event_formAncestorAdded
-		setIsActive(true);
 		wiSimMainController.addActivPanel(this);
 	} //GEN-LAST:event_formAncestorAdded
 
@@ -644,7 +640,7 @@ public class JPanelIncomingPayments extends javax.swing.JPanel implements Simula
 	}
 
 	/** Refreshed Tabelle */
-	public void refreshTabelle() {
+	private void refreshTabelle() {
 		if (jTableRechnungListe.getSelectedRow() >= 0) {
 			Collection vertraege = null;
 			try {
@@ -699,23 +695,6 @@ public class JPanelIncomingPayments extends javax.swing.JPanel implements Simula
 	     */
 	public boolean getIsBuilt() {
 		return isBuilt;
-	}
-
-	/** Setzt die Variable isActive auf TRUE oder FALSE
-	 * @param isActive
-	 */
-	public void setIsActive(boolean isActive) {
-		this.isActive = isActive;
-	}
-
-	/** Befindet sich der Benutzer auf diesem Pane, so ist "isActive" = TRUE.
-	     *  Verlässt der Benutzer das Pane, so ist "isActive" = FALSE.
-	     *  Wichtig ist diese Variable für die Simulation: Es wird nur das Pane
-	     *  aktualisiert, auf dem sich der Benutzer gerade befindet!
-	     * @return boolean
-	     */
-	public boolean getIsActive() {
-		return isActive;
 	}
 
 	/* (non-Javadoc)

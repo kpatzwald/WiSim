@@ -73,7 +73,6 @@ public class JPanelSimulationAnalysis extends javax.swing.JPanel implements Simu
 	private Collection vertraege;
 	private GregorianCalendar actDateGC;
 	private GregorianCalendar lieferDateGC;
-	private boolean isActive;
 	private int actDay;
 
 	//Treepath der JTrees werden gespeichert
@@ -136,8 +135,6 @@ public class JPanelSimulationAnalysis extends javax.swing.JPanel implements Simu
 
 		actDateGC = new GregorianCalendar();
 		lieferDateGC = new GregorianCalendar();
-
-		isActive = false;
 
 		//Synchronisierte HashSets
 		treepathsEinkauf = Collections.synchronizedSet(new HashSet());
@@ -228,12 +225,10 @@ public class JPanelSimulationAnalysis extends javax.swing.JPanel implements Simu
   }//GEN-END:initComponents
 
 	private void formAncestorRemoved(javax.swing.event.AncestorEvent evt) { //GEN-FIRST:event_formAncestorRemoved
-		setIsActive(false);
 		wiSimMainController.removeActivPanel(this);
 	} //GEN-LAST:event_formAncestorRemoved
 
 	private void formAncestorAdded(javax.swing.event.AncestorEvent evt) { //GEN-FIRST:event_formAncestorAdded
-		setIsActive(true);
 		wiSimMainController.addActivPanel(this);
 	} //GEN-LAST:event_formAncestorAdded
 
@@ -487,15 +482,6 @@ public class JPanelSimulationAnalysis extends javax.swing.JPanel implements Simu
 		}
 	}
 
-	/** Erneuert die Datumsanzeige.
-	 * @param actDate
-	 */
-	public void refreshTextFieldDate(java.util.Date actDate) {
-		this.actDate.setTime(actDate.getTime());
-		GregorianCalendar actDateGC = new GregorianCalendar();
-		actDateGC.setTimeInMillis(actDate.getTime());
-	}
-
 	/** Setzt das actDate
 	 * @param actDate
 	 */
@@ -519,23 +505,6 @@ public class JPanelSimulationAnalysis extends javax.swing.JPanel implements Simu
 		treepathsEinkauf.clear();
 		treepathsProduktion.clear();
 		treepathsVertrieb.clear();
-	}
-
-	/** Setzt die Variable isActive auf TRUE oder FALSE
-	 * @param isActive
-	 */
-	public void setIsActive(boolean isActive) {
-		this.isActive = isActive;
-	}
-
-	/** Befindet sich der Benutzer auf diesem Pane, so ist "isActive" = TRUE.
-	 *  Verlässt der Benutzer das Pane, so ist "isActive" = FALSE.
-	 *  Wichtig ist diese Variable für die Simulation: Es wird nur das Pane
-	 *  aktualisiert, auf dem sich der Benutzer gerade befindet!
-	 * @return boolean
-	 */
-	public boolean getIsActive() {
-		return isActive;
 	}
 
 	/**

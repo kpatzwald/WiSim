@@ -80,9 +80,6 @@ public class UpdateSimulationAnalysis extends Thread {
 			//Refresh
 			jPanelSimulationAnalysis.setActDate(new java.sql.Date(actDate.getTime()));
 
-			if (jPanelSimulationAnalysis.getIsActive())
-				jPanelSimulationAnalysis.refreshTextFieldDate(actDate);
-
 			//Zeitanzeige im Menü wird aktualisiert
 			wiSimMainController.refreshTextFieldDate(actDate);
 

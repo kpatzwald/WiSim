@@ -50,7 +50,6 @@ public class JPanelWorkPlaceStore extends javax.swing.JPanel implements Simulati
     private int apElemAnzahl;
     private JProgressBar jprg;
     private boolean isBuilt;
-    private boolean isActive;
     private Vector tempEingangslagerBestand;
     private Vector tempAusgangslagerBestand;
     private WiSimMainController wiSimMainController;
@@ -70,7 +69,6 @@ public class JPanelWorkPlaceStore extends javax.swing.JPanel implements Simulati
         apAnzahl = 0;
         apElemAnzahl = 0;
         isBuilt = false;
-        isActive = false;
         tempEingangslagerBestand = new Vector();
         tempAusgangslagerBestand = new Vector();
         initComponents();
@@ -283,12 +281,10 @@ public class JPanelWorkPlaceStore extends javax.swing.JPanel implements Simulati
   }//GEN-END:initComponents
     
     private void formAncestorRemoved(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_formAncestorRemoved
-        setIsActive(false);
         wiSimMainController.removeActivPanel(this);
     }//GEN-LAST:event_formAncestorRemoved
     
     private void formAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_formAncestorAdded
-        setIsActive(true);
         setIsBuilt(true);
         wiSimMainController.addActivPanel(this);
     }//GEN-LAST:event_formAncestorAdded
@@ -572,7 +568,7 @@ public class JPanelWorkPlaceStore extends javax.swing.JPanel implements Simulati
     }
     
     /** Refreshed beide Tabellen */
-    public void refreshArbeitsplatzLagerElementeTabelle() {
+    private void refreshArbeitsplatzLagerElementeTabelle() {
         
         //Refresh Tabelle Arbeitsplaetze
         try {
@@ -711,23 +707,6 @@ public class JPanelWorkPlaceStore extends javax.swing.JPanel implements Simulati
      */
     public boolean getIsBuilt() {
         return isBuilt;
-    }
-    
-    /** Setzt die Variable isActive auf TRUE oder FALSE
-     * @param isActive
-     */
-    public void setIsActive(boolean isActive) {
-        this.isActive = isActive;
-    }
-    
-    /** Befindet sich der Benutzer auf diesem Pane, so ist "isActive" = TRUE.
-     *  Verlässt der Benutzer das Pane, so ist "isActive" = FALSE.
-     *  Wichtig ist diese Variable für die Simulation: Es wird nur das Pane
-     *  aktualisiert, auf dem sich der Benutzer gerade befindet!
-     * @return boolean isActive
-     */
-    public boolean getIsActive() {
-        return isActive;
     }
 
 	/* (non-Javadoc)
