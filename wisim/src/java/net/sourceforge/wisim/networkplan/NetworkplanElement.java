@@ -51,23 +51,48 @@ public class NetworkplanElement {
 	private String description;
 
 	private Collection parentBasket;
+	private Collection childBasket;
 
 	private int layoutManager;
 
+	private boolean childSet;
+
 	/**
-	 * Class representating one networkplan element
+	 * Class representating one networkplan element. 
+	 * The user sets the child elements of the activity. The parent elements are calculated.
 	 * @param number
 	 * @param duration
 	 * @param child
 	 * @param description
 	 */
 	public NetworkplanElement(int number, double duration, int[] child, String description) {
+		childSet = true;
 		this.number = number;
 		this.duration = duration;
 		this.child = child;
 		parentBasket = new Vector();
+		childBasket = new Vector();
 		this.description = description;
 		criticalPath = false;
+	}
+
+	/**
+	 * Class representating one networkplan element. 
+	 * The user sets the parent elements of the activity. The child elements are calculated.
+	 * wants to set the parents and not the childs.
+	 * @param number
+	 * @param duration
+	 * @param child
+	 * @param description
+	 */
+	public NetworkplanElement(int number, double duration, String description, int[] parent) {
+		childSet = false;
+		this.number = number;
+		this.duration = duration;
+		childBasket = new Vector();
+		this.description = description;
+		criticalPath = false;
+		this.parent = parent;
 	}
 
 	/**
@@ -87,7 +112,7 @@ public class NetworkplanElement {
 	}
 
 	/**
-	 * Get the earliest timepoint to begin
+	 * Get the earliest start
 	 * @return faz
 	 */
 	public double getFaz() {
@@ -95,7 +120,7 @@ public class NetworkplanElement {
 	}
 
 	/**
-	 * Get the earliest timepoint to end
+	 * Get the earliest finish
 	 * @return fez
 	 */
 	public double getFez() {
@@ -119,7 +144,7 @@ public class NetworkplanElement {
 	}
 
 	/**
-	 * Get the latest timepoint to begin
+	 * Get the latest start
 	 * @return saz
 	 */
 	public double getSaz() {
@@ -127,7 +152,7 @@ public class NetworkplanElement {
 	}
 
 	/**
-	 * Get the latest timepoint to end
+	 * Get the latest finish
 	 * @return sez
 	 */
 	public double getSez() {
@@ -135,7 +160,7 @@ public class NetworkplanElement {
 	}
 
 	/**
-	 * Set the earliest timepoint to begin
+	 * Set the earliest start
 	 * @param faz
 	 */
 	public void setFaz(double faz) {
@@ -143,7 +168,7 @@ public class NetworkplanElement {
 	}
 
 	/**
-	 * Set the latest timepoint to begin
+	 * Set the latest start
 	 * @param fez
 	 */
 	public void setFez(double fez) {
@@ -167,7 +192,7 @@ public class NetworkplanElement {
 	}
 
 	/**
-	 * Set the latest timepoint to begin
+	 * Set the latest finish
 	 * @param saz
 	 */
 	public void setSaz(double saz) {
@@ -175,7 +200,7 @@ public class NetworkplanElement {
 	}
 
 	/**
-	 * Set the latest timepoint to end
+	 * Set the latest finish
 	 * @param sez
 	 */
 	public void setSez(double sez) {
@@ -246,12 +271,26 @@ public class NetworkplanElement {
 		this.parentBasket = parentBasket;
 	}
 
+	/** Set the collection holding the childs
+	* @param childBasket
+	*/
+	public void setChildBasket(Collection childBasket) {
+		this.childBasket = childBasket;
+	}
+
 	/**
 	 * Add one parent into the basket
 	 * @param parent's index
 	 */
 	public void addIntoParentBasket(Integer parent) {
 		parentBasket.add(parent);
+	}
+
+	/** Add one child into the basket 
+	 * @param child's index
+	 */
+	public void addIntoChildBasket(Integer child) {
+		childBasket.add(child);
 	}
 
 	/** Set this elements parents */
@@ -261,6 +300,17 @@ public class NetworkplanElement {
 		int i = 0;
 		while (parentBasketIt.hasNext()) {
 			parent[i] = ((Integer) parentBasketIt.next()).intValue();
+			i++;
+		}
+	}
+
+	/** Set this elements childs */
+	public void getFromChildBasket() {
+		Iterator childBasketIt = childBasket.iterator();
+		child = new int[childBasket.size()];
+		int i = 0;
+		while (childBasketIt.hasNext()) {
+			child[i] = ((Integer) childBasketIt.next()).intValue();
 			i++;
 		}
 	}
@@ -347,5 +397,26 @@ public class NetworkplanElement {
 	 */
 	public void setLayoutManager(int i) {
 		layoutManager = i;
+	}
+	
+	/**
+	 * @return TRUE if the user has set the child's in the constructor
+	 */
+	public boolean isChildSet() {
+		return childSet;
+	}
+
+	/**
+	 * @param TRUE if the user has set the child's in the constructor
+	 */
+	public void setChildSet(boolean childSet) {
+		this.childSet = childSet;
+	}
+
+	/**
+	 * @return Vector containing the numbers of all childs
+	 */
+	public Collection getChildBasket() {
+		return childBasket;
 	}
 }

@@ -48,8 +48,30 @@ public class NetworkplanCalculator {
 		/** Set index in the vector storing the networkplan elements */
 		setIndex();
 
-		/** Calculate the parent networkplan elements */
-		setParents();
+		if (((NetworkplanElement) npElemente.get(0)).isChildSet()) {
+
+			/** Calculate the parent networkplan elements */
+			setParents();
+
+		} else {
+
+			/** Calculate the child networkplan elements */
+			setChilds();
+		}
+
+		/** Calculation */
+		calculateFazFez();
+		calculateSazSez();
+		calculatePuffer();
+	}
+
+	/**
+	 * Calculates a networkplan element (light version after edit)
+	 * @param npElemente
+	 */
+	public NetworkplanCalculator(Vector npElemente, boolean lightReCalc) {
+		this.npElemente = npElemente;
+		npElemIt = npElemente.iterator();
 
 		/** Calculation */
 		calculateFazFez();
@@ -59,7 +81,7 @@ public class NetworkplanCalculator {
 
 	/** 
 	 * Determination of the parent network elements 
-	 * */
+	 */
 	public void setParents() {
 		npElemIt = npElemente.iterator();
 		while (npElemIt.hasNext()) {
@@ -121,6 +143,7 @@ public class NetworkplanCalculator {
 
 		npElemIt = npElementeDesc.iterator();
 		while (npElemIt.hasNext()) {
+
 			NetworkplanElement npElem = (NetworkplanElement) npElemIt.next();
 
 			int child[] = npElem.getChild();
@@ -216,6 +239,7 @@ public class NetworkplanCalculator {
 
 	/** Set Index - each element's index is its position in the vector + 1 */
 	public void setIndex() {
+
 		int a = 0;
 		Hashtable newElemPos = new Hashtable();
 
@@ -226,18 +250,63 @@ public class NetworkplanCalculator {
 			a++;
 		}
 
-		/** Reset the child-Numbers */
-		a = 0;
-		while (a < npElemente.size()) {
-			NetworkplanElement np = (NetworkplanElement) npElemente.get(a);
-			int child[] = np.getChild();
+		if (((NetworkplanElement) npElemente.get(0)).isChildSet()) {
 
-			int b = 0;
-			while (b < child.length && child[b] != 0) {
-				child[b] = ((Integer) newElemPos.get(new Integer(child[b]))).intValue();
-				b++;
+			/** Reset the child-Numbers */
+			a = 0;
+			while (a < npElemente.size()) {
+				NetworkplanElement np = (NetworkplanElement) npElemente.get(a);
+				int child[] = np.getChild();
+
+				int b = 0;
+				while (b < child.length && child[b] != 0) {
+					child[b] = ((Integer) newElemPos.get(new Integer(child[b]))).intValue();
+					b++;
+				}
+				a++;
 			}
-			a++;
+		} else {
+
+			/** Reset the parent-Numbers */
+			a = 0;
+			while (a < npElemente.size()) {
+				NetworkplanElement np = (NetworkplanElement) npElemente.get(a);
+				int parent[] = np.getParent();
+
+				int b = 0;
+				while (b < parent.length && parent[b] != 0) {
+					parent[b] = ((Integer) newElemPos.get(new Integer(parent[b]))).intValue();
+					b++;
+				}
+				a++;
+			}
+		}
+	}
+
+	/** 
+	 * Determination of the child network elements 
+	 */
+	public void setChilds() {
+		npElemIt = npElemente.iterator();
+		while (npElemIt.hasNext()) {
+			NetworkplanElement npElem = (NetworkplanElement) npElemIt.next();
+			int[] parent = npElem.getParent();
+			int i = 0;
+			while (i < parent.length && parent[i] != 0) {
+				((NetworkplanElement) npElemente.get(parent[i] - 1)).addIntoChildBasket(new Integer(npElem.getIndex()));
+				i++;
+			}
+		}
+
+		npElemIt = npElemente.iterator();
+		while (npElemIt.hasNext()) {
+			NetworkplanElement npElem = (NetworkplanElement) npElemIt.next();
+			if (npElem.getChildBasket().size() > 0) {
+				npElem.getFromChildBasket();
+			} else {
+				npElem.addIntoChildBasket(new Integer(0));
+				npElem.getFromChildBasket();
+			}
 		}
 	}
 }

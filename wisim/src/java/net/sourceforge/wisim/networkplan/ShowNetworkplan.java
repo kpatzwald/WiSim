@@ -57,7 +57,7 @@ public class ShowNetworkplan extends JFrame {
 	public ShowNetworkplan() {
 
 		npElemente = getNetworkPlanElements();
-
+		setTitle("Networkplan editor Ver. 0.6a");
 		getContentPane().setLayout(null);
 
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -81,8 +81,9 @@ public class ShowNetworkplan extends JFrame {
 			/** Get the Panel to use. */
 			netzplanGrafik.setLayout(null);
 			netzplanGrafik.setBackground(Color.WHITE);
-			netzplanGrafik.setPreferredSize(new Dimension(netzplanGrafik.getMaxWidthPos() * 430, netzplanGrafik.getMaxHeightPos() * 280));
-			
+			netzplanGrafik.setPreferredSize(
+				new Dimension(netzplanGrafik.getMaxWidthPos() * 430, netzplanGrafik.getMaxHeightPos() * 280));
+
 			/** Stop stopwatch */
 			long endTime = System.currentTimeMillis();
 
@@ -91,7 +92,7 @@ public class ShowNetworkplan extends JFrame {
 
 			JLabel showCalculationTime = new JLabel("Rendertime: " + (double) calculationTime / 1000 + " sec.");
 			netzplanGrafik.add(showCalculationTime);
-			showCalculationTime.setBounds(20, 20, 200, 20);
+			showCalculationTime.setBounds(10, 5, 200, 20);
 
 		}
 
@@ -226,7 +227,8 @@ public class ShowNetworkplan extends JFrame {
 					String dbname = "wisim";
 
 					/** Get a connection */
-					Connection conn = DriverManager.getConnection("jdbc:mysql://" + hostname + ":" + port + "/" + dbname, user, password);
+					Connection conn =
+						DriverManager.getConnection("jdbc:mysql://" + hostname + ":" + port + "/" + dbname, user, password);
 					conn.setAutoCommit(false);
 
 					/** Select Statement */
@@ -282,6 +284,22 @@ public class ShowNetworkplan extends JFrame {
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
+				break;
+
+			case 8 : // Example with setting of parent elements instead of childs
+				filled.add(new NetworkplanElement(1, 2, "Ausgieﬂen Fundamente", new int[] { 0 }));
+				filled.add(new NetworkplanElement(2, 2, "Ausgieﬂen Fundamente", new int[] { 1 }));
+				filled.add(new NetworkplanElement(3, 5, "Verschalung Betonsockel", new int[] { 2 }));
+				filled.add(new NetworkplanElement(4, 3, "Betonierung Betonsockel", new int[] { 3 }));
+				filled.add(new NetworkplanElement(5, 10, "Bestellung Betonteile", new int[] { 4 }));
+				filled.add(new NetworkplanElement(6, 3, "Betonierung Betonsockel", new int[] { 5 }));
+				filled.add(new NetworkplanElement(7, 10, "Bestellung Betonteile", new int[] { 6 }));
+				filled.add(new NetworkplanElement(8, 2, "Aushub Versorgungsleitung", new int[] { 6 }));
+				filled.add(new NetworkplanElement(9, 3, "Betonierung Betonsockel", new int[] { 6 }));
+				filled.add(new NetworkplanElement(10, 10, "Bestellung Betonteile", new int[] { 7, 8 }));
+				filled.add(new NetworkplanElement(11, 3, "Betonierung Betonsockel", new int[] { 10 }));
+				filled.add(new NetworkplanElement(12, 10, "Bestellung Betonteile", new int[] { 9, 11 }));
+				filled.add(new NetworkplanElement(13, 2, "Aushub Versorgungsleitung", new int[] { 12 }));
 				break;
 		}
 		return filled;

@@ -228,7 +228,11 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 				this.add(jNpElem[i]);
 
 				/** Place the element on the JNetworkplan and save the position */
-				jNpElem[i].setBounds(jNPaddingX + x * jNpElemBoundsX, jNPaddingY + middlePos * jNpElemBoundsY, jNpElemWidth, jNpElemHeight);
+				jNpElem[i].setBounds(
+					jNPaddingX + x * jNpElemBoundsX,
+					jNPaddingY + middlePos * jNpElemBoundsY,
+					jNpElemWidth,
+					jNpElemHeight);
 				elementsPosition.put(
 					new Integer(np.getIndex()),
 					new Point(jNPaddingX + x * jNpElemBoundsX, jNPaddingY + middlePos * jNpElemBoundsY));
@@ -341,31 +345,60 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 
 				NetworkplanElement np = (NetworkplanElement) npElemente.get(currentElementNumber - 1);
 
-				Hashtable childWidth = getRelWidthOfChilds(bottomPos);
-				double freeWidthProzent = ((Double) childWidth.get(new Integer(np.getIndex()))).doubleValue();
-				freeWidth = (int) ((double) stomachSize / (double) 100 * freeWidthProzent) / 2 - 215 + occupied;
-
-				occupied = freeWidth * 2;
-
-				if (freeWidth < 0)
-					freeWidth = 0;
-
 				/** This element is not a vertical connection line */
 				if (checkIfLine > 0) {
+
 					jNpElem[i] = new JNetworkplanElement(np);
 					np.setLayoutManager(i);
 					jNpElem[i].setName(String.valueOf(np.getIndex()));
 					this.add(jNpElem[i]);
 
 					/** Place the element on the JNetworkplan and save the position */
-					jNpElem[i].setBounds(
-						jNPaddingX + y * jNpElemBoundsX + freeWidth,
-						jNPaddingY + bottomPos * jNpElemBoundsY,
-						jNpElemWidth,
-						jNpElemHeight);
-					elementsPosition.put(
-						new Integer(np.getIndex()),
-						new Point(jNPaddingX + y * jNpElemBoundsX + freeWidth, jNPaddingY + bottomPos * jNpElemBoundsY));
+
+					/** 
+					 * Check if child element has only one parent and vice versa. If true the
+					 * element's position is right under the position of his parent. This
+					 * position is get with the getAnchor()-Method.
+					 */
+					int parent[] = np.getParent();
+					if (parent.length == 1) {
+						child = ((NetworkplanElement) npElemente.get(parent[0] - 1)).getChild();
+						if (child.length == 1) {
+							int anchorX =
+								(int) jNpElem[((NetworkplanElement) npElemente.get(parent[0] - 1))
+									.getLayoutManager()]
+									.getAnchorPoint(JNetworkplanElement.ANCHOR_BOTTOM_MIDDLE)
+									.getX()
+									- jNpElemWidth / 2;
+							int anchorY =
+								(int) jNpElem[((NetworkplanElement) npElemente.get(parent[0] - 1))
+									.getLayoutManager()]
+									.getAnchorPoint(JNetworkplanElement.ANCHOR_BOTTOM_MIDDLE)
+									.getY()
+									+ 110;
+
+							jNpElem[i].setBounds(anchorX, anchorY, jNpElemWidth, jNpElemHeight);
+							elementsPosition.put(new Integer(np.getIndex()), new Point(anchorX, anchorY));
+						}
+					} else {
+						Hashtable childWidth = getRelWidthOfChilds(bottomPos);
+						double freeWidthProzent = ((Double) childWidth.get(new Integer(np.getIndex()))).doubleValue();
+						freeWidth = (int) ((double) stomachSize / (double) 100 * freeWidthProzent) / 2 - 215 + occupied;
+
+						if (freeWidth < 0)
+							freeWidth = 0;
+
+						occupied = freeWidth * 2;
+
+						jNpElem[i].setBounds(
+							jNPaddingX + y * jNpElemBoundsX + freeWidth,
+							jNPaddingY + bottomPos * jNpElemBoundsY,
+							jNpElemWidth,
+							jNpElemHeight);
+						elementsPosition.put(
+							new Integer(np.getIndex()),
+							new Point(jNPaddingX + y * jNpElemBoundsX + freeWidth, jNPaddingY + bottomPos * jNpElemBoundsY));
+					}
 					i++;
 				}
 				y++;
@@ -449,7 +482,8 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 						while (c < parent.length) {
 
 							/** The current tupel (row) does not contain the parents */
-							if (!tupel[i].contains(new Integer(parent[c])) && !tupel[i].contains(new Integer(parent[c] * (-1)))) {
+							if (!tupel[i].contains(new Integer(parent[c]))
+								&& !tupel[i].contains(new Integer(parent[c] * (-1)))) {
 								parentsExists = false;
 								break;
 							}
@@ -468,7 +502,8 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 							 * this child dont exist 
 							 */
 						} else {
-							tupel[i + 1].add(new Integer(((NetworkplanElement) npElemente.get(currentElem - 1)).getIndex() * (-1)));
+							tupel[i
+								+ 1].add(new Integer(((NetworkplanElement) npElemente.get(currentElem - 1)).getIndex() * (-1)));
 						}
 					}
 					b++;
@@ -498,30 +533,30 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 			j++;
 		}
 
-		/** START Debug output
-		int e = 0;
-		while (e < i) {
-		
-			String string = "";
-			Vector test = (Vector) tupel[e];
-			Iterator testIt = test.iterator();
-			while (testIt.hasNext()) {
-				int tempInt = ((Integer) testIt.next()).intValue();
-				int outInt = tempInt;
-				if (tempInt < 0)
-					tempInt *= -1;
-		
-				if (tempInt != 0) {
-					NetzplanElement npEle = (NetzplanElement) npElemente.get(tempInt - 1);
-					string = string + " " + (outInt);
-				} else {
-					string = string + " 0";
-				}
-			}
-			System.out.println("Tupel[" + e + "]: " + string);
-			e++;
-		}
-		END Debug output */
+		/** START Debug output */
+		//		int e = 0;
+		//		while (e < i) {
+		//
+		//			String string = "";
+		//			Vector test = (Vector) tupel[e];
+		//			Iterator testIt = test.iterator();
+		//			while (testIt.hasNext()) {
+		//				int tempInt = ((Integer) testIt.next()).intValue();
+		//				int outInt = tempInt;
+		//				if (tempInt < 0)
+		//					tempInt *= -1;
+		//
+		//				if (tempInt != 0) {
+		//					NetworkplanElement npEle = (NetworkplanElement) npElemente.get(tempInt - 1);
+		//					string = string + " " + (outInt);
+		//				} else {
+		//					string = string + " 0";
+		//				}
+		//			}
+		//			System.out.println("Tupel[" + e + "]: " + string);
+		//			e++;
+		//		}
+		/** END Debug output */
 	}
 
 	/**
@@ -636,7 +671,7 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 
 		int c = 0;
 
-		/** Get the width each child of the parent get */
+		/** Get the width each child of the parent gets */
 		while (c < parents.size()) {
 
 			int currentPos = ((Integer) parents.get(c)).intValue();
@@ -653,9 +688,6 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 
 				double widthForChild = (double) widthForChildGroup / (double) countChilds;
 
-				if (countChilds == 1)
-					widthForChild = widthForChildGroup;
-
 				int d = 0;
 				while (d < child.length) {
 					if (childWidth.containsKey(new Integer(child[d]))) {
@@ -670,7 +702,6 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 				double widthForChild = widthForChildGroup;
 				childWidth.put(new Integer(tempPos * (-1)), new Double(widthForChild));
 			}
-
 			c++;
 		}
 		return childWidth;
@@ -845,13 +876,12 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 					/** Start stopwatch */
 					long startTime = System.currentTimeMillis();
 
-					npCalc = new NetworkplanCalculator(npElemente);
+					npCalc = new NetworkplanCalculator(npElemente, true);
 					npElemente = npCalc.getNpElemente();
 					resetCriticalPath();
 					showCriticalPath();
 
-					/** Get all JNetworkplanElements on this JNetworkplan */
-					//paintSwingElmements();
+					/** Set positions of all JNetworkplanElements on this JNetworkplan */
 					positionElements();
 
 					/** Stop stopwatch */
@@ -862,10 +892,13 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 
 					JLabel showCalculationTime = new JLabel("Rendertime: " + (double) calculationTime / 1000 + " sec.");
 					add(showCalculationTime);
-					showCalculationTime.setBounds(20, 20, 200, 20);
+					showCalculationTime.setBounds(10, 5, 200, 20);
 
 					remove(jPanelEdit);
 					editPanelOpen = false;
+
+					/** Repaint the JNetworkplan */
+					repaint();
 				}
 			});
 
@@ -902,8 +935,6 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 
 			jPanelEdit.setBounds(elemXPos, elemYPos, 280, 120);
 			jPanelEdit.setBackground(java.awt.SystemColor.controlHighlight);
-
-			//[DoItBen] Element wird nicht gelöscht wenn der Benutzer es aus dem Bereich des Panels gezogen hat
 		}
 	}
 
@@ -1146,9 +1177,11 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 						NetworkplanElement np = (NetworkplanElement) npElemente.get(currentNumber * (-1) - 1);
 						child = np.getChild();
 
-						int xPosStart = (int) jNpElem[np.getLayoutManager()].getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE).getX();
+						int xPosStart =
+							(int) jNpElem[np.getLayoutManager()].getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE).getX();
 						int yPosStart =
-							(int) jNpElem[np.getLayoutManager()].getAnchorPoint(JNetworkplanElement.ANCHOR_BOTTOM_MIDDLE).getY() + 65;
+							(int) jNpElem[np.getLayoutManager()].getAnchorPoint(JNetworkplanElement.ANCHOR_BOTTOM_MIDDLE).getY()
+								+ 65;
 						int yPosLength =
 							(int) jNpElem[((NetworkplanElement) npElemente.get(child[0] - 1))
 								.getLayoutManager()]
