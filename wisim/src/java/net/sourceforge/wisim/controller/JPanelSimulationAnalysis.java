@@ -54,7 +54,7 @@ import net.sourceforge.wisim.model.ComponentContractItem;
 import net.sourceforge.wisim.model.ComponentWarehouseItem;
 import net.sourceforge.wisim.model.Contract;
 import net.sourceforge.wisim.model.Customer;
-import net.sourceforge.wisim.model.SimulationPane;
+import net.sourceforge.wisim.model.Refreshable;
 import net.sourceforge.wisim.model.Supplier;
 import net.sourceforge.wisim.model.WiSimComponent;
 import net.sourceforge.wisim.model.WiSimLogger;
@@ -64,7 +64,7 @@ import net.sourceforge.wisim.simulation.ProductionController;
  * eingehende Lieferungen, produzierte Hubs, versendete Hubs) werden angezeigt.
  * @author benjamin.pasero
  */
-public class JPanelSimulationAnalysis extends javax.swing.JPanel implements SimulationPane {
+public class JPanelSimulationAnalysis extends javax.swing.JPanel implements Refreshable {
 	private WiSimDAO dao;
 	private Date actDate;
 	private int hubBestand;

@@ -40,7 +40,7 @@ import java.awt.image.*;
 /** Gibt eine Übersicht aller Einzelteilaufträge aus.
  * @author benjamin.pasero
  */
-public class JPanelViewOrders extends javax.swing.JPanel implements SimulationPane {
+public class JPanelViewOrders extends javax.swing.JPanel implements Refreshable {
 
 	private WiSimDAO dao;
 	private Vector etatListe;

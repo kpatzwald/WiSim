@@ -48,14 +48,14 @@ import net.sourceforge.wisim.dao.WiSimDAOWriteException;
 import net.sourceforge.wisim.model.Contract;
 import net.sourceforge.wisim.model.ContractAccount;
 import net.sourceforge.wisim.model.Customer;
-import net.sourceforge.wisim.model.SimulationPane;
+import net.sourceforge.wisim.model.Refreshable;
 import net.sourceforge.wisim.model.WiSimLogger;
 
 /**
  * JPanelZahlungseingang ermöglicht Übersicht und Bearbeitung aller Zahlungseingänge.
  */
 
-public class JPanelIncomingPayments extends javax.swing.JPanel implements SimulationPane {
+public class JPanelIncomingPayments extends javax.swing.JPanel implements Refreshable {
 
 	private WiSimDAO dao;
 	private Hashtable vertragObjekte;

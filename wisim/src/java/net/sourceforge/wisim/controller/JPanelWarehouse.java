@@ -41,7 +41,7 @@ import javax.swing.*;
  * ausgegeben. Jeder WarehouseLocation kann einzelnd eingesehen werden.
  * @author Benjamin Pasero
  */
-public class JPanelWarehouse extends javax.swing.JPanel implements SimulationPane {
+public class JPanelWarehouse extends javax.swing.JPanel implements Refreshable {
 	private WiSimDAO dao;
 	private Collection lagerplaetze;
 	private Vector einzelteileListe;

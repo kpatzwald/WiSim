@@ -52,7 +52,7 @@ import net.sourceforge.wisim.dao.WiSimDAO;
 import net.sourceforge.wisim.dao.WiSimDAOException;
 import net.sourceforge.wisim.dao.WiSimDAOFactory;
 import net.sourceforge.wisim.mdi.JScrollableDesktopPane;
-import net.sourceforge.wisim.model.SimulationPane;
+import net.sourceforge.wisim.model.Refreshable;
 import net.sourceforge.wisim.model.WiSimLogger;
 import net.sourceforge.wisim.simulation.ActualTime;
 import net.sourceforge.wisim.simulation.CoreTime;
@@ -946,7 +946,7 @@ public class WiSimMainController extends javax.swing.JFrame {
 
 			Iterator it = activPanels.iterator();
 			while (it.hasNext()) {
-				SimulationPane simPane = (SimulationPane) it.next();
+				Refreshable simPane = (Refreshable) it.next();
 				simPane.refresh();
 			}
 			JOptionPane.showMessageDialog(this, "Die Simulation wurde zurückgesetzt!");

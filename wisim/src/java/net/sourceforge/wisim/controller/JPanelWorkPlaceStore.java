@@ -41,7 +41,7 @@ import javax.swing.*;
  * pro WorkPlace einstellen.
  * @author  benjamin.pasero
  */
-public class JPanelWorkPlaceStore extends javax.swing.JPanel implements SimulationPane {
+public class JPanelWorkPlaceStore extends javax.swing.JPanel implements Refreshable {
 
 	private WiSimDAO dao;
 	private Vector arbeitsplaetze;
