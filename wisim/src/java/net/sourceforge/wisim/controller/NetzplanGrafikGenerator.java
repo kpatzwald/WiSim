@@ -110,7 +110,7 @@ public class NetzplanGrafikGenerator {
 						npElemImg = npGen[i].generateNetzplanelement(np);
 						
 						/** Center the element */
-						freeWidth = (400 - npGen[i].getWidth()) / 2;
+						freeWidth = Math.round((400 - npGen[i].getWidth()) / 2);
 
 						g.drawImage(npElemImg, 30 + b * 400 + freeWidth, 30 + c * 160, null);
 

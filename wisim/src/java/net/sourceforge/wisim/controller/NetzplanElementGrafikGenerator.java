@@ -27,6 +27,9 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
+/*import java.awt.font.FontRenderContext;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;*/
 import java.awt.image.BufferedImage;
 
 /**
@@ -59,8 +62,11 @@ public class NetzplanElementGrafikGenerator {
 
 	public Image generateNetzplanelement(NetzplanElement np) {
 
+		//int textWidth = (int)Math.round((new Font("SansSerif", 0, 15).getStringBounds(np.getBezeichnung(), 0, np.getBezeichnung().length(), new FontRenderContext(new AffineTransform(), false, false))).getWidth());
 		/** If more than 14 chars increase the width of the rect */
 		scaleX = (np.getBezeichnung().length() - 14) * 10;
+
+		//scaleX = textWidth - 120;
 
 		String bezeichnung = np.getBezeichnung();
 		String s1 = "";
@@ -78,8 +84,6 @@ public class NetzplanElementGrafikGenerator {
 		else if (scaleX > 199) {
 
 			int textMiddle = np.getBezeichnung().length() / 2;
-
-			/** Search for whitespace left to the middle */
 			int a = textMiddle;
 
 			if (np.getBezeichnung().split(" ").length < 2) {
@@ -87,8 +91,10 @@ public class NetzplanElementGrafikGenerator {
 				s2 = np.getBezeichnung().substring(textMiddle, np.getBezeichnung().length());
 				twoLines = true;
 				scaleX = (s1.length() - 14) * 10;
+				//scaleX = (int)(new Font("SansSerif", 0, 15).getStringBounds(s1, 0, s1.length(), new FontRenderContext(new AffineTransform(), false, false))).getWidth() - 120;
 			} else {
 
+				/** Search for whitespace left to the middle */
 				int stepsLeft = 0;
 				while (bezeichnung.charAt(a) != 32 && a > 0) {
 					a--;
@@ -121,9 +127,11 @@ public class NetzplanElementGrafikGenerator {
 				/** Determine the longer line of the splitted string */
 				if (s1.length() > s2.length()) {
 					scaleX = (s1.length() - 14) * 10;
+					//scaleX = (int)(new Font("SansSerif", 0, 15).getStringBounds(s1, 0, s1.length(), new FontRenderContext(new AffineTransform(), false, false))).getWidth() - 120;
 					longerLine = s1;
 				} else {
 					scaleX = (s2.length() - 14) * 10;
+					//scaleX = (int)(new Font("SansSerif", 0, 15).getStringBounds(s2, 0, s2.length(), new FontRenderContext(new AffineTransform(), false, false))).getWidth() - 120;
 					longerLine = s2;
 				}
 
@@ -134,6 +142,7 @@ public class NetzplanElementGrafikGenerator {
 					while (scaleX > 199) {
 						longerLine = longerLine.substring(0, longerLine.length() - 1);
 						scaleX = (longerLine.length() - 14) * 10;
+						//scaleX = (int)(new Font("SansSerif", 0, 15).getStringBounds(longerLine, 0, longerLine.length(), new FontRenderContext(new AffineTransform(), false, false))).getWidth() - 120;
 					}
 					longerLine = longerLine.substring(0, longerLine.length() - 3) + "...";
 					scaleX = 199;
@@ -145,6 +154,56 @@ public class NetzplanElementGrafikGenerator {
 						s2 = longerLine;
 				}
 			}
+		} else if (scaleX > 0 && np.getBezeichnung().split(" ").length > 1) {
+			int textMiddle = np.getBezeichnung().length() / 2;
+
+			if (np.getBezeichnung().split(" ").length > 1) {
+
+				int stepsLeft = 0;
+				int a = textMiddle;
+				
+				while (bezeichnung.charAt(a) != 32 && a > 0) {
+					a--;
+					stepsLeft++;
+				}
+
+				/** Search for whitespace right to the middle */
+				int b = textMiddle;
+				int stepsRight = 0;
+				while (b < bezeichnung.length() && bezeichnung.charAt(b) != 32) {
+					b++;
+					stepsRight++;
+				}
+
+				/** Split the String at the left whitespace of the Middle */
+				if (stepsLeft < stepsRight) {
+					s1 = bezeichnung.substring(0, a);
+					s2 = bezeichnung.substring(a + 1, bezeichnung.length());
+
+					/** Split the String at the right whitespace of the Middle */
+				} else {
+					s1 = bezeichnung.substring(0, b);
+					s2 = bezeichnung.substring(b + 1, bezeichnung.length());
+				}
+
+				twoLines = true;
+
+				String longerLine = "";
+
+				/** Determine the longer line of the splitted string */
+				if (s1.length() > s2.length()) {
+					scaleX = (s1.length() - 14) * 10;
+					//scaleX = (int)(new Font("SansSerif", 0, 15).getStringBounds(s1, 0, s1.length(), new FontRenderContext(new AffineTransform(), false, false))).getWidth() - 120;
+					longerLine = s1;
+				} else {
+					scaleX = (s2.length() - 14) * 10;
+					//scaleX = (int)(new Font("SansSerif", 0, 15).getStringBounds(s2, 0, s2.length(), new FontRenderContext(new AffineTransform(), false, false))).getWidth() - 120;
+					longerLine = s2;
+				}
+			}
+			
+			if (scaleX < 0)
+				scaleX = 0;
 		}
 
 		if (np.isCriticalPath())
@@ -219,6 +278,7 @@ public class NetzplanElementGrafikGenerator {
 
 		/** Drawing the description */
 		g.setFont(new Font("Courier", 0, 15));
+		//g.setFont(new Font("SansSerif", 0, 15));
 
 		/** Paint two lines if so. Center the Strings between 
 		 *  65 and 185px (equals 14 letters which 9px each)
@@ -248,9 +308,10 @@ public class NetzplanElementGrafikGenerator {
 				moreChars = 0;
 
 			int middle = (120 + moreChars * 10) / 2 - (bezeichnung.length() * 9) / 2;
+			//int middle = (120 - textWidth)/2;
 			if (middle < 0)
 				middle = 0;
-			g.drawString(bezeichnung, 65 + middle, 62);
+			g.drawString(bezeichnung, 70 + middle, 62);
 		}
 		return npElem;
 	}
