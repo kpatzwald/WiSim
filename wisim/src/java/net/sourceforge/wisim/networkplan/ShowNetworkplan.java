@@ -229,7 +229,7 @@ public class ShowNetworkplan extends JFrame {
 					String hostname = "localhost";
 					String port = "3306";
 					String user = "root";
-					String password = "";
+					String password = "root";
 					String dbname = "wisim";
 
 					/** Get a connection */

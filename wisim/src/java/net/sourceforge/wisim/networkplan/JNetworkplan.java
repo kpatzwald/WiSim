@@ -44,10 +44,10 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
-import net.sourceforge.wisim.controller.WiSimLogger;
 import net.sourceforge.wisim.controller.WiSimMainController;
 import net.sourceforge.wisim.dao.WiSimDAO;
 import net.sourceforge.wisim.dao.WiSimDAOWriteException;
+import net.sourceforge.wisim.model.WiSimLogger;
 import net.sourceforge.wisim.model.WorkPlace;
 
 /**
