@@ -171,7 +171,7 @@
     <Component class="javax.swing.JTextField" name="jTextFieldNeuerLieferantName">
       <Properties>
         <Property name="document" type="javax.swing.text.Document" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="new JTextFieldValidation(50)" type="code"/>
+          <Connection code="new Validator(50)" type="code"/>
         </Property>
       </Properties>
       <Constraints>
@@ -197,7 +197,7 @@
     <Component class="javax.swing.JTextField" name="jTextFieldNeuerLieferantVorname">
       <Properties>
         <Property name="document" type="javax.swing.text.Document" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="new JTextFieldValidation(50)" type="code"/>
+          <Connection code="new Validator(50)" type="code"/>
         </Property>
       </Properties>
       <Constraints>
@@ -209,7 +209,7 @@
     <Component class="javax.swing.JTextField" name="jTextFieldNeuerLieferantStrasse">
       <Properties>
         <Property name="document" type="javax.swing.text.Document" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="new JTextFieldValidation(50)" type="code"/>
+          <Connection code="new Validator(50)" type="code"/>
         </Property>
       </Properties>
       <Constraints>
@@ -235,7 +235,7 @@
     <Component class="javax.swing.JTextField" name="jTextFieldNeuerLieferantFirma">
       <Properties>
         <Property name="document" type="javax.swing.text.Document" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="new JTextFieldValidation(50)" type="code"/>
+          <Connection code="new Validator(50)" type="code"/>
         </Property>
       </Properties>
       <Constraints>
@@ -275,7 +275,7 @@
     <Component class="javax.swing.JTextField" name="jTextFieldNeuerLieferantOrt">
       <Properties>
         <Property name="document" type="javax.swing.text.Document" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="new JTextFieldValidation(50)" type="code"/>
+          <Connection code="new Validator(50)" type="code"/>
         </Property>
       </Properties>
       <Constraints>
@@ -302,7 +302,7 @@
       <Properties>
         <Property name="columns" type="int" value="5"/>
         <Property name="document" type="javax.swing.text.Document" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="new JTextFieldValidation(5)" type="code"/>
+          <Connection code="new Validator(5)" type="code"/>
         </Property>
       </Properties>
       <Events>
@@ -317,7 +317,7 @@
     <Component class="javax.swing.JTextField" name="jTextFieldNeuerLieferantFax">
       <Properties>
         <Property name="document" type="javax.swing.text.Document" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="new JTextFieldValidation(30)" type="code"/>
+          <Connection code="new Validator(30)" type="code"/>
         </Property>
       </Properties>
       <Constraints>
@@ -343,7 +343,7 @@
     <Component class="javax.swing.JTextField" name="jTextFieldNeuerLieferantTelefon">
       <Properties>
         <Property name="document" type="javax.swing.text.Document" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="new JTextFieldValidation(30)" type="code"/>
+          <Connection code="new Validator(30)" type="code"/>
         </Property>
       </Properties>
       <Constraints>
@@ -383,7 +383,7 @@
     <Component class="javax.swing.JTextField" name="jTextFieldNeuerLieferantEMail">
       <Properties>
         <Property name="document" type="javax.swing.text.Document" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="new JTextFieldValidation(50)" type="code"/>
+          <Connection code="new Validator(50)" type="code"/>
         </Property>
       </Properties>
       <Events>

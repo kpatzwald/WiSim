@@ -153,47 +153,38 @@ public class JPanelViewCustomers extends javax.swing.JPanel {
         add(jScrollPaneListe);
         jScrollPaneListe.setBounds(30, 70, 300, 290);
 
-        jTextFieldKundenUebersichtVorname.setDocument(new JTextFieldValidation(50));
         jTextFieldKundenUebersichtVorname.setEditable(false);
         add(jTextFieldKundenUebersichtVorname);
         jTextFieldKundenUebersichtVorname.setBounds(480, 70, 210, 20);
 
-        jTextFieldKundenUebersichtNachname.setDocument(new JTextFieldValidation(50));
         jTextFieldKundenUebersichtNachname.setEditable(false);
         add(jTextFieldKundenUebersichtNachname);
         jTextFieldKundenUebersichtNachname.setBounds(480, 100, 210, 20);
 
-        jTextFieldKundenUebersichtFirma.setDocument(new JTextFieldValidation(50));
         jTextFieldKundenUebersichtFirma.setEditable(false);
         add(jTextFieldKundenUebersichtFirma);
         jTextFieldKundenUebersichtFirma.setBounds(480, 130, 210, 20);
 
-        jTextFieldKundenUebersichtStrasse.setDocument(new JTextFieldValidation(50));
         jTextFieldKundenUebersichtStrasse.setEditable(false);
         add(jTextFieldKundenUebersichtStrasse);
         jTextFieldKundenUebersichtStrasse.setBounds(480, 160, 210, 20);
 
-        jTextFieldKundenUebersichtPLZ.setDocument(new JTextFieldValidation(5));
         jTextFieldKundenUebersichtPLZ.setEditable(false);
         add(jTextFieldKundenUebersichtPLZ);
         jTextFieldKundenUebersichtPLZ.setBounds(480, 190, 40, 20);
 
-        jTextFieldKundenUebersichtOrt.setDocument(new JTextFieldValidation(50));
         jTextFieldKundenUebersichtOrt.setEditable(false);
         add(jTextFieldKundenUebersichtOrt);
         jTextFieldKundenUebersichtOrt.setBounds(560, 190, 130, 20);
 
-        jTextFieldKundenUebersichtTelefon.setDocument(new JTextFieldValidation(30));
         jTextFieldKundenUebersichtTelefon.setEditable(false);
         add(jTextFieldKundenUebersichtTelefon);
         jTextFieldKundenUebersichtTelefon.setBounds(480, 220, 210, 20);
 
-        jTextFieldKundenUebersichtFax.setDocument(new JTextFieldValidation(30));
         jTextFieldKundenUebersichtFax.setEditable(false);
         add(jTextFieldKundenUebersichtFax);
         jTextFieldKundenUebersichtFax.setBounds(480, 250, 210, 20);
 
-        jTextFieldKundenUebersichtEMail.setDocument(new JTextFieldValidation(50));
         jTextFieldKundenUebersichtEMail.setEditable(false);
         add(jTextFieldKundenUebersichtEMail);
         jTextFieldKundenUebersichtEMail.setBounds(480, 280, 210, 20);

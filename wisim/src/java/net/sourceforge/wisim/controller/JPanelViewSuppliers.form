@@ -30,9 +30,6 @@
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldLieferantName">
       <Properties>
-        <Property name="document" type="javax.swing.text.Document" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="new JTextFieldValidation(50)" type="code"/>
-        </Property>
         <Property name="editable" type="boolean" value="false"/>
       </Properties>
       <Constraints>
@@ -43,9 +40,6 @@
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldLieferantVorname">
       <Properties>
-        <Property name="document" type="javax.swing.text.Document" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="new JTextFieldValidation(50)" type="code"/>
-        </Property>
         <Property name="editable" type="boolean" value="false"/>
       </Properties>
       <Constraints>
@@ -56,11 +50,11 @@
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldLieferantStrasse">
       <Properties>
-        <Property name="document" type="javax.swing.text.Document" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="new JTextFieldValidation(50)" type="code"/>
-        </Property>
         <Property name="editable" type="boolean" value="false"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextFieldLieferantStrasseActionPerformed"/>
+      </Events>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="410" y="100" width="250" height="-1"/>
@@ -69,9 +63,6 @@
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldLieferantFirma">
       <Properties>
-        <Property name="document" type="javax.swing.text.Document" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="new JTextFieldValidation(50)" type="code"/>
-        </Property>
         <Property name="editable" type="boolean" value="false"/>
       </Properties>
       <Constraints>
@@ -82,9 +73,6 @@
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldLieferantOrt">
       <Properties>
-        <Property name="document" type="javax.swing.text.Document" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="new JTextFieldValidation(50)" type="code"/>
-        </Property>
         <Property name="editable" type="boolean" value="false"/>
       </Properties>
       <Constraints>
@@ -96,9 +84,6 @@
     <Component class="javax.swing.JTextField" name="jTextFieldLieferantPLZ">
       <Properties>
         <Property name="columns" type="int" value="5"/>
-        <Property name="document" type="javax.swing.text.Document" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="new JTextFieldValidation(5)" type="code"/>
-        </Property>
         <Property name="editable" type="boolean" value="false"/>
       </Properties>
       <Constraints>
@@ -109,9 +94,6 @@
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldLieferantFax">
       <Properties>
-        <Property name="document" type="javax.swing.text.Document" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="new JTextFieldValidation(30)" type="code"/>
-        </Property>
         <Property name="editable" type="boolean" value="false"/>
       </Properties>
       <Constraints>
@@ -136,9 +118,6 @@
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldLieferantTelefon">
       <Properties>
-        <Property name="document" type="javax.swing.text.Document" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="new JTextFieldValidation(30)" type="code"/>
-        </Property>
         <Property name="editable" type="boolean" value="false"/>
       </Properties>
       <Constraints>
@@ -163,9 +142,6 @@
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldLieferantEMail">
       <Properties>
-        <Property name="document" type="javax.swing.text.Document" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="new JTextFieldValidation(50)" type="code"/>
-        </Property>
         <Property name="editable" type="boolean" value="false"/>
       </Properties>
       <Constraints>

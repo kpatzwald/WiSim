@@ -150,7 +150,7 @@ public class JPanelNewSupplier extends javax.swing.JPanel {
 		add(jLabelNeuerLieferantArtikelPreis);
 		jLabelNeuerLieferantArtikelPreis.setBounds(20, 330, 120, 20);
 
-		jTextFieldNeuerLieferantPreis.setDocument(new JTextFieldValidation(10));
+		jTextFieldNeuerLieferantPreis.setDocument(new Validator(10));
 		jTextFieldNeuerLieferantPreis.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 		jTextFieldNeuerLieferantPreis.addFocusListener(new java.awt.event.FocusAdapter() {
 			public void focusLost(java.awt.event.FocusEvent evt) {
@@ -189,7 +189,7 @@ public class JPanelNewSupplier extends javax.swing.JPanel {
 		add(jLabelNeuerLieferantMindestAbnahme);
 		jLabelNeuerLieferantMindestAbnahme.setBounds(10, 360, 130, 20);
 
-		jTextFieldNeuerLieferantMindestAbnahme.setDocument(new JTextFieldValidation(10));
+		jTextFieldNeuerLieferantMindestAbnahme.setDocument(new Validator(10));
 		jTextFieldNeuerLieferantMindestAbnahme.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 		jTextFieldNeuerLieferantMindestAbnahme.addFocusListener(new java.awt.event.FocusAdapter() {
 			public void focusLost(java.awt.event.FocusEvent evt) {
@@ -200,7 +200,7 @@ public class JPanelNewSupplier extends javax.swing.JPanel {
 		add(jTextFieldNeuerLieferantMindestAbnahme);
 		jTextFieldNeuerLieferantMindestAbnahme.setBounds(150, 360, 80, 20);
 
-		jTextFieldNeuerLieferantFirma.setDocument(new JTextFieldValidation(50));
+		jTextFieldNeuerLieferantFirma.setDocument(new Validator(50));
 		add(jTextFieldNeuerLieferantFirma);
 		jTextFieldNeuerLieferantFirma.setBounds(140, 80, 210, 20);
 
@@ -234,7 +234,7 @@ public class JPanelNewSupplier extends javax.swing.JPanel {
 		add(jLabelNeuerLieferantName);
 		jLabelNeuerLieferantName.setBounds(40, 50, 90, 20);
 
-		jTextFieldNeuerLieferantName.setDocument(new JTextFieldValidation(50));
+		jTextFieldNeuerLieferantName.setDocument(new Validator(50));
 		add(jTextFieldNeuerLieferantName);
 		jTextFieldNeuerLieferantName.setBounds(140, 50, 210, 20);
 
@@ -245,7 +245,7 @@ public class JPanelNewSupplier extends javax.swing.JPanel {
 		add(jLabelNeuerLieferantVorname);
 		jLabelNeuerLieferantVorname.setBounds(380, 50, 90, 20);
 
-		jTextFieldNeuerLieferantVorname.setDocument(new JTextFieldValidation(50));
+		jTextFieldNeuerLieferantVorname.setDocument(new Validator(50));
 		add(jTextFieldNeuerLieferantVorname);
 		jTextFieldNeuerLieferantVorname.setBounds(480, 50, 210, 20);
 
@@ -255,7 +255,7 @@ public class JPanelNewSupplier extends javax.swing.JPanel {
 		add(jLabelNeuerLieferantStrasse);
 		jLabelNeuerLieferantStrasse.setBounds(380, 80, 90, 20);
 
-		jTextFieldNeuerLieferantStrasse.setDocument(new JTextFieldValidation(50));
+		jTextFieldNeuerLieferantStrasse.setDocument(new Validator(50));
 		add(jTextFieldNeuerLieferantStrasse);
 		jTextFieldNeuerLieferantStrasse.setBounds(480, 80, 210, 20);
 
@@ -265,7 +265,7 @@ public class JPanelNewSupplier extends javax.swing.JPanel {
 		add(jLabelNeuerLieferantOrt);
 		jLabelNeuerLieferantOrt.setBounds(40, 110, 90, 20);
 
-		jTextFieldNeuerLieferantOrt.setDocument(new JTextFieldValidation(50));
+		jTextFieldNeuerLieferantOrt.setDocument(new Validator(50));
 		add(jTextFieldNeuerLieferantOrt);
 		jTextFieldNeuerLieferantOrt.setBounds(140, 110, 210, 20);
 
@@ -276,7 +276,7 @@ public class JPanelNewSupplier extends javax.swing.JPanel {
 		jLabelNeuerLieferantPLZ.setBounds(380, 110, 90, 20);
 
 		jTextFieldNeuerLieferantPLZ.setColumns(5);
-		jTextFieldNeuerLieferantPLZ.setDocument(new JTextFieldValidation(5));
+		jTextFieldNeuerLieferantPLZ.setDocument(new Validator(5));
 		jTextFieldNeuerLieferantPLZ.addFocusListener(new java.awt.event.FocusAdapter() {
 			public void focusLost(java.awt.event.FocusEvent evt) {
 				jTextFieldNeuerLieferantPLZFocusLost(evt);
@@ -293,7 +293,7 @@ public class JPanelNewSupplier extends javax.swing.JPanel {
 		add(jLabelNeuerLieferantEMail);
 		jLabelNeuerLieferantEMail.setBounds(40, 170, 90, 20);
 
-		jTextFieldNeuerLieferantEMail.setDocument(new JTextFieldValidation(50));
+		jTextFieldNeuerLieferantEMail.setDocument(new Validator(50));
 		jTextFieldNeuerLieferantEMail.addFocusListener(new java.awt.event.FocusAdapter() {
 			public void focusLost(java.awt.event.FocusEvent evt) {
 				jTextFieldNeuerLieferantEMailFocusLost(evt);
@@ -317,11 +317,11 @@ public class JPanelNewSupplier extends javax.swing.JPanel {
 		add(jLabelNeuerLieferantFax);
 		jLabelNeuerLieferantFax.setBounds(380, 140, 90, 20);
 
-		jTextFieldNeuerLieferantTelefon.setDocument(new JTextFieldValidation(30));
+		jTextFieldNeuerLieferantTelefon.setDocument(new Validator(30));
 		add(jTextFieldNeuerLieferantTelefon);
 		jTextFieldNeuerLieferantTelefon.setBounds(140, 140, 210, 20);
 
-		jTextFieldNeuerLieferantFax.setDocument(new JTextFieldValidation(30));
+		jTextFieldNeuerLieferantFax.setDocument(new Validator(30));
 		add(jTextFieldNeuerLieferantFax);
 		jTextFieldNeuerLieferantFax.setBounds(480, 140, 210, 20);
 

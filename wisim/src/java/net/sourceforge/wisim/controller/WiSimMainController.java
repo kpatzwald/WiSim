@@ -590,7 +590,7 @@ public class WiSimMainController extends javax.swing.JFrame {
 	} //GEN-LAST:event_jMenuItemLieferantenlisteActionPerformed
 
 	private void jMenuItemEtatEinsehenActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jMenuItemEtatEinsehenActionPerformed
-		addPanel("ViewEtat");
+		addPanel("ViewOrders");
 	} //GEN-LAST:event_jMenuItemEtatEinsehenActionPerformed
 
 	private void jMenuItemOptionsActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jMenuItemOptionsActionPerformed

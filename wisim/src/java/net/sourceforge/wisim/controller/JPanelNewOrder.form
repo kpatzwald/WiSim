@@ -224,7 +224,7 @@
         <Component class="javax.swing.JTextField" name="jTextFieldSkonto">
           <Properties>
             <Property name="document" type="javax.swing.text.Document" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new JTextFieldValidation(5)" type="code"/>
+              <Connection code="new Validator(5)" type="code"/>
             </Property>
             <Property name="horizontalAlignment" type="int" value="4"/>
           </Properties>
@@ -267,6 +267,9 @@
         </Component>
         <Component class="javax.swing.JTextField" name="jTextFieldSkontofrist">
           <Properties>
+            <Property name="document" type="javax.swing.text.Document" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="new Validator(5)" type="code"/>
+            </Property>
             <Property name="horizontalAlignment" type="int" value="4"/>
           </Properties>
           <Events>
@@ -322,8 +325,9 @@
         <Component class="javax.swing.JTextField" name="jTextFieldLieferdatumTag">
           <Properties>
             <Property name="document" type="javax.swing.text.Document" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new JTextFieldValidation(2)" type="code"/>
+              <Connection code="new Validator(2)" type="code"/>
             </Property>
+            <Property name="horizontalAlignment" type="int" value="0"/>
           </Properties>
           <Events>
             <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTextFieldLieferdatumTagFocusLost"/>
@@ -337,8 +341,9 @@
         <Component class="javax.swing.JTextField" name="jTextFieldLieferdatumMonat">
           <Properties>
             <Property name="document" type="javax.swing.text.Document" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new JTextFieldValidation(2)" type="code"/>
+              <Connection code="new Validator(2)" type="code"/>
             </Property>
+            <Property name="horizontalAlignment" type="int" value="0"/>
           </Properties>
           <Events>
             <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTextFieldLieferdatumMonatFocusLost"/>
@@ -352,8 +357,9 @@
         <Component class="javax.swing.JTextField" name="jTextFieldLieferdatumJahr">
           <Properties>
             <Property name="document" type="javax.swing.text.Document" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new JTextFieldValidation(4)" type="code"/>
+              <Connection code="new Validator(4)" type="code"/>
             </Property>
+            <Property name="horizontalAlignment" type="int" value="0"/>
           </Properties>
           <Events>
             <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTextFieldLieferdatumJahrFocusLost"/>
@@ -381,7 +387,7 @@
         <Component class="javax.swing.JTextField" name="jTextFieldLieferrabatt">
           <Properties>
             <Property name="document" type="javax.swing.text.Document" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new JTextFieldValidation(5)" type="code"/>
+              <Connection code="new Validator(5)" type="code"/>
             </Property>
             <Property name="horizontalAlignment" type="int" value="4"/>
           </Properties>

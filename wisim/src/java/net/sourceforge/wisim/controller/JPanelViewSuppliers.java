@@ -115,38 +115,31 @@ public class JPanelViewSuppliers extends javax.swing.JPanel {
 		add(jLabelLieferantBearbeitenUeberschrift);
 		jLabelLieferantBearbeitenUeberschrift.setBounds(0, 0, 800, 40);
 
-		jTextFieldLieferantName.setDocument(new JTextFieldValidation(50));
 		jTextFieldLieferantName.setEditable(false);
 		add(jTextFieldLieferantName);
 		jTextFieldLieferantName.setBounds(610, 220, 160, 20);
 
-		jTextFieldLieferantVorname.setDocument(new JTextFieldValidation(50));
 		jTextFieldLieferantVorname.setEditable(false);
 		add(jTextFieldLieferantVorname);
 		jTextFieldLieferantVorname.setBounds(410, 220, 190, 20);
 
-		jTextFieldLieferantStrasse.setDocument(new JTextFieldValidation(50));
 		jTextFieldLieferantStrasse.setEditable(false);
 		add(jTextFieldLieferantStrasse);
 		jTextFieldLieferantStrasse.setBounds(410, 100, 250, 20);
 
-		jTextFieldLieferantFirma.setDocument(new JTextFieldValidation(50));
 		jTextFieldLieferantFirma.setEditable(false);
 		add(jTextFieldLieferantFirma);
 		jTextFieldLieferantFirma.setBounds(410, 70, 250, 20);
 
-		jTextFieldLieferantOrt.setDocument(new JTextFieldValidation(50));
 		jTextFieldLieferantOrt.setEditable(false);
 		add(jTextFieldLieferantOrt);
 		jTextFieldLieferantOrt.setBounds(410, 130, 190, 20);
 
 		jTextFieldLieferantPLZ.setColumns(5);
-		jTextFieldLieferantPLZ.setDocument(new JTextFieldValidation(5));
 		jTextFieldLieferantPLZ.setEditable(false);
 		add(jTextFieldLieferantPLZ);
 		jTextFieldLieferantPLZ.setBounds(610, 130, 50, 20);
 
-		jTextFieldLieferantFax.setDocument(new JTextFieldValidation(30));
 		jTextFieldLieferantFax.setEditable(false);
 		add(jTextFieldLieferantFax);
 		jTextFieldLieferantFax.setBounds(410, 310, 190, 20);
@@ -157,7 +150,6 @@ public class JPanelViewSuppliers extends javax.swing.JPanel {
 		add(jLabelLieferantFax);
 		jLabelLieferantFax.setBounds(610, 310, 90, 20);
 
-		jTextFieldLieferantTelefon.setDocument(new JTextFieldValidation(30));
 		jTextFieldLieferantTelefon.setEditable(false);
 		add(jTextFieldLieferantTelefon);
 		jTextFieldLieferantTelefon.setBounds(410, 280, 190, 20);
@@ -168,7 +160,6 @@ public class JPanelViewSuppliers extends javax.swing.JPanel {
 		add(jLabelLieferantTelefon);
 		jLabelLieferantTelefon.setBounds(610, 280, 90, 20);
 
-		jTextFieldLieferantEMail.setDocument(new JTextFieldValidation(50));
 		jTextFieldLieferantEMail.setEditable(false);
 		add(jTextFieldLieferantEMail);
 		jTextFieldLieferantEMail.setBounds(410, 250, 360, 20);
