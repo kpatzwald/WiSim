@@ -78,10 +78,10 @@ public class NetzplanGrafikGenerator {
 			}
 		}
 
-		netzplanGrafik = new BufferedImage(maxWidthPos * 400, maxHeightPos * 170, 2);
+		netzplanGrafik = new BufferedImage(maxWidthPos * 440, maxHeightPos * 175, 2);
 		g = netzplanGrafik.getGraphics();
 		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, 2000, 2000);
+		g.fillRect(0, 0, maxWidthPos * 440, maxHeightPos * 175);
 		g.setColor(Color.BLACK);
 		paintGraphic();
 	} /** Paints the network plan */

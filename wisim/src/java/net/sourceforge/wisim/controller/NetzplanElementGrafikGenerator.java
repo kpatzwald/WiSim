@@ -33,11 +33,11 @@ import java.awt.image.BufferedImage;
  * Class for generating a buffered image that represents
  * one element of the network plan. The element's size is
  * 400x200 px. 
- * The generator is not yet complete dynamic. If the network
- * plan element's description is too long, it gets cut.
- * Line-wrap for longer descriptions will be implemented in
- * next versions ("scaleX" is a temporary solution for this
- * problem).
+ * If the description is very long it is splitted into
+ * two lines. This provides enough space for a longer
+ * description. But there is a limit. If one of the two
+ * lines is too long it gets cut. In some cases the split
+ * and cut is buggy working with very large descriptions.
  * @author Benjamin Pasero
  * @version 0.1a
  */
@@ -60,21 +60,83 @@ public class NetzplanElementGrafikGenerator {
 	public Image generateNetzplanelement(NetzplanElement np) {
 
 		scaleX = (np.getBezeichnung().length() - 10) * 6;
-		
+
+		String bezeichnung = np.getBezeichnung();
+		String s1 = "";
+		String s2 = "";
+		boolean twoLines = false;
+
 		if (scaleX < 0) {
 			scaleX = 0;
 		}
-		
-		/** Cutting descriptions that are too long */
-		else if (scaleX > 199) {			
-			while (scaleX > 199) {
-				np.setBezeichnung(np.getBezeichnung().substring(0, np.getBezeichnung().length() - 1));
-				scaleX = (np.getBezeichnung().length() - 10) * 6;
+
+		/** 
+		 * Splitting the description into two lines and
+		 * cut the longer line if scaleX is over 199
+		 */
+		else if (scaleX > 199) {
+
+			int textMiddle = np.getBezeichnung().length() / 2;
+
+			/** Search for whitespace left to the middle */
+			int a = textMiddle;
+			int stepsLeft = 0;
+			while (bezeichnung.charAt(a) != 32) {
+				a--;
+				stepsLeft++;
 			}
-			np.setBezeichnung(np.getBezeichnung().substring(0, np.getBezeichnung().length() - 3) + "...");
-			scaleX = 199;
+
+			/** Search for whitespace right to the middle */
+			int b = textMiddle;
+			int stepsRight = 0;
+			while (bezeichnung.charAt(b) != 32) {
+				b++;
+				stepsRight++;
+			}
+
+			/** Split the String at the left whitespace of the Middle */
+			if (stepsLeft < stepsRight) {
+				s1 = bezeichnung.substring(0, a);
+				s2 = bezeichnung.substring(a + 1, bezeichnung.length());
+
+				/** Split the String at the right whitespace of the Middle */
+			} else {
+				s1 = bezeichnung.substring(0, b);
+				s2 = bezeichnung.substring(b + 1, bezeichnung.length());
+			}
+
+			twoLines = true;
+
+			String longerLine = "";
+
+			/** Determine the longer line of the splitted string */
+			if (s1.length() > s2.length()) {
+				scaleX = (s1.length() - 10) * 6;
+				longerLine = s1;
+			} else {
+				scaleX = (s2.length() - 10) * 6;
+				longerLine = s2;
+			}
+
+			String tempLongerLine = longerLine;
+
+			/** If the longer line is still over scaleX of 199, cut it */
+			if (scaleX > 199) {
+				while (scaleX > 199) {
+					longerLine = longerLine.substring(0, longerLine.length() - 1);
+					scaleX = (longerLine.length() - 10) * 6;
+				}
+				longerLine = longerLine.substring(0, longerLine.length() - 3) + "...";
+				scaleX = 199;
+
+				/** Set the cutted line */
+				if (s1.length() > s2.length())
+					s1 = longerLine;
+				else
+					s2 = longerLine;
+			}
 		}
-		
+
 		if (np.isCriticalPath())
 			g.setColor(Color.RED);
 		else
@@ -147,7 +209,13 @@ public class NetzplanElementGrafikGenerator {
 		/** Drawing the description */
 		g.setFont(new Font("SansSerif", 0, 15));
 
-		g.drawString(np.getBezeichnung(), 90, 63);
+		/** Paint two lines if so */
+		if (twoLines) {
+			g.drawString(s1, 90, 50);
+			g.drawString(s2, 90, 70);
+		} else {
+			g.drawString(bezeichnung, 90, 63);
+		}
 
 		return npElem;
 	}
