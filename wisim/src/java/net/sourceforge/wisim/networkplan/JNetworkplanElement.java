@@ -136,6 +136,7 @@ public class JNetworkplanElement extends JPanel {
 		/** Rectangle of the network plan element */
 		npElementRect.setLayout(null);
 		npElementRect.setBackground(new Color(255, 255, 255));
+		setBackground(new Color(255, 255, 255, 0));
 
 		Color lineColor = new Color(0, 0, 0);
 
@@ -198,7 +199,10 @@ public class JNetworkplanElement extends JPanel {
 
 			/** Handle Exception: String has no white space */
 			if (chunks.length == 1) {
-				String temp = description.substring(0, description.length() / 2) + " " + description.substring(description.length() / 2, description.length());
+				String temp =
+					description.substring(0, description.length() / 2)
+						+ " "
+						+ description.substring(description.length() / 2, description.length());
 				chunks = temp.split(" ");
 			}
 
@@ -390,7 +394,8 @@ public class JNetworkplanElement extends JPanel {
 	 * @return Length of the text in pixel
 	 */
 	public int getTextLength(String text, Font font) {
-		return (int) Math.round((font.getStringBounds(text, 0, text.length(), new FontRenderContext(new AffineTransform(), false, false))).getWidth());
+		return (int) Math.round(
+			(font.getStringBounds(text, 0, text.length(), new FontRenderContext(new AffineTransform(), false, false))).getWidth());
 	}
 
 	/** Paint the element blue if the mouse moves over it */

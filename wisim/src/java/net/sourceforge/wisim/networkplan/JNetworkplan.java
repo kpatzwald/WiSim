@@ -1,8 +1,8 @@
 /*   ********************************************************************   **
 **   Copyright notice                                                       **
 **                                                                          **
-**   (c) 2003 WiSim Development Team					                    					**
-**   http://wisim.sourceforge.net/   			                            			**
+**   (c) 2003 WiSim Development Team                                        **
+**   http://wisim.sourceforge.net/   			                            **
 **                                                                          **
 **   All rights reserved                                                    **
 **                                                                          **
@@ -223,11 +223,17 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 				jNpElem[i] = new JNetworkplanElement(np);
 				np.setLayoutManager(i);
 				jNpElem[i].setName(String.valueOf(np.getIndex()));
-				this.add(jNpElem[i]);
+
+				if (jNpElem[i].getNp().isCriticalPath())
+					this.add(jNpElem[i], 0);
+				else
+					this.add(jNpElem[i]);
 
 				/** Place the element on the JNetworkplan and save the position */
 				jNpElem[i].setBounds(jNPaddingX + x * jNpElemBoundsX, jNPaddingY + middlePos * jNpElemBoundsY, jNpElemWidth, jNpElemHeight);
-				elementsPosition.put(new Integer(np.getIndex()), new Point(jNPaddingX + x * jNpElemBoundsX, jNPaddingY + middlePos * jNpElemBoundsY));
+				elementsPosition.put(
+					new Integer(np.getIndex()),
+					new Point(jNPaddingX + x * jNpElemBoundsX, jNPaddingY + middlePos * jNpElemBoundsY));
 				i++;
 			}
 			x++;
@@ -286,11 +292,21 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 					jNpElem[i] = new JNetworkplanElement(np);
 					np.setLayoutManager(i);
 					jNpElem[i].setName(String.valueOf(np.getIndex()));
-					this.add(jNpElem[i]);
+
+					if (jNpElem[i].getNp().isCriticalPath())
+						this.add(jNpElem[i], 0);
+					else
+						this.add(jNpElem[i]);
 
 					/** Place the element on the JNetworkplan and save the position */
-					jNpElem[i].setBounds(jNPaddingX + y * jNpElemBoundsX + freeWidth, jNPaddingY + topPos * jNpElemBoundsY, jNpElemWidth, jNpElemHeight);
-					elementsPosition.put(new Integer(np.getIndex()), new Point(jNPaddingX + y * jNpElemBoundsX + freeWidth, jNPaddingY + topPos * jNpElemBoundsY));
+					jNpElem[i].setBounds(
+						jNPaddingX + y * jNpElemBoundsX + freeWidth,
+						jNPaddingY + topPos * jNpElemBoundsY,
+						jNpElemWidth,
+						jNpElemHeight);
+					elementsPosition.put(
+						new Integer(np.getIndex()),
+						new Point(jNPaddingX + y * jNpElemBoundsX + freeWidth, jNPaddingY + topPos * jNpElemBoundsY));
 					i++;
 				}
 				y++;
@@ -331,7 +347,11 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 					jNpElem[i] = new JNetworkplanElement(np);
 					np.setLayoutManager(i);
 					jNpElem[i].setName(String.valueOf(np.getIndex()));
-					this.add(jNpElem[i]);
+
+					if (jNpElem[i].getNp().isCriticalPath())
+						this.add(jNpElem[i], 0);
+					else
+						this.add(jNpElem[i]);
 
 					/** Place the element on the JNetworkplan and save the position */
 
@@ -344,8 +364,18 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 					if (parent.length == 1) {
 						child = ((NetworkplanElement) npElemente.get(parent[0] - 1)).getChild();
 						if (child.length == 1) {
-							int anchorX = (int) jNpElem[((NetworkplanElement) npElemente.get(parent[0] - 1)).getLayoutManager()].getAnchorPoint(JNetworkplanElement.ANCHOR_BOTTOM_MIDDLE).getX() - jNpElemWidth / 2;
-							int anchorY = (int) jNpElem[((NetworkplanElement) npElemente.get(parent[0] - 1)).getLayoutManager()].getAnchorPoint(JNetworkplanElement.ANCHOR_BOTTOM_MIDDLE).getY() + 110;
+							int anchorX =
+								(int) jNpElem[((NetworkplanElement) npElemente.get(parent[0] - 1))
+									.getLayoutManager()]
+									.getAnchorPoint(JNetworkplanElement.ANCHOR_BOTTOM_MIDDLE)
+									.getX()
+									- jNpElemWidth / 2;
+							int anchorY =
+								(int) jNpElem[((NetworkplanElement) npElemente.get(parent[0] - 1))
+									.getLayoutManager()]
+									.getAnchorPoint(JNetworkplanElement.ANCHOR_BOTTOM_MIDDLE)
+									.getY()
+									+ 110;
 
 							jNpElem[i].setBounds(anchorX, anchorY, jNpElemWidth, jNpElemHeight);
 							elementsPosition.put(new Integer(np.getIndex()), new Point(anchorX, anchorY));
@@ -360,8 +390,14 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 
 						occupied = freeWidth * 2;
 
-						jNpElem[i].setBounds(jNPaddingX + y * jNpElemBoundsX + freeWidth, jNPaddingY + bottomPos * jNpElemBoundsY, jNpElemWidth, jNpElemHeight);
-						elementsPosition.put(new Integer(np.getIndex()), new Point(jNPaddingX + y * jNpElemBoundsX + freeWidth, jNPaddingY + bottomPos * jNpElemBoundsY));
+						jNpElem[i].setBounds(
+							jNPaddingX + y * jNpElemBoundsX + freeWidth,
+							jNPaddingY + bottomPos * jNpElemBoundsY,
+							jNpElemWidth,
+							jNpElemHeight);
+						elementsPosition.put(
+							new Integer(np.getIndex()),
+							new Point(jNPaddingX + y * jNpElemBoundsX + freeWidth, jNPaddingY + bottomPos * jNpElemBoundsY));
 					}
 					i++;
 				}
@@ -819,7 +855,8 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 					}
 
 					/** Check if the user made changes. If not, do nothing */
-					if (clickedComponent.getNp().getDuration() == Double.parseDouble(jTextFieldDuration.getText()) && clickedComponent.getNp().getDescription().equals(jTextFieldDescription.getText())) {
+					if (clickedComponent.getNp().getDuration() == Double.parseDouble(jTextFieldDuration.getText())
+						&& clickedComponent.getNp().getDescription().equals(jTextFieldDescription.getText())) {
 						editPanelOpen = false;
 						remove(jPanelEdit);
 						repaint();
@@ -830,8 +867,10 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 					clickedComponent.getNp().setDuration(Double.parseDouble(jTextFieldDuration.getText()));
 					clickedComponent.getNp().setDescription(jTextFieldDescription.getText());
 
-					((NetworkplanElement) npElemente.get(clickedComponent.getNp().getIndex() - 1)).setDuration(Double.parseDouble(jTextFieldDuration.getText()));
-					((NetworkplanElement) npElemente.get(clickedComponent.getNp().getIndex() - 1)).setDescription(jTextFieldDescription.getText());
+					((NetworkplanElement) npElemente.get(clickedComponent.getNp().getIndex() - 1)).setDuration(
+						Double.parseDouble(jTextFieldDuration.getText()));
+					((NetworkplanElement) npElemente.get(clickedComponent.getNp().getIndex() - 1)).setDescription(
+						jTextFieldDescription.getText());
 
 					/** Remove networkplan */
 					removeAll();
@@ -929,13 +968,26 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 	 */
 	public void positionElements() {
 
+		/** Get elements where arrows are disabled */
+		Vector disabledArrowElements = new Vector();
+		for (int b = 0; b < jNpElem.length && jNpElem[b] != null; b++) {
+			if (!jNpElem[b].isDisplayArrow())
+				disabledArrowElements.add(new Integer(jNpElem[b].getNp().getNumber()));
+		}
+
 		int a = 0;
 		while (a < npElemente.size()) {
 
 			NetworkplanElement np = (NetworkplanElement) npElemente.get(a);
+
 			jNpElem[a] = new JNetworkplanElement(np);
 			np.setLayoutManager(a);
 			jNpElem[a].setName(String.valueOf(np.getIndex()));
+
+			/** Remove the arrow if it's disabled */
+			if (disabledArrowElements.contains(new Integer(jNpElem[a].getNp().getNumber())))
+				jNpElem[a].setDisplayArrow(false);
+
 			this.add(jNpElem[a]);
 
 			Point location = (Point) elementsPosition.get(new Integer(np.getIndex()));
@@ -1054,9 +1106,14 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 			JNetworkplanElement childJNpElem = jNpElem[((NetworkplanElement) npElemente.get(child[0] - 1)).getLayoutManager()];
 
 			/** Set the position and size of the connection line */
-			int difHeight = (int) ((JSeparator) elementsConLine.get(childJNpElem.getName() + "top")).getLocation().getY() - (int) jNpActElem.getLocation().getY() - 170;
+			int difHeight =
+				(int) ((JSeparator) elementsConLine.get(childJNpElem.getName() + "top")).getLocation().getY()
+					- (int) jNpActElem.getLocation().getY()
+					- 170;
 
-			actLineBottom.setLocation((int) jNpActElem.getLocation().getX() + jNpElemWidth / 2, (int) jNpActElem.getLocation().getY() + 170);
+			actLineBottom.setLocation(
+				(int) jNpActElem.getLocation().getX() + jNpElemWidth / 2,
+				(int) jNpActElem.getLocation().getY() + 170);
 			actLineBottom.setSize(1, difHeight);
 
 			/** Update the horizontal connection line top of the element */
@@ -1078,11 +1135,18 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 			JNetworkplanElement parentJNpElem = jNpElem[((NetworkplanElement) npElemente.get(parent[0] - 1)).getLayoutManager()];
 
 			/** Set the position and size of the connection line */
-			int difHeight = (int) jNpActElem.getLocation().getY() - (int) ((JSeparator) elementsConLine.get(parentJNpElem.getName() + "bottom")).getLocation().getY() - 45;
-			int anchorY = (int) ((JSeparator) elementsConLine.get(parentJNpElem.getName() + "bottom")).getLocation().getY() + (int) ((JSeparator) elementsConLine.get(parentJNpElem.getName() + "bottom")).getSize().getHeight();
-
+			int anchorY =
+				(int) ((JSeparator) elementsConLine.get(parentJNpElem.getName() + "bottom")).getLocation().getY()
+					+ (int) ((JSeparator) elementsConLine.get(parentJNpElem.getName() + "bottom")).getSize().getHeight();
+			int difHeight = (int) jNpActElem.getLocation().getY() - anchorY + 20;
 			actLineTop.setLocation((int) jNpActElem.getLocation().getX() + jNpElemWidth / 2, anchorY);
-			actLineTop.setSize(1, difHeight + 65);
+			actLineTop.setSize(1, difHeight);
+
+			/** Remove the arrow if difHeight is < 15px */
+			if (difHeight < 15)
+				jNpActElem.setDisplayArrow(false);
+			else
+				jNpActElem.setDisplayArrow(true);
 
 			/** Update the horizontal connection line bottom of the element */
 			updateHorizontalLinesBottom(jNpActElem);
@@ -1117,7 +1181,9 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 				else
 					horizontalCon.setForeground(Color.BLACK);
 
-				int anchorY = (int) ((JSeparator) elementsConLine.get(parentJNpElem.getName() + "bottom")).getLocation().getY() + (int) ((JSeparator) elementsConLine.get(parentJNpElem.getName() + "bottom")).getSize().getHeight();
+				int anchorY =
+					(int) ((JSeparator) elementsConLine.get(parentJNpElem.getName() + "bottom")).getLocation().getY()
+						+ (int) ((JSeparator) elementsConLine.get(parentJNpElem.getName() + "bottom")).getSize().getHeight();
 
 				/** The user moved the element to the right */
 				if (difX > 0) {
@@ -1143,7 +1209,7 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 				/** Always display the critical path line in the foreground */
 				if (horizontalCon.getForeground().equals(Color.RED)) {
 					remove(horizontalCon);
-					add(horizontalCon, 1);
+					add(horizontalCon, 2);
 				}
 			}
 		}
@@ -1194,7 +1260,7 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 				/** Always display the critical path line in the foreground */
 				if (horizontalCon.getForeground().equals(Color.RED)) {
 					remove(horizontalCon);
-					add(horizontalCon, 1);
+					add(horizontalCon, 2);
 				}
 			}
 		}
@@ -1235,7 +1301,8 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 				String index[] = key.split("middle");
 
 				/** Check if the elements connected to this line is are critical path member */
-				if (((NetworkplanElement) npElemente.get(Integer.parseInt(index[0]) - 1)).isCriticalPath() && ((NetworkplanElement) npElemente.get(Integer.parseInt(index[1]) - 1)).isCriticalPath()) {
+				if (((NetworkplanElement) npElemente.get(Integer.parseInt(index[0]) - 1)).isCriticalPath()
+					&& ((NetworkplanElement) npElemente.get(Integer.parseInt(index[1]) - 1)).isCriticalPath()) {
 					actSeparator.setForeground(Color.RED);
 				}
 			}

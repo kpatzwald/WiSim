@@ -148,7 +148,7 @@ public class ShowNetworkplan extends JFrame {
 		Vector filled = new Vector();
 
 		/** Selected network plan */
-		int show = 3;
+		int show = 4;
 
 		/** Some network plans to choose */
 		switch (show) {
