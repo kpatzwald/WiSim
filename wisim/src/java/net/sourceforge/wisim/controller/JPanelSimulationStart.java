@@ -46,8 +46,8 @@ public class JPanelSimulationStart extends javax.swing.JPanel {
     private WiSimDAO dao;
     private ActualTime actTime;
     private CoreTime coreTime;
-    private UpdateSimulationsauswertung updateSimulationsauswertung;
-    private UpdateLagerThread updateLagerThread;
+    private UpdateSimulationAnalysis updateSimulationsauswertung;
+    private UpdateWarehouseThread updateLagerThread;
     private int faktor;
     private Date actDate;
     private int hubBestand;
@@ -69,8 +69,8 @@ public class JPanelSimulationStart extends javax.swing.JPanel {
     
     // Simulation der Produktion
     private WiSimMainController wiSimMainController;
-    private ProduktionsController runController;
-    private ProduktionsSimulationThread[] threads;
+    private ProductionController runController;
+    private ProductionSimulationThread[] threads;
     
     // Dauer einer Zeiteinheit für die gesamte Simulation
     public final static int TIMESTEP = 100;
@@ -636,11 +636,11 @@ public class JPanelSimulationStart extends javax.swing.JPanel {
             coreTime = new CoreTime(actTime, faktor, TIMESTEP);
             gc.setTime(actDate);
             updateSimulationsauswertung =
-            new UpdateSimulationsauswertung(
+            new UpdateSimulationAnalysis(
             actTime,
             wiSimMainController,
             beendeNachEinerWoche);
-            updateLagerThread = new UpdateLagerThread(wiSimMainController);
+            updateLagerThread = new UpdateWarehouseThread(wiSimMainController);
             
             coreTime.start();
             updateSimulationsauswertung.start();
@@ -654,13 +654,13 @@ public class JPanelSimulationStart extends javax.swing.JPanel {
                 wiSimLogger.log("startStopSimulation()", e);
             }
             
-            runController = new ProduktionsController(wiSimMainController);
+            runController = new ProductionController(wiSimMainController);
             try {
-                threads = new ProduktionsSimulationThread[anzahlArbeitsplaetze+1];
+                threads = new ProductionSimulationThread[anzahlArbeitsplaetze+1];
                 for (int i = 1; i <= anzahlArbeitsplaetze; i++) {
                     
                     threads[i] =
-                    new ProduktionsSimulationThread(
+                    new ProductionSimulationThread(
                     dao.getArbeitsplatz(i),
                     runController,
                     wiSimMainController,
