@@ -245,13 +245,13 @@
             <Property name="text" type="java.lang.String" value="Simulation"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemSimStart">
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemSimulationAnalysis">
               <Properties>
                 <Property name="mnemonic" type="int" value="83"/>
-                <Property name="text" type="java.lang.String" value="Start / Stop"/>
+                <Property name="text" type="java.lang.String" value="Auswertung"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemSimStartActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemSimulationAnalysisActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>
@@ -316,6 +316,15 @@
                   <Image iconType="3" name="/icons/run.gif"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Start"/>
+                <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[92, 26]"/>
+                </Property>
+                <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[92, 26]"/>
+                </Property>
+                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[92, 26]"/>
+                </Property>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonSimStartActionPerformed"/>
@@ -327,6 +336,15 @@
                   <Image iconType="3" name="/icons/stop.gif"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Stop"/>
+                <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[92, 26]"/>
+                </Property>
+                <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[92, 26]"/>
+                </Property>
+                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[92, 26]"/>
+                </Property>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonSimStopActionPerformed"/>
@@ -338,6 +356,15 @@
                   <Image iconType="3" name="/icons/reset.gif"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Reset"/>
+                <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[92, 26]"/>
+                </Property>
+                <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[92, 26]"/>
+                </Property>
+                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[92, 26]"/>
+                </Property>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonSimResetActionPerformed"/>
@@ -345,7 +372,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabelFactor">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Zeitfaktor"/>
+                <Property name="text" type="java.lang.String" value="  Zeitfaktor  "/>
               </Properties>
             </Component>
             <Component class="javax.swing.JComboBox" name="jComboBoxFactor">
@@ -358,6 +385,9 @@
                     <StringItem index="3" value="1/8x"/>
                     <StringItem index="4" value="1/16x"/>
                   </StringArray>
+                </Property>
+                <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[59, 25]"/>
                 </Property>
               </Properties>
             </Component>
