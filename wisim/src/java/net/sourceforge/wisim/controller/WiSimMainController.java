@@ -64,6 +64,7 @@ public class WiSimMainController extends javax.swing.JFrame {
 	private ActualTime actTime;
 	private CoreTime coreTime;
 	private GregorianCalendar gc;
+	private boolean simulationState;
 
 	// Sets the length of one timestep of the simulation
 	// 1 Timestep = 1 min = 100 ms
@@ -101,11 +102,12 @@ public class WiSimMainController extends javax.swing.JFrame {
 	}
 
 	/** Initializate the settings for the simulation
-	 * 
+	 *
 	 */
 	private void initSimulationSettings() {
 		actDate = new Date(new GregorianCalendar(2003, 8, 1, 0, 0).getTimeInMillis());
 		gc = new GregorianCalendar();
+		simulationState = false;
 	}
 
 	/*Hashtable with all possible actions. Every action represent a JPanel / JInternalFrame.*/
@@ -169,7 +171,7 @@ public class WiSimMainController extends javax.swing.JFrame {
 		jPanel1 = new javax.swing.JPanel();
 		jLabelDate = new javax.swing.JLabel();
 		jPanel2 = new javax.swing.JPanel();
-		jToggleButtonWiSimStart = new javax.swing.JToggleButton();
+		jButtonSimStart = new javax.swing.JButton();
 		jButtonSimStop = new javax.swing.JButton();
 		jButtonSimReset = new javax.swing.JButton();
 		jMenuBarWiSim = new javax.swing.JMenuBar();
@@ -219,15 +221,17 @@ public class WiSimMainController extends javax.swing.JFrame {
 
 		jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.X_AXIS));
 
-		jToggleButtonWiSimStart.setText("Start");
-		jToggleButtonWiSimStart.addActionListener(new java.awt.event.ActionListener() {
+		jButtonSimStart.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/run.gif")));
+		jButtonSimStart.setText("Start");
+		jButtonSimStart.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				jToggleButtonWiSimStartActionPerformed(evt);
+				jButtonSimStartActionPerformed(evt);
 			}
 		});
 
-		jPanel2.add(jToggleButtonWiSimStart);
+		jPanel2.add(jButtonSimStart);
 
+		jButtonSimStop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/stop.gif")));
 		jButtonSimStop.setText("Stop");
 		jButtonSimStop.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -472,6 +476,13 @@ public class WiSimMainController extends javax.swing.JFrame {
 		setBounds((screenSize.width - 800) / 2, (screenSize.height - 600) / 2, 800, 600);
 	} //GEN-END:initComponents
 
+	private void jButtonSimStartActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jButtonSimStartActionPerformed
+		if (simulationState == false)
+			startSimulation();
+		else
+			suspendSimulation();
+	} //GEN-LAST:event_jButtonSimStartActionPerformed
+
 	private void jButtonSimResetActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jButtonSimResetActionPerformed
 		// Add your handling code here:
 	} //GEN-LAST:event_jButtonSimResetActionPerformed
@@ -479,10 +490,6 @@ public class WiSimMainController extends javax.swing.JFrame {
 	private void jButtonSimStopActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jButtonSimStopActionPerformed
 		stopSimulation();
 	} //GEN-LAST:event_jButtonSimStopActionPerformed
-
-	private void jToggleButtonWiSimStartActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jToggleButtonWiSimStartActionPerformed
-		startSimulation();
-	} //GEN-LAST:event_jToggleButtonWiSimStartActionPerformed
 
 	private void jMenuItemZahlungseingangActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jMenuItemZahlungseingangActionPerformed
 		addPanel("IncomingPayment");
@@ -655,13 +662,14 @@ public class WiSimMainController extends javax.swing.JFrame {
 	}
 
 	/** Starts the simulation if jToggledButtonWiSimStart is pressed
-	* 
-	*/
+	 *
+	 */
 	private void startSimulation() {
-		jToggleButtonWiSimStart.setEnabled(false);
+		jButtonSimStart.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/suspend.gif")));
+		jButtonSimStart.setText("Pause");
 		JPanelOptions jPanelOptions = (JPanelOptions) actions.get("Options");
 		jPanelOptions.setJButtonRefreshEnable(false);
-		
+
 		resetFields();
 		//jComboBoxZeitfaktor.setEnabled(false);
 		jButtonSimReset.setEnabled(false);
@@ -681,7 +689,7 @@ public class WiSimMainController extends javax.swing.JFrame {
 		// Simulation of the production
 		int anzahlArbeitsplaetze = -1;
 		try {
-			anzahlArbeitsplaetze = dao.getAnzahlArbeitsplätze();
+			anzahlArbeitsplaetze = dao.getAnzahlArbeitsplaetze();
 		} catch (WiSimDAOException e) {
 			wiSimLogger.log("startStopSimulation()", e);
 		}
@@ -699,38 +707,74 @@ public class WiSimMainController extends javax.swing.JFrame {
 			wiSimLogger.log("startStopSimulation()", e);
 		}
 		// End of simulation of the production
+
+		simulationState = true;
+	}
+
+	private void suspendSimulation() {
+		// KTODO Provisorische suspendSimulation-Funktion Entspricht noch stopSimulation
+		// KTODO Buttons zur Simulationssteuerung dürfen nicht ihre Größe ändern.
+		if (simulationState) {
+			jButtonSimStart.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/resume.gif")));
+			jButtonSimStart.setText("Weiter");
+			jButtonSimStart.setSelected(false);
+			jButtonSimReset.setEnabled(true);
+			JPanelOptions jPanelOptions = (JPanelOptions) actions.get("Options");
+			jPanelOptions.setJButtonRefreshEnable(true);
+
+			coreTime.interrupt();
+			updateSimulationsauswertung.interrupt();
+			updateLagerThread.interrupt();
+			int anzahlArbeitsplaetze = -1;
+			try {
+				anzahlArbeitsplaetze = dao.getAnzahlArbeitsplaetze();
+			} catch (WiSimDAOException e) {
+				wiSimLogger.log("startStopSimulation()", e);
+			}
+
+			// Stops the simulation of the produktion
+			for (int i = 1; i <= anzahlArbeitsplaetze; i++) {
+				threads[i].interrupt();
+			}
+			// End of stoping the simulation of the produktion
+			simulationState = false;
+		}
 	}
 
 	/** Stops the simulation
-	 * 
+	 *
 	 */
 	private void stopSimulation() {
-		jToggleButtonWiSimStart.setSelected(false);
-		jToggleButtonWiSimStart.setEnabled(true);
+		jButtonSimStart.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/run.gif")));
+		jButtonSimStart.setText("Start");
+		jButtonSimStart.setSelected(false);
 		jButtonSimReset.setEnabled(true);
 		JPanelOptions jPanelOptions = (JPanelOptions) actions.get("Options");
 		jPanelOptions.setJButtonRefreshEnable(true);
 		
-		coreTime.interrupt();
-		updateSimulationsauswertung.interrupt();
-		updateLagerThread.interrupt();
-		int anzahlArbeitsplaetze = -1;
-		try {
-			anzahlArbeitsplaetze = dao.getAnzahlArbeitsplätze();
-		} catch (WiSimDAOException e) {
-			wiSimLogger.log("startStopSimulation()", e);
-		}
+		if (simulationState) {
+			coreTime.interrupt();
+			updateSimulationsauswertung.interrupt();
+			updateLagerThread.interrupt();
+			int anzahlArbeitsplaetze = -1;
+			try {
+				anzahlArbeitsplaetze = dao.getAnzahlArbeitsplaetze();
+			} catch (WiSimDAOException e) {
+				wiSimLogger.log("startStopSimulation()", e);
+			}
 
-		// Stops the simulation of the produktion
-		for (int i = 1; i <= anzahlArbeitsplaetze; i++) {
-			threads[i].interrupt();
+			// Stops the simulation of the produktion
+			for (int i = 1; i <= anzahlArbeitsplaetze; i++) {
+				threads[i].interrupt();
+			}
+			// End of stoping the simulation of the produktion
+			simulationState = false;
 		}
-		// End of stoping the simulation of the produktion
-
 	}
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables
 	private javax.swing.JButton jButtonSimReset;
+	private javax.swing.JButton jButtonSimStart;
 	private javax.swing.JButton jButtonSimStop;
 	private javax.swing.JLabel jLabelDate;
 	private javax.swing.JMenuBar jMenuBarWiSim;
@@ -765,7 +809,6 @@ public class WiSimMainController extends javax.swing.JFrame {
 	private javax.swing.JPanel jPanel1;
 	private javax.swing.JPanel jPanel2;
 	private javax.swing.JSeparator jSeparator2;
-	private javax.swing.JToggleButton jToggleButtonWiSimStart;
 	// End of variables declaration//GEN-END:variables
 
 }
