@@ -57,7 +57,7 @@ public class Old_NetzplanElementGrafikGenerator {
 		g = npElem.getGraphics();
 	}
 
-	public Image generateNetzplanelement(NetzplanElement np) {
+	public Image generateNetzplanelement(NetworkplanElement np) {
 
 		/** Get the width of the description in pixel */
 		int textWidth = getTextLength(np.getDescription());

@@ -43,7 +43,7 @@ import java.util.Vector;
 public class Old_NetzplanGrafikGenerator {
 
 	private Vector npElemente;
-	private NetzplanCalculator npCalc;
+	private NetworkplanCalculator npCalc;
 	private Graphics g;
 	private int[][] position;
 	private Vector tupel[];
@@ -62,7 +62,7 @@ public class Old_NetzplanGrafikGenerator {
 				position[a][b] = 0;
 
 		this.npElemente = npElemente;
-		npCalc = new NetzplanCalculator(npElemente);
+		npCalc = new NetworkplanCalculator(npElemente);
 		npElemente = npCalc.getNpElemente();
 		showCriticalPath();
 		maxWidth = npCalc.getCountedBranches();
@@ -114,7 +114,7 @@ public class Old_NetzplanGrafikGenerator {
 		for (int b = 0; b < 20; b++) {
 			for (int c = 0; c < 20; c++) {
 				if (position[b][c] != 0) {
-					NetzplanElement np = (NetzplanElement) npElemente.get(position[b][c] - 1);
+					NetworkplanElement np = (NetworkplanElement) npElemente.get(position[b][c] - 1);
 					if (!paintedElements.contains(new Integer(np.getIndex()))) {
 
 						npElemImg = npGen[i].generateNetzplanelement(np);
@@ -220,11 +220,11 @@ public class Old_NetzplanGrafikGenerator {
 
 		/** START-Element is stored in  Vector Tupel */
 		tupel[0] = new Vector();
-		tupel[0].add(new Integer(((NetzplanElement) npElemente.get(0)).getIndex()));
-		completedAll.add(new Integer(((NetzplanElement) npElemente.get(0)).getIndex()));
+		tupel[0].add(new Integer(((NetworkplanElement) npElemente.get(0)).getIndex()));
+		completedAll.add(new Integer(((NetworkplanElement) npElemente.get(0)).getIndex()));
 
 		/** Followers of the START-Element */
-		int nachfolger[] = ((NetzplanElement) npElemente.get(0)).getChild();
+		int nachfolger[] = ((NetworkplanElement) npElemente.get(0)).getChild();
 
 		/** All followers of the START-Element are stored in a Vector */
 		int y = 0;
@@ -244,7 +244,7 @@ public class Old_NetzplanGrafikGenerator {
 
 			/** Get the parent activitiys of the followers */
 			while (a < nachfolgerBasket.size()) {
-				int[] vorgaenger = ((NetzplanElement) npElemente.get(((Integer) nachfolgerBasket.get(a)).intValue() - 1)).getParent();
+				int[] vorgaenger = ((NetworkplanElement) npElemente.get(((Integer) nachfolgerBasket.get(a)).intValue() - 1)).getParent();
 				boolean complete = true;
 
 				/** Check if all parent activites were already stored in the tupel */
@@ -252,7 +252,7 @@ public class Old_NetzplanGrafikGenerator {
 
 					int h = 0;
 					while (h < vorgaenger.length) {
-						NetzplanElement checkCompleted = (NetzplanElement) npElemente.get(vorgaenger[h] - 1);
+						NetworkplanElement checkCompleted = (NetworkplanElement) npElemente.get(vorgaenger[h] - 1);
 						h++;
 						if (!completedAll.contains(new Integer(checkCompleted.getIndex()))) {
 							complete = false;
@@ -278,7 +278,7 @@ public class Old_NetzplanGrafikGenerator {
 
 			/** Get all followers of the current tupel[]-network elements */
 			while (b < tupel[i].size()) {
-				nachfolger = ((NetzplanElement) npElemente.get(((Integer) tupel[i].get(b)).intValue() - 1)).getChild();
+				nachfolger = ((NetworkplanElement) npElemente.get(((Integer) tupel[i].get(b)).intValue() - 1)).getChild();
 				int c = 0;
 				while (c < nachfolger.length) {
 					if (nachfolger[c] != 0) {
@@ -303,7 +303,7 @@ public class Old_NetzplanGrafikGenerator {
 		//			while (testIt.hasNext()) {
 		//				int tempInt = ((Integer) testIt.next()).intValue();
 		//				if (tempInt != 0) {
-		//					NetzplanElement npEle = (NetzplanElement) npElemente.get(tempInt - 1);
+		//					NetworkplanElement npEle = (NetworkplanElement) npElemente.get(tempInt - 1);
 		//					string = string + " " + (npEle.getNummer());
 		//				} else {
 		//					string = string + " 0";
@@ -329,7 +329,7 @@ public class Old_NetzplanGrafikGenerator {
 			while (actTupelIt.hasNext()) {
 				int actInt = ((Integer) actTupelIt.next()).intValue();
 				if (actInt > 0) {
-					NetzplanElement actNpElem = (NetzplanElement) npElemente.get(actInt - 1);
+					NetworkplanElement actNpElem = (NetworkplanElement) npElemente.get(actInt - 1);
 					//if (actTupel.size() < maxWidth - 1)
 					//position[k + (int)Math.round((maxWidth/2)) - 1][j] = actNpElem.getNummer();
 					//else
@@ -353,7 +353,7 @@ public class Old_NetzplanGrafikGenerator {
 		Vector criticalPath = npCalc.getCriticalPath();
 		Iterator criticalPathIt = criticalPath.iterator();
 		while (criticalPathIt.hasNext()) {
-			((NetzplanElement) npElemente.get(((Integer) criticalPathIt.next()).intValue() - 1)).setCriticalPath(true);
+			((NetworkplanElement) npElemente.get(((Integer) criticalPathIt.next()).intValue() - 1)).setCriticalPath(true);
 		}
 	}
 	/**
