@@ -34,6 +34,7 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Vector;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
@@ -89,9 +90,9 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 		npCalc = new NetworkplanCalculator(npElemente);
 		npElemente = npCalc.getNpElemente();
 
-		/** [DoItBen] Korrekte Anzeige des kritischen Pfades */
-		//showCriticalPath(); <- Some Bugs. Fixes in future versions!
-
+		/** Displaying the critical path */
+		showCriticalPath();
+		
 		calculatePositions();
 
 		/** Max. size of networkplan: Width */
@@ -312,7 +313,12 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 				JSeparator jSeparatorVerticalCon = new JSeparator();
 				jSeparatorVerticalCon.setOrientation(SwingConstants.VERTICAL);
 				jSeparatorVerticalCon.setBounds(xPosStart, yPosStart, 1, 65);
-				jSeparatorVerticalCon.setForeground(Color.BLACK);
+
+				if (npGen[a].getNp().isCriticalPath())
+					jSeparatorVerticalCon.setForeground(Color.RED);
+				else
+					jSeparatorVerticalCon.setForeground(Color.BLACK);
+
 				this.add(jSeparatorVerticalCon);
 			}
 
@@ -323,7 +329,12 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 				JSeparator jSeparatorVerticalCon = new JSeparator();
 				jSeparatorVerticalCon.setOrientation(SwingConstants.VERTICAL);
 				jSeparatorVerticalCon.setBounds(xPosStart, yPosStart, 1, 65);
-				jSeparatorVerticalCon.setForeground(Color.BLACK);
+
+				if (npGen[a].getNp().isCriticalPath())
+					jSeparatorVerticalCon.setForeground(Color.RED);
+				else
+					jSeparatorVerticalCon.setForeground(Color.BLACK);
+
 				this.add(jSeparatorVerticalCon);
 			}
 
@@ -331,98 +342,104 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 			int child[] = npGen[a].getNp().getChild();
 			if (child.length > 1) {
 
-				int r = 1;
-				int width = 0;
-				xPosStart =
-					(int) npGen[((NetworkplanElement) npElemente.get(child[0] - 1))
-						.getLayoutManager()]
-						.getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE)
-						.getX();
+				int h = 0;
+				while (h < child.length) {
 
-				int yPosStart =
-					(int) npGen[((NetworkplanElement) npElemente.get(child[0] - 1))
-						.getLayoutManager()]
-						.getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE)
-						.getY();
+					xPosStart =
+						(int) npGen[((NetworkplanElement) npElemente.get(child[h] - 1))
+							.getLayoutManager()]
+							.getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE)
+							.getX();
 
-				int xPosLength =
-					(int) npGen[((NetworkplanElement) npElemente.get(child[child.length - 1] - 1))
-						.getLayoutManager()]
-						.getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE)
-						.getX()
-						- xPosStart;
+					int xPosLength = 0;
 
-				JSeparator jSeparatorHorizontalCon = new JSeparator();
-				jSeparatorHorizontalCon.setOrientation(SwingConstants.HORIZONTAL);
-				jSeparatorHorizontalCon.setBounds(xPosStart, yPosStart - 65, xPosLength, 1);
-				jSeparatorHorizontalCon.setForeground(Color.BLACK);
+					if (xPosStart > (int) npGen[a].getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE).getX()) {
+						xPosStart = (int) npGen[a].getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE).getX();
 
-				this.add(jSeparatorHorizontalCon);
+						xPosLength =
+							(int) npGen[((NetworkplanElement) npElemente.get(child[h] - 1))
+								.getLayoutManager()]
+								.getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE)
+								.getX()
+								- xPosStart;
+					}
+
+					int yPosStart =
+						(int) npGen[((NetworkplanElement) npElemente.get(child[h] - 1))
+							.getLayoutManager()]
+							.getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE)
+							.getY();
+
+					if (xPosLength == 0) {
+						xPosLength = (int) npGen[a].getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE).getX() - xPosStart;
+					}
+
+					if (xPosLength < 0)
+						xPosLength *= -1;
+
+					JSeparator jSeparatorHorizontalCon = new JSeparator();
+					jSeparatorHorizontalCon.setOrientation(SwingConstants.HORIZONTAL);
+					jSeparatorHorizontalCon.setBounds(xPosStart, yPosStart - 65, xPosLength, 1);
+
+					if (((NetworkplanElement) npElemente.get(child[h] - 1)).isCriticalPath())
+						jSeparatorHorizontalCon.setForeground(Color.RED);
+					else
+						jSeparatorHorizontalCon.setForeground(Color.BLACK);
+
+					this.add(jSeparatorHorizontalCon);
+					h++;
+				}
 			}
 
 			/** Horizontal Connection Line connecting the parents */
 			int parent[] = npGen[a].getNp().getParent();
 			if (parent.length > 1) {
 
-				int r = 1;
-				int width = 0;
-				int xPosStartMin =
-					(int) npGen[((NetworkplanElement) npElemente.get(parent[0] - 1))
-						.getLayoutManager()]
-						.getAnchorPoint(JNetworkplanElement.ANCHOR_BOTTOM_MIDDLE)
-						.getX();
+				int h = 0;
 
-				int xPosStartMax = 0;
-				int yPosStart = 0;
-				int u = 0;
+				while (h < parent.length) {
 
-				/** 
-				 * Get the max. Width and min. Width because the getParent-Function gives
-				 * back an unsorted list of elements!!
-				 */
-				while (u < parent.length) {
-					if ((int) npGen[((NetworkplanElement) npElemente.get(parent[u] - 1))
-						.getLayoutManager()]
-						.getAnchorPoint(JNetworkplanElement.ANCHOR_BOTTOM_MIDDLE)
-						.getX()
-						< xPosStartMin)
-						xPosStartMin =
-							(int) npGen[((NetworkplanElement) npElemente.get(parent[u] - 1))
-								.getLayoutManager()]
-								.getAnchorPoint(JNetworkplanElement.ANCHOR_BOTTOM_MIDDLE)
-								.getX();
-					if ((int) npGen[((NetworkplanElement) npElemente.get(parent[u] - 1))
-						.getLayoutManager()]
-						.getAnchorPoint(JNetworkplanElement.ANCHOR_BOTTOM_MIDDLE)
-						.getX()
-						> xPosStartMax)
-						xPosStartMax =
-							(int) npGen[((NetworkplanElement) npElemente.get(parent[u] - 1))
-								.getLayoutManager()]
-								.getAnchorPoint(JNetworkplanElement.ANCHOR_BOTTOM_MIDDLE)
-								.getX();
-
-					if (yPosStart
-						< (int) npGen[((NetworkplanElement) npElemente.get(parent[u] - 1))
+					xPosStart =
+						(int) npGen[((NetworkplanElement) npElemente.get(parent[h] - 1))
 							.getLayoutManager()]
-							.getAnchorPoint(JNetworkplanElement.ANCHOR_BOTTOM_MIDDLE)
-							.getY())
-						yPosStart =
-							(int) npGen[((NetworkplanElement) npElemente.get(parent[u] - 1))
+							.getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE)
+							.getX();
+
+					int xPosLength = 0;
+
+					if (xPosStart > (int) npGen[a].getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE).getX()) {
+						xPosStart = (int) npGen[a].getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE).getX();
+
+						xPosLength =
+							(int) npGen[((NetworkplanElement) npElemente.get(parent[h] - 1))
 								.getLayoutManager()]
-								.getAnchorPoint(JNetworkplanElement.ANCHOR_BOTTOM_MIDDLE)
-								.getY();
-					u++;
+								.getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE)
+								.getX()
+								- xPosStart;
+					}
+
+					int yPosStart = (int) npGen[a].getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE).getY();
+
+					if (xPosLength == 0) {
+						xPosLength = (int) npGen[a].getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE).getX() - xPosStart;
+					}
+
+					if (xPosLength < 0)
+						xPosLength *= -1;
+						
+					JSeparator jSeparatorHorizontalCon = new JSeparator();
+					jSeparatorHorizontalCon.setOrientation(SwingConstants.HORIZONTAL);
+					jSeparatorHorizontalCon.setBounds(xPosStart, yPosStart - 65, xPosLength, 1);
+
+					if (((NetworkplanElement) npElemente.get(parent[h] - 1)).isCriticalPath())
+						jSeparatorHorizontalCon.setForeground(Color.RED);
+					else
+						jSeparatorHorizontalCon.setForeground(Color.BLACK);
+
+					this.add(jSeparatorHorizontalCon);
+
+					h++;
 				}
-
-				int xPosLength = xPosStartMax - xPosStartMin;
-
-				JSeparator jSeparatorHorizontalCon = new JSeparator();
-				jSeparatorHorizontalCon.setOrientation(SwingConstants.HORIZONTAL);
-				jSeparatorHorizontalCon.setBounds(xPosStartMin, yPosStart + 65, xPosLength, 1);
-				jSeparatorHorizontalCon.setForeground(Color.BLACK);
-
-				this.add(jSeparatorHorizontalCon);
 			}
 			a++;
 		}
@@ -460,7 +477,11 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 						JSeparator jSeparatorVerticalCon = new JSeparator();
 						jSeparatorVerticalCon.setOrientation(SwingConstants.VERTICAL);
 						jSeparatorVerticalCon.setBounds(xPosStart, yPosStart, 1, yPosLength);
-						jSeparatorVerticalCon.setForeground(Color.BLACK);
+
+						if (np.isCriticalPath())
+							jSeparatorVerticalCon.setForeground(Color.RED);
+						else
+							jSeparatorVerticalCon.setForeground(Color.BLACK);
 
 						completed.add(new Integer(currentNumber));
 
@@ -848,6 +869,17 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 	}
 
 	public void mouseClicked(MouseEvent evt) {
+		int x = evt.getX();
+		int y = evt.getY();
+		if (getComponentAt(x, y).getName() != null) {
+			JOptionPane.showMessageDialog(
+				getComponentAt(x, y),
+				"This is Element: "
+					+ ((JNetworkplanElement) getComponentAt(x, y)).getNp().getNumber()
+					+ " ("
+					+ ((JNetworkplanElement) getComponentAt(x, y)).getNp().getDescription()
+					+ ")");
+		}
 	}
 
 	public void mouseEntered(MouseEvent evt) {
