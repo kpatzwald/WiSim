@@ -25,6 +25,3 @@ IMPORTANT STATEMENTS:
 Furthermore we have made some statements that I believe is a consequense of the GNU GPL:
 - Modifications must not alter or remove any copyright notices in the software.
 - Copies and distributions of The WiSim project - modified or unmodified - must retain all copyright-notices.
-
-An here are some statements that I regard to be my natural claims as the copyright holder:
-- The name "WiSim" must not be used to endorse or promote products derived from this software without prior written permission from the copyright holder, WiSim-Team. This does not apply to add-on modules or tools that work in conjunction with WiSim. In such a case the WiSim name may be used to indicate that the product is integrated with and/or supports WiSim.
