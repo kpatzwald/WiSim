@@ -90,4 +90,16 @@
     <jar jarfile="${deploy}/res.jar" basedir="${res}"/>
     <copy file="${deploy}/res.jar" todir="${root}/libs" overwrite="yes" />
   </target>
+ 
+  <target name="javadoc">
+	<javadoc locale="de_DE" destdir="..\doc\WiSim_Api" access="private"
+    	use="true" notree="false" nonavbar="false" noindex="false"
+    	splitindex="true" author="true" version="true"
+    	nodeprecatedlist="false" nodeprecated="false"
+    	packagenames="net.sourceforge.wisim.dao, net.sourceforge.wisim.controller, net.sourceforge.wisim.model, net.sourceforge.wisim.networkplan, net.sourceforge.wisim.simulation, net.sourceforge.wisim.mdi"
+    	sourcepath="java"
+    	classpath="${root}\bin;" doctitle="Projekt: WiSim - Planspiel">
+    	<link href="http://java.sun.com/j2se/1.4.2/docs/api"/>
+	</javadoc>
+   </target>   	
 </project>
