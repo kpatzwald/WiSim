@@ -36,7 +36,6 @@ import java.util.*;
 import java.sql.Date;
 import javax.swing.*;
 import javax.swing.event.*;
-import java.text.DateFormat;
 
 /** In diesem Fenster kann der Benutzer die Simulation starten. Ereignisse (z.B.
  * eingehende Lieferungen, produzierte Hubs, versendete Hubs) werden angezeigt.
@@ -44,11 +43,6 @@ import java.text.DateFormat;
  */
 public class JPanelSimulationStart extends javax.swing.JPanel {
     private WiSimDAO dao;
-    private ActualTime actTime;
-    private CoreTime coreTime;
-    private UpdateSimulationAnalysis updateSimulationsauswertung;
-    private UpdateWarehouseThread updateLagerThread;
-    private int faktor;
     private Date actDate;
     private int hubBestand;
     private Vector artikelLagerElemente;
@@ -56,9 +50,6 @@ public class JPanelSimulationStart extends javax.swing.JPanel {
     private Collection vertraege;
     private GregorianCalendar actDateGC;
     private GregorianCalendar lieferDateGC;
-    private GregorianCalendar gc;
-    private DateFormat df;
-    private boolean beendeNachEinerWoche;
     private boolean isActive;
     private int actDay;
     
@@ -70,7 +61,6 @@ public class JPanelSimulationStart extends javax.swing.JPanel {
     // Simulation der Produktion
     private WiSimMainController wiSimMainController;
     private ProductionController runController;
-    private ProductionSimulationThread[] threads;
     
     // Dauer einer Zeiteinheit für die gesamte Simulation
     public final static int TIMESTEP = 100;
@@ -105,10 +95,8 @@ public class JPanelSimulationStart extends javax.swing.JPanel {
         this.wiSimMainController = wiSimMainController;
         wiSimLogger = wiSimMainController.getWiSimLogger();
         initDAO(wiSimMainController);
-        actTime = new ActualTime();
         actDay = 0;
         this.wiSimMainController = wiSimMainController;
-        faktor = 1;
         actDate = new Date(new GregorianCalendar(2003, 8, 1, 0, 0).getTimeInMillis());
         hubBestand = 0;
         artikelLagerElemente = new Vector();
@@ -117,11 +105,7 @@ public class JPanelSimulationStart extends javax.swing.JPanel {
         
         actDateGC = new GregorianCalendar();
         lieferDateGC = new GregorianCalendar();
-        gc = new GregorianCalendar();
         
-        df = DateFormat.getDateTimeInstance(DateFormat.FULL, DateFormat.SHORT, Locale.GERMANY);
-        
-        beendeNachEinerWoche = false;
         isActive = false;
         
         //Synchronisierte HashSets
@@ -161,13 +145,6 @@ public class JPanelSimulationStart extends javax.swing.JPanel {
      */
   private void initComponents() {//GEN-BEGIN:initComponents
     jLabelSimulation = new javax.swing.JLabel();
-    jButtonReset = new javax.swing.JButton();
-    jTextFieldDatum = new javax.swing.JTextField();
-    DateFormat justDate = DateFormat.getDateInstance(DateFormat.FULL, Locale.GERMANY);
-    jTextFieldDatum.setText(justDate.format(actDate));
-    jLabelDatum = new javax.swing.JLabel();
-    jToggleButtonStartStop = new javax.swing.JToggleButton();
-    jLabelSimStartStop = new javax.swing.JLabel();
     jTabbedPaneSimulationsverlauf = new javax.swing.JTabbedPane();
     jScrollPaneTreeHolderEinkauf = new javax.swing.JScrollPane();
     jTreeEinkauf = new javax.swing.JTree();
@@ -178,10 +155,6 @@ public class JPanelSimulationStart extends javax.swing.JPanel {
     jScrollPaneTreeHolderVertrieb = new javax.swing.JScrollPane();
     jTreeVertrieb = new javax.swing.JTree();
     jTreeVertrieb.setModel(null);
-    jPanelControll = new javax.swing.JPanel();
-    jLabelZeitfaktor = new javax.swing.JLabel();
-    jComboBoxZeitfaktor = new javax.swing.JComboBox();
-    jCheckBoxEineWoche = new javax.swing.JCheckBox();
 
     setLayout(null);
 
@@ -202,46 +175,6 @@ public class JPanelSimulationStart extends javax.swing.JPanel {
     add(jLabelSimulation);
     jLabelSimulation.setBounds(350, 10, 130, 30);
 
-    jButtonReset.setText("Reset");
-    jButtonReset.addActionListener(new java.awt.event.ActionListener() {
-      public void actionPerformed(java.awt.event.ActionEvent evt) {
-        jButtonResetActionPerformed(evt);
-      }
-    });
-
-    add(jButtonReset);
-    jButtonReset.setBounds(530, 90, 100, 30);
-
-    jTextFieldDatum.setEditable(false);
-    jTextFieldDatum.setFont(new java.awt.Font("Dialog", 0, 18));
-    jTextFieldDatum.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-    add(jTextFieldDatum);
-    jTextFieldDatum.setBounds(300, 50, 330, 30);
-
-    jLabelDatum.setFont(new java.awt.Font("Dialog", 1, 18));
-    jLabelDatum.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-    jLabelDatum.setText("Datum");
-    add(jLabelDatum);
-    jLabelDatum.setBounds(230, 50, 60, 30);
-
-    jToggleButtonStartStop.setFont(new java.awt.Font("Dialog", 1, 24));
-    jToggleButtonStartStop.setIcon(new javax.swing.ImageIcon(""));
-    jToggleButtonStartStop.setText("Start");
-    jToggleButtonStartStop.addActionListener(new java.awt.event.ActionListener() {
-      public void actionPerformed(java.awt.event.ActionEvent evt) {
-        jToggleButtonStartStopActionPerformed(evt);
-      }
-    });
-
-    add(jToggleButtonStartStop);
-    jToggleButtonStartStop.setBounds(230, 90, 290, 30);
-
-    jLabelSimStartStop.setFont(new java.awt.Font("Dialog", 1, 14));
-    jLabelSimStartStop.setForeground(new java.awt.Color(0, 204, 51));
-    jLabelSimStartStop.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-    add(jLabelSimStartStop);
-    jLabelSimStartStop.setBounds(230, 120, 290, 30);
-
     jTabbedPaneSimulationsverlauf.setFont(new java.awt.Font("Dialog", 0, 14));
     jTreeEinkauf.setFont(new java.awt.Font("Arial", 0, 14));
     jScrollPaneTreeHolderEinkauf.setViewportView(jTreeEinkauf);
@@ -259,38 +192,7 @@ public class JPanelSimulationStart extends javax.swing.JPanel {
     jTabbedPaneSimulationsverlauf.addTab("                       Vetrieb                          ", jScrollPaneTreeHolderVertrieb);
 
     add(jTabbedPaneSimulationsverlauf);
-    jTabbedPaneSimulationsverlauf.setBounds(20, 150, 750, 360);
-
-    jPanelControll.setLayout(null);
-
-    jPanelControll.setBorder(new javax.swing.border.TitledBorder("Konfiguration"));
-    jLabelZeitfaktor.setFont(new java.awt.Font("Dialog", 1, 14));
-    jLabelZeitfaktor.setText("Zeitfaktor");
-    jPanelControll.add(jLabelZeitfaktor);
-    jLabelZeitfaktor.setBounds(20, 30, 80, 19);
-
-    jComboBoxZeitfaktor.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1X", "1/2X", "1/4X", "1/8X", "1/16X" }));
-    jComboBoxZeitfaktor.addActionListener(new java.awt.event.ActionListener() {
-      public void actionPerformed(java.awt.event.ActionEvent evt) {
-        jComboBoxZeitfaktorActionPerformed(evt);
-      }
-    });
-
-    jPanelControll.add(jComboBoxZeitfaktor);
-    jComboBoxZeitfaktor.setBounds(100, 30, 70, 20);
-
-    jCheckBoxEineWoche.setText("Beende nach 1 Woche");
-    jCheckBoxEineWoche.addActionListener(new java.awt.event.ActionListener() {
-      public void actionPerformed(java.awt.event.ActionEvent evt) {
-        jCheckBoxEineWocheActionPerformed(evt);
-      }
-    });
-
-    jPanelControll.add(jCheckBoxEineWoche);
-    jCheckBoxEineWoche.setBounds(20, 60, 160, 24);
-
-    add(jPanelControll);
-    jPanelControll.setBounds(20, 50, 190, 90);
+    jTabbedPaneSimulationsverlauf.setBounds(20, 50, 750, 460);
 
   }//GEN-END:initComponents
     
@@ -301,50 +203,13 @@ public class JPanelSimulationStart extends javax.swing.JPanel {
     private void formAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_formAncestorAdded
         setIsActive(true);
     }//GEN-LAST:event_formAncestorAdded
-    
-    private void jCheckBoxEineWocheActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxEineWocheActionPerformed
-        if (jCheckBoxEineWoche.getSelectedObjects().length > 0) {
-            beendeNachEinerWoche = true;
-        } else {
-            beendeNachEinerWoche = false;
-        }
-    }//GEN-LAST:event_jCheckBoxEineWocheActionPerformed
-    
-    private void jToggleButtonStartStopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButtonStartStopActionPerformed
-        startStopSimulation();
-    }//GEN-LAST:event_jToggleButtonStartStopActionPerformed
-    
-    private void jComboBoxZeitfaktorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxZeitfaktorActionPerformed
-        faktor = jComboBoxZeitfaktor.getSelectedIndex()+1;
-    }//GEN-LAST:event_jComboBoxZeitfaktorActionPerformed
-    
-    private void jButtonResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonResetActionPerformed
-        resetFields();
-        
-        int i = JOptionPane.showConfirmDialog(this, "Achtung! Es wird empfohlen die Datenbank auch zu resetten!", "Reset", JOptionPane.YES_NO_OPTION);
-        
-        if (i == 0) {
-            JPanelOptions jPanelOptions = (JPanelOptions) wiSimMainController.getActions().get("Options");
-            jPanelOptions.einlesenQueries();
-            JOptionPane.showMessageDialog(this, "Die Datenbank wurde resettet!");
-        }
-    }//GEN-LAST:event_jButtonResetActionPerformed
-    
+                    
   // Variables declaration - do not modify//GEN-BEGIN:variables
-  private javax.swing.JButton jButtonReset;
-  private javax.swing.JCheckBox jCheckBoxEineWoche;
-  private javax.swing.JComboBox jComboBoxZeitfaktor;
-  private javax.swing.JLabel jLabelDatum;
-  private javax.swing.JLabel jLabelSimStartStop;
   private javax.swing.JLabel jLabelSimulation;
-  private javax.swing.JLabel jLabelZeitfaktor;
-  private javax.swing.JPanel jPanelControll;
   private javax.swing.JScrollPane jScrollPaneTreeHolderEinkauf;
   private javax.swing.JScrollPane jScrollPaneTreeHolderProduktion;
   private javax.swing.JScrollPane jScrollPaneTreeHolderVertrieb;
   private javax.swing.JTabbedPane jTabbedPaneSimulationsverlauf;
-  private javax.swing.JTextField jTextFieldDatum;
-  private javax.swing.JToggleButton jToggleButtonStartStop;
   private javax.swing.JTree jTreeEinkauf;
   private javax.swing.JTree jTreeProduktion;
   private javax.swing.JTree jTreeVertrieb;
@@ -593,7 +458,6 @@ public class JPanelSimulationStart extends javax.swing.JPanel {
         this.actDate.setTime(actDate.getTime());
         GregorianCalendar actDateGC = new GregorianCalendar();
         actDateGC.setTimeInMillis(actDate.getTime());
-        jTextFieldDatum.setText(df.format(actDate));
     }
     
     /** Setzt das actDate
@@ -607,11 +471,9 @@ public class JPanelSimulationStart extends javax.swing.JPanel {
     public void resetFields() {
         actDate = new Date(new GregorianCalendar(2003, 8, 1, 0, 0).getTimeInMillis());
         actDay = 0;
-        jTextFieldDatum.setText("");
         jTreeEinkauf.setModel(null);
         jTreeVertrieb.setModel(null);
         jTreeProduktion.setModel(null);
-        jLabelSimStartStop.setText("");
         rootNodeLieferungen = new IconNode("");
         rootNodeVertrieb = new IconNode("");
         rootNodeProduktion = new IconNode("");
@@ -624,95 +486,6 @@ public class JPanelSimulationStart extends javax.swing.JPanel {
         resetDateFields();
     }
     
-    private void startStopSimulation() {
-        int anzahlArbeitsplaetze = -1;
-        
-        if (jToggleButtonStartStop.isSelected()) {
-            resetFields();
-            jComboBoxZeitfaktor.setEnabled(false);
-            jButtonReset.setEnabled(false);
-            jCheckBoxEineWoche.setEnabled(false);
-            actTime = new ActualTime();
-            coreTime = new CoreTime(actTime, faktor, TIMESTEP);
-            gc.setTime(actDate);
-            updateSimulationsauswertung =
-            new UpdateSimulationAnalysis(
-            actTime,
-            wiSimMainController,
-            beendeNachEinerWoche);
-            updateLagerThread = new UpdateWarehouseThread(wiSimMainController);
-            
-            coreTime.start();
-            updateSimulationsauswertung.start();
-            updateLagerThread.start();
-            
-            // Simulation der Produktion
-            try {
-                anzahlArbeitsplaetze = dao.getAnzahlArbeitsplaetze();
-            }
-            catch (WiSimDAOException e) {
-                wiSimLogger.log("startStopSimulation()", e);
-            }
-            
-            runController = new ProductionController(wiSimMainController);
-            try {
-                threads = new ProductionSimulationThread[anzahlArbeitsplaetze+1];
-                for (int i = 1; i <= anzahlArbeitsplaetze; i++) {
-                    
-                    threads[i] =
-                    new ProductionSimulationThread(
-                    dao.getArbeitsplatz(i),
-                    runController,
-                    wiSimMainController,
-                    faktor,
-                    TIMESTEP);
-                    threads[i].start();
-                    
-                }
-            }
-            catch (WiSimDAOException e) {
-                wiSimLogger.log("startStopSimulation()", e);
-            }
-            
-            // Ende Simulation der Produktion
-            
-            jToggleButtonStartStop.setText("Ende");
-            
-            jLabelSimStartStop.setForeground(new java.awt.Color(51, 153, 51));
-            jLabelSimStartStop.setText("Simulation wurde gestartet!");
-        }
-        else {
-            coreTime.interrupt();
-            updateSimulationsauswertung.interrupt();
-            updateLagerThread.interrupt();
-            
-            try {
-                anzahlArbeitsplaetze = dao.getAnzahlArbeitsplaetze();
-            }
-            catch (WiSimDAOException e) {
-                wiSimLogger.log("startStopSimulation()", e);
-            }
-            
-            // Simulation der Produktion
-            for (int i = 1; i <= anzahlArbeitsplaetze; i++) {
-                threads[i].interrupt();
-            }
-            
-            // Ende Simulation der Produktion
-            enableControll();
-            jToggleButtonStartStop.setText("Start");
-            jLabelSimStartStop.setForeground(java.awt.Color.red);
-            jLabelSimStartStop.setText("Simulation wurde beendet!");
-        }
-    }
-    
-    /** Schaltet die Kontrollfelder der Simulation wieder frei */
-    public void enableControll() {
-        jComboBoxZeitfaktor.setEnabled(true);
-        jButtonReset.setEnabled(true);
-        jCheckBoxEineWoche.setEnabled(true);
-    }
-    
     /** Setzt das Datum des Menüs zurück */
     public void resetDateFields() {
         JPanelSimulationStart jPanelSimulationStart = (JPanelSimulationStart) wiSimMainController.getActions().get("SimulationStart");
@@ -723,17 +496,6 @@ public class JPanelSimulationStart extends javax.swing.JPanel {
     /** Setzt das Datumsfeld dieses Panes zurück */
     public void resetTextFieldDate() {
         actDate = new Date(new GregorianCalendar(2003, 8, 1, 0, 0).getTimeInMillis());
-        DateFormat justDate = DateFormat.getDateInstance(DateFormat.FULL, Locale.GERMANY);
-        jTextFieldDatum.setText(justDate.format(actDate));
-    }
-    
-    /** Setzt den Button zum Starten und Stoppen der Simulation in den Start-Zustand */
-    public void startStopButtonDoClick() {
-        jToggleButtonStartStop.setFocusPainted(false);
-        jToggleButtonStartStop.setSelected(false);
-        jToggleButtonStartStop.setText("Start");
-        jLabelSimStartStop.setForeground(java.awt.Color.red);
-        jLabelSimStartStop.setText("Simulation wurde beendet!");
     }
     
     /** Setzt die Variable isActive auf TRUE oder FALSE
