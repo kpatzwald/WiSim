@@ -188,10 +188,14 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 		int a = 0;
 		int count = 0;
 		while (a < tupel.length) {
-			if (tupel[a] != null)
-				count += tupel[a].size();
-			else
+			if (tupel[a] != null) {
+				for (int b = 0; b < tupel[a].size(); b++) {
+					if (((Integer) tupel[a].get(b)).intValue() > 0)
+						count++;
+				}
+			} else {
 				break;
+			}
 			a++;
 		}
 
