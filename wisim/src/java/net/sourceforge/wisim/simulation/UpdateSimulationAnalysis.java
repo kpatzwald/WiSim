@@ -93,8 +93,8 @@ public class UpdateSimulationAnalysis extends Thread {
 				jPanelSimulationAnalysis.refreshJTreeVertrieb();
 			}
 
-			//Beende nach 5 Tagen falls beendeNachEinerWoche == TRUE
-			if (beendeNachEinerWoche && dayChanges == 5) {
+			//Beende nach 6 Tagen falls beendeNachEinerWoche == TRUE
+			if (beendeNachEinerWoche && dayChanges == 6) {
 				break;
 			}
 		}
