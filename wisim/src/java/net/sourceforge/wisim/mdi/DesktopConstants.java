@@ -39,10 +39,10 @@ public interface DesktopConstants {
       int MAX_FRAMES = 20;
 
       /** default x offset of first frame in cascade mode, relative to desktop */
-      int X_OFFSET = 30;
+      int X_OFFSET = 15;
 
       /** default y offset of first frame in cascade mode, relative to desktop */
-      int Y_OFFSET = 30;
+      int Y_OFFSET = 15;
 
       /** minimum width of frame toolbar buttons */
       int MINIMUM_BUTTON_WIDTH = 30;
