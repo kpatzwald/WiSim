@@ -64,7 +64,7 @@ public class ActualTime
 	 * angebrochen ist (newMinute == true)
 	 * @return aktuelles Datum
 	 */
-	public synchronized Date getDate(UpdateSimulationsauswertung thread)
+	public synchronized Date getDate(UpdateSimulationAnalysis thread)
 	{
 		while (newMinute == false)
 		{

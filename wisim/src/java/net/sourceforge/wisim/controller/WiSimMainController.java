@@ -91,22 +91,22 @@ public class WiSimMainController extends javax.swing.JFrame {
 	/*Hashtable with all possible actions. Every action represent a JPanel / JInternalFrame.*/
         private void initActions() {
 		actions = new Hashtable();
-		actions.put("Bestellung", new JPanelBestellung(this));
-		actions.put("Hilfe", new JPanelHilfe(this));
-		actions.put("ModifyCustomer", new JPanelKundeBearbeiten(this));
-		actions.put("Lager", new JPanelLager(this));
-		actions.put("LieferantBearbeiten", new JPanelLieferantBearbeiten(this));
-		actions.put("Lieferantenliste", new JPanelLieferantenliste(this));
-		actions.put("NewCustomer", new JPanelNeuerKunde(this));
-		actions.put("ViewCustomers", new JPanelKundenUebersicht(this));
-		actions.put("NeuerLieferant", new JPanelNeuerLieferant(this));
-		actions.put("NeuerVertrag", new JPanelNeuerVertrag(this));
-		actions.put("VertragEinsehen", new JPanelVertragEinsehen(this));
+		actions.put("Bestellung", new JPanelOrder(this));
+		actions.put("Hilfe", new JPanelHelp(this));
+		actions.put("ModifyCustomer", new JPanelModifyCustomer(this));
+		actions.put("Lager", new JPanelWarehouse(this));
+		actions.put("LieferantBearbeiten", new JPanelModifySupplier(this));
+		actions.put("Lieferantenliste", new JPanelViewSuppliers(this));
+		actions.put("NewCustomer", new JPanelNewCustomer(this));
+		actions.put("ViewCustomers", new JPanelViewCustomers(this));
+		actions.put("NeuerLieferant", new JPanelNewSupplier(this));
+		actions.put("NeuerVertrag", new JPanelNewContract(this));
+		actions.put("VertragEinsehen", new JPanelViewContract(this));
 		actions.put("Options", new JPanelOptions(this));
-		actions.put("EtatEinsehen", new JPanelEtatEinsehen(this));
+		actions.put("EtatEinsehen", new JPanelViewEtat(this));
 		actions.put("SimulationStart", new JPanelSimulationStart(this));
-		actions.put("Arbeitsplatzlager", new JPanelArbeitsplatzlager(this));
-		actions.put("Zahlungseingang", new JPanelZahlungseingang(this));
+		actions.put("Arbeitsplatzlager", new JPanelWorkPlaceStore(this));
+		actions.put("Zahlungseingang", new JPanelIncomingPayments(this));
 	}
 	
 	/*Hashtable titles with the german titles of the JInternalFrames.*/
