@@ -30,7 +30,7 @@
 package net.sourceforge.wisim.simulation;
 
 import net.sourceforge.wisim.controller.JPanelIncomingPayments;
-import net.sourceforge.wisim.controller.JPanelViewEtat;
+import net.sourceforge.wisim.controller.JPanelViewOrders;
 import net.sourceforge.wisim.controller.JPanelWarehouse;
 import net.sourceforge.wisim.controller.JPanelWorkPlaceStore;
 import net.sourceforge.wisim.controller.WiSimMainController;
@@ -45,7 +45,7 @@ public class UpdateWarehouseThread extends Thread {
 	//JPanes
 	private JPanelWarehouse lager;
 	private JPanelWorkPlaceStore apLager;
-	private JPanelViewEtat etatEinsehen;
+	private JPanelViewOrders etatEinsehen;
 	private JPanelIncomingPayments jPanelZahlungseingang;
 	private WiSimMainController wiSimMainController;
 
@@ -57,7 +57,7 @@ public class UpdateWarehouseThread extends Thread {
 		this.wiSimMainController = wiSimMainController;
 		lager = (JPanelWarehouse) wiSimMainController.getActions().get("Warehouse");
 		apLager = (JPanelWorkPlaceStore) wiSimMainController.getActions().get("WorkPlaceStore");
-		etatEinsehen = (JPanelViewEtat) wiSimMainController.getActions().get("ViewEtat");
+		etatEinsehen = (JPanelViewOrders) wiSimMainController.getActions().get("ViewEtat");
 		jPanelZahlungseingang = (JPanelIncomingPayments) wiSimMainController.getActions().get("IncomingPayment");
 		initialize();
 	}
