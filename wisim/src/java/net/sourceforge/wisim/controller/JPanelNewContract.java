@@ -984,7 +984,7 @@ public class JPanelNewContract extends JPanel {
 			try {
 				price = form.parse(jTextFieldNeuerVertragStueckpreis.getText()).doubleValue();
 			} catch (ParseException e) {
-				wiSimLogger.log(Level.WARNING,"JPanelNeuerVertrag.getPrice",e,false);
+				wiSimLogger.log(Level.WARNING, "JPanelNeuerVertrag.getPrice", e, false);
 			}
 		}
 		return price;
@@ -1341,7 +1341,7 @@ public class JPanelNewContract extends JPanel {
 		try {
 			atr.setBetrag(form.parse(jTextFieldNeuerVertragAngebotspreis.getText()).doubleValue());
 		} catch (ParseException e) {
-			wiSimLogger.log(Level.WARNING,"JPanelNeuerVertrag.speicherVertrag",e,false);
+			wiSimLogger.log(Level.WARNING, "JPanelNeuerVertrag.speicherVertrag", e, false);
 		}
 		atr.setAuftragNr(i + 1);
 		atr.setMwSt(mwst);
