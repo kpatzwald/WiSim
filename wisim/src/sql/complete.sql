@@ -1,8 +1,8 @@
 ##/*   ********************************************************************   **
 ##**   Copyright notice                                                       **
 ##**                                                                          **
-##**   (c) 2003 WiSim Development Team					                      **
-##**   http://wisim.sourceforge.net/   			                              **
+##**   (c) 2003 WiSim Development Team					                              **
+##**   http://wisim.sourceforge.net/   			                                  **
 ##**                                                                          **
 ##**   All rights reserved                                                    **
 ##**                                                                          **
@@ -320,11 +320,11 @@ CREATE TABLE kd (
 # Daten für Tabelle `kd`
 #
 
-INSERT INTO kd VALUES (1, 'B', '', '3', 'Pixelpark', 'P.', 'Benjamin', 'Rotherstr. 9', 'bp@pixelpark.com', '030-123455', '030-123456', 'FALSE', 1);
-INSERT INTO kd VALUES (2, 'B', '', '3', 'Pixelpark', 'D.', 'Christian', 'Rotherstr. 9', 'cd@pixelpark.com', '030-123455', '030-123456', 'FALSE', 1);
-INSERT INTO kd VALUES (3, 'B', '', '3', 'Pixelpark', 'F.', 'Denise', 'Rotherstr. 9', 'df@pixelpark.com', '030-123455', '030-123456', 'FALSE', 1);
-INSERT INTO kd VALUES (4, 'B', '', '3', 'Pixelpark', 'Z.', 'Janett', 'Rotherstr. 9', 'jz@pixelpark.com', '030-123455', '030-123456', 'FALSE', 1);
-INSERT INTO kd VALUES (5, 'B', '', '3', 'Pixelpark', 'P.', 'Kay', 'Rotherstr. 9', 'kp@pixelpark.com', '030-123455', '030-123456', 'FALSE', 1);
+INSERT INTO kd VALUES (1, 'B', '', '3', 'ABC AG', 'Peters', 'Benjamin', 'Rotherstr. 9', 'peters@abc.com', '030-123455', '030-123456', 'FALSE', 1);
+INSERT INTO kd VALUES (2, 'B', '', '3', 'ABC AG', 'Adams', 'Christian', 'Rotherstr. 9', 'adams@abc.com', '030-123455', '030-123456', 'FALSE', 1);
+INSERT INTO kd VALUES (3, 'B', '', '3', 'ABC AG', 'English', 'Denise', 'Rotherstr. 9', 'english@abc.com', '030-123455', '030-123456', 'FALSE', 1);
+INSERT INTO kd VALUES (4, 'B', '', '3', 'ABC AG', 'Miller', 'Janett', 'Rotherstr. 9', 'mill@abc.com', '030-123455', '030-123456', 'FALSE', 1);
+INSERT INTO kd VALUES (5, 'B', '', '3', 'ABC AG', 'Anderson', 'Kay', 'Rotherstr. 9', 'anderson@abc.com', '030-123455', '030-123456', 'FALSE', 1);
 # --------------------------------------------------------
 
 #
@@ -436,11 +436,11 @@ CREATE TABLE note (
 # Daten für Tabelle `note`
 #
 
-INSERT INTO note VALUES (1, 'Dies ist der Kunde Benjamin Pasero.', '2003-03-03', 1);
-INSERT INTO note VALUES (2, 'Dies ist der Kunde Christian Drechsler.', '2003-03-03', 2);
-INSERT INTO note VALUES (3, 'Dies ist die Kundin Denise Freitag.', '2003-03-03', 3);
-INSERT INTO note VALUES (4, 'Dies ist die Kundin Janett Ziola.', '2003-03-04', 4);
-INSERT INTO note VALUES (5, 'Dies ist der Kunde Kay Patzwald.', '2003-03-04', 5);
+INSERT INTO note VALUES (1, 'Dies ist der Kunde Benjamin Peters.', '2003-03-03', 1);
+INSERT INTO note VALUES (2, 'Dies ist der Kunde Christian Adams.', '2003-03-03', 2);
+INSERT INTO note VALUES (3, 'Dies ist die Kundin Denise English.', '2003-03-03', 3);
+INSERT INTO note VALUES (4, 'Dies ist die Kundin Janett Miller.', '2003-03-04', 4);
+INSERT INTO note VALUES (5, 'Dies ist der Kunde Kay Anderson.', '2003-03-04', 5);
 # --------------------------------------------------------
 
 #
