@@ -195,19 +195,19 @@ public class ShowNetzplan extends JPanel {
 		filled.add(new NetzplanElement(9, 7, new int[] { 10 }, "Montage Lagerhalle"));
 		filled.add(new NetzplanElement(10, 4, new int[] { 0 }, "Installationsarbeiten"));
 
-		/*npElemente.add(new NetzplanElement(1, 3, new int[] { 2,3 }, "Erdaushub Fundamente"));
-		filled.add(new NetzplanElement(2, 2, new int[] { 4,5 }, "Ausgieﬂen Fundamente"));
-		filled.add(new NetzplanElement(3, 5, new int[] { 6 }, "Verschalung Betonsockel"));
-		filled.add(new NetzplanElement(4, 3, new int[] { 6 }, "Betonierung Betonsockel"));
-		filled.add(new NetzplanElement(5, 10, new int[] { 6 }, "Bestellung Betonteile"));
-		filled.add(new NetzplanElement(6, 2, new int[] { 0 }, "Aushub Versorgungsleitung"));*/
+		//		filled.add(new NetzplanElement(1, 3, new int[] { 2,3 }, "Erdaushub Fundamente"));
+		//		filled.add(new NetzplanElement(2, 2, new int[] { 4,5 }, "Ausgieﬂen Fundamente"));
+		//		filled.add(new NetzplanElement(3, 5, new int[] { 6 }, "Verschalung Betonsockel"));
+		//		filled.add(new NetzplanElement(4, 3, new int[] { 6 }, "Betonierung Betonsockel"));
+		//		filled.add(new NetzplanElement(5, 10, new int[] { 6 }, "Bestellung Betonteile"));
+		//		filled.add(new NetzplanElement(6, 2, new int[] { 0 }, "Aushub Versorgungsleitung"));
 
-		/*npElemente.add(new NetzplanElement(1, 3, new int[] { 2 }, "Erdaushub Fundamente"));
-		filled.add(new NetzplanElement(2, 2, new int[] { 3, 4 }, "Ausgieﬂen Fundamente"));
-		filled.add(new NetzplanElement(3, 5, new int[] { 5 }, "Verschalung Betonsockel"));
-		filled.add(new NetzplanElement(4, 3, new int[] { 5 }, "Betonierung Betonsockel"));
-		filled.add(new NetzplanElement(5, 10, new int[] { 6 }, "Bestellung Betonteile"));
-		filled.add(new NetzplanElement(6, 2, new int[] { 0 }, "Aushub Versorgungsleitung"));*/
+		//		filled.add(new NetzplanElement(1, 3, new int[] { 2 }, "Erdaushub Fundamente"));
+		//		filled.add(new NetzplanElement(2, 2, new int[] { 3, 4 }, "Ausgieﬂen Fundamente"));
+		//		filled.add(new NetzplanElement(3, 5, new int[] { 5 }, "Verschalung Betonsockel"));
+		//		filled.add(new NetzplanElement(4, 3, new int[] { 5 }, "Betonierung Betonsockel"));
+		//		filled.add(new NetzplanElement(5, 10, new int[] { 6 }, "Bestellung Betonteile"));
+		//		filled.add(new NetzplanElement(6, 2, new int[] { 0 }, "Aushub Versorgungsleitung"));
 
 		return filled;
 	}

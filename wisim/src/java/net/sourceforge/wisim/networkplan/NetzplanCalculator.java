@@ -29,7 +29,7 @@ import java.util.Vector;
 /**
  * Class for calculation a network plan element.
  * @author Benjamin Pasero
- * @version 0.2a
+ * @version 0.3a
  */
 public class NetzplanCalculator {
 

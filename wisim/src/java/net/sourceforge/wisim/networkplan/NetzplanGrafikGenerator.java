@@ -131,11 +131,7 @@ public class NetzplanGrafikGenerator {
 
 						/** Horizontal Connection Line */
 						if (vorgaenger.length > 1) {
-							g.drawLine(
-								230 + b * 400,
-								190 + (c - 1) * 160,
-								630 + (vorgaenger.length - 2) * 400,
-								190 + (c - 1) * 160);
+							g.drawLine(230 + b * 400, 190 + (c - 1) * 160, 630 + (vorgaenger.length - 2) * 400, 190 + (c - 1) * 160);
 						}
 
 						i++;
@@ -244,8 +240,7 @@ public class NetzplanGrafikGenerator {
 
 			/** Get the parent activitiys of the followers */
 			while (a < nachfolgerBasket.size()) {
-				int[] vorgaenger =
-					((NetzplanElement) npElemente.get(((Integer) nachfolgerBasket.get(a)).intValue() - 1)).getVorgaenger();
+				int[] vorgaenger = ((NetzplanElement) npElemente.get(((Integer) nachfolgerBasket.get(a)).intValue() - 1)).getVorgaenger();
 				boolean complete = true;
 
 				/** Check if all parent activites were already stored in the tupel */
@@ -267,7 +262,7 @@ public class NetzplanGrafikGenerator {
 					tupel[i].add((Integer) nachfolgerBasket.get(a));
 					completed.add(nachfolgerBasket.get(a));
 
-				/** Parents are not yet stored in the tupel */
+					/** Parents are not yet stored in the tupel */
 				} else if (!complete) {
 					tupel[i].add(tupel[i - 1].get(a));
 				}
@@ -295,32 +290,31 @@ public class NetzplanGrafikGenerator {
 		}
 
 		/** START Debug output */
-//		int blub = 0;
-//		while (blub < i) {
-//
-//			String string = "";
-//			Vector test = (Vector) tupel[blub];
-//			Iterator testIt = test.iterator();
-//			while (testIt.hasNext()) {
-//				int tempInt = ((Integer) testIt.next()).intValue();
-//				if (tempInt != 0) {
-//					NetzplanElement npEle = (NetzplanElement) npElemente.get(tempInt - 1);
-//					string = string + " " + (npEle.getNummer());
-//				} else {
-//					string = string + " 0";
-//				}
-//			}
-//			System.out.println("Tupel[" + blub + "]: " + string);
-//			blub++;
-//		}
-//
-//		Iterator completeIt = completed.iterator();
-//		String completedList = "";
-//		while (completeIt.hasNext())
-//			completedList = completedList + " " + String.valueOf(((Integer) completeIt.next()).intValue());
-//		System.out.println("CompletedList: " + completedList);
+		//		int blub = 0;
+		//		while (blub < i) {
+		//
+		//			String string = "";
+		//			Vector test = (Vector) tupel[blub];
+		//			Iterator testIt = test.iterator();
+		//			while (testIt.hasNext()) {
+		//				int tempInt = ((Integer) testIt.next()).intValue();
+		//				if (tempInt != 0) {
+		//					NetzplanElement npEle = (NetzplanElement) npElemente.get(tempInt - 1);
+		//					string = string + " " + (npEle.getNummer());
+		//				} else {
+		//					string = string + " 0";
+		//				}
+		//			}
+		//			System.out.println("Tupel[" + blub + "]: " + string);
+		//			blub++;
+		//		}
+		//
+		//		Iterator completeIt = completed.iterator();
+		//		String completedList = "";
+		//		while (completeIt.hasNext())
+		//			completedList = completedList + " " + String.valueOf(((Integer) completeIt.next()).intValue());
+		//		System.out.println("CompletedList: " + completedList);
 		/** END Debug output */
-
 
 		/** Set the positions */
 		int j = 0;
