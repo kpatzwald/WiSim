@@ -706,6 +706,7 @@ public class WiSimMainController extends javax.swing.JFrame {
 	 *
 	 */
 	private void startSimulation() {
+		//KTODO Ausblenden von Zeitfaktor und "Beenden Nach 1 Woche"
 		jButtonSimStart.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/suspend.gif")));
 		jButtonSimStart.setText("Pause");
 		JPanelOptions jPanelOptions = (JPanelOptions) actions.get("Options");
