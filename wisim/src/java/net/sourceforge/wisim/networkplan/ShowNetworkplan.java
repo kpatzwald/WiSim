@@ -53,6 +53,7 @@ public class ShowNetworkplan extends JFrame {
 		npElemente = getNetworkPlanElements();
 
 		getContentPane().setLayout(null);
+
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		setBounds(0, 0, screenSize.width, screenSize.height);
 
@@ -80,10 +81,10 @@ public class ShowNetworkplan extends JFrame {
 			/** Stop stopwatch */
 			long endTime = System.currentTimeMillis();
 
+			/** Get the time for calculating and showing the networkplan */
 			calculationTime = endTime - startTime;
 
 			JLabel showCalculationTime = new JLabel("Rendertime: " + (double) calculationTime / 1000 + " sec.");
-			showCalculationTime.setForeground(Color.BLACK);
 			netzplanGrafik.add(showCalculationTime);
 			showCalculationTime.setBounds(20, 20, 200, 20);
 

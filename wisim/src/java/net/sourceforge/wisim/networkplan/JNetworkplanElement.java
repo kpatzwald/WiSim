@@ -31,7 +31,6 @@ import java.awt.geom.AffineTransform;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
@@ -42,6 +41,7 @@ import javax.swing.border.LineBorder;
  */
 public class JNetworkplanElement extends JPanel {
 
+	/** Swing components */
 	private JLabel jLabelDuration;
 	private JLabel jLabelFAZ;
 	private JLabel jLabelFEZ;
@@ -52,11 +52,12 @@ public class JNetworkplanElement extends JPanel {
 	private JLabel jLabelNumber;
 	private JLabel jLabelSAZ;
 	private JLabel jLabelSEZ;
-	private JSeparator jSeparatorConTop;
-	private JSeparator jSeparatorConBottom;
 	private JPanel npElementRect;
+
 	private boolean isCriticalPathElement;
 	private NetworkplanElement np;
+
+	/** Defining some Fonts */
 	private Font innerTextFont;
 	private Font outerTextFont;
 	private Font descriptionFont;
@@ -79,8 +80,6 @@ public class JNetworkplanElement extends JPanel {
 	 */
 	public JNetworkplanElement(NetworkplanElement np) {
 		npElementRect = new JPanel();
-		jSeparatorConTop = new JSeparator();
-		jSeparatorConBottom = new JSeparator();
 		jLabelGP = new JLabel();
 		jLabelFP = new JLabel();
 		jLabelDuration = new JLabel();
@@ -103,8 +102,6 @@ public class JNetworkplanElement extends JPanel {
 
 	public JNetworkplanElement() {
 		npElementRect = new JPanel();
-		jSeparatorConTop = new JSeparator();
-		jSeparatorConBottom = new JSeparator();
 		jLabelGP = new JLabel();
 		jLabelFP = new JLabel();
 		jLabelDuration = new JLabel();
@@ -123,15 +120,14 @@ public class JNetworkplanElement extends JPanel {
 
 	/**
 	 * Paints a new networkplan element in this JLabel
-	 * @param np
+	 * @param np the networkplan element
 	 */
 	public void generateNetzplanelement(NetworkplanElement np) {
 
 		this.setLayout(null);
 
 		/** Alpha is set to 0, makes this JPanel transparent */
-		Color c = new Color(255, 255, 255, 0);
-		this.setBackground(c);
+		this.setBackground(new Color(255, 255, 255, 0));
 
 		/** Rectangle of the network plan element */
 		npElementRect.setLayout(null);
@@ -420,7 +416,7 @@ public class JNetworkplanElement extends JPanel {
 		jLabelDuration.setBorder(new LineBorder(lineColor));
 		jLabelNumber.setBorder(new LineBorder(lineColor));
 	}
-	
+
 	/**
 	 * Get the x- and y-Values of one of the four anchor points of this element
 	 * @param anchor ANCHOR_TOP_MIDDLE or ANCHOR_BOTTOM_MIDDLE or ANCHOR_MIDDLE_LEFT
@@ -431,16 +427,16 @@ public class JNetworkplanElement extends JPanel {
 		switch (anchor) {
 
 			case ANCHOR_TOP_MIDDLE :
-				return new Point((int) getLocation().getX() + 150, (int) getLocation().getY() + 20);
+				return new Point((int) getLocation().getX() + width / 2, (int) getLocation().getY() + 20);
 
 			case ANCHOR_BOTTOM_MIDDLE :
-				return new Point((int) getLocation().getX() + 150, (int) getLocation().getY() + 170);
+				return new Point((int) getLocation().getX() + width / 2, (int) getLocation().getY() + 170);
 
 			case ANCHOR_MIDDLE_LEFT :
 				return new Point((int) getLocation().getX(), (int) getLocation().getY() + 95);
 
 			case ANCHOR_MIDDLE_RIGHT :
-				return new Point((int) getLocation().getX() + 300, (int) getLocation().getY() + 95);
+				return new Point((int) getLocation().getX() + width, (int) getLocation().getY() + 95);
 		}
 		return new Point(0, 0);
 	}

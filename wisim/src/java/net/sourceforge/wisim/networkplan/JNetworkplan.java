@@ -26,6 +26,7 @@ package net.sourceforge.wisim.networkplan;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
+import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -57,7 +58,8 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 	private final int maxPosX;
 	private final int maxPosY;
 
-	private int x1 = 0, y1 = 0;
+	/** Variables for movement of an element */
+	private int x1, y1;
 	private boolean dragging;
 	private int offsetX, offsetY;
 	private Component movedElement;
@@ -70,6 +72,10 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 	 */
 	public JNetworkplan(Vector npElemente) {
 
+		x1 = 0;
+		y1 = 0;
+
+		/** Listener for user-interaction with the mouse */
 		addMouseListener(this);
 		addMouseMotionListener(this);
 
@@ -78,21 +84,22 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 		maxPosY = npElemente.size();
 		tupel = new Vector[maxPosY + 1];
 
-		/** 
-		 * Matrix for positioning of the elements 
-		 */
+		/** Matrix for positioning of the elements */
 		position = new int[maxPosX][maxPosY];
 		for (int a = 0; a < maxPosX; a++)
 			for (int b = 0; b < maxPosY; b++)
 				position[a][b] = 0;
 
 		this.npElemente = npElemente;
+
+		/** Calculate the networkplan elements */
 		npCalc = new NetworkplanCalculator(npElemente);
 		npElemente = npCalc.getNpElemente();
 
 		/** Displaying the critical path */
 		showCriticalPath();
-		
+
+		/** Get positions of each element */
 		calculatePositions();
 
 		/** Max. size of networkplan: Width */
@@ -115,12 +122,12 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 			}
 		}
 
+		/** Get all JNetworkplanElements on this JNetworkplan */
 		paintSwingElmements();
 	}
 
 	/** Sets the swing elements and builds the network plan */
 	public void paintSwingElmements() {
-
 		boolean onlyOneElement = false;
 
 		/** Count the elements of the tupel */
@@ -298,7 +305,7 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 			bottomPos++;
 		}
 
-		/** Paint the horizontal and vertical connection lines */
+		/** Paint the horizontal and vertical connection lines with JSeperators */
 		a = 0;
 
 		while (a < npGen.length && npGen[a] != null) {
@@ -426,7 +433,7 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 
 					if (xPosLength < 0)
 						xPosLength *= -1;
-						
+
 					JSeparator jSeparatorHorizontalCon = new JSeparator();
 					jSeparatorHorizontalCon.setOrientation(SwingConstants.HORIZONTAL);
 					jSeparatorHorizontalCon.setBounds(xPosStart, yPosStart - 65, xPosLength, 1);
@@ -827,14 +834,16 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 
 	/** Forget this JNetworkplanElement */
 	public void mouseReleased(MouseEvent evt) {
-		movedElement.setCursor(new Cursor(12));
-		movedElement = null;
+		if (movedElement != null) {
+			movedElement.setCursor(new Cursor(12));
+			movedElement = null;
+		}
 		dragging = false;
 		x1 = 0;
 		y1 = 0;
 	}
 
-	/** Move the saved JNetworkPlan */
+	/** Move the selected JNetworkPlan */
 	public void mouseDragged(MouseEvent evt) {
 		if (dragging == false || evt.getX() < 0 || evt.getY() < 0)
 			return;
@@ -849,7 +858,7 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 		}
 	}
 
-	/** Highlight the JNetworkPlan */
+	/** Highlight the JNetworkPlan element that becomes selected */
 	public void mouseMoved(MouseEvent evt) {
 		int x = evt.getX();
 		int y = evt.getY();
@@ -868,6 +877,7 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 		}
 	}
 
+	/** When the user clicks on an element, show a JOptionPanel with some informations */
 	public void mouseClicked(MouseEvent evt) {
 		int x = evt.getX();
 		int y = evt.getY();
@@ -884,10 +894,20 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 
 	public void mouseEntered(MouseEvent evt) {
 	}
+
 	public void mouseExited(MouseEvent evt) {
 	}
 
 	private void exitForm(WindowEvent evt) {
 		System.exit(0);
+	}
+
+	/** Draw connection lines between the elements with drawLine() */
+	public void paintComponent(Graphics g) {
+
+		/** Paint background */
+		super.paintComponent(g);
+
+		/** Paint vertical small connection lines */
 	}
 }

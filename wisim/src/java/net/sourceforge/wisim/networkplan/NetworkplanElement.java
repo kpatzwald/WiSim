@@ -72,7 +72,7 @@ public class NetworkplanElement {
 
 	/**
 	 * Get the duration of the network plan element
-	 * @return
+	 * @return duration
 	 */
 	public double getDuration() {
 		return duration;
@@ -128,7 +128,7 @@ public class NetworkplanElement {
 
 	/**
 	 * Get the latest timepoint to end
-	 * @return
+	 * @return sez
 	 */
 	public double getSez() {
 		return sez;
@@ -231,6 +231,7 @@ public class NetworkplanElement {
 	}
 
 	/**
+	 * Get a collection holding the parents
 	 * @return parentBasket
 	 */
 	public Collection getParentBasket() {
@@ -238,6 +239,7 @@ public class NetworkplanElement {
 	}
 
 	/**
+	 * Set the collection holding the parents
 	 * @param parentBasket
 	 */
 	public void setParentBasket(Collection parentBasket) {
@@ -245,7 +247,8 @@ public class NetworkplanElement {
 	}
 
 	/**
-	 * @param parent
+	 * Add one parent into the basket
+	 * @param parent's index
 	 */
 	public void addIntoParentBasket(Integer parent) {
 		parentBasket.add(parent);
@@ -313,6 +316,7 @@ public class NetworkplanElement {
 	}
 
 	/**
+	 * Get the number of the networkplan element
 	 * @return number of the element
 	 */
 	public int getNumber() {
@@ -320,6 +324,7 @@ public class NetworkplanElement {
 	}
 
 	/**
+	 * Set the number of the networkplan element
 	 * @param number of the element
 	 */
 	public void setNumber(int number) {

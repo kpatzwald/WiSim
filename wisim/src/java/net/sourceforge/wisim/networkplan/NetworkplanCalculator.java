@@ -161,7 +161,7 @@ public class NetworkplanCalculator {
 			if (child[0] != 0) {
 				int i = 1;
 				double minFaz = ((NetworkplanElement) npElemente.get(child[0] - 1)).getFaz();
-				;
+
 				while (i < child.length) {
 					NetworkplanElement npElemParent = (NetworkplanElement) npElemente.get(child[i] - 1);
 					if (minFaz > npElemParent.getFaz())
@@ -214,7 +214,7 @@ public class NetworkplanCalculator {
 		return npElemente;
 	}
 
-	/** Set Index */
+	/** Set Index - each element's index is its position in the vector + 1 */
 	public void setIndex() {
 		int a = 0;
 		Hashtable newElemPos = new Hashtable();
