@@ -21,21 +21,22 @@
 **   This copyright notice MUST APPEAR in all copies of the file!           **
 **   ********************************************************************   */
 
-/*
- * NetzplanGrafikSwingGenerator.java
- */
 package net.sourceforge.wisim.networkplan;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.Iterator;
 import java.util.Vector;
 
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.SwingConstants;
 
 /**
  * TODOBen Kommentar Klasse NetzplanGrafikSwingGenerator
  * @author benjamin.pasero
+ * @version 0.3a
  */
 public class NetzplanSwingGenerator {
 
@@ -47,7 +48,10 @@ public class NetzplanSwingGenerator {
 	private BufferedImage netzplanGrafik;
 	private int selected;
 
-	private javax.swing.JPanel jPanelNetworkplanContainer;
+	private int maxWidthPos;
+	private int maxHeightPos;
+
+	private JPanel jPanelNetworkplanContainer;
 
 	public NetzplanSwingGenerator(Vector npElemente) {
 
@@ -60,12 +64,14 @@ public class NetzplanSwingGenerator {
 		this.npElemente = npElemente;
 		npCalc = new NetzplanCalculator(npElemente);
 		npElemente = npCalc.getNpElemente();
-		showCriticalPath();
+
+		//showCriticalPath(); <- Some Bugs. Fixes in next versions!
+
 		maxWidth = npCalc.getMaxWidthOfNetzplan();
 		calculatePositions();
 
 		/** Max. size of image: Width */
-		int maxWidthPos = 0;
+		maxWidthPos = 0;
 		for (int a = 0; a < 20; a++) {
 			for (int b = 0; b < 20; b++) {
 				if (position[a][b] != 0) {
@@ -75,7 +81,7 @@ public class NetzplanSwingGenerator {
 		}
 
 		/** Max. size of image: Height */
-		int maxHeightPos = 0;
+		maxHeightPos = 0;
 		for (int a = 0; a < 20; a++) {
 			for (int b = 0; b < 20; b++) {
 				if (position[b][a] != 0) {
@@ -84,7 +90,7 @@ public class NetzplanSwingGenerator {
 			}
 		}
 
-		jPanelNetworkplanContainer = new javax.swing.JPanel();
+		jPanelNetworkplanContainer = new JPanel();
 		jPanelNetworkplanContainer.setBounds(30, 30, 500 * maxWidthPos, 260 * maxHeightPos);
 		jPanelNetworkplanContainer.setLayout(null);
 		jPanelNetworkplanContainer.setAutoscrolls(true);
@@ -120,28 +126,52 @@ public class NetzplanSwingGenerator {
 						freeWidth = Math.round((400 - npGen[i].getWidth()) / 2);
 
 						jPanelNetworkplanContainer.add(npElemPanel);
-						npElemPanel.setBounds(30 + b * 430 + freeWidth, 30 + c * 280, 360, 210);
+						npElemPanel.setBounds(30 + b * 430 + freeWidth, 30 + c * 280, 360, 280);
 
-						//						int nachfolger[] = np.getNachfolger();
-						//
-						//						/** Horizontal Connection Line */
-						//						if (nachfolger.length > 1) {
-						//							g.drawLine(230 + b * 400, 190 + c * 160, 630 + (nachfolger.length - 2) * 400, 190 + c * 160);
-						//						}
-						//
-						//						int vorgaenger[] = np.getVorgaenger();
-						//
-						//						/** Horizontal Connection Line */
-						//						if (vorgaenger.length > 1) {
-						//							g.drawLine(230 + b * 400, 190 + (c - 1) * 160, 630 + (vorgaenger.length - 2) * 400, 190 + (c - 1) * 160);
-						//						}
+						int nachfolger[] = np.getNachfolger();
+
+						/** Horizontal Connection Line connecting the childs */
+						if (nachfolger.length > 1) {
+							JSeparator jSeparatorHorizontalCon = new JSeparator();
+							jSeparatorHorizontalCon.setOrientation(SwingConstants.HORIZONTAL);
+							jSeparatorHorizontalCon.setBounds(230 + b * 430, 310 + c * 280, 430 + (nachfolger.length - 2) * 430, 1);
+							jSeparatorHorizontalCon.setForeground(Color.BLACK);
+
+							if (np.isCriticalPath())
+								jSeparatorHorizontalCon.setForeground(Color.RED);
+
+							jPanelNetworkplanContainer.add(jSeparatorHorizontalCon);
+						}
+
+						int vorgaenger[] = np.getVorgaenger();
+
+						/** Horizontal Connection Line connecting the parents */
+						if (vorgaenger.length > 1) {
+							JSeparator jSeparatorHorizontalCon2 = new JSeparator();
+							jSeparatorHorizontalCon2.setOrientation(SwingConstants.HORIZONTAL);
+							jSeparatorHorizontalCon2.setBounds(230 + b * 430, 30 + c * 280, 430 + (vorgaenger.length - 2) * 430, 1);
+							jSeparatorHorizontalCon2.setForeground(Color.BLACK);
+
+							if (np.isCriticalPath())
+								jSeparatorHorizontalCon2.setForeground(Color.RED);
+
+							jPanelNetworkplanContainer.add(jSeparatorHorizontalCon2);
+						}
 
 						i++;
 					}
 
 					/** Vertical long Connection Line */
 					else {
-						//g.drawLine(230 + b * 400, 10 + c * 160, 230 + b * 400, 190 + c * 160);
+						JSeparator jSeparatorVerticalCon = new JSeparator();
+						jSeparatorVerticalCon.setOrientation(SwingConstants.VERTICAL);
+						jSeparatorVerticalCon.setBounds(230 + b * 430, 30 + c * 280, 1, 280);
+						jSeparatorVerticalCon.setForeground(Color.BLACK);
+
+						if (np.isCriticalPath())
+							jSeparatorVerticalCon.setForeground(Color.RED);
+
+						jPanelNetworkplanContainer.add(jSeparatorVerticalCon);
 					}
 
 					paintedElements.add(new Integer(np.getNummer()));
@@ -242,8 +272,7 @@ public class NetzplanSwingGenerator {
 
 			/** Get the parent activitiys of the followers */
 			while (a < nachfolgerBasket.size()) {
-				int[] vorgaenger =
-					((NetzplanElement) npElemente.get(((Integer) nachfolgerBasket.get(a)).intValue() - 1)).getVorgaenger();
+				int[] vorgaenger = ((NetzplanElement) npElemente.get(((Integer) nachfolgerBasket.get(a)).intValue() - 1)).getVorgaenger();
 				boolean complete = true;
 
 				/** Check if all parent activites were already stored in the tupel */
@@ -293,30 +322,30 @@ public class NetzplanSwingGenerator {
 		}
 
 		/** START Debug output */
-		//			int blub = 0;
-		//			while (blub < i) {
+		//		int blub = 0;
+		//		while (blub < i) {
 		//
-		//				String string = "";
-		//				Vector test = (Vector) tupel[blub];
-		//				Iterator testIt = test.iterator();
-		//				while (testIt.hasNext()) {
-		//					int tempInt = ((Integer) testIt.next()).intValue();
-		//					if (tempInt != 0) {
-		//						NetzplanElement npEle = (NetzplanElement) npElemente.get(tempInt - 1);
-		//						string = string + " " + (npEle.getNummer());
-		//					} else {
-		//						string = string + " 0";
-		//					}
+		//			String string = "";
+		//			Vector test = (Vector) tupel[blub];
+		//			Iterator testIt = test.iterator();
+		//			while (testIt.hasNext()) {
+		//				int tempInt = ((Integer) testIt.next()).intValue();
+		//				if (tempInt != 0) {
+		//					NetzplanElement npEle = (NetzplanElement) npElemente.get(tempInt - 1);
+		//					string = string + " " + (npEle.getNummer());
+		//				} else {
+		//					string = string + " 0";
 		//				}
-		//				System.out.println("Tupel[" + blub + "]: " + string);
-		//				blub++;
 		//			}
+		//			System.out.println("Tupel[" + blub + "]: " + string);
+		//			blub++;
+		//		}
 		//
-		//			Iterator completeIt = completed.iterator();
-		//			String completedList = "";
-		//			while (completeIt.hasNext())
-		//				completedList = completedList + " " + String.valueOf(((Integer) completeIt.next()).intValue());
-		//			System.out.println("CompletedList: " + completedList);
+		//		Iterator completeIt = completed.iterator();
+		//		String completedList = "";
+		//		while (completeIt.hasNext())
+		//			completedList = completedList + " " + String.valueOf(((Integer) completeIt.next()).intValue());
+		//		System.out.println("CompletedList: " + completedList);
 		/** END Debug output */
 
 		/** Set the positions */
@@ -355,11 +384,27 @@ public class NetzplanSwingGenerator {
 			((NetzplanElement) npElemente.get(((Integer) criticalPathIt.next()).intValue() - 1)).setCriticalPath(true);
 		}
 	}
+
 	/**
 	 * Returns the positions-matrix
 	 * @return
 	 */
 	public int[][] getPosition() {
 		return position;
+	}
+	/**
+	 * TODOBen Kommentar für getMaxHeightPos()
+	 * @return
+	 */
+	public int getMaxHeightPos() {
+		return maxHeightPos;
+	}
+
+	/**
+	 * TODOBen Kommentar für getMaxWidth()
+	 * @return
+	 */
+	public int getMaxWidthPos() {
+		return maxWidthPos;
 	}
 }

@@ -21,9 +21,6 @@
 **   This copyright notice MUST APPEAR in all copies of the file!           **
 **   ********************************************************************   */
 
-/*
- * NetworkplanElementSwingGenerator.java
- */
 package net.sourceforge.wisim.networkplan;
 
 import java.awt.Color;
@@ -32,6 +29,7 @@ import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
@@ -40,6 +38,7 @@ import javax.swing.border.LineBorder;
 /**
  * TODOBen Kommentar Klasse NetworkplanElementSwingGenerator
  * @author benjamin.pasero
+ * @version 0.3a
  */
 public class NetzplanElementSwingGenerator {
 
@@ -53,23 +52,18 @@ public class NetzplanElementSwingGenerator {
 	private JLabel jLabelNumber;
 	private JLabel jLabelSAZ;
 	private JLabel jLabelSEZ;
-	private JSeparator jSeparatorBetweenGPandFP;
-	private JSeparator jSeparatorCutMiddle;
-	private JSeparator jSeparatorFromNumToDur;
 	private JSeparator jSeparatorConTop;
 	private JSeparator jSeparatorConBottom;
 	private JPanel npElementContainer;
 	private JPanel npElementRect;
 	private boolean isCriticalPathElement;
+	private NetzplanElement currentNpElem;
 
 	private static final int width = 360;
 
 	public NetzplanElementSwingGenerator() {
 		npElementContainer = new JPanel();
 		npElementRect = new JPanel();
-		jSeparatorCutMiddle = new JSeparator();
-		jSeparatorFromNumToDur = new JSeparator();
-		jSeparatorBetweenGPandFP = new JSeparator();
 		jSeparatorConTop = new JSeparator();
 		jSeparatorConBottom = new JSeparator();
 		jLabelGP = new JLabel();
@@ -84,26 +78,36 @@ public class NetzplanElementSwingGenerator {
 		jLabelSEZ = new JLabel();
 		isCriticalPathElement = false;
 
-		npElementContainer.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+		npElementRect.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
 			public void mouseMoved(java.awt.event.MouseEvent evt) {
-				npElementContainerMouseMoved(evt);
+				npElementRectMouseMoved(evt);
 			}
 		});
 
-		npElementContainer.addMouseListener(new java.awt.event.MouseAdapter() {
+		npElementRect.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseExited(java.awt.event.MouseEvent evt) {
-				npElementContainerMouseExited(evt);
+				npElementRectMouseExited(evt);
+			}
+		});
+
+		npElementRect.addMouseListener(new java.awt.event.MouseAdapter() {
+			public void mouseClicked(java.awt.event.MouseEvent evt) {
+				npElementRectMouseClicked(evt);
 			}
 		});
 	}
 
 	public JPanel generateNetzplanelement(NetzplanElement np) {
 
+		currentNpElem = np;
+
 		/** Container that holds all swing-elements */
 		npElementContainer.setLayout(null);
 
-		npElementContainer.setBackground(new java.awt.Color(255, 255, 255));
-		npElementContainer.setPreferredSize(new java.awt.Dimension(350, 210));
+		Color c = new java.awt.Color(255, 255, 255, 100);
+
+		npElementContainer.setBackground(c);
+		npElementContainer.setPreferredSize(new java.awt.Dimension(350, 280));
 
 		/** Rectangle of the network plan element */
 		npElementRect.setLayout(null);
@@ -119,29 +123,12 @@ public class NetzplanElementSwingGenerator {
 		npElementRect.setBorder(new LineBorder(lineColor));
 		npElementRect.setPreferredSize(new java.awt.Dimension(300, 150));
 
-		/** Horizontal line cutting the rectangle in the middle*/
-		jSeparatorCutMiddle.setForeground(lineColor);
-		npElementRect.add(jSeparatorCutMiddle);
-		jSeparatorCutMiddle.setBounds(1, 70, 298, 2);
-
-		/** Vertical line from Number to Duration */
-		jSeparatorFromNumToDur.setForeground(lineColor);
-		jSeparatorFromNumToDur.setOrientation(SwingConstants.VERTICAL);
-		npElementRect.add(jSeparatorFromNumToDur);
-		jSeparatorFromNumToDur.setBounds(80, 1, 2, 148);
-
-		/** Vertical line seperating GP and FP */
-		jSeparatorBetweenGPandFP.setForeground(lineColor);
-		jSeparatorBetweenGPandFP.setOrientation(SwingConstants.VERTICAL);
-		npElementRect.add(jSeparatorBetweenGPandFP);
-		jSeparatorBetweenGPandFP.setBounds(190, 71, 2, 78);
-
 		/** Connection-line between two elements on top */
 		if (!np.isStartElem()) {
 			jSeparatorConTop.setForeground(lineColor);
 			jSeparatorConTop.setOrientation(SwingConstants.VERTICAL);
 			npElementContainer.add(jSeparatorConTop);
-			jSeparatorConTop.setBounds(width / 2, 0, width / 2, 30);
+			jSeparatorConTop.setBounds(width / 2, 0, width / 2, 65);
 		}
 
 		/** Connection-line between two elements on bottom */
@@ -149,36 +136,40 @@ public class NetzplanElementSwingGenerator {
 			jSeparatorConBottom.setForeground(lineColor);
 			jSeparatorConBottom.setOrientation(SwingConstants.VERTICAL);
 			npElementContainer.add(jSeparatorConBottom);
-			jSeparatorConBottom.setBounds(width / 2, 180, width / 2, 205);
+			jSeparatorConBottom.setBounds(width / 2, 215, width / 2, 270);
 		}
 
 		/** Writing GP */
-		jLabelGP.setFont(new java.awt.Font("Dialog", 1, 24));
+		jLabelGP.setFont(new Font("Dialog", 1, 24));
 		jLabelGP.setHorizontalAlignment(SwingConstants.CENTER);
 		jLabelGP.setText(String.valueOf(np.getGp()));
+		jLabelGP.setBorder(new LineBorder(lineColor));
 		npElementRect.add(jLabelGP);
-		jLabelGP.setBounds(90, 80, 90, 60);
+		jLabelGP.setBounds(79, 70, 110, 80);
 
 		/** Writing FP */
-		jLabelFP.setFont(new java.awt.Font("Dialog", 1, 24));
+		jLabelFP.setFont(new Font("Dialog", 1, 24));
 		jLabelFP.setHorizontalAlignment(SwingConstants.CENTER);
 		jLabelFP.setText(String.valueOf(np.getFp()));
+		jLabelFP.setBorder(new LineBorder(lineColor));
 		npElementRect.add(jLabelFP);
-		jLabelFP.setBounds(200, 80, 90, 60);
+		jLabelFP.setBounds(188, 70, 112, 80);
 
 		/** Writing Duration */
-		jLabelDuration.setFont(new java.awt.Font("Dialog", 1, 24));
+		jLabelDuration.setFont(new Font("Dialog", 1, 24));
 		jLabelDuration.setHorizontalAlignment(SwingConstants.CENTER);
 		jLabelDuration.setText(String.valueOf(np.getDauer()));
+		jLabelDuration.setBorder(new LineBorder(lineColor));
 		npElementRect.add(jLabelDuration);
-		jLabelDuration.setBounds(10, 80, 60, 60);
+		jLabelDuration.setBounds(0, 70, 80, 80);
 
 		/** Writing Number */
-		jLabelNumber.setFont(new java.awt.Font("Dialog", 1, 24));
+		jLabelNumber.setFont(new Font("Dialog", 1, 24));
 		jLabelNumber.setHorizontalAlignment(SwingConstants.CENTER);
 		jLabelNumber.setText(String.valueOf(np.getNummer()));
+		jLabelNumber.setBorder(new LineBorder(lineColor));
 		npElementRect.add(jLabelNumber);
-		jLabelNumber.setBounds(10, 10, 60, 50);
+		jLabelNumber.setBounds(0, 0, 80, 71);
 
 		/** Get the width of the description in pixel */
 		int textWidth = getTextLength(np.getBezeichnung());
@@ -342,36 +333,35 @@ public class NetzplanElementSwingGenerator {
 		}
 
 		npElementContainer.add(npElementRect);
-		npElementRect.setBounds(30, 30, 300, 150);
+		npElementRect.setBounds(30, 65, 300, 150);
 
 		/** Writing FAZ */
 		jLabelFAZ.setFont(new java.awt.Font("Dialog", 1, 16));
 		jLabelFAZ.setText(String.valueOf(np.getFaz()));
 		npElementContainer.add(jLabelFAZ);
-		jLabelFAZ.setBounds(30, 6, 40, 20);
+		jLabelFAZ.setBounds(30, 41, 40, 20);
 
 		/** Writing FEZ */
 		jLabelFEZ.setFont(new java.awt.Font("Dialog", 1, 16));
 		jLabelFEZ.setHorizontalAlignment(SwingConstants.RIGHT);
 		jLabelFEZ.setText(String.valueOf(np.getFez()));
 		npElementContainer.add(jLabelFEZ);
-		jLabelFEZ.setBounds(290, 6, 40, 20);
+		jLabelFEZ.setBounds(290, 41, 40, 20);
 
 		/** Writing SAZ */
 		jLabelSAZ.setFont(new java.awt.Font("Dialog", 1, 16));
 		jLabelSAZ.setText(String.valueOf(np.getSaz()));
 		npElementContainer.add(jLabelSAZ);
-		jLabelSAZ.setBounds(30, 182, 40, 20);
+		jLabelSAZ.setBounds(30, 217, 40, 20);
 
 		/** Writing SEZ */
 		jLabelSEZ.setFont(new java.awt.Font("Dialog", 1, 16));
 		jLabelSEZ.setHorizontalAlignment(SwingConstants.RIGHT);
 		jLabelSEZ.setText(String.valueOf(np.getSez()));
 		npElementContainer.add(jLabelSEZ);
-		jLabelSEZ.setBounds(290, 182, 40, 20);
+		jLabelSEZ.setBounds(290, 217, 40, 20);
 
-		npElementContainer.setBounds(60, 290, 360, 210);
-
+		npElementContainer.setBounds(60, 290, 360, 275);
 		return npElementContainer;
 	}
 
@@ -389,31 +379,36 @@ public class NetzplanElementSwingGenerator {
 	 */
 	public int getTextLength(String text) {
 		return (int) Math.round(
-			(new Font("Dialog", 0, 14)
-				.getStringBounds(text, 0, text.length(), new FontRenderContext(new AffineTransform(), false, false)))
+			(new Font("Dialog", 0, 14).getStringBounds(text, 0, text.length(), new FontRenderContext(new AffineTransform(), false, false)))
 				.getWidth());
 	}
 
 	/** Paint the element blue if the mouse moves over it */
-	private void npElementContainerMouseMoved(java.awt.event.MouseEvent evt) {
-		npElementRect.setBorder(new LineBorder(new java.awt.Color(0, 0, 255), 2));
-		jSeparatorBetweenGPandFP.setForeground(Color.BLUE);
-		jSeparatorCutMiddle.setForeground(Color.BLUE);
-		jSeparatorFromNumToDur.setForeground(Color.BLUE);
-		jSeparatorBetweenGPandFP.setForeground(Color.BLUE);
+	private void npElementRectMouseMoved(java.awt.event.MouseEvent evt) {
+		npElementRect.setBorder(new LineBorder(new Color(0, 0, 255), 2));
+		jLabelGP.setBorder(new LineBorder(new Color(0, 0, 255)));
+		jLabelFP.setBorder(new LineBorder(new Color(0, 0, 255)));
+		jLabelDuration.setBorder(new LineBorder(new Color(0, 0, 255)));
+		jLabelNumber.setBorder(new LineBorder(new Color(0, 0, 255)));
 	}
 
 	/** Paint the element to its original color when the mouse moves out of it */
-	private void npElementContainerMouseExited(java.awt.event.MouseEvent evt) {
+	private void npElementRectMouseExited(java.awt.event.MouseEvent evt) {
 
 		Color lineColor = new Color(0, 0, 0);
 		if (isCriticalPathElement)
 			lineColor = new Color(255, 0, 0);
 
 		npElementRect.setBorder(new LineBorder(lineColor, 1));
-		jSeparatorBetweenGPandFP.setForeground(lineColor);
-		jSeparatorCutMiddle.setForeground(lineColor);
-		jSeparatorFromNumToDur.setForeground(lineColor);
-		jSeparatorBetweenGPandFP.setForeground(lineColor);
+		jLabelGP.setBorder(new LineBorder(lineColor));
+		jLabelFP.setBorder(new LineBorder(lineColor));
+		jLabelDuration.setBorder(new LineBorder(lineColor));
+		jLabelNumber.setBorder(new LineBorder(lineColor));
+	}
+
+	/** Something happens when the user clicks the element ;-) */
+	private void npElementRectMouseClicked(java.awt.event.MouseEvent evt) {
+		String message = String.valueOf(currentNpElem.getNummer());
+		JOptionPane.showMessageDialog(npElementContainer, "This is activity number " + message);
 	}
 }
