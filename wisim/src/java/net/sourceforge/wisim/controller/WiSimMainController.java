@@ -797,7 +797,7 @@ public class WiSimMainController extends javax.swing.JFrame {
 		coreTime = new CoreTime(actTime, faktor, TIMESTEP);
 		gc.setTime(actDate);
 		boolean beendeNachEinerWoche = false;
-		if (jCheckBoxOneWeek.getSelectedObjects().length > 0)
+		if (jCheckBoxOneWeek.getSelectedObjects() != null && jCheckBoxOneWeek.getSelectedObjects().length > 0)
 			beendeNachEinerWoche = true;
 		else
 			beendeNachEinerWoche = false;
