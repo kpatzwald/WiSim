@@ -16,6 +16,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import javax.swing.JTextArea;
 
 /**
  * @author Ben
@@ -25,8 +26,8 @@ public class WiSimSplashscreen extends JFrame {
 	private static JProgressBar loadStatusBar;
 	private static JLabel statusText;
 
-	private final int splashScreenHeight = 476;
 	private final int splashScreenWidth = 582;
+	private final int splashScreenHeight = 476;
 
 	private JPanel splashContainer;
 	private WiSimMainController wiSim;
@@ -101,6 +102,22 @@ public class WiSimSplashscreen extends JFrame {
 						statusHold.add(WiSimSplashscreen.statusText);
 						WiSimSplashscreen.statusText.setBounds(0, 0, 300, 30);
 
+						/** Label bottom right with Infos */
+						String info = "Kay Patzwald, Benjamin Pasero" + "\nVersion: 2.0 Milestone 1, 2003" + "\nhttp://wisim.sourceforge.net" + "\nPublished under terms of GPL";
+
+						JPanel infoHold = new JPanel();
+						JTextArea infoText = new JTextArea();
+						infoText.setEditable(false);
+						infoText.setFocusable(false);
+						infoText.setBackground(new Color(128, 128, 128));
+						infoText.setForeground(Color.WHITE);
+						infoText.setText(info);
+						infoHold.add(infoText);
+						infoText.setBounds(0, 0, 176, 80);
+						infoHold.setBackground(new Color(128, 128, 128));
+						getContentPane().add(infoHold, 0);
+						infoHold.setBounds(400, 400, 176, 74);
+
 						/** Center the splashscreen */
 						Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
@@ -117,11 +134,11 @@ public class WiSimSplashscreen extends JFrame {
 
 						introIsBuilt = true;
 						setVisible(true);
-						
+
 						/**Set the ProgressBar visible, even if its 0% */
 						WiSimSplashscreen.loadStatusBar.setValue(1);
 						WiSimSplashscreen.loadStatusBar.setValue(0);
-						
+
 						/** Wait 100ms befor loading the wiSimThread */
 						try {
 							sleep(100);
