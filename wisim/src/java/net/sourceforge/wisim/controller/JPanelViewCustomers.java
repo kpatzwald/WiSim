@@ -313,21 +313,21 @@ public class JPanelViewCustomers extends javax.swing.JPanel {
     
     private void jListTextFieldKundenUebersichtVerlaufValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jListTextFieldKundenUebersichtVerlaufValueChanged
         if (!jListTextFieldKundenUebersichtVerlauf.isSelectionEmpty()){
-            showNotiz(jListTextFieldKundenUebersichtVerlauf.getMaxSelectionIndex());
+            showMemo(jListTextFieldKundenUebersichtVerlauf.getMaxSelectionIndex());
         }
     }//GEN-LAST:event_jListTextFieldKundenUebersichtVerlaufValueChanged
     
     private void jTableKundenMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableKundenMouseClicked
-        ladeKunde();
+        loadCustomer();
     }//GEN-LAST:event_jTableKundenMouseClicked
     
     private void jTableKundenAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jTableKundenAncestorAdded
-        setzeStandard();
-        ladeKunden();
+        setStandard();
+        loadCustomers();
     }//GEN-LAST:event_jTableKundenAncestorAdded
     
     /** Füllt die Tabelle Kundenliste mit den in der DB vorhandenen Kunden */
-    private void ladeKunden() {
+    private void loadCustomers() {
         try {
             Collection kunden = null;
             kunden = dao.getKunden();
@@ -348,7 +348,7 @@ public class JPanelViewCustomers extends javax.swing.JPanel {
                 
                 //DefaultTableModel mit Variablen Zeilen, 3 TableHeads und nicht editierbaren Zellen
                 boolean delete = false;
-                updateKundenTable(delete);
+                updateCustomerTable(delete);
                 
                 if (tableTempRow.size() > 0) {
                     Iterator it_tableTempRow = tableTempRow.iterator();
@@ -373,7 +373,7 @@ public class JPanelViewCustomers extends javax.swing.JPanel {
     }
     
     /** Lädt einen Kunden zum Bearbeiten aus der Datenbank */
-    private void ladeKunde() {
+    private void loadCustomer() {
         
         //liefert listItem des selektierten Eintrags
         String listItem = String.valueOf(jTableKunden.getSelectedRow());
@@ -391,12 +391,12 @@ public class JPanelViewCustomers extends javax.swing.JPanel {
         jTextFieldKundenUebersichtKundenTyp.setText(lkunde.getKundentyp());
         jTextFieldKundenUebersichtAnspruch.setText(lkunde.getAnspruch());
         jTextFieldKundenUebersichtZahlungsmoral.setText(lkunde.getZahlungsmoral());
-        ladeVerlauf(lkunde.getId());
+        loadHistory(lkunde.getId());
 			jTabbedPaneKundenUebersichtNotizen.setSelectedComponent(jScrollPaneKundenUebersichtBemerkung);
     }
     
     //Schreibt die Positions-Tabelle neu
-    public void updateKundenTable(boolean delete) {
+    public void updateCustomerTable(boolean delete) {
         int rows;
         
         if (delete) {
@@ -425,7 +425,7 @@ public class JPanelViewCustomers extends javax.swing.JPanel {
     }
     
     // Setzt nach dem Speichern und Löschen eines Lieferanten die Werte auf Standard
-    private void setzeStandard() {
+    private void setStandard() {
         jTextFieldKundenUebersichtVorname.setText("");
         jTextFieldKundenUebersichtNachname.setText("");
         jTextFieldKundenUebersichtFirma.setText("");
@@ -449,7 +449,7 @@ public class JPanelViewCustomers extends javax.swing.JPanel {
     /** Lädt Kundenverlauf zum Bearbeiten aus der Datenbank
      * @param KdNr Kunden Nummer
      */
-    private void ladeVerlauf(int kdNr){
+    private void loadHistory(int kdNr){
         DefaultListModel mymodel = (DefaultListModel) jListTextFieldKundenUebersichtVerlauf.getModel();
         mymodel.removeAllElements();
         try {
@@ -463,7 +463,7 @@ public class JPanelViewCustomers extends javax.swing.JPanel {
             }
             //Eintragen der Bemerkungen in Verlauf Tab
             jListTextFieldKundenUebersichtVerlauf.setModel(mymodel);
-            showNotiz(verlauf.lastIndexOf(einzelnotiz));
+            showMemo(verlauf.lastIndexOf(einzelnotiz));
             
         }catch (WiSimDAOException wde) {
             logger.log("ladeVerlauf()",wde);
@@ -473,7 +473,7 @@ public class JPanelViewCustomers extends javax.swing.JPanel {
     /** Gibt Notizobjekt in aktuell TAB aus
      * @param noteNr Nummer der Bemerkung
      */
-    private void showNotiz(int noteNr){
+    private void showMemo(int noteNr){
         if (verlauf.size() > 0) {
             Memo aktuell = new Memo();
             aktuell = (Memo)verlauf.elementAt(noteNr);

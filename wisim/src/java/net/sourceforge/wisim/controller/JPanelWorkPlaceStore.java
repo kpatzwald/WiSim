@@ -297,21 +297,21 @@ public class JPanelWorkPlaceStore extends javax.swing.JPanel implements Simulati
     
     private void jButtonOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOkActionPerformed
         if (!jTextFieldArbeitsplatz.getText().equals("")) {
-            setArbeiterZahl(Integer.parseInt(jTextFieldArbeitsplatz.getText()), (Integer)jSpinnerArbeiter.getValue());
+            setWorkerNumber(Integer.parseInt(jTextFieldArbeitsplatz.getText()), (Integer)jSpinnerArbeiter.getValue());
         }
         jTextFieldArbeitsplatz.grabFocus();
     }//GEN-LAST:event_jButtonOkActionPerformed
     
     private void jTableGesamtlisteAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jTableGesamtlisteAncestorAdded
-        resetGesamtListe();
+        resetMainTable();
     }//GEN-LAST:event_jTableGesamtlisteAncestorAdded
     
     private void jTableArbeitsplaetzeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableArbeitsplaetzeMouseClicked
-        getArbeitsplatzLagerElemente();
+        getWorkPlaceStorageElements();
     }//GEN-LAST:event_jTableArbeitsplaetzeMouseClicked
     
     private void jScrollPaneArbeitsplaetzeAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jScrollPaneArbeitsplaetzeAncestorAdded
-        getArbeitsplatzlager();
+        getWorkPlaceStorage();
     }//GEN-LAST:event_jScrollPaneArbeitsplaetzeAncestorAdded
     
     
@@ -332,7 +332,7 @@ public class JPanelWorkPlaceStore extends javax.swing.JPanel implements Simulati
   // End of variables declaration//GEN-END:variables
     
     /** Holt alle Eingangs und Ausgangslager aus der DB. */
-    public void getArbeitsplatzlager() {
+    public void getWorkPlaceStorage() {
         try {
             arbeitsplaetze = dao.getArbeitsplaetze();
         } catch (WiSimDAOException e) {
@@ -340,7 +340,7 @@ public class JPanelWorkPlaceStore extends javax.swing.JPanel implements Simulati
         }
         apAnzahl = arbeitsplaetze.size();
         
-        setArbeitsplatzTabelle();
+        setWorkPlaceStorage();
         int i = 0;
         Iterator ap_it = arbeitsplaetze.iterator();
         while (ap_it.hasNext()) {
@@ -419,7 +419,7 @@ public class JPanelWorkPlaceStore extends javax.swing.JPanel implements Simulati
     }
     
     /** Zeigt die Elemente eines Arbeitsplatzlagers an. */
-    public void getArbeitsplatzLagerElemente() {
+    private void getWorkPlaceStorageElements() {
         WorkPlace ap = (WorkPlace) arbeitsplaetze.get(jTableArbeitsplaetze.getSelectedRow());
         
         //Arbeiter-Pane
@@ -434,15 +434,15 @@ public class JPanelWorkPlaceStore extends javax.swing.JPanel implements Simulati
         apElemAnzahl = arbeitsplatzLager.size();
         
         if (apElemAnzahl > 0) {
-            buildArbeitsplatzLagerElementeTabelle();
+            buildWorkPlaceStoreElementsTable();
         } else {
-            resetGesamtListe();
+            resetMainTable();
         }
     }
     
     /** Baut die WorkPlace-Tabelle */
-    public void buildArbeitsplatzLagerElementeTabelle() {
-        setArbeitsplatzLagerElementeTabelle();
+    public void buildWorkPlaceStoreElementsTable() {
+        setWorkPlaceStoragerElementsTable();
         int i = 0;
         Iterator arbeitsplatzLager_it = arbeitsplatzLager.iterator();
         while (arbeitsplatzLager_it.hasNext()) {
@@ -479,7 +479,7 @@ public class JPanelWorkPlaceStore extends javax.swing.JPanel implements Simulati
     }
     
     /** Erstellt die ArbeitsplatzTabelle. */
-    public void setArbeitsplatzTabelle() {
+    private void setWorkPlaceStorage() {
         //DefaultTableModel mit Variablen Zeilen, 4 TableHeads und nicht editierbaren Zellen
         Object[][] tableInit = new Object[apAnzahl][7];
         DefaultTableModel defTable = new DefaultTableModel(
@@ -543,7 +543,7 @@ public class JPanelWorkPlaceStore extends javax.swing.JPanel implements Simulati
     }
     
     /** Erstellt die ArbeitsplatzLagerElementeTabelle. */
-    public void setArbeitsplatzLagerElementeTabelle() {
+    private void setWorkPlaceStoragerElementsTable() {
         //DefaultTableModel mit Variablen Zeilen, 4 TableHeads und nicht editierbaren Zellen
         Object[][] tableInit = new Object[4][4];
         DefaultTableModel defTable = new DefaultTableModel(
@@ -568,7 +568,7 @@ public class JPanelWorkPlaceStore extends javax.swing.JPanel implements Simulati
     }
     
     /** Refreshed beide Tabellen */
-    private void refreshArbeitsplatzLagerElementeTabelle() {
+    private void refreshWorkPlaceStorageElementsTable() {
         
         //Refresh Tabelle Arbeitsplaetze
         try {
@@ -656,13 +656,13 @@ public class JPanelWorkPlaceStore extends javax.swing.JPanel implements Simulati
                     i++;
                 }
             } else {
-                resetGesamtListe();
+                resetMainTable();
             }
         }
     }
     
     /** Löscht die GesamtListe unterhalb der Arbeitsplatztabelle. */
-    public void resetGesamtListe() {
+    private void resetMainTable() {
         int i = jTableGesamtliste.getRowCount()-1;
         while (i >= 0) {
             jTableGesamtliste.setValueAt("", 3-i, 0);
@@ -677,7 +677,7 @@ public class JPanelWorkPlaceStore extends javax.swing.JPanel implements Simulati
      * @param apNr WorkPlace Nr
      * @param anzahl Anzahl der Mitarbeiter
      */
-    public void setArbeiterZahl(int apNr, Integer anzahl) {
+    private void setWorkerNumber(int apNr, Integer anzahl) {
         try {
             dao.setArbeiterZahl(apNr, anzahl.intValue());
         } catch (WiSimDAOWriteException e) {
@@ -713,6 +713,6 @@ public class JPanelWorkPlaceStore extends javax.swing.JPanel implements Simulati
 	 * @see net.sourceforge.wisim.model.SimulationPane#refresh()
 	 */
 	public void refresh() {
-		refreshArbeitsplatzLagerElementeTabelle();		
+		refreshWorkPlaceStorageElementsTable();		
 	}
 }

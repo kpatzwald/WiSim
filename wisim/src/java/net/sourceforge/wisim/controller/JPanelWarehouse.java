@@ -304,25 +304,25 @@ public class JPanelWarehouse extends javax.swing.JPanel implements SimulationPan
 	} //GEN-LAST:event_formAncestorRemoved
 
 	private void formAncestorAdded(javax.swing.event.AncestorEvent evt) { //GEN-FIRST:event_formAncestorAdded
-		buildLegende();
+		buildLegend();
 		setIsBuilt(true);
 		wiSimMainController.addActivPanel(this);
 	} //GEN-LAST:event_formAncestorAdded
 
 	private void jComboBoxArtikelImLagerActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jComboBoxArtikelImLagerActionPerformed
-		getArtikelImLagerplatz();
+		getArticle();
 	} //GEN-LAST:event_jComboBoxArtikelImLagerActionPerformed
 
 	private void jComboBoxLagerplatzActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jComboBoxLagerplatzActionPerformed
-		getArtikelImLagerplatzInfo();
+		getArticleData();
 	} //GEN-LAST:event_jComboBoxLagerplatzActionPerformed
 
 	private void jTableGesamtlisteAncestorAdded(javax.swing.event.AncestorEvent evt) { //GEN-FIRST:event_jTableGesamtlisteAncestorAdded
-		buildGesamtlisteTabelle();
+		buildMainTable();
 	} //GEN-LAST:event_jTableGesamtlisteAncestorAdded
 
 	private void jComboBoxLagerplatzAncestorAdded(javax.swing.event.AncestorEvent evt) { //GEN-FIRST:event_jComboBoxLagerplatzAncestorAdded
-		getLagerplaetze();
+		getStoragePlaces();
 	} //GEN-LAST:event_jComboBoxLagerplatzAncestorAdded
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables
@@ -355,7 +355,7 @@ public class JPanelWarehouse extends javax.swing.JPanel implements SimulationPan
 	// End of variables declaration//GEN-END:variables
 
 	/** Erstellt die Einzelteilauftrags-Positionen Tabelle. */
-	public void setGesamtlisteTable() {
+	private void setMainTable() {
 		//DefaultTableModel mit Variablen Zeilen, 3 TableHeads und nicht editierbaren Zellen
 		Object[][] tableInit = new Object[etAnzahl][6];
 		DefaultTableModel defTable = new DefaultTableModel(tableInit, new String[] { "Artikelname", "aktueller Bestand", "Min. Bestand", "Max. Bestand", "Lagerplätze", "Belegung" }) {
@@ -407,7 +407,7 @@ public class JPanelWarehouse extends javax.swing.JPanel implements SimulationPan
 	}
 
 	/** Baut die Gesamtliste der Lagerübersicht auf */
-	public void buildGesamtlisteTabelle() {
+	public void buildMainTable() {
 		try {
 			einzelteileListe = dao.getEinzelteilLagerElement();
 			artikelListe = dao.getArtikelLagerElement();
@@ -415,7 +415,7 @@ public class JPanelWarehouse extends javax.swing.JPanel implements SimulationPan
 			wiSimLogger.log("buildGesamtListeTabelle()", e);
 		}
 		etAnzahl = einzelteileListe.size() + artikelListe.size();
-		setGesamtlisteTable();
+		setMainTable();
 		int i = 0;
 
 		Iterator art_it = artikelListe.iterator();
@@ -496,7 +496,7 @@ public class JPanelWarehouse extends javax.swing.JPanel implements SimulationPan
 	}
 
 	/** Zeigt die Legende an */
-	public void buildLegende() {
+	private void buildLegend() {
 		//Legende
 		//Grün
 		Image imageIconGreen = new BufferedImage(70, 30, 2);
@@ -600,7 +600,7 @@ public class JPanelWarehouse extends javax.swing.JPanel implements SimulationPan
 	}
 
 	/** Zeigt die Article an die in dem selektierten WarehouseLocation liegen */
-	public void getArtikelImLagerplatz() {
+	private void getArticle() {
 		if (jComboBoxArtikelImLager.getSelectedItem() != null) {
 			if (!jComboBoxArtikelImLager.getSelectedItem().toString().equals("leer")) {
 				ComponentWarehouseItem selectedElem = (ComponentWarehouseItem) etElems.get(jComboBoxArtikelImLager.getSelectedIndex());
@@ -623,7 +623,7 @@ public class JPanelWarehouse extends javax.swing.JPanel implements SimulationPan
 	}
 
 	/** Zeigt Infos zu dem Article auf dem selektierten WarehouseLocation an */
-	public void getArtikelImLagerplatzInfo() {
+	private void getArticleData() {
 
 		if (!jComboBoxLagerplatz.getSelectedItem().toString().equals("Select:") && !jComboBoxLagerplatz.getSelectedItem().toString().equals(actLgPlatz)) {
 			jComboBoxArtikelImLager.removeAllItems();
@@ -695,7 +695,7 @@ public class JPanelWarehouse extends javax.swing.JPanel implements SimulationPan
 	}
 
 	/** Gibt alle Lagerplaetze aus der DB aus */
-	public void getLagerplaetze() {
+	private void getStoragePlaces() {
 		jComboBoxLagerplatz.removeAllItems();
 		jComboBoxLagerplatz.addItem("Select:");
 		try {
@@ -712,7 +712,7 @@ public class JPanelWarehouse extends javax.swing.JPanel implements SimulationPan
 	}
 
 	/** Aktualisiert die Gesamtliste */
-	private void refreshLagerGesamtliste() {
+	private void refreshMainTable() {
 
 		//Update der Lagerplatz-Detailansicht
 		if (!jComboBoxLagerplatz.getSelectedItem().equals("Select:") && !jComboBoxArtikelImLager.getSelectedItem().equals("leer")) {
@@ -857,6 +857,6 @@ public class JPanelWarehouse extends javax.swing.JPanel implements SimulationPan
 	 * @see net.sourceforge.wisim.model.SimulationPane#refresh()
 	 */
 	public void refresh() {
-		refreshLagerGesamtliste();
+		refreshMainTable();
 	}
 }

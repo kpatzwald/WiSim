@@ -99,7 +99,7 @@ public class JPanelViewContract extends javax.swing.JPanel {
 		eingabeDatumMonat = 0;
 		eingabeDatumJahr = 0;
 		initComponents();
-		showLegende();
+		showLegend();
 		format = new DecimalFormat("###,##0.00");
 	}
 
@@ -547,25 +547,25 @@ public class JPanelViewContract extends javax.swing.JPanel {
 	} //GEN-END:initComponents
 
 	private void jTableVertraegeEinsehenVertraegeMouseClicked(java.awt.event.MouseEvent evt) { //GEN-FIRST:event_jTableVertraegeEinsehenVertraegeMouseClicked
-		getVertragsdaten();
+		getContractData();
 	} //GEN-LAST:event_jTableVertraegeEinsehenVertraegeMouseClicked
 
 	private void jComboBoxVertraegeEinsehenKundeAncestorAdded(javax.swing.event.AncestorEvent evt) { //GEN-FIRST:event_jComboBoxVertraegeEinsehenKundeAncestorAdded
-		ladeKunden();
+		loadCustomers();
 	} //GEN-LAST:event_jComboBoxVertraegeEinsehenKundeAncestorAdded
 
 	private void jButtonVertraegeEinsehenKundeOKActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jButtonVertraegeEinsehenKundeOKActionPerformed
-		merkeDaten2();
+		saveData2();
 	} //GEN-LAST:event_jButtonVertraegeEinsehenKundeOKActionPerformed
 
 	private void jButtonVertraegeEinsehenAuftragsdatumOKActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jButtonVertraegeEinsehenAuftragsdatumOKActionPerformed
-		pruefeEingabeDatum();
+		checkModifyingDate();
 	} //GEN-LAST:event_jButtonVertraegeEinsehenAuftragsdatumOKActionPerformed
 	/**
 	 * Method pruefeEingabeDatum. Prüft, ob Tag, Monat und Jahr ausgefüllt wurde.
 	 * Wenn eines fehlt, wird eine Fehlermeldung ausgegeben.
 	 */
-	private void pruefeEingabeDatum() {
+	private void checkModifyingDate() {
 		jComboBoxVertraegeEinsehenKunde.setSelectedIndex(0);
 
 		if (jComboBoxVertraegeEinsehenAuftragsdatumTag.getSelectedIndex() == 0) {
@@ -586,7 +586,7 @@ public class JPanelViewContract extends javax.swing.JPanel {
 		} else
 			eingabeDatumJahr = 0;
 
-		pruefeAuftragsdatum();
+		checkContractDate();
 	}
 
 	/**
@@ -594,7 +594,7 @@ public class JPanelViewContract extends javax.swing.JPanel {
 	 * Prüft, ob für das ausgewählte Auftragsdatum ein Contract besteht.
 	 * Contract == Auftrag.
 	 */
-	private void pruefeAuftragsdatum() {
+	private void checkContractDate() {
 
 		jComboBoxVertraegeEinsehenKunde.setSelectedIndex(0);
 
@@ -633,16 +633,16 @@ public class JPanelViewContract extends javax.swing.JPanel {
 				if (rows > 0) {
 					jTextFieldVertraegeEinsehen.setText("Vertragsdatum ist vorhanden!");
 					rows = 0;
-					merkeDaten1();
+					saveData1();
 				} else {
 					jTextFieldVertraegeEinsehen.setText("Vertragsdatum nicht vorhanden!");
-					leereFelder();
-					clearTabelle();
+					clearFields();
+					clearTable();
 				}
 			}
 		} else {
-			leereFelder();
-			clearTabelle();
+			clearFields();
+			clearTable();
 		}
 		rows = 0;
 	}
@@ -652,11 +652,11 @@ public class JPanelViewContract extends javax.swing.JPanel {
 	* Vertragsdaten und Kunden aus der Datenbank zu laden.
 	* Der Benutzer hat einen Kundennamen gewählt.
 	*/
-	private void merkeDaten1() {
+	private void saveData1() {
 		Collection vertragList = null;
 		selectedAuftrag2 = 0;
 		selectedAuftrag1 = 1;
-		leereFelder();
+		clearFields();
 		try {
 			vertragList = dao.getVertraege();
 		} catch (WiSimDAOException e) {
@@ -679,7 +679,7 @@ public class JPanelViewContract extends javax.swing.JPanel {
 
 				Customer kunde = null;
 				int j = 0;
-				setVertragsTabelle1();
+				setContractTable1();
 
 				for (int n = 1; n <= rows; n++) {
 
@@ -728,7 +728,7 @@ public class JPanelViewContract extends javax.swing.JPanel {
 	 * Method setVertragsTabelle1. Erstellt den Tabellenkopf für die 1. Form der Vertragsausgabe.
 	 * Der Benutzer hat ein Vertragsdatum ausgewählt.
 	 */
-	private void setVertragsTabelle1() {
+	private void setContractTable1() {
 
 		//DefaultTableModel mit Variablen Zeilen, 4 TableHeads und nicht editierbaren Zellen
 		Object[][] tableInit = new Object[rows][4];
@@ -768,10 +768,10 @@ public class JPanelViewContract extends javax.swing.JPanel {
 	 * Vertragsdaten aus der Datenbank zu laden.
 	 * Der Benutzer hat einen Kundennamen gewählt.
 	 */
-	private void merkeDaten2() {
+	private void saveData2() {
 		selectedAuftrag1 = 0;
 		selectedAuftrag2 = 1;
-		leereFelder();
+		clearFields();
 
 		jComboBoxVertraegeEinsehenAuftragsdatumTag.setSelectedIndex(0);
 		jComboBoxVertraegeEinsehenAuftragsdatumMonat.setSelectedIndex(0);
@@ -813,7 +813,7 @@ public class JPanelViewContract extends javax.swing.JPanel {
 
 				if (rows > 0) {
 
-					setVertragsTabelle2();
+					setContractTable2();
 					int j = 0;
 
 					for (int n = 1; n <= rows; n++) {
@@ -844,14 +844,14 @@ public class JPanelViewContract extends javax.swing.JPanel {
 					}
 				} else {
 					jTextFieldVertraegeEinsehen.setText("Kein Auftrag für diesen Kunden!");
-					clearTabelle();
-					leereFelder();
+					clearTable();
+					clearFields();
 				}
 			}
 		} else {
 			jTextFieldVertraegeEinsehen.setText("Es wurde nichts ausgewählt!");
-			clearTabelle();
-			leereFelder();
+			clearTable();
+			clearFields();
 		}
 		rows = 0;
 		kdId = 0;
@@ -861,7 +861,7 @@ public class JPanelViewContract extends javax.swing.JPanel {
 	 * Method setVertragsTabelle2. Erstellt den Tabellenkopf für die 2. Form der Vertragsausgabe.
 	 * Der Benutzer hat einen Kundennamen gewählt.
 	 */
-	private void setVertragsTabelle2() {
+	private void setContractTable2() {
 
 		//DefaultTableModel mit Variablen Zeilen, 3 TableHeads und nicht editierbaren Zellen
 		Object[][] tableInit = new Object[rows][4];
@@ -900,7 +900,7 @@ public class JPanelViewContract extends javax.swing.JPanel {
 	/**
 	 * Method clearTabelle. Löscht die Tabelle der Verträge mit Tabellenkopf.
 	 */
-	private void clearTabelle() {
+	private void clearTable() {
 		//DefaultTableModel mit Variablen Zeilen, 4 TableHeads und nicht editierbaren Zellen
 		jTableVertraegeEinsehenVertraege.setModel(new javax.swing.table.DefaultTableModel(new Object[][] {
 		}, new String[] { "", "", "", "" }) {
@@ -926,7 +926,7 @@ public class JPanelViewContract extends javax.swing.JPanel {
 	}
 
 	/** Zeigt die Legende an */
-	private void showLegende() {
+	private void showLegend() {
 		//Legende
 		Image imageIconGreen = new BufferedImage(28, 30, 2);
 		Graphics g = imageIconGreen.getGraphics();
@@ -947,7 +947,7 @@ public class JPanelViewContract extends javax.swing.JPanel {
 	 * Method ladeKunden. Lädt die Kunden aus der Datenbank.
 	 * Diese werden in die Combo-Box geladen.
 	 */
-	private void ladeKunden() {
+	private void loadCustomers() {
 		Collection kunden = null;
 		try {
 			kunden = dao.getKunden();
@@ -979,14 +979,14 @@ public class JPanelViewContract extends javax.swing.JPanel {
 	 * Method getVertragsdaten. Lädt die Daten für einen ausgewählten Contract aus der Datenbank.
 	 * Zwischensummen werden berechnet.
 	 */
-	private void getVertragsdaten() {
+	private void getContractData() {
 		int merkeNr = jTableVertraegeEinsehenVertraege.getSelectedRow();
 		float mwst = 0;
 		// + 1, weil index der Zeile mit 0 beginnt!!!
 
 		if (selectedAuftrag1 == 1) {
 			selectedAuftrag2 = 0;
-			leereFelder();
+			clearFields();
 			Contract auftrag1 = (Contract) auftragObjekt1.get(String.valueOf(merkeNr + 1));
 			Customer kunde = null;
 			Article artikel = null;
@@ -1074,7 +1074,7 @@ public class JPanelViewContract extends javax.swing.JPanel {
 
 		if (selectedAuftrag2 == 1) {
 			selectedAuftrag1 = 0;
-			leereFelder();
+			clearFields();
 			Contract auftrag2 = (Contract) auftragObjekt2.get(String.valueOf(merkeNr + 1));
 			Customer kunde = null;
 			Article artikel = null;
@@ -1163,7 +1163,7 @@ public class JPanelViewContract extends javax.swing.JPanel {
 	/**
 	 * Method leereFelder. Leert alle Textfelder und setzt die Werte wieder zurück.
 	 */
-	private void leereFelder() {
+	private void clearFields() {
 
 		jTextField2Zwischensumme2.setText("");
 		jTextFieldAngebotspreis1.setText("");

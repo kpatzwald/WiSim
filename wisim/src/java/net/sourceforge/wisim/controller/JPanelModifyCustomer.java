@@ -517,7 +517,7 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
 			} else {
 				int submit = JOptionPane.showConfirmDialog(this, "Änderungen an diesem Kunden Speichern?", "Kunden Speichern", JOptionPane.YES_NO_OPTION);
 				if (submit == 0) {
-					saveNewCustomer();
+					saveCustomer();
 				}
 			}
 		}
@@ -811,7 +811,7 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
 	}
 
 	/** Speichert Kundendaten */
-	private void saveNewCustomer() {
+	private void saveCustomer() {
 		//liefert listItem des selektierten Eintrags
 		String selectedItem = String.valueOf(jComboBoxKundenBearbeiten.getSelectedIndex());
 		//sucht das aktive KundenObjekt in Hashtabelle kundenAuswahl

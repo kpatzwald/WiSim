@@ -284,7 +284,7 @@ public class JPanelNewCustomer extends javax.swing.JPanel {
 	} //GEN-LAST:event_jButtonNeuerKundeResetActionPerformed
 
 	private void jButtonNeuerKundeSpeichernActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jButtonNeuerKundeSpeichernActionPerformed
-		neuerKunde();
+		newCustomer();
 	} //GEN-LAST:event_jButtonNeuerKundeSpeichernActionPerformed
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables
@@ -381,7 +381,7 @@ public class JPanelNewCustomer extends javax.swing.JPanel {
 	}
 
 	/** Legt einen neuen Kunden an */
-	private void neuerKunde() {
+	private void newCustomer() {
 		Vector check = new Vector();
 		if (jTextFieldNeuerKundeFirma.getText().equals(""))
 			check.add("Firma");

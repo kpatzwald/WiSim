@@ -593,31 +593,31 @@ public class JPanelNewOrder extends javax.swing.JPanel {
 	} //GEN-LAST:event_jButtonLöschenActionPerformed
 
 	private void jTextFieldLieferrabattFocusLost(java.awt.event.FocusEvent evt) { //GEN-FIRST:event_jTextFieldLieferrabattFocusLost
-		validateLieferrabatt();
+		validateSupplierDiscount();
 	} //GEN-LAST:event_jTextFieldLieferrabattFocusLost
 
 	private void jButtonBestellungAbschickenActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jButtonBestellungAbschickenActionPerformed
-		etatBestellen();
+		saveOrder();
 	} //GEN-LAST:event_jButtonBestellungAbschickenActionPerformed
 
 	private void jTextFieldLieferdatumJahrFocusLost(java.awt.event.FocusEvent evt) { //GEN-FIRST:event_jTextFieldLieferdatumJahrFocusLost
-		validateLieferdatumJahr();
+		validateDateYear();
 	} //GEN-LAST:event_jTextFieldLieferdatumJahrFocusLost
 
 	private void jTextFieldLieferdatumMonatFocusLost(java.awt.event.FocusEvent evt) { //GEN-FIRST:event_jTextFieldLieferdatumMonatFocusLost
-		validateLieferdatumMonat();
+		validateDateMonth();
 	} //GEN-LAST:event_jTextFieldLieferdatumMonatFocusLost
 
 	private void jTextFieldLieferdatumTagFocusLost(java.awt.event.FocusEvent evt) { //GEN-FIRST:event_jTextFieldLieferdatumTagFocusLost
-		validateLieferdatumTag();
+		validateDateDay();
 	} //GEN-LAST:event_jTextFieldLieferdatumTagFocusLost
 
 	private void jTextFieldSkontofristFocusLost(java.awt.event.FocusEvent evt) { //GEN-FIRST:event_jTextFieldSkontofristFocusLost
-		validateSkontofrist();
+		validateCashDiscountLimit();
 	} //GEN-LAST:event_jTextFieldSkontofristFocusLost
 
 	private void jTextFieldSkontoFocusLost(java.awt.event.FocusEvent evt) { //GEN-FIRST:event_jTextFieldSkontoFocusLost
-		validateSkonto();
+		validateCashDiscount();
 	} //GEN-LAST:event_jTextFieldSkontoFocusLost
 
 	private void jTablePositionenFocusLost(java.awt.event.FocusEvent evt) { //GEN-FIRST:event_jTablePositionenFocusLost
@@ -640,15 +640,15 @@ public class JPanelNewOrder extends javax.swing.JPanel {
 	} //GEN-LAST:event_jComboBoxArtikelAncestorAdded
 
 	private void jComboBoxArtikelActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jComboBoxArtikelActionPerformed
-		getArtikelInfo();
+		getArticleInfo();
 	} //GEN-LAST:event_jComboBoxArtikelActionPerformed
 
 	private void jComboBoxLieferantenAncestorAdded(javax.swing.event.AncestorEvent evt) { //GEN-FIRST:event_jComboBoxLieferantenAncestorAdded
-		getLieferanten();
+		getSuppliers();
 	} //GEN-LAST:event_jComboBoxLieferantenAncestorAdded
 
 	private void jComboBoxLieferantenActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jComboBoxLieferantenActionPerformed
-		getArtikel();
+		getArticle();
 	} //GEN-LAST:event_jComboBoxLieferantenActionPerformed
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables
@@ -859,7 +859,7 @@ public class JPanelNewOrder extends javax.swing.JPanel {
 	}
 
 	/** Validiert das Eingabefeld Lieferrabatt */
-	private void validateLieferrabatt() {
+	private void validateSupplierDiscount() {
 		String lieferrabatt = jTextFieldLieferrabatt.getText();
 
 		boolean lieferrabattOk = false;
@@ -896,7 +896,7 @@ public class JPanelNewOrder extends javax.swing.JPanel {
 	}
 
 	/** Schreibt die Bestellung in die Datenbank */
-	private void etatBestellen() {
+	private void saveOrder() {
 		//Bestellung wird aufgenommen
 		//---------------------------
 
@@ -976,7 +976,7 @@ public class JPanelNewOrder extends javax.swing.JPanel {
 	}
 
 	/** Validiert das Eingabefeld Lieferdatum (Jahr) */
-	private void validateLieferdatumJahr() {
+	private void validateDateYear() {
 		String lieferdatum = jTextFieldLieferdatumJahr.getText();
 		boolean lieferdatumOk = false;
 		if (!lieferdatum.equals("") && lieferdatum != null) {
@@ -999,7 +999,7 @@ public class JPanelNewOrder extends javax.swing.JPanel {
 	}
 
 	/** Validiert das Eingabefeld Lieferdatum (Monat) */
-	private void validateLieferdatumMonat() {
+	private void validateDateMonth() {
 		String lieferdatum = jTextFieldLieferdatumMonat.getText();
 		boolean lieferdatumOk = false;
 		if (!lieferdatum.equals("") && lieferdatum != null) {
@@ -1022,7 +1022,7 @@ public class JPanelNewOrder extends javax.swing.JPanel {
 	}
 
 	/** Validiert das Eingabefeld Lieferdatum (Tag) */
-	private void validateLieferdatumTag() {
+	private void validateDateDay() {
 		String lieferdatum = jTextFieldLieferdatumTag.getText();
 		boolean lieferdatumOk = false;
 		if (!lieferdatum.equals("") && lieferdatum != null) {
@@ -1045,7 +1045,7 @@ public class JPanelNewOrder extends javax.swing.JPanel {
 	}
 
 	/** Validiert das Eingabefeld Skontofrist */
-	private void validateSkontofrist() {
+	private void validateCashDiscountLimit() {
 		String skontofrist = jTextFieldSkontofrist.getText();
 		boolean skontofristOk = false;
 		if (!skontofrist.equals("") && skontofrist != null) {
@@ -1082,7 +1082,7 @@ public class JPanelNewOrder extends javax.swing.JPanel {
 	}
 
 	/** Validiert das Eingabefeld Skonto */
-	private void validateSkonto() {
+	private void validateCashDiscount() {
 		String skonto = jTextFieldSkonto.getText();
 
 		boolean skontoOk = false;
@@ -1237,7 +1237,7 @@ public class JPanelNewOrder extends javax.swing.JPanel {
 	}
 
 	/** Holt Infos über den selektierten Article aus der DB */
-	private void getArtikelInfo() {
+	private void getArticleInfo() {
 		if (jComboBoxArtikel.getSelectedItem().toString().equals("Select:")) {
 			jTextFieldPreis.setText("");
 			SpinnerNumberModel spin = new SpinnerNumberModel(0, 0, 0, 0);
@@ -1253,7 +1253,7 @@ public class JPanelNewOrder extends javax.swing.JPanel {
 	}
 
 	/** Holt alle Lieferanten aus der DB */
-	private void getLieferanten() {
+	private void getSuppliers() {
 		if (jComboBoxLieferanten.getItemAt(1) != null) {
 			jComboBoxLieferanten.removeAllItems();
 			jComboBoxLieferanten.addItem(colLt.get(0));
@@ -1280,7 +1280,7 @@ public class JPanelNewOrder extends javax.swing.JPanel {
 	}
 
 	/** Holt alle Article des Lieferanten aus der DB */
-	private void getArtikel() {
+	private void getArticle() {
 		//Tabelle wiederherstellen
 		DefaultTableModel defTable = new DefaultTableModel(0, 3);
 		Vector tableHeader = new Vector();

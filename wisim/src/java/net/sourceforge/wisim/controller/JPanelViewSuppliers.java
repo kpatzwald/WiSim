@@ -262,17 +262,17 @@ public class JPanelViewSuppliers extends javax.swing.JPanel {
 	} //GEN-END:initComponents
 
 	private void jTableLieferantenMouseClicked(java.awt.event.MouseEvent evt) { //GEN-FIRST:event_jTableLieferantenMouseClicked
-		ladeLieferant();
+		loadSupplier();
 	} //GEN-LAST:event_jTableLieferantenMouseClicked
 
 	private void jTableLieferantenAncestorAdded(javax.swing.event.AncestorEvent evt) { //GEN-FIRST:event_jTableLieferantenAncestorAdded
-		setzeStandard();
-		ladeLieferanten();
-		ladeLieferant();
+		setStandard();
+		loadSuppliers();
+		loadSupplier();
 	} //GEN-LAST:event_jTableLieferantenAncestorAdded
 
 	//Füllt die Tabelle Lieferantenliste mit den in der DB vorhandenen Lieferanten
-	private void ladeLieferanten() {
+	private void loadSuppliers() {
 		try {
 			Collection lieferanten = null;
 			lieferanten = dao.getLieferanten();
@@ -293,7 +293,7 @@ public class JPanelViewSuppliers extends javax.swing.JPanel {
 
 				//DefaultTableModel mit Variablen Zeilen, 3 TableHeads und nicht editierbaren Zellen
 				boolean delete = false;
-				updateLieferantenTable(delete);
+				updateSupplierTable(delete);
 
 				if (tableTempRow.size() > 0) {
 					Iterator it_tableTempRow = tableTempRow.iterator();
@@ -318,7 +318,7 @@ public class JPanelViewSuppliers extends javax.swing.JPanel {
 	}
 
 	//Lädt einen Kunden zum Bearbeiten aus der Datenbank
-	private void ladeLieferant() {
+	private void loadSupplier() {
 
 		//liefert listItem des selektierten Eintrags 
 		String listItem = String.valueOf(jTableLieferanten.getSelectedRow());
@@ -341,12 +341,12 @@ public class JPanelViewSuppliers extends javax.swing.JPanel {
 			jTextLieferantLieferqualitaet.setText(auswahlLieferant.getLieferqualitaet());
 			jTextLieferantZuverlaessigkeit.setText(auswahlLieferant.getZuverlaessigkeit());
 			zubehoerTabelle.clear();
-			ladeZugehoerigeEinzelteile(auswahlLieferant.getId());
+			loadDependingSpareParts(auswahlLieferant.getId());
 		}
 	}
 
 	// Ladet die Einzelteile des Lieferanten 
-	private void ladeZugehoerigeEinzelteile(int id) {
+	private void loadDependingSpareParts(int id) {
 
 		try {
 			Collection lieferliste = null;
@@ -442,7 +442,7 @@ public class JPanelViewSuppliers extends javax.swing.JPanel {
 	/** Schreibt die Lieferanten-Tabelle neu
 	 * @param Delete boolean
 	 */
-	private void updateLieferantenTable(boolean delete) {
+	private void updateSupplierTable(boolean delete) {
 		int rows;
 
 		if (delete) {
@@ -464,7 +464,7 @@ public class JPanelViewSuppliers extends javax.swing.JPanel {
 	}
 
 	// Setzt nach dem Speichern und Löschen eines Lieferanten die Werte auf Standard
-	private void setzeStandard() {
+	private void setStandard() {
 		jTextFieldLieferantVorname.setText("");
 		jTextFieldLieferantName.setText("");
 		jTextFieldLieferantFirma.setText("");

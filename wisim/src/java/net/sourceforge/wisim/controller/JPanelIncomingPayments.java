@@ -352,30 +352,30 @@ public class JPanelIncomingPayments extends javax.swing.JPanel implements Simula
 	} //GEN-LAST:event_formAncestorAdded
 
 	private void jButtonResetActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jButtonResetActionPerformed
-		int auswahl = getSelVertragsID();
+		int auswahl = getSelectedContractID();
 		if (auswahl != 0) {
 			boolean i = false;
-			aendereEingang(getSelVertragsID(), i);
-			setzeStandard();
+			setStatus(getSelectedContractID(), i);
+			setStandard();
 		}
 	} //GEN-LAST:event_jButtonResetActionPerformed
 
 	private void jButtonSpeichernActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jButtonSpeichernActionPerformed
-		int auswahl = getSelVertragsID();
+		int auswahl = getSelectedContractID();
 		if (auswahl != 0) {
 			boolean i = true;
-			aendereEingang(getSelVertragsID(), i);
-			setzeStandard();
+			setStatus(getSelectedContractID(), i);
+			setStandard();
 		}
 	} //GEN-LAST:event_jButtonSpeichernActionPerformed
 
 	private void jTableRechnungListeMouseClicked(java.awt.event.MouseEvent evt) { //GEN-FIRST:event_jTableRechnungListeMouseClicked
-		ladeKunde();
+		loadCustomer();
 	} //GEN-LAST:event_jTableRechnungListeMouseClicked
 
 	private void jTableRechnungListeAncestorAdded(javax.swing.event.AncestorEvent evt) { //GEN-FIRST:event_jTableRechnungListeAncestorAdded
-		setzeStandard();
-		ladeRechnungen();
+		setStandard();
+		loadInvoices();
 		showLegende();
 		setIsBuilt(true);
 	} //GEN-LAST:event_jTableRechnungListeAncestorAdded
@@ -412,7 +412,7 @@ public class JPanelIncomingPayments extends javax.swing.JPanel implements Simula
   // End of variables declaration//GEN-END:variables
 
 	/** Füllt die Tabelle mit den in der DB vorhadenen Rechnungen */
-	public void ladeRechnungen() {
+	public void loadInvoices() {
 		try {
 			Collection vertraege = null;
 			vertraege = dao.getVertraege();
@@ -420,7 +420,7 @@ public class JPanelIncomingPayments extends javax.swing.JPanel implements Simula
 
 			int i = 0;
 			anzahl = vertraege.size();
-			setTabelle();
+			setTable();
 
 			while (it_Vertrag.hasNext()) {
 				Contract vertragsliste = (Contract) it_Vertrag.next();
@@ -432,7 +432,7 @@ public class JPanelIncomingPayments extends javax.swing.JPanel implements Simula
 				jTableRechnungListe.setValueAt(String.valueOf(auftrag.getAuftragNr()), i, 0);
 				jTableRechnungListe.setValueAt(kunde.getNachname() + ", " + kunde.getVorname(), i, 1);
 
-				if (vergleicheDatum(wiSimMainController.getActDate(), vertragsliste.getLieferdatum()) <= 0) {
+				if (compareDate(wiSimMainController.getActDate(), vertragsliste.getLieferdatum()) <= 0) {
 					Image imageIconGreen = new BufferedImage(28, 30, 2);
 					Graphics g = imageIconGreen.getGraphics();
 					g.setColor(darkgreen);
@@ -479,7 +479,7 @@ public class JPanelIncomingPayments extends javax.swing.JPanel implements Simula
 	}
 
 	//Lädt einen Kunden zum Bearbeiten aus der Datenbank
-	private void ladeKunde() {
+	private void loadCustomer() {
 
 		//liefert listItem des selektierten Eintrags
 		String listItem = String.valueOf(jTableRechnungListe.getSelectedRow());
@@ -498,7 +498,7 @@ public class JPanelIncomingPayments extends javax.swing.JPanel implements Simula
 			jTextFieldNr.setText(String.valueOf(auswahlRechnung.getNr()));
 		}
 
-		if (vergleicheDatum(wiSimMainController.getActDate(), auswahlVertrag.getLieferdatum()) <= 0) {
+		if (compareDate(wiSimMainController.getActDate(), auswahlVertrag.getLieferdatum()) <= 0) {
 			if (auswahlRechnung.getzEingang()) {
 				jButtonSpeichern.setEnabled(false);
 				jButtonReset.setEnabled(true);
@@ -514,10 +514,10 @@ public class JPanelIncomingPayments extends javax.swing.JPanel implements Simula
 	}
 
 	//Setzt Rechnungsstatus auf bezahlt
-	private void aendereEingang(int id, boolean i) {
+	private void setStatus(int id, boolean i) {
 		try {
 			dao.aendereAuftragsrechnung(id, i);
-			ladeRechnungen();
+			loadInvoices();
 		} catch (WiSimDAOException e) {
 			logger.log("aendereEingang()",e);
 		} catch (WiSimDAOWriteException e) {
@@ -543,7 +543,7 @@ public class JPanelIncomingPayments extends javax.swing.JPanel implements Simula
 	 * @param two dynamisches Datum
 	 * @return int
 	 */
-	private int vergleicheDatum(Date one, Date two) {
+	private int compareDate(Date one, Date two) {
 		//umwandeln in UtilDate
 		one = new java.util.Date(one.getTime());
 		two = new java.util.Date(two.getTime());
@@ -569,7 +569,7 @@ public class JPanelIncomingPayments extends javax.swing.JPanel implements Simula
 	}
 
 	/** Erstellt die Tabelle. */
-	private void setTabelle() {
+	private void setTable() {
 
 		Object[][] tableInit = new Object[anzahl][4];
 		DefaultTableModel defTable = new DefaultTableModel(tableInit, new String[] { "Nr", "Name, Vorname", "Lieferung", "Zahlung" }) {
@@ -617,7 +617,7 @@ public class JPanelIncomingPayments extends javax.swing.JPanel implements Simula
 	/** Liefert die KD_Nr des aktiven Kunden
 	* @return int
 	*/
-	private int getSelVertragsID() {
+	private int getSelectedContractID() {
 		//liefert listItem des selektierten Eintrags
 		String listItem = String.valueOf(jTableRechnungListe.getSelectedRow());
 		//sucht das aktive KundenObjekt in Hashtabelle kundenObjekte
@@ -629,7 +629,7 @@ public class JPanelIncomingPayments extends javax.swing.JPanel implements Simula
 	}
 
 	// Setzt nach dem Speichern und Löschen eines Lieferanten die Werte auf Standard^   
-	private void setzeStandard() {
+	private void setStandard() {
 		jTextFieldKunde.setText("");
 		jTextFieldFirma.setText("");
 		jTextFieldRabatt.setText("");
@@ -660,7 +660,7 @@ public class JPanelIncomingPayments extends javax.swing.JPanel implements Simula
 				while (it_Vertrag.hasNext()) {
 					Contract vertragsliste = (Contract) it_Vertrag.next();
 
-					if (vergleicheDatum(wiSimMainController.getActDate(), vertragsliste.getLieferdatum()) <= 0) {
+					if (compareDate(wiSimMainController.getActDate(), vertragsliste.getLieferdatum()) <= 0) {
 						Image imageIconGreen = new BufferedImage(28, 30, 2);
 						Graphics g = imageIconGreen.getGraphics();
 						g.setColor(darkgreen);

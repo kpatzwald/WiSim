@@ -359,14 +359,14 @@ public class JPanelNewSupplier extends javax.swing.JPanel {
 
 	private void jListNeuerLieferantArtikelValueChanged(javax.swing.event.ListSelectionEvent evt) { //GEN-FIRST:event_jListNeuerLieferantArtikelValueChanged
 		if (!jListNeuerLieferantArtikel.isSelectionEmpty())
-			artikelBearbeiten();
+			modifyArticle();
 	} //GEN-LAST:event_jListNeuerLieferantArtikelValueChanged
 	/* Der "Entfernen"-Button wurde gedrückt
 	 * @author Kay Patzwald
 	 */
 	private void jButtonNeuerLieferantArtieklEntfernenActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jButtonNeuerLieferantArtieklEntfernenActionPerformed
 		if (!jListNeuerLieferantArtikel.isSelectionEmpty())
-			loescheArtikel();
+			deleteArticle();
 	} //GEN-LAST:event_jButtonNeuerLieferantArtieklEntfernenActionPerformed
 	/* Der "Hinzufügen"-Button wurde gedrückt
 	 * @author Kay Patzwald
@@ -388,7 +388,7 @@ public class JPanelNewSupplier extends javax.swing.JPanel {
 	} //GEN-LAST:event_jTextFieldNeuerLieferantPreisFocusLost
 
 	private void jComboBoxNeuerLieferantArtikelAncestorAdded(javax.swing.event.AncestorEvent evt) { //GEN-FIRST:event_jComboBoxNeuerLieferantArtikelAncestorAdded
-		ladeEinzelteile();
+		loadSpareParts();
 	} //GEN-LAST:event_jComboBoxNeuerLieferantArtikelAncestorAdded
 	/* Das jTextField eMail ist nicht mehr im Focus
 	 * @author Kay Patzwald
@@ -412,7 +412,7 @@ public class JPanelNewSupplier extends javax.swing.JPanel {
 	private void checkArticle() {
 		Vector check = checkFormArtikel();
 		if (check.isEmpty())
-			artikelHinzufuegen();
+			addArticle();
 		else {
 
 			if (check.size() > 1)
@@ -446,7 +446,7 @@ public class JPanelNewSupplier extends javax.swing.JPanel {
 	private void checkNewSupplier() {
 		Vector check = checkFormLieferant();
 		if (check.isEmpty())
-			neuerLieferant();
+			newSupplier();
 		else {
 			if (check.size() > 1)
 				JOptionPane.showMessageDialog(this, "Folgende Felder müssen ausgefüllt werden: " + check.toString().substring(1, check.toString().length() - 1), "Fehler beim Anlegen des neuen Lieferanten", JOptionPane.ERROR_MESSAGE);
@@ -526,7 +526,7 @@ public class JPanelNewSupplier extends javax.swing.JPanel {
 	}
 
 	/** Legt einen neuen Lieferanten an */
-	private void neuerLieferant() {
+	private void newSupplier() {
 		String firma = jTextFieldNeuerLieferantFirma.getText();
 		String name = jTextFieldNeuerLieferantName.getText();
 		String vorname = jTextFieldNeuerLieferantVorname.getText();
@@ -650,7 +650,7 @@ public class JPanelNewSupplier extends javax.swing.JPanel {
 	/** Füllt die ComboBox Einzelteile mit den in der DB vorhandenen Teilen
 	 * @author Kay Patzwald
 	 */
-	private void ladeEinzelteile() {
+	private void loadSpareParts() {
 		Collection teile = null;
 		try {
 			teile = dao.getEinzelteile();
@@ -677,7 +677,7 @@ public class JPanelNewSupplier extends javax.swing.JPanel {
 	/* Nimmt einen Article in die Liste auf
 	 * @author Kay Patzwald
 	 */
-	private void artikelHinzufuegen() {
+	private void addArticle() {
 		boolean ueberschreiben = true;
 		int position = -1;
 		String[] teile = new String[2];
@@ -712,7 +712,7 @@ public class JPanelNewSupplier extends javax.swing.JPanel {
 	/* Löscht die ausgewählten Article
 	 * @author Kay Patzwald
 	 */
-	private void loescheArtikel() {
+	private void deleteArticle() {
 		int[] indizies = jListNeuerLieferantArtikel.getSelectedIndices();
 		DefaultListModel model = (DefaultListModel) jListNeuerLieferantArtikel.getModel();
 		for (int i = indizies.length - 1; i >= 0; i--) {
@@ -726,7 +726,7 @@ public class JPanelNewSupplier extends javax.swing.JPanel {
 	 * wird der erste ins Formular geladen.
 	 * @author Kay Patzwald
 	 */
-	private void artikelBearbeiten() {
+	private void modifyArticle() {
 		int[] indizies = jListNeuerLieferantArtikel.getSelectedIndices();
 		DefaultListModel model = (DefaultListModel) jListNeuerLieferantArtikel.getModel();
 		jComboBoxNeuerLieferantArtikel.setSelectedItem(model.getElementAt(indizies[0]));

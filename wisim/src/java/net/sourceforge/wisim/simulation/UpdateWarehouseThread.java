@@ -66,20 +66,20 @@ public class UpdateWarehouseThread extends Thread {
 	public void initialize() {
 		//Die LagerGesamtliste wird einmalig initialisiert
 		if (!lager.getIsBuilt()) {
-			lager.buildGesamtlisteTabelle();
+			lager.buildMainTable();
 			lager.setIsBuilt(true);
 		}
 
 		//Die ArbeitsplatzLagerGesamtliste wird einmalig initialisiert
 		if (!apLager.getIsBuilt()) {
-			apLager.buildArbeitsplatzLagerElementeTabelle();
-			apLager.getArbeitsplatzlager();
+			apLager.buildWorkPlaceStoreElementsTable();
+			apLager.getWorkPlaceStorage();
 			apLager.setIsBuilt(true);
 		}
 
 		//Der ZahlungsEingang wird einmalig initialisiert
 		if (!jPanelZahlungseingang.getIsBuilt()) {
-			jPanelZahlungseingang.ladeRechnungen();
+			jPanelZahlungseingang.loadInvoices();
 			jPanelZahlungseingang.showLegende();
 			jPanelZahlungseingang.setIsBuilt(true);
 		}

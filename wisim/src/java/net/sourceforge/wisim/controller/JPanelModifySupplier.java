@@ -410,7 +410,7 @@ public class JPanelModifySupplier extends javax.swing.JPanel {
 	private void jButtonLieferantenAnlegen2ActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jButtonLieferantenAnlegen2ActionPerformed
 		int auswahl = getSelLieferantenID();
 		if (auswahl != 0) {
-			loescheLieferant(getSelLieferantenID());
+			deleteSupplier(getSelLieferantenID());
 			JOptionPane.showMessageDialog(this, "Der Lieferant wurde erfolgreich gelöscht.", "Vertrag", JOptionPane.INFORMATION_MESSAGE);
 		} else {
 			JOptionPane.showMessageDialog(this, "Bitte wählen Sie erst einen Lieferanten aus.", "Fehler beim Löschen eines Kunden", JOptionPane.ERROR_MESSAGE);
@@ -687,7 +687,7 @@ public class JPanelModifySupplier extends javax.swing.JPanel {
 					//Tabelle wird neu geschrieben
 					if (jTable1.getRowCount() >= 0) {
 
-						loescheZugehoerigeEinzelteile(ltID);
+						deleteDependingSpareParts(ltID);
 						SupplyList liste = new SupplyList();
 
 						for (int row = 0; row < jTable1.getRowCount(); row++) {
@@ -710,9 +710,9 @@ public class JPanelModifySupplier extends javax.swing.JPanel {
 
 				try {
 					dao.aendereLieferant(lieferant);
-					ladeLieferanten();
-					ladeLieferant();
-					setzeStandard();
+					loadSuppliers();
+					loadSupplier();
+					setStandard();
 				} catch (WiSimDAOException e) {
 					wiSimLogger.log("jButtonLieferantenAnlegen1ActionPerformed()", e);
 				} catch (WiSimDAOWriteException e) {
@@ -726,18 +726,18 @@ public class JPanelModifySupplier extends javax.swing.JPanel {
 
 	private void jComboBoxLieferantBearbeitenActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jComboBoxLieferantBearbeitenActionPerformed
 		if (jComboBoxLieferantBearbeiten.getSelectedItem().equals("Bitte wählen")) {
-			setzeStandard();
+			setStandard();
 		} else
-			ladeLieferant();
+			loadSupplier();
 	} //GEN-LAST:event_jComboBoxLieferantBearbeitenActionPerformed
 
 	private void jComboBoxLieferantBearbeitenAncestorAdded(javax.swing.event.AncestorEvent evt) { //GEN-FIRST:event_jComboBoxLieferantBearbeitenAncestorAdded
-		ladeLieferanten();
-		ladeEinzelteile();
+		loadSuppliers();
+		loadSpareParts();
 	} //GEN-LAST:event_jComboBoxLieferantBearbeitenAncestorAdded
 
 	//Füllt die ComboBox Lieferantenliste mit den in der DB vorhandenen Lieferanten
-	private void ladeLieferanten() {
+	private void loadSuppliers() {
 		Collection lieferantenliste = null;
 		try {
 			lieferantenliste = dao.getLieferanten();
@@ -767,7 +767,7 @@ public class JPanelModifySupplier extends javax.swing.JPanel {
 	}
 
 	//Lädt einen Kunden zum Bearbeiten aus der Datenbank
-	private void ladeLieferant() {
+	private void loadSupplier() {
 
 		//liefert listItem des selektierten Eintrags        
 		String listItem = String.valueOf(jComboBoxLieferantBearbeiten.getSelectedIndex());
@@ -790,12 +790,12 @@ public class JPanelModifySupplier extends javax.swing.JPanel {
 			jComboBoxNeuerLieferantLieferqualitaet.setSelectedItem(auswahlLieferant.getLieferqualitaet());
 			jComboBoxNeuerLieferantZuverlaessigkeit.setSelectedItem(auswahlLieferant.getZuverlaessigkeit());
 			zubehoerTabelle.clear();
-			ladeZugehoerigeEinzelteile(auswahlLieferant.getId());
+			loadDependingSpareParts(auswahlLieferant.getId());
 		}
 	}
 
 	//Füllt die ComboBox Einzelteile mit den in der DB vorhandenen Teilen
-	private void ladeEinzelteile() {
+	private void loadSpareParts() {
 		Collection teile = null;
 		try {
 			teile = dao.getEinzelteile();
@@ -824,7 +824,7 @@ public class JPanelModifySupplier extends javax.swing.JPanel {
 	}
 
 	// Ladet die Einzelteile des Lieferanten 
-	private void loescheZugehoerigeEinzelteile(int id) {
+	private void deleteDependingSpareParts(int id) {
 
 		try {
 			Collection lieferliste = null;
@@ -844,7 +844,7 @@ public class JPanelModifySupplier extends javax.swing.JPanel {
 	}
 
 	// Ladet die Einzelteile des Lieferanten 
-	private void ladeZugehoerigeEinzelteile(int id) {
+	private void loadDependingSpareParts(int id) {
 
 		try {
 			Collection lieferliste = null;
@@ -895,12 +895,12 @@ public class JPanelModifySupplier extends javax.swing.JPanel {
 	}
 
 	//Setzt Lieferantenstatus auf gelöscht
-	private void loescheLieferant(int ltId) {
+	private void deleteSupplier(int ltId) {
 		int submit = JOptionPane.showConfirmDialog(this, "Wollen Sie den Lieferanten wirklich löschen?", "Lieferant löschen", JOptionPane.YES_NO_OPTION);
 		if (submit == 0) {
 			try {
 				dao.setLieferantLoeschStatus(ltId, true);
-				ladeLieferanten();
+				loadSuppliers();
 			} catch (WiSimDAOException e) {
 				wiSimLogger.log("loescheLieferant()", e);
 			} catch (WiSimDAOWriteException e) {
@@ -910,7 +910,7 @@ public class JPanelModifySupplier extends javax.swing.JPanel {
 	}
 
 	// Setzt nach dem Speichern und Löschen eines Lieferanten die Werte auf Standard
-	private void setzeStandard() {
+	private void setStandard() {
 		jTextFieldNeuerLieferantVorname.setText("");
 		jTextFieldNeuerLieferantName.setText("");
 		jTextFieldNeuerLieferantFirma.setText("");
