@@ -24,7 +24,7 @@ public class WiSimSplashscreen extends JFrame {
 
 	private static JProgressBar loadStatusBar;
 	private static JLabel statusText;
-	
+
 	private final int splashScreenHeight = 476;
 	private final int splashScreenWidth = 582;
 

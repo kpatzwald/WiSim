@@ -98,8 +98,8 @@ public class WiSimMainController extends javax.swing.JFrame {
 	private UpdateWarehouseThread updateLagerThread;
 
 	// Splashscreen Status
-	private static JProgressBar loadStatusBar = new JProgressBar(0, 100);
-	private static JLabel statusText = new JLabel();
+	private static JProgressBar loadStatusBar;
+	private static JLabel statusText;
 
 	/** Creates new form WiSimMainController */
 	public WiSimMainController() {
@@ -761,6 +761,19 @@ public class WiSimMainController extends javax.swing.JFrame {
 	 * @param args the command line arguments
 	 */
 	public static void main(String args[]) {
+		
+		/** Update the PLAF */
+		com.incors.plaf.kunststoff.KunststoffLookAndFeel plaf = new com.incors.plaf.kunststoff.KunststoffLookAndFeel();
+		try {
+			UIManager.setLookAndFeel(plaf);
+		} catch (Exception e) {
+		}
+		
+		/** Initialize splashscreen swing components */
+		loadStatusBar = new JProgressBar(0, 100);
+		statusText = new JLabel();
+		
+		/** Start the splashscreen and load the wiSimMainController */
 		new WiSimSplashscreen(loadStatusBar, statusText).runSplashscreen();
 	}
 
