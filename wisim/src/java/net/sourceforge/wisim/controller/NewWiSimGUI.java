@@ -44,12 +44,14 @@ import net.sourceforge.wisim.mdi.JScrollableDesktopPane;
  */
 public class NewWiSimGUI extends javax.swing.JFrame {
 	private Hashtable actions;
+	private Hashtable titles;
 	private JScrollableDesktopPane desktopPane;
 
 	/** Creates new form NewWiSimGUI */
 	public NewWiSimGUI() {
 		initComponents();
 		initActions();
+		initTitles();
 		initApplication();
 	}
 
@@ -57,9 +59,13 @@ public class NewWiSimGUI extends javax.swing.JFrame {
 		actions = new Hashtable();
 		actions.put("NewCustomer", new JPanelNewGUITest1());
 		actions.put("ModifyCustomer", new JPanelNewGUITest2());
-		//    actions.put("NewCustomer", new JInternalFrameNewCustomer());
-		//    actions.put("ModifyCustomer", new JInternalFrameModifyCustomer());
-		//    actions.put("ViewCustomers", new JInternalFrameViewCustomers());
+	}
+	
+	private void initTitles()
+	{
+		titles = new Hashtable();
+		titles.put("NewCustomer", "Neuer Kunde");
+		titles.put("ModifyCustomer", "Kunde bearbeiten");
 	}
 
 	/** This method is called from within the constructor to
@@ -184,7 +190,7 @@ public class NewWiSimGUI extends javax.swing.JFrame {
 		boolean isOpen = false;
 		int frameIndex = -1;
 		for (int i = 0; i < frames.length; i++) {
-			if (frames[i].getTitle().equals(iFrame)) {
+			if (frames[i].getTitle().equals((String)titles.get(iFrame))) {
 				isOpen = true;
 				frameIndex = i;
 			}
@@ -192,7 +198,7 @@ public class NewWiSimGUI extends javax.swing.JFrame {
 		if (isOpen) {
 			desktopPane.setSelectedFrame(frames[frameIndex]);
 		} else {
-			desktopPane.add(iFrame, (JPanel) actions.get(iFrame));
+			desktopPane.add((String)titles.get(iFrame), (JPanel) actions.get(iFrame));
 		}
 	}
 
