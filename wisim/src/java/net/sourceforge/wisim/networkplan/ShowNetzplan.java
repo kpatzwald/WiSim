@@ -21,7 +21,7 @@
 **   This copyright notice MUST APPEAR in all copies of the file!           **
 **   ********************************************************************   */
 
-package net.sourceforge.wisim.controller;
+package net.sourceforge.wisim.networkplan;
 
 import java.awt.Component;
 import java.awt.Dimension;
