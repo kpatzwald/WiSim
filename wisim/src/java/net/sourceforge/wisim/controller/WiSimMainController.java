@@ -153,7 +153,7 @@ public class WiSimMainController extends javax.swing.JFrame {
 		titles.put("Options", "Optionen");
 		titles.put("ViewEtat", "Einzelteilauftrag einsehen");
 		titles.put("SimulationStart", "Simulation");
-		titles.put("Networkplan", "Netzplan zeigen");
+		titles.put("Networkplan", "Netzplaneditor");
 		titles.put("WorkPlaceStore", "Arbeitsplatzlager");
 		titles.put("IncomingPayment", "Zahlungseingang");
 	}
@@ -398,8 +398,8 @@ public class WiSimMainController extends javax.swing.JFrame {
 
 		jMenuProduktion.add(jMenuItemArbeitsplatzlager);
 
-		jMenuItemNetzplan.setMnemonic('A');
-		jMenuItemNetzplan.setText("Netzplan");
+		jMenuItemNetzplan.setMnemonic('N');
+		jMenuItemNetzplan.setText("Netzplaneditor");
 		jMenuItemNetzplan.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				jMenuItemNetzplanActionPerformed(evt);

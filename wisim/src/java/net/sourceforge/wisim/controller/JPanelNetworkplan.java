@@ -73,7 +73,7 @@ public class JPanelNetworkplan extends javax.swing.JPanel {
 			/** Start stopwatch */
 			long startTime = System.currentTimeMillis();
 
-			netzplanGrafik = new JNetworkplan(npElemente);
+			netzplanGrafik = new JNetworkplan(wiSimMainController, npElemente);
 
 			/** Get the Panel to use. */
 			netzplanGrafik.setLayout(null);
