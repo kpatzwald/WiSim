@@ -29,7 +29,7 @@ import java.util.Vector;
 /**
  * Class for calculation a network plan element.
  * @author Benjamin Pasero
- * @version 0.3a
+ * @version 0.4a
  */
 public class NetzplanCalculator {
 
@@ -51,7 +51,7 @@ public class NetzplanCalculator {
 		calculateFazFez();
 		calculateSazSez();
 		calculatePuffer();
-		
+
 		System.out.println("Counted Branches (including start / end): " + getMaxWidthOfNetzplan());
 	}
 

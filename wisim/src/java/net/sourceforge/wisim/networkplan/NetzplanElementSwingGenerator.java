@@ -38,7 +38,7 @@ import javax.swing.border.LineBorder;
 /**
  * [DoItBen] Kommentar Klasse NetworkplanElementSwingGenerator
  * @author benjamin.pasero
- * @version 0.3a
+ * @version 0.4a
  */
 public class NetzplanElementSwingGenerator {
 
@@ -130,6 +130,7 @@ public class NetzplanElementSwingGenerator {
 		}
 
 		npElementRect.setBorder(new LineBorder(lineColor));
+
 		npElementRect.setPreferredSize(new java.awt.Dimension(300, 150));
 
 		/** Connection-line between two elements on top */
@@ -388,7 +389,8 @@ public class NetzplanElementSwingGenerator {
 	 */
 	public int getTextLength(String text) {
 		return (int) Math.round(
-			(new Font("Dialog", 0, 14).getStringBounds(text, 0, text.length(), new FontRenderContext(new AffineTransform(), false, false)))
+			(new Font("Dialog", 0, 14)
+				.getStringBounds(text, 0, text.length(), new FontRenderContext(new AffineTransform(), false, false)))
 				.getWidth());
 	}
 

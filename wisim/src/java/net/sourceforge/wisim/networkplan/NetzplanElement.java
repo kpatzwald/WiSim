@@ -53,6 +53,11 @@ public class NetzplanElement {
 
 	private boolean selected;
 
+	private double anchorTopXPos;
+	private double anchorBottomXPos;
+	private double anchorTopYPos;
+	private double anchorBottomYPos;
+
 	/**
 	 * [DoItBen] Kommentar Konstruktor NetzplanElement()
 	 * @param nummer
@@ -312,4 +317,59 @@ public class NetzplanElement {
 		selected = b;
 	}
 
+	/**
+	 * @return
+	 */
+	public double getAnchorBottomXPos() {
+		return anchorBottomXPos;
+	}
+
+	/**
+	 * @return
+	 */
+	public double getAnchorBottomYPos() {
+		return anchorBottomYPos;
+	}
+
+	/**
+	 * @return
+	 */
+	public double getAnchorTopXPos() {
+		return anchorTopXPos;
+	}
+
+	/**
+	 * @return
+	 */
+	public double getAnchorTopYPos() {
+		return anchorTopYPos;
+	}
+
+	/**
+	 * @param d
+	 */
+	public void setAnchorBottomXPos(double d) {
+		anchorBottomXPos = d;
+	}
+
+	/**
+	 * @param d
+	 */
+	public void setAnchorBottomYPos(double d) {
+		anchorBottomYPos = d;
+	}
+
+	/**
+	 * @param d
+	 */
+	public void setAnchorTopXPos(double d) {
+		anchorTopXPos = d;
+	}
+
+	/**
+	 * @param d
+	 */
+	public void setAnchorTopYPos(double d) {
+		anchorTopYPos = d;
+	}
 }
