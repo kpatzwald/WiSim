@@ -31,14 +31,19 @@ package net.sourceforge.wisim.controller;
 
 import java.io.IOException;
 
+import net.sourceforge.wisim.model.WiSimLogger;
+
 /**
  *
  * @author  Kay Patzwald
  */
 public class JPanelHelp extends javax.swing.JPanel {
 
+	private WiSimLogger logger;
+	
 	/** Creates new form JPanelHilfe */
-	public JPanelHelp() {
+	public JPanelHelp(WiSimMainController wiSimMainController) {
+		logger = wiSimMainController.getWiSimLogger();
 		initComponents();
 		modGui();
 	}
@@ -122,7 +127,7 @@ public class JPanelHelp extends javax.swing.JPanel {
 	* @param url the file's url (the url must start with either "http://" or
 	* "file://").
 	*/
-	public static void displayURL(String url) {
+	public void displayURL(String url) {
 		boolean windows = isWindowsPlatform();
 		String cmd = null;
 		try {
@@ -149,14 +154,11 @@ public class JPanelHelp extends javax.swing.JPanel {
 						p = Runtime.getRuntime().exec(cmd);
 					}
 				} catch (InterruptedException x) {
-					System.err.println("Error bringing up browser, cmd='" + cmd + "'");
-					System.err.println("Caught: " + x);
+					logger.log("displayUrl(), Error bringing up browser", x);					
 				}
 			}
 		} catch (IOException x) {
-			// couldn't exec browser
-			System.err.println("Could not invoke browser, command=" + cmd);
-			System.err.println("Caught: " + x);
+			logger.log("displayUrl(), Could not invoke browser", x);
 		}
 	}
 	/**
@@ -165,7 +167,7 @@ public class JPanelHelp extends javax.swing.JPanel {
 	 *
 	 * @return true if this application is running under a Windows OS
 	 */
-	public static boolean isWindowsPlatform() {
+	public boolean isWindowsPlatform() {
 		String os = System.getProperty("os.name");
 		if (os != null && os.startsWith(WIN_ID))
 			return true;

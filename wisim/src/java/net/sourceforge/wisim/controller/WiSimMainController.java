@@ -142,7 +142,7 @@ public class WiSimMainController extends javax.swing.JFrame {
 
 		loadStatusBar.setValue(33);
 		statusText.setText("Lade \"Hilfe\"...");
-		actions.put("Help", new JPanelHelp());
+		actions.put("Help", new JPanelHelp(this));
 
 		loadStatusBar.setValue(35);
 		statusText.setText("Lade \"Kunde bearbeiten\"...");
