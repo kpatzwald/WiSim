@@ -25,7 +25,7 @@ package net.sourceforge.wisim.simulation;
 
 import java.util.*;
 
-import net.sourceforge.wisim.controller.JPanelSimulationStart;
+import net.sourceforge.wisim.controller.JPanelSimulationAnalysis;
 import net.sourceforge.wisim.controller.WiSimMainController;
 
 /** Überprüft das ActualTime Objekt in dem die aktuelle Zeit gespeichert wird. Bei
@@ -43,7 +43,7 @@ public class UpdateSimulationAnalysis extends Thread {
 	private int dayChanges;
 
 	//JPanes
-	private JPanelSimulationStart jPanelSimulationAnalysis;
+	private JPanelSimulationAnalysis jPanelSimulationAnalysis;
 
 	/** Erzeugt eine neue Instanz UpdateSimulationAnalysis.
 	 * @param beendeNachEinerWoche
@@ -59,7 +59,7 @@ public class UpdateSimulationAnalysis extends Thread {
 		gc = new GregorianCalendar();
 		dayChanges = 0;
 
-		jPanelSimulationAnalysis = (JPanelSimulationStart) wiSimMainController.getActions().get("SimulationAnalysis");
+		jPanelSimulationAnalysis = (JPanelSimulationAnalysis) wiSimMainController.getActions().get("SimulationAnalysis");
 	}
 
 	/** Startet diesen Thread und wartet solange bis sich die Minute im Objekt actTime
