@@ -25,33 +25,39 @@ package net.sourceforge.wisim.networkplan;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Toolkit;
 import java.util.Vector;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 /**
- * [DoItBen] Kommentar Klasse ShowNetzplanSwing
+ * Class for displaying the networkplan in a JFrame
  * @author benjamin.pasero
  * @version 0.5a
  */
 public class NetzplanShow extends JFrame {
 
+	private Vector npElemente;
+	private JPanel netzplanGrafik;
+
 	/**
-	 * [DoItBen] Kommentar Konstruktor ShowNetzplanSwing()
-	 * 
+	 * Set up the JFrame that holds a JScrollPane with the network plan
 	 */
 	public NetzplanShow() {
 
-		Vector npElemente = getNetworkPlanElements();
-		JPanel netzplanGrafik = new JPanel();
+		npElemente = getNetworkPlanElements();
+		netzplanGrafik = new JPanel();
 
 		getContentPane().setLayout(null);
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		setBounds(0, 0, screenSize.width, screenSize.height);
 
+		/** Listener for closing the JFrame */
 		addWindowListener(new java.awt.event.WindowAdapter() {
 			public void windowClosing(java.awt.event.WindowEvent evt) {
 				exitForm(evt);
@@ -59,12 +65,53 @@ public class NetzplanShow extends JFrame {
 		});
 
 		/** Instance for generating the networkin plan */
-		NetzplanSwingGenerator npGrafik = new NetzplanSwingGenerator(npElemente);
+		NetzplanSwingGenerator npGrafik;
+		long calculationTime = 0;
+		try {
 
-		/** Get the Panel to use. */
-		netzplanGrafik = npGrafik.getNetzplanGraphic();
-		netzplanGrafik.setBackground(Color.WHITE);
-		netzplanGrafik.setPreferredSize(new Dimension(npGrafik.getMaxWidthPos() * 430, npGrafik.getMaxHeightPos() * 280));
+			/** Start stopwatch */
+			long startTime = System.currentTimeMillis();
+
+			npGrafik = new NetzplanSwingGenerator(npElemente);
+
+			/** Get the Panel to use. */
+			netzplanGrafik = npGrafik.getNetzplanGraphic();
+			netzplanGrafik.setLayout(null);
+			netzplanGrafik.setBackground(Color.WHITE);
+			netzplanGrafik.setPreferredSize(new Dimension(npGrafik.getMaxWidthPos() * 430, npGrafik.getMaxHeightPos() * 280));
+
+			/** Stop stopwatch */
+			long endTime = System.currentTimeMillis();
+
+			calculationTime = endTime - startTime;
+
+			JLabel showCalculationTime = new JLabel("Rendertime: " + (double) calculationTime / 1000 + " sec.");
+			showCalculationTime.setForeground(Color.BLACK);
+			netzplanGrafik.add(showCalculationTime);
+			showCalculationTime.setBounds(20, 20, 200, 20);
+
+		}
+
+		/** There was an error while generating and calculating the network plan */
+		catch (Exception e) {
+			String errorMessage =
+				"Error: The network plan seems not to be correct!"
+					+ "\n\nPlease check your networkplan:"
+					+ "\n\n- Make sure you have more than one networkplan element"
+					+ "\n- Make sure each element has a parent and a child"
+					+ "\n- Make sure you dont used one number for two elements"
+					+ "\n- Make sure you used numbers from 1 to number of elements"
+					+ "\n- Make sure you dont used 0 as a number for an element";
+
+			JTextArea errorDescription = new JTextArea(errorMessage);
+			errorDescription.setEditable(false);
+			errorDescription.setSelectionColor(Color.WHITE);
+			errorDescription.setForeground(Color.RED);
+			errorDescription.setBackground(new Color(204, 204, 204));
+			errorDescription.setFont(new Font("Dialog", 1, 20));
+
+			netzplanGrafik.add(errorDescription);
+		}
 
 		/** JScrollPane holding the network plan */
 		JScrollPane holdAll = new JScrollPane();
@@ -77,7 +124,7 @@ public class NetzplanShow extends JFrame {
 		getContentPane().add(holdAll);
 	}
 
-	/** [DoItBen] Exception Handling / Error Message wenn Netzplan falsch ist */
+	/** Display the JFrame */
 	public static void main(String[] args) {
 		new NetzplanShow().show();
 	}
@@ -91,66 +138,71 @@ public class NetzplanShow extends JFrame {
 		Vector filled = new Vector();
 
 		/** Selected network plan */
-		int show = 4;
-		
+		int show = 3;
+
 		/** Some network plans to choose */
 		switch (show) {
-		
-			case 0:
-			filled.add(new NetzplanElement(1, 20, new int[] { 2, 6, 8 }, "Entwurf, Planung"));
-			filled.add(new NetzplanElement(2, 3, new int[] { 3 }, "Erdaushub Fundamente"));
-			filled.add(new NetzplanElement(3, 2, new int[] { 4 }, "Ausgieﬂen Fundamente"));
-			filled.add(new NetzplanElement(4, 5, new int[] { 5 }, "Verschalung Betonsockel"));
-			filled.add(new NetzplanElement(5, 3, new int[] { 9 }, "Betonierung Betonsockel"));
-			filled.add(new NetzplanElement(6, 10, new int[] { 7 }, "Bestellung und Auslieferung Betonteile"));
-			filled.add(new NetzplanElement(7, 2, new int[] { 9 }, "Aushub Ver- und Entsorgungsleitung"));
-			filled.add(new NetzplanElement(8, 5, new int[] { 9 }, "Leitungsverlegung"));
-			filled.add(new NetzplanElement(9, 7, new int[] { 10 }, "Montage Lagerhalle"));
-			filled.add(new NetzplanElement(10, 4, new int[] { 0 }, "Installationsarbeiten"));
-			break;
-			
-			case 1:
-			filled.add(new NetzplanElement(1, 3, new int[] { 2 }, "Erdaushub Fundamente"));
-			filled.add(new NetzplanElement(2, 2, new int[] { 3, 4 }, "Ausgieﬂen Fundamente"));
-			filled.add(new NetzplanElement(3, 5, new int[] { 5 }, "Verschalung Betonsockel"));
-			filled.add(new NetzplanElement(4, 3, new int[] { 5 }, "Betonierung Betonsockel"));
-			filled.add(new NetzplanElement(5, 10, new int[] { 6 }, "Bestellung Betonteile"));
-			filled.add(new NetzplanElement(6, 2, new int[] { 0 }, "Aushub Versorgungsleitung"));
-			break;
-			
-			case 2:
-			filled.add(new NetzplanElement(1, 2, new int[] { 2, 3 }, "Ausgieﬂen Fundamente"));
-			filled.add(new NetzplanElement(2, 2, new int[] { 4, 5 }, "Ausgieﬂen Fundamente"));
-			filled.add(new NetzplanElement(3, 5, new int[] { 6 }, "Verschalung Betonsockel"));
-			filled.add(new NetzplanElement(4, 3, new int[] { 6 }, "Betonierung Betonsockel"));
-			filled.add(new NetzplanElement(5, 10, new int[] { 6 }, "Bestellung Betonteile"));
-			filled.add(new NetzplanElement(6, 2, new int[] { 0 }, "Aushub Versorgungsleitung"));
-			break;
-			
-			case 3:
-			filled.add(new NetzplanElement(1, 20, new int[] { 2, 3 }, "Entwurf, Planung"));
-			filled.add(new NetzplanElement(2, 3, new int[] { 4, 5 }, "Erdaushub Fundamente"));
-			filled.add(new NetzplanElement(3, 2, new int[] { 6, 7 }, "Ausgieﬂen Fundamente"));
-			filled.add(new NetzplanElement(4, 5, new int[] { 8 }, "Verschalung Betonsockel"));
-			filled.add(new NetzplanElement(5, 3, new int[] { 8 }, "Betonierung Betonsockel"));
-			filled.add(new NetzplanElement(6, 10, new int[] { 9 }, "Bestellung und Auslieferung Betonteile"));
-			filled.add(new NetzplanElement(7, 2, new int[] { 9 }, "Aushub Ver- und Entsorgungsleitung"));
-			filled.add(new NetzplanElement(8, 5, new int[] { 10 }, "Leitungsverlegung"));
-			filled.add(new NetzplanElement(9, 7, new int[] { 10 }, "Montage Lagerhalle"));
-			filled.add(new NetzplanElement(10, 4, new int[] { 0 }, "Installationsarbeiten"));
-			break;
-			
-			case 4:
-			filled.add(new NetzplanElement(1, 2, new int[] { 2, 3 }, "Ausgieﬂen Fundamente"));
-			filled.add(new NetzplanElement(2, 2, new int[] { 4, 5 }, "Ausgieﬂen Fundamente"));
-			filled.add(new NetzplanElement(3, 5, new int[] { 8 }, "Verschalung Betonsockel"));
-			filled.add(new NetzplanElement(4, 3, new int[] { 8 }, "Betonierung Betonsockel"));
-			filled.add(new NetzplanElement(5, 10, new int[] { 6, 7 }, "Bestellung Betonteile"));
-			filled.add(new NetzplanElement(6, 3, new int[] { 8 }, "Betonierung Betonsockel"));
-			filled.add(new NetzplanElement(7, 10, new int[] { 8 }, "Bestellung Betonteile"));
-			filled.add(new NetzplanElement(8, 2, new int[] { 0 }, "Aushub Versorgungsleitung"));
-			break;
-		}			
+
+			case 0 :
+				filled.add(new NetzplanElement(1, 20, new int[] { 2, 6, 8 }, "Entwurf, Planung"));
+				filled.add(new NetzplanElement(2, 3, new int[] { 3 }, "Erdaushub Fundamente"));
+				filled.add(new NetzplanElement(3, 2, new int[] { 4 }, "Ausgieﬂen Fundamente"));
+				filled.add(new NetzplanElement(4, 5, new int[] { 5 }, "Verschalung Betonsockel"));
+				filled.add(new NetzplanElement(5, 3, new int[] { 9 }, "Betonierung Betonsockel"));
+				filled.add(new NetzplanElement(6, 10, new int[] { 7 }, "Bestellung und Auslieferung Betonteile"));
+				filled.add(new NetzplanElement(7, 2, new int[] { 9 }, "Aushub Ver- und Entsorgungsleitung"));
+				filled.add(new NetzplanElement(8, 5, new int[] { 9 }, "Leitungsverlegung"));
+				filled.add(new NetzplanElement(9, 7, new int[] { 10 }, "Montage Lagerhalle"));
+				filled.add(new NetzplanElement(10, 4, new int[] { 0 }, "Installationsarbeiten"));
+				break;
+
+			case 1 :
+				filled.add(new NetzplanElement(1, 3, new int[] { 2 }, "Erdaushub Fundamente"));
+				filled.add(new NetzplanElement(2, 2, new int[] { 3, 4 }, "Ausgieﬂen Fundamente"));
+				filled.add(new NetzplanElement(3, 5, new int[] { 5 }, "Verschalung Betonsockel"));
+				filled.add(new NetzplanElement(4, 3, new int[] { 5 }, "Betonierung Betonsockel"));
+				filled.add(new NetzplanElement(5, 10, new int[] { 6 }, "Bestellung Betonteile"));
+				filled.add(new NetzplanElement(6, 2, new int[] { 0 }, "Aushub Versorgungsleitung"));
+				break;
+
+			case 2 :
+				filled.add(new NetzplanElement(1, 2, new int[] { 2, 3 }, "Ausgieﬂen Fundamente"));
+				filled.add(new NetzplanElement(2, 2, new int[] { 4, 5 }, "Ausgieﬂen Fundamente"));
+				filled.add(new NetzplanElement(3, 5, new int[] { 6 }, "Verschalung Betonsockel"));
+				filled.add(new NetzplanElement(4, 3, new int[] { 6 }, "Betonierung Betonsockel"));
+				filled.add(new NetzplanElement(5, 10, new int[] { 6 }, "Bestellung Betonteile"));
+				filled.add(new NetzplanElement(6, 2, new int[] { 0 }, "Aushub Versorgungsleitung"));
+				break;
+
+			case 3 :
+				filled.add(new NetzplanElement(1, 20, new int[] { 2, 3 }, "Entwurf, Planung"));
+				filled.add(new NetzplanElement(2, 3, new int[] { 4, 5 }, "Erdaushub Fundamente"));
+				filled.add(new NetzplanElement(3, 2, new int[] { 6, 7 }, "Ausgieﬂen Fundamente"));
+				filled.add(new NetzplanElement(4, 5, new int[] { 8 }, "Verschalung Betonsockel"));
+				filled.add(new NetzplanElement(5, 3, new int[] { 8 }, "Betonierung Betonsockel"));
+				filled.add(new NetzplanElement(6, 10, new int[] { 9 }, "Bestellung und Auslieferung Betonteile"));
+				filled.add(new NetzplanElement(7, 2, new int[] { 9 }, "Aushub Ver- und Entsorgungsleitung"));
+				filled.add(new NetzplanElement(8, 5, new int[] { 10 }, "Leitungsverlegung"));
+				filled.add(new NetzplanElement(9, 7, new int[] { 10 }, "Montage Lagerhalle"));
+				filled.add(new NetzplanElement(10, 4, new int[] { 0 }, "Installationsarbeiten"));
+				break;
+
+			case 4 : //Buggy
+				filled.add(new NetzplanElement(1, 2, new int[] { 2, 3 }, "Ausgieﬂen Fundamente"));
+				filled.add(new NetzplanElement(2, 2, new int[] { 4, 5 }, "Ausgieﬂen Fundamente"));
+				filled.add(new NetzplanElement(3, 5, new int[] { 8 }, "Verschalung Betonsockel"));
+				filled.add(new NetzplanElement(4, 3, new int[] { 8 }, "Betonierung Betonsockel"));
+				filled.add(new NetzplanElement(5, 10, new int[] { 6, 7 }, "Bestellung Betonteile"));
+				filled.add(new NetzplanElement(6, 3, new int[] { 8 }, "Betonierung Betonsockel"));
+				filled.add(new NetzplanElement(7, 10, new int[] { 8 }, "Bestellung Betonteile"));
+				filled.add(new NetzplanElement(8, 2, new int[] { 0 }, "Aushub Versorgungsleitung"));
+				break;
+
+			case 5 : //Testing a wrong networkplan element
+				filled.add(new NetzplanElement(0, 2, new int[] { 2 }, "Ausgieﬂen Fundamente"));
+				filled.add(new NetzplanElement(2, 2, new int[] { 0 }, "Aushub Versorgungsleitung"));
+				break;
+		}
 		return filled;
 	}
 

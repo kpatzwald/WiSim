@@ -24,8 +24,10 @@
 package net.sourceforge.wisim.networkplan;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 
@@ -37,7 +39,6 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
 /**
- * [DoItBen] Kommentar Klasse NetworkplanElementSwingGenerator
  * @author benjamin.pasero
  * @version 0.5a
  */
@@ -59,11 +60,19 @@ public class NetzplanElementSwingGenerator {
 	private JPanel npElementRect;
 	private boolean isCriticalPathElement;
 	private NetzplanElement currentNpElem;
+	private Font innerTextFont;
+	private Font outerTextFont;
+	private Font descriptionFont;
 
+	/** Size of the transparent rectangle holding the networkplan element */
 	private static final int width = 360;
+	private static final int height = 280;
+
+	/** Max. size of one textline in the description-box */
+	private static final int maxTextWidth = 200;
 
 	/**
-	 * [DoItBen] Kommentar Konstruktor NetzplanElementSwingGenerator()
+	 * Paints a new networkplan element in a JLabel
 	 */
 	public NetzplanElementSwingGenerator() {
 		npElementContainer = new JPanel();
@@ -81,30 +90,31 @@ public class NetzplanElementSwingGenerator {
 		jLabelSAZ = new JLabel();
 		jLabelSEZ = new JLabel();
 		isCriticalPathElement = false;
+		innerTextFont = new Font("Dialog", 1, 24);
+		outerTextFont = new Font("Dialog", 1, 16);
+		descriptionFont = new Font("Dialog", 1, 14);
 
-		npElementRect.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+		npElementRect.addMouseMotionListener(new MouseMotionAdapter() {
 			public void mouseMoved(java.awt.event.MouseEvent evt) {
 				npElementRectMouseMoved(evt);
 			}
 		});
 
-		npElementRect.addMouseListener(new java.awt.event.MouseAdapter() {
+		npElementRect.addMouseListener(new MouseAdapter() {
 			public void mouseExited(java.awt.event.MouseEvent evt) {
 				npElementRectMouseExited(evt);
 			}
-		});
 
-		npElementRect.addMouseListener(new java.awt.event.MouseAdapter() {
-			public void mouseClicked(java.awt.event.MouseEvent evt) {
+			public void mouseClicked(MouseEvent evt) {
 				npElementRectMouseClicked(evt);
 			}
 		});
 	}
 
 	/**
-	 * [DoItBen] Kommentar für generateNetzplanelement()
+	 * Paints a new networkplan element in a JLabel
 	 * @param np
-	 * @return
+	 * @return generated networkplan element
 	 */
 	public JPanel generateNetzplanelement(NetzplanElement np) {
 
@@ -113,10 +123,11 @@ public class NetzplanElementSwingGenerator {
 		/** Container that holds all swing-elements */
 		npElementContainer.setLayout(null);
 
+		/** Alpha is set to 100, makes this JPanel transparent */
 		Color c = new Color(255, 255, 255, 100);
 
 		npElementContainer.setBackground(c);
-		npElementContainer.setPreferredSize(new Dimension(350, 280));
+		//npElementContainer.setPreferredSize(new Dimension(widht, height));
 
 		/** Rectangle of the network plan element */
 		npElementRect.setLayout(null);
@@ -131,7 +142,7 @@ public class NetzplanElementSwingGenerator {
 
 		npElementRect.setBorder(new LineBorder(lineColor));
 
-		npElementRect.setPreferredSize(new Dimension(300, 150));
+		//npElementRect.setPreferredSize(new Dimension(300, 150));
 
 		/** Connection-line between two elements on top */
 		if (!np.isStartElem()) {
@@ -150,7 +161,7 @@ public class NetzplanElementSwingGenerator {
 		}
 
 		/** Writing GP */
-		jLabelGP.setFont(new Font("Dialog", 1, 24));
+		jLabelGP.setFont(innerTextFont);
 		jLabelGP.setHorizontalAlignment(SwingConstants.CENTER);
 		jLabelGP.setText(String.valueOf(np.getGp()));
 		jLabelGP.setBorder(new LineBorder(lineColor));
@@ -158,7 +169,7 @@ public class NetzplanElementSwingGenerator {
 		jLabelGP.setBounds(79, 70, 110, 80);
 
 		/** Writing FP */
-		jLabelFP.setFont(new Font("Dialog", 1, 24));
+		jLabelFP.setFont(innerTextFont);
 		jLabelFP.setHorizontalAlignment(SwingConstants.CENTER);
 		jLabelFP.setText(String.valueOf(np.getFp()));
 		jLabelFP.setBorder(new LineBorder(lineColor));
@@ -166,7 +177,7 @@ public class NetzplanElementSwingGenerator {
 		jLabelFP.setBounds(188, 70, 112, 80);
 
 		/** Writing Duration */
-		jLabelDuration.setFont(new Font("Dialog", 1, 24));
+		jLabelDuration.setFont(innerTextFont);
 		jLabelDuration.setHorizontalAlignment(SwingConstants.CENTER);
 		jLabelDuration.setText(String.valueOf(np.getDauer()));
 		jLabelDuration.setBorder(new LineBorder(lineColor));
@@ -174,7 +185,7 @@ public class NetzplanElementSwingGenerator {
 		jLabelDuration.setBounds(0, 70, 80, 80);
 
 		/** Writing Number */
-		jLabelNumber.setFont(new Font("Dialog", 1, 24));
+		jLabelNumber.setFont(innerTextFont);
 		jLabelNumber.setHorizontalAlignment(SwingConstants.CENTER);
 		jLabelNumber.setText(String.valueOf(np.getNummer()));
 		jLabelNumber.setBorder(new LineBorder(lineColor));
@@ -182,8 +193,7 @@ public class NetzplanElementSwingGenerator {
 		jLabelNumber.setBounds(0, 0, 80, 71);
 
 		/** Get the width of the description in pixel */
-		int textWidth = getTextLength(np.getBezeichnung());
-		int maxTextWidth = 200;
+		int textWidth = getTextLength(np.getBezeichnung(), descriptionFont);
 
 		String description = np.getBezeichnung();
 		String s1 = description;
@@ -212,14 +222,14 @@ public class NetzplanElementSwingGenerator {
 			int i = 1;
 			String temp = "";
 
-			/** Get the first line that is not longer than 220px (s1) */
+			/** Get the first line that is not longer than 200px (s1) */
 			s1 = chunks[0];
-			textLen = getTextLength(s1);
+			textLen = getTextLength(s1, descriptionFont);
 			while (i < chunks.length && textLen < maxTextWidth) {
 				temp = s1;
 				s1 = s1 + " " + chunks[i];
 
-				textLen = getTextLength(s1);
+				textLen = getTextLength(s1, descriptionFont);
 				i++;
 
 				if (textLen > maxTextWidth) {
@@ -231,16 +241,16 @@ public class NetzplanElementSwingGenerator {
 
 			textLen = 0;
 
-			/** Get the second line that is not longer than 220px (s2). Append "..." */
+			/** Get the second line that is not longer than 200px (s2). Append "..." */
 			if (i < chunks.length) {
 				s2 = chunks[i];
-				textLen = getTextLength(s2);
+				textLen = getTextLength(s2, descriptionFont);
 				i++;
 				while (i < chunks.length && textLen < maxTextWidth) {
 					temp = s2;
 					s2 = s2 + " " + chunks[i];
 
-					textLen = getTextLength(s2);
+					textLen = getTextLength(s2, descriptionFont);
 					i++;
 
 					if (textLen > maxTextWidth) {
@@ -267,7 +277,7 @@ public class NetzplanElementSwingGenerator {
 				int textLen = 0;
 				while (textLen > maxTextWidth) {
 					chunks[0] = chunks[0].substring(0, chunks[0].length() - 1);
-					textLen = getTextLength(chunks[0]);
+					textLen = getTextLength(chunks[0], descriptionFont);
 				}
 				chunks[0] = chunks[0].substring(0, chunks[0].length() - 3) + "...";
 			}
@@ -276,15 +286,15 @@ public class NetzplanElementSwingGenerator {
 			int i = 1;
 			String temp = "";
 
-			/** Get the first line that is not longer than 220px (s1) */
+			/** Get the first line that is not longer than 200px (s1) */
 			s1 = chunks[0];
-			textLen = getTextLength(s1);
+			textLen = getTextLength(s1, descriptionFont);
 
 			while (i < chunks.length && textLen < maxTextWidth) {
 				temp = s1;
 				s1 = s1 + " " + chunks[i];
 
-				textLen = getTextLength(s1);
+				textLen = getTextLength(s1, descriptionFont);
 				i++;
 
 				if (textLen > maxTextWidth) {
@@ -295,17 +305,17 @@ public class NetzplanElementSwingGenerator {
 			}
 			textLen = 0;
 
-			/** Get the second line that is not longer than 220px (s2). */
+			/** Get the second line that is not longer than 200px (s2). */
 			if (i < chunks.length) {
 				s2 = chunks[i];
-				textLen = getTextLength(s2);
+				textLen = getTextLength(s2, descriptionFont);
 				i++;
 
 				while (i < chunks.length && textLen < maxTextWidth) {
 					temp = s2;
 					s2 = s2 + " " + chunks[i];
 
-					textLen = getTextLength(s2);
+					textLen = getTextLength(s2, descriptionFont);
 					i++;
 
 					if (textLen > maxTextWidth) {
@@ -317,15 +327,15 @@ public class NetzplanElementSwingGenerator {
 			}
 		}
 
-		/** Paint two lines if so. Center the Strings between 65 and 240px */
+		/** Paint two lines if so. Center the Strings */
 		if (twoLines) {
-			jLabelLine1.setFont(new java.awt.Font("Dialog", 1, 14));
+			jLabelLine1.setFont(descriptionFont);
 			jLabelLine1.setHorizontalAlignment(SwingConstants.CENTER);
 			jLabelLine1.setText(s1);
 			npElementRect.add(jLabelLine1);
 			jLabelLine1.setBounds(85, 20, 210, 19);
 
-			jLabelLine2.setFont(new java.awt.Font("Dialog", 1, 14));
+			jLabelLine2.setFont(descriptionFont);
 			jLabelLine2.setHorizontalAlignment(SwingConstants.CENTER);
 			jLabelLine2.setText(s2);
 			npElementRect.add(jLabelLine2);
@@ -335,7 +345,7 @@ public class NetzplanElementSwingGenerator {
 			if (middle < 0)
 				middle = 0;
 
-			jLabelLine1.setFont(new java.awt.Font("Dialog", 1, 14));
+			jLabelLine1.setFont(descriptionFont);
 			jLabelLine1.setHorizontalAlignment(SwingConstants.CENTER);
 			jLabelLine1.setText(s1);
 			npElementRect.add(jLabelLine1);
@@ -346,26 +356,26 @@ public class NetzplanElementSwingGenerator {
 		npElementRect.setBounds(30, 65, 300, 150);
 
 		/** Writing FAZ */
-		jLabelFAZ.setFont(new java.awt.Font("Dialog", 1, 16));
+		jLabelFAZ.setFont(outerTextFont);
 		jLabelFAZ.setText(String.valueOf(np.getFaz()));
 		npElementContainer.add(jLabelFAZ);
 		jLabelFAZ.setBounds(30, 41, 40, 20);
 
 		/** Writing FEZ */
-		jLabelFEZ.setFont(new java.awt.Font("Dialog", 1, 16));
+		jLabelFEZ.setFont(outerTextFont);
 		jLabelFEZ.setHorizontalAlignment(SwingConstants.RIGHT);
 		jLabelFEZ.setText(String.valueOf(np.getFez()));
 		npElementContainer.add(jLabelFEZ);
 		jLabelFEZ.setBounds(290, 41, 40, 20);
 
 		/** Writing SAZ */
-		jLabelSAZ.setFont(new java.awt.Font("Dialog", 1, 16));
+		jLabelSAZ.setFont(outerTextFont);
 		jLabelSAZ.setText(String.valueOf(np.getSaz()));
 		npElementContainer.add(jLabelSAZ);
 		jLabelSAZ.setBounds(30, 217, 40, 20);
 
 		/** Writing SEZ */
-		jLabelSEZ.setFont(new java.awt.Font("Dialog", 1, 16));
+		jLabelSEZ.setFont(outerTextFont);
 		jLabelSEZ.setHorizontalAlignment(SwingConstants.RIGHT);
 		jLabelSEZ.setText(String.valueOf(np.getSez()));
 		npElementContainer.add(jLabelSEZ);
@@ -383,14 +393,21 @@ public class NetzplanElementSwingGenerator {
 	}
 
 	/**
-	 * Returns the length of the text in pixel.
-	 * @param text
-	 * @return
+	 * @return Height of the network plan element
 	 */
-	public int getTextLength(String text) {
+	public int getHeight() {
+		return height;
+	}
+
+	/**
+	 * Returns the length of the description text in pixel.
+	 * @param text The text to get the length from
+	 * @param font Font that the text is written with
+	 * @return Length of the text in pixel
+	 */
+	public int getTextLength(String text, Font font) {
 		return (int) Math.round(
-			(new Font("Dialog", 0, 14)
-				.getStringBounds(text, 0, text.length(), new FontRenderContext(new AffineTransform(), false, false)))
+			(font.getStringBounds(text, 0, text.length(), new FontRenderContext(new AffineTransform(), false, false)))
 				.getWidth());
 	}
 

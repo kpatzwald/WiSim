@@ -51,15 +51,13 @@ public class NetzplanElement {
 
 	private Collection vorgaengerBasket;
 
-	private boolean selected;
-
 	private double anchorTopXPos = 0;
 	private double anchorBottomXPos = 0;
 	private double anchorTopYPos = 0;
 	private double anchorBottomYPos = 0;
 
 	/**
-	 * [DoItBen] Kommentar Konstruktor NetzplanElement()
+	 * Class representating one networkplan element
 	 * @param nummer
 	 * @param dauer
 	 * @param nachfolger
@@ -72,7 +70,6 @@ public class NetzplanElement {
 		vorgaengerBasket = new Vector();
 		this.bezeichnung = bezeichnung;
 		criticalPath = false;
-		selected = false;
 	}
 
 	/**
@@ -84,49 +81,55 @@ public class NetzplanElement {
 	}
 
 	/**
-	 *  Set the duration of the network plan element
-	 * @param d
+	 * Set the duration
+	 * @param dauer
 	 */
-	public void setDauer(double d) {
-		dauer = d;
+	public void setDauer(double dauer) {
+		this.dauer = dauer;
 	}
 
 	/**
-	 * @return
+	 * Get the earliest timepoint to begin
+	 * @return faz
 	 */
 	public double getFaz() {
 		return faz;
 	}
 
 	/**
-	 * @return
+	 * Get the earliest timepoint to end
+	 * @return fez
 	 */
 	public double getFez() {
 		return fez;
 	}
 
 	/**
-	 * @return
+	 * Get the free buffer
+	 * @return fp
 	 */
 	public double getFp() {
 		return fp;
 	}
 
 	/**
-	 * @return
+	 * Get whole buffer
+	 * @return gp
 	 */
 	public double getGp() {
 		return gp;
 	}
 
 	/**
-	 * @return
+	 * Get the latest timepoint to begin
+	 * @return saz
 	 */
 	public double getSaz() {
 		return saz;
 	}
 
 	/**
+	 * Get the latest timepoint to end
 	 * @return
 	 */
 	public double getSez() {
@@ -134,115 +137,123 @@ public class NetzplanElement {
 	}
 
 	/**
-	 * @param d
+	 * Set the earliest timepoint to begin
+	 * @param faz
 	 */
-	public void setFaz(double d) {
-		faz = d;
+	public void setFaz(double faz) {
+		this.faz = faz;
 	}
 
 	/**
-	 * @param d
+	 * Set the latest timepoint to begin
+	 * @param fez
 	 */
-	public void setFez(double d) {
-		fez = d;
+	public void setFez(double fez) {
+		this.fez = fez;
 	}
 
 	/**
-	 * @param d
+	 * Set the free buffer
+	 * @param fp
 	 */
-	public void setFp(double d) {
-		fp = d;
+	public void setFp(double fp) {
+		this.fp = fp;
 	}
 
 	/**
-	 * @param d
+	 * Set the whole buffer
+	 * @param gp
 	 */
-	public void setGp(double d) {
-		gp = d;
+	public void setGp(double gp) {
+		this.gp = gp;
 	}
 
 	/**
-	 * @param d
+	 * Set the latest timepoint to begin
+	 * @param saz
 	 */
-	public void setSaz(double d) {
-		saz = d;
+	public void setSaz(double saz) {
+		this.saz = saz;
 	}
 
 	/**
-	 * @param d
+	 * Set the latest timepoint to end
+	 * @param sez
 	 */
-	public void setSez(double d) {
-		sez = d;
+	public void setSez(double sez) {
+		this.sez = sez;
 	}
 
 	/**
-	 * @return
+	 * Get number
+	 * @return nummer
 	 */
 	public int getNummer() {
 		return nummer;
 	}
 
 	/**
-	 * @param i
+	 * Set number
+	 * @param nummer
 	 */
-	public void setNummer(int i) {
-		nummer = i;
+	public void setNummer(int nummer) {
+		this.nummer = nummer;
 	}
 
 	/**
-	 * @return
+	 * Get array with number of parent elements
+	 * @return vorgaenger
 	 */
 	public int[] getVorgaenger() {
 		return vorgaenger;
 	}
 
 	/**
-	 * @param is
+	 * Set parents
+	 * @param vorgaenger
 	 */
-	public void setVorgaenger(int[] is) {
-		vorgaenger = is;
+	public void setVorgaenger(int[] vorgaenger) {
+		this.vorgaenger = vorgaenger;
 	}
 
 	/**
-	 * @return
+	 * Get array with number of child elements
+	 * @return nachfolger
 	 */
 	public int[] getNachfolger() {
 		return nachfolger;
 	}
 
 	/**
-	 * @param is
+	 * Set childs
+	 * @param nachfolger
 	 */
-	public void setNachfolger(int[] is) {
-		nachfolger = is;
+	public void setNachfolger(int[] nachfolger) {
+		this.nachfolger = nachfolger;
 	}
 
 	/**
-	 * @return
+	 * @return vorgaengerBasket
 	 */
 	public Collection getVorgaengerBasket() {
 		return vorgaengerBasket;
 	}
 
 	/**
-	 * @param collection
+	 * @param vorgaengerBasket
 	 */
-	public void setVorgaengerBasket(Collection collection) {
-		vorgaengerBasket = collection;
+	public void setVorgaengerBasket(Collection vorgaengerBasket) {
+		this.vorgaengerBasket = vorgaengerBasket;
 	}
 
 	/**
-	 * [DoItBen] Kommentar für addIntoVorgaengerBasket()
 	 * @param vorgaenger
 	 */
 	public void addIntoVorgaengerBasket(Integer vorgaenger) {
 		vorgaengerBasket.add(vorgaenger);
 	}
 
-	/**
-	 * [DoItBen] Kommentar für getFromVorgaengerBasket()
-	 * 
-	 */
+	/** Set this elements parents */
 	public void getFromVorgaengerBasket() {
 		Iterator vorgaengerBasketIt = vorgaengerBasket.iterator();
 		vorgaenger = new int[vorgaengerBasket.size()];
@@ -254,21 +265,22 @@ public class NetzplanElement {
 	}
 
 	/**
-	 * @return
+	 * Get the description
+	 * @return bezeichnung
 	 */
 	public String getBezeichnung() {
 		return bezeichnung;
 	}
 
 	/**
-	 * @param string
+	 * Set the description
+	 * @param description
 	 */
-	public void setBezeichnung(String string) {
-		bezeichnung = string;
+	public void setBezeichnung(String bezeichnung) {
+		this.bezeichnung = bezeichnung;
 	}
 
 	/**
-	 * [DoItBen] Kommentar für isStartElem()
 	 * @return
 	 */
 	public boolean isStartElem() {
@@ -279,7 +291,6 @@ public class NetzplanElement {
 	}
 
 	/**
-	 * [DoItBen] Kommentar für isEndElem()
 	 * @return
 	 */
 	public boolean isEndElem() {
@@ -296,80 +307,73 @@ public class NetzplanElement {
 	}
 
 	/**
-	 * @param b
+	 * @param isCriticalPath
 	 */
-	public void setCriticalPath(boolean b) {
-		criticalPath = b;
-	}
-	/**
-	 * [DoItBen] Kommentar für isSelected()
-	 * @return
-	 */
-	public boolean isSelected() {
-		return selected;
+	public void setCriticalPath(boolean isCriticalPath) {
+		criticalPath = isCriticalPath;
 	}
 
 	/**
-	 * [DoItBen] Kommentar für setSelected()
-	 * @param b
-	 */
-	public void setSelected(boolean b) {
-		selected = b;
-	}
-
-	/**
-	 * @return
+	 * Get x-Position of the middle-connection-line at the bottom of the element
+	 * @return anchorBottomXPos
 	 */
 	public double getAnchorBottomXPos() {
 		return anchorBottomXPos;
 	}
 
 	/**
-	 * @return
+	 * Get y-Position of the middle-connection-line at the bottom of the element
+	 * @return anchorBottomYPos
 	 */
 	public double getAnchorBottomYPos() {
 		return anchorBottomYPos;
 	}
 
 	/**
-	 * @return
+	 * Get x-Position of the middle-connection-line at the top of the element
+	 * @return anchorTopXPos
 	 */
 	public double getAnchorTopXPos() {
 		return anchorTopXPos;
 	}
 
 	/**
-	 * @return
+	 * Get y-Position of the middle-connection-line at the top of the element
+	 * @return anchorTopYPos
 	 */
 	public double getAnchorTopYPos() {
 		return anchorTopYPos;
 	}
 
 	/**
-	 * @param d
+	 * Set x-Position of the middle-connection-line at the bottom of the element
+	 * @param anchorBottomXPos
 	 */
-	public void setAnchorBottomXPos(double d) {
-		anchorBottomXPos = d;
+	public void setAnchorBottomXPos(double anchorBottomXPos) {
+		this.anchorBottomXPos = anchorBottomXPos;
 	}
 
 	/**
-	 * @param d
+	 * Set y-Position of the middle-connection-line at the bottom of the element
+	 * @param anchorBottomYPos
 	 */
-	public void setAnchorBottomYPos(double d) {
-		anchorBottomYPos = d;
+	public void setAnchorBottomYPos(double anchorBottomYPos) {
+		this.anchorBottomYPos = anchorBottomYPos;
 	}
 
 	/**
-	 * @param d
+	 * Set x-Position of the middle-connection-line at the top of the element
+	 * @param anchorTopXPos
 	 */
-	public void setAnchorTopXPos(double d) {
-		anchorTopXPos = d;
+	public void setAnchorTopXPos(double anchorTopXPos) {
+		this.anchorTopXPos = anchorTopXPos;
 	}
 
 	/**
-	 * @param d
+	 * Set y-Position of the middle-connection-line at the top of the element
+	 * @param anchorTopYPos
 	 */
-	public void setAnchorTopYPos(double d) {
-		anchorTopYPos = d;
+	public void setAnchorTopYPos(double anchorTopYPos) {
+		this.anchorTopYPos = anchorTopYPos;
 	}
 }

@@ -37,12 +37,15 @@ public class NetzplanCalculator {
 	private Iterator npElemIt;
 
 	/**
-	 * [DoItBen] Kommentar Konstruktor NetzplanCalculator()
+	 * Calculates a networkplan element
 	 * @param npElemente
 	 */
 	public NetzplanCalculator(Vector npElemente) {
 		this.npElemente = npElemente;
 		npElemIt = npElemente.iterator();
+
+		/** Sort the Vector holding the networkplan elements */
+		sortNp();
 
 		/** Set the parent networkplan elements */
 		setVorgaenger();
@@ -157,7 +160,8 @@ public class NetzplanCalculator {
 			int nachfolger[] = npElem.getNachfolger();
 			if (nachfolger[0] != 0) {
 				int i = 1;
-				double minFaz = ((NetzplanElement) npElemente.get(nachfolger[0] - 1)).getFaz();;
+				double minFaz = ((NetzplanElement) npElemente.get(nachfolger[0] - 1)).getFaz();
+				;
 				while (i < nachfolger.length) {
 					NetzplanElement npElemVorgaenger = (NetzplanElement) npElemente.get(nachfolger[i] - 1);
 					if (minFaz > npElemVorgaenger.getFaz())
@@ -190,17 +194,17 @@ public class NetzplanCalculator {
 	 * Returns the number of branches in the network plan 
 	 * @return Width (Branches) of the network plan
 	 */
-	public double getMaxWidthOfNetzplan() {
-		double maxWidth = 1;
+	public int getCountedBranches() {
+		int countedBranches = 1;
 		npElemIt = npElemente.iterator();
 		while (npElemIt.hasNext()) {
 			NetzplanElement npElem = (NetzplanElement) npElemIt.next();
 			int actWidth = npElem.getNachfolger().length;
 
 			if (actWidth > 1)
-				maxWidth += actWidth;
+				countedBranches += actWidth;
 		}
-		return maxWidth;
+		return countedBranches;
 	}
 
 	/**
@@ -208,5 +212,17 @@ public class NetzplanCalculator {
 	 */
 	public Vector getNpElemente() {
 		return npElemente;
+	}
+
+	/** Resort element-Vector. Each element is set at element-number -1. */
+	public void sortNp() {
+		
+		Vector sortedNpElemente = new Vector();
+
+		while (npElemIt.hasNext()) {
+			NetzplanElement np = (NetzplanElement) npElemIt.next();
+			sortedNpElemente.add(np.getNummer() - 1, np);
+		}
+		npElemente = sortedNpElemente;
 	}
 }

@@ -24,8 +24,6 @@
 package net.sourceforge.wisim.networkplan;
 
 import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Vector;
@@ -35,7 +33,7 @@ import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
 /**
- * [DoItBen] Kommentar Klasse NetzplanGrafikSwingGenerator
+ * Class for generating the networkplan element on a JPanel
  * @author benjamin.pasero
  * @version 0.5a
  */
@@ -43,34 +41,37 @@ public class NetzplanSwingGenerator {
 
 	private Vector npElemente;
 	private NetzplanCalculator npCalc;
-	private Graphics g;
 	private int[][] position;
 	private Vector tupel[];
-	private double maxWidth;
-	private BufferedImage netzplanGrafik;
-	private int selected;
 
 	private int maxWidthPos;
 	private int maxHeightPos;
 
+	private final int maxPosX;
+	private final int maxPosY;
+
 	private JPanel jPanelNetworkplanContainer;
 
 	/**
-	 * [DoItBen] Kommentar Konstruktor NetzplanSwingGenerator()
+	 * Initialize the position-Matrix and tupel-Array for each row.
+	 * Add each networkplan element on a JPanel. 
 	 * @param npElemente
 	 */
 	public NetzplanSwingGenerator(Vector npElemente) {
 
-		/** [DoItBen] Tupel-Array muss dynamische Größe haben */
-		tupel = new Vector[100];
+		/** Guess the x and y spread of the network plan 
+		  * [DoItBen] tupel-size merkwürdig! 
+		  */
+		maxPosX = npElemente.size();
+		maxPosY = npElemente.size();
+		tupel = new Vector[maxPosY*2];
 
 		/** 
 		 * Matrix for positioning of the elements 
-		 * [DoItBen] Positions-Array muss dynamische Größe haben
 		 */
-		position = new int[20][20];
-		for (int a = 0; a < 20; a++)
-			for (int b = 0; b < 20; b++)
+		position = new int[maxPosX][maxPosY];
+		for (int a = 0; a < maxPosX; a++)
+			for (int b = 0; b < maxPosY; b++)
 				position[a][b] = 0;
 
 		this.npElemente = npElemente;
@@ -80,23 +81,22 @@ public class NetzplanSwingGenerator {
 		/** [DoItBen] Korrekte Anzeige des kritischen Pfades */
 		//showCriticalPath(); <- Some Bugs. Fixes in future versions!
 
-		maxWidth = npCalc.getMaxWidthOfNetzplan();
 		calculatePositions();
 
-		/** Max. size of image: Width */
+		/** Max. size of networkplan: Width */
 		maxWidthPos = 0;
-		for (int a = 0; a < 20; a++) {
-			for (int b = 0; b < 20; b++) {
+		for (int a = 0; a < maxPosX; a++) {
+			for (int b = 0; b < maxPosY; b++) {
 				if (position[a][b] != 0) {
 					maxWidthPos = a + 1;
 				}
 			}
 		}
 
-		/** Max. size of image: Height */
+		/** Max. size of networkplan: Height */
 		maxHeightPos = 0;
-		for (int a = 0; a < 20; a++) {
-			for (int b = 0; b < 20; b++) {
+		for (int a = 0; a < maxPosY; a++) {
+			for (int b = 0; b < maxPosX; b++) {
 				if (position[b][a] != 0) {
 					maxHeightPos = a + 1;
 				}
@@ -111,7 +111,7 @@ public class NetzplanSwingGenerator {
 		paintSwingElmements();
 	}
 
-	/** Paints the network plan */
+	/** Sets the swing elements and builds the network plan */
 	public void paintSwingElmements() {
 
 		/** Count the elements of the tupel */
@@ -125,6 +125,7 @@ public class NetzplanSwingGenerator {
 			a++;
 		}
 
+		/** Array with networkplan elements swing generators */
 		NetzplanElementSwingGenerator npGen[] = new NetzplanElementSwingGenerator[count];
 		a = 0;
 		while (a < npGen.length) {
@@ -135,9 +136,13 @@ public class NetzplanSwingGenerator {
 		int i = 0;
 		int freeWidth = 0;
 
+		/** JPanel holding the networkplan element */
 		JPanel npElemPanel;
 
-		/** Paint the middle of the tree with the most elements */
+		/*********************************************************
+		 *  Paint the middle of the tree with the most elements  *
+		 *********************************************************/
+
 		int middlePos = getMostWidthRow() - 1;
 		int middlePosElements = tupel[middlePos].size();
 
@@ -177,7 +182,10 @@ public class NetzplanSwingGenerator {
 			i++;
 		}
 
-		/** Paint the elements top of the middle */
+		/******************************************
+		 *  Paint the elements top of the middle  *
+		 ******************************************/
+
 		int topPos = middlePos - 1;
 
 		while (topPos >= 0) {
@@ -243,7 +251,10 @@ public class NetzplanSwingGenerator {
 			topPos--;
 		}
 
-		/** Paint the elements in the bottom of the middle */
+		/****************************************************
+		 *  Paint the elements in the bottom of the middle  *
+		 ****************************************************/
+
 		int bottomPos = middlePos + 1;
 
 		while (tupel[bottomPos] != null) {
@@ -343,14 +354,10 @@ public class NetzplanSwingGenerator {
 				 * back an unsorted list of elements!! Perhaps i'll fix this in future versions
 				 */
 				while (u < vorgaenger.length) {
-					if ((int) ((NetzplanElement) npElemente.get(vorgaenger[u] - 1)).getAnchorBottomXPos()
-						< xPosStartMin)
-						xPosStartMin =
-							(int) ((NetzplanElement) npElemente.get(vorgaenger[u] - 1)).getAnchorBottomXPos();
-					if ((int) ((NetzplanElement) npElemente.get(vorgaenger[u] - 1)).getAnchorBottomXPos()
-						> xPosStartMax)
-						xPosStartMax =
-							(int) ((NetzplanElement) npElemente.get(vorgaenger[u] - 1)).getAnchorBottomXPos();
+					if ((int) ((NetzplanElement) npElemente.get(vorgaenger[u] - 1)).getAnchorBottomXPos() < xPosStartMin)
+						xPosStartMin = (int) ((NetzplanElement) npElemente.get(vorgaenger[u] - 1)).getAnchorBottomXPos();
+					if ((int) ((NetzplanElement) npElemente.get(vorgaenger[u] - 1)).getAnchorBottomXPos() > xPosStartMax)
+						xPosStartMax = (int) ((NetzplanElement) npElemente.get(vorgaenger[u] - 1)).getAnchorBottomXPos();
 
 					if (yPosStart < (int) ((NetzplanElement) npElemente.get(vorgaenger[u] - 1)).getAnchorBottomYPos())
 						yPosStart = (int) ((NetzplanElement) npElemente.get(vorgaenger[u] - 1)).getAnchorBottomYPos();
@@ -401,7 +408,8 @@ public class NetzplanSwingGenerator {
 	/**
 	 * Calculate the positions of the elements in the matrix position[x][y]
 	 * position is a coordinate system with x and y axis. Each x/y-coordinate
-	 * can contain a number of a network plan element
+	 * can contain a number of a network plan element. This is used to get
+	 * the row of the networkplan with the biggest width.
 	 */
 	public void calculatePositions() {
 
@@ -485,10 +493,7 @@ public class NetzplanSwingGenerator {
 							 * this child dont exist 
 							 */
 						} else {
-							tupel[i
-								+ 1].add(
-									new Integer(
-										((NetzplanElement) npElemente.get(currentElem - 1)).getNummer() * (-1)));
+							tupel[i + 1].add(new Integer(((NetzplanElement) npElemente.get(currentElem - 1)).getNummer() * (-1)));
 						}
 					}
 					b++;
@@ -498,33 +503,9 @@ public class NetzplanSwingGenerator {
 			i++;
 		}
 
-		/** START Debug output */
-		int blub = 0;
-		while (blub < i) {
-
-			String string = "";
-			Vector test = (Vector) tupel[blub];
-			Iterator testIt = test.iterator();
-			while (testIt.hasNext()) {
-				int tempInt = ((Integer) testIt.next()).intValue();
-				int outInt = tempInt;
-				if (tempInt < 0)
-					tempInt *= -1;
-
-				if (tempInt != 0) {
-					NetzplanElement npEle = (NetzplanElement) npElemente.get(tempInt - 1);
-					string = string + " " + (outInt);
-				} else {
-					string = string + " 0";
-				}
-			}
-			System.out.println("Tupel[" + blub + "]: " + string);
-			blub++;
-		}
-
 		/** Set the positions */
 		int j = 0;
-		while (tupel[j] != null) {
+		while (j < i) {
 			Vector actTupel = tupel[j];
 			Iterator actTupelIt = actTupel.iterator();
 			int k = 0;
@@ -541,6 +522,32 @@ public class NetzplanSwingGenerator {
 			}
 			j++;
 		}
+
+		/** START Debug output */
+		int e = 0;
+		while (e < i) {
+
+			String string = "";
+			Vector test = (Vector) tupel[e];
+			Iterator testIt = test.iterator();
+			while (testIt.hasNext()) {
+				int tempInt = ((Integer) testIt.next()).intValue();
+				int outInt = tempInt;
+				if (tempInt < 0)
+					tempInt *= -1;
+
+				if (tempInt != 0) {
+					NetzplanElement npEle = (NetzplanElement) npElemente.get(tempInt - 1);
+					string = string + " " + (outInt);
+				} else {
+					string = string + " 0";
+				}
+			}
+			System.out.println("Tupel[" + e + "]: " + string);
+			e++;
+		}
+		/** END Debug output */
+
 	}
 
 	/**
@@ -567,24 +574,21 @@ public class NetzplanSwingGenerator {
 		return position;
 	}
 	/**
-	 * [DoItBen] Kommentar für getMaxHeightPos()
-	 * @return
+	 * @return maxHeightPos
 	 */
 	public int getMaxHeightPos() {
 		return maxHeightPos;
 	}
 
 	/**
-	 * [DoItBen] Kommentar für getMaxWidth()
-	 * @return
+	 * @return maxWidthPos
 	 */
 	public int getMaxWidthPos() {
 		return maxWidthPos;
 	}
 
 	/**
-	 * [DoItBen] Kommentar für getMostWidthRow()
-	 * @return
+	 * @return row with the most width
 	 */
 	public int getMostWidthRow() {
 
@@ -604,6 +608,11 @@ public class NetzplanSwingGenerator {
 		return tupelPos + 1;
 	}
 
+	/**
+	 * Calculates the width that each child-Element has because of its parents
+	 * @param tupelNr the row number
+	 * @return childWidth
+	 */
 	public Hashtable getRelWidthOfChilds(int tupelNr) {
 
 		Vector childs = tupel[tupelNr];
