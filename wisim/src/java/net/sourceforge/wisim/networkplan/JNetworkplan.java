@@ -64,8 +64,7 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 
 	/** Variables for movement of an element */
 	private int x1, y1;
-	private int maxX;
-	private int maxY;
+	private int maxX, maxY;
 	private boolean dragging;
 	private int offsetX, offsetY;
 	private JNetworkplanElement movedElement;
@@ -153,13 +152,18 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 				}
 			}
 		}
-		
-		/** [DoItBen] Max Width Element holen! */
-		maxX = getMaxWidthPos() * 430;
-		maxY = getMaxHeightPos() * 280;
 
 		/** Get all JNetworkplanElements on this JNetworkplan */
 		paintJNetworkplanElements();
+
+		/** Get the max width and hight in px */
+		for (int a = 0; a < jNpElem.length; a++) {
+			if ((jNpElem[a].getLocation().getX() + jNpElem[a].getSize().getWidth()) > maxX)
+				maxX = (int) jNpElem[a].getLocation().getX() + (int) jNpElem[a].getSize().getWidth();
+
+			if ((jNpElem[a].getLocation().getY() + jNpElem[a].getSize().getHeight()) > maxY)
+				maxY = (int) jNpElem[a].getLocation().getY() + (int) jNpElem[a].getSize().getHeight();
+		}
 	}
 
 	/** Default constructor */
@@ -744,16 +748,14 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 				y1 = 0;
 
 			/** Set horizontal and vertical Scrollbars if needed */
-			if (x1 > maxX)
-				maxX = x1;
+			if ((x1 + movedElement.getSize().getWidth()) > maxX)
+				maxX = x1 + (int) movedElement.getSize().getWidth();
 
-			if (y1 > maxY)
-				maxY = y1;
+			if ((y1 + movedElement.getSize().getHeight()) > maxY)
+				maxY = y1 + (int) movedElement.getSize().getHeight();
 
-			int difX = (int) (maxX + movedElement.getSize().getWidth() - getSize().getWidth());
-			int difY = (int) (maxY + movedElement.getSize().getHeight() - getSize().getHeight());
-
-			Dimension newD = new Dimension((int) getSize().getWidth() + difX, (int) getSize().getHeight() + difY);
+			/** Set new dimension with padding */
+			Dimension newD = new Dimension(maxX + jNPaddingX, maxY + jNPaddingY);
 			scrollRectToVisible(new Rectangle(newD));
 			setPreferredSize(newD);
 
