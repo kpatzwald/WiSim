@@ -2525,6 +2525,24 @@ public class WiSimDAOImpl implements WiSimDAO {
 		return networkplanElements;
 	}
 
+	/**
+		 * Update a workplace
+		 * @param workplace
+		 * @throws WiSimDAOWriteException If an error occurs
+		 */
+	public void updateWorkplace(WorkPlace workplace) throws WiSimDAOWriteException {
+		String sql = "UPDATE ap SET ap_Beschreibung = '" + workplace.getBeschreibung() + "', ap_Dauer = '" + workplace.getDauer() + "' WHERE ap_Nr = " + workplace.getNr();
+
+		try {
+			// Create a Statement
+			Statement stmt = conn.createStatement();
+			stmt.executeUpdate(sql);
+
+		} catch (SQLException e) {
+			throw new WiSimDAOWriteException(e.getMessage());
+		}
+	}
+
 	/** Resets the DB
 	 * 
 	 * @throws WiSimDAOException If an error occurs

@@ -30,23 +30,23 @@
 package net.sourceforge.wisim.dao;
 
 import java.util.Collection;
-import java.util.Vector;
 import java.util.Hashtable;
+import java.util.Vector;
 
-import net.sourceforge.wisim.model.WorkPlace;
 import net.sourceforge.wisim.model.Article;
-import net.sourceforge.wisim.model.WorkPlaceStore;
-import net.sourceforge.wisim.model.OrderItem;
-import net.sourceforge.wisim.model.ContractAccount;
-import net.sourceforge.wisim.model.WiSimComponent;
+import net.sourceforge.wisim.model.City;
 import net.sourceforge.wisim.model.ComponentContract;
 import net.sourceforge.wisim.model.ComponentContractAccount;
+import net.sourceforge.wisim.model.Contract;
+import net.sourceforge.wisim.model.ContractAccount;
 import net.sourceforge.wisim.model.Customer;
+import net.sourceforge.wisim.model.Memo;
+import net.sourceforge.wisim.model.OrderItem;
 import net.sourceforge.wisim.model.Supplier;
 import net.sourceforge.wisim.model.SupplyList;
-import net.sourceforge.wisim.model.Memo;
-import net.sourceforge.wisim.model.City;
-import net.sourceforge.wisim.model.Contract;
+import net.sourceforge.wisim.model.WiSimComponent;
+import net.sourceforge.wisim.model.WorkPlace;
+import net.sourceforge.wisim.model.WorkPlaceStore;
 
 /** Interface for accessing persitent data, saved in a sql database.
  *
@@ -532,7 +532,15 @@ public interface WiSimDAO {
 	 */
 	public Vector getNetworkplanElements() throws WiSimDAOException;
 	
-	/** Resets the db
+	/**
+	 * Update a workplace
+	 * @param workplace
+	 * @throws WiSimDAOWriteException If an error occurs
+	 */
+	public void updateWorkplace(WorkPlace workplace) throws WiSimDAOWriteException;
+	
+	/** 
+	 * Resets the db
 	 * 
 	 * @throws WiSimDAOException If an error occurs
 	 */
