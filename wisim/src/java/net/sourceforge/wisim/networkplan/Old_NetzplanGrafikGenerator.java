@@ -47,7 +47,6 @@ public class Old_NetzplanGrafikGenerator {
 	private Graphics g;
 	private int[][] position;
 	private Vector tupel[];
-	private double maxWidth;
 	private BufferedImage netzplanGrafik;
 
 	public Old_NetzplanGrafikGenerator(Vector npElemente) {
@@ -64,7 +63,6 @@ public class Old_NetzplanGrafikGenerator {
 		npCalc = new NetworkplanCalculator(npElemente);
 		npElemente = npCalc.getNpElemente();
 		showCriticalPath();
-		maxWidth = npCalc.getCountedBranches();
 		
 		calculatePositions();
 

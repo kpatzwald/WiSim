@@ -44,20 +44,12 @@ import java.awt.image.*;
 public class JPanelIncomingPayments extends javax.swing.JPanel {
     
     private WiSimDAO dao;
-    private Vector rechnungsListe;
     private Hashtable vertragObjekte;  
     private Hashtable rechnungObjekte;     
     private Hashtable kundeObjekte;     
-    private Collection etatPos;
     private int anzahl;
-    private int posAnzahl;
-    private double summe;
-    private double skontoToCalc;
-    private double lieferrabattToCalc;
     private Color darkgreen = new Color(51, 153, 51);
     private Color red = new Color(255, 0, 0);
-    private Color orange = new Color(255, 153, 0);
-    private int positionen;
     private boolean isActive;
     private boolean isBuilt;
     private WiSimMainController wiSimMainController;
@@ -71,13 +63,7 @@ public class JPanelIncomingPayments extends javax.swing.JPanel {
         vertragObjekte = new Hashtable();
         rechnungObjekte = new Hashtable();
         kundeObjekte = new Hashtable();
-        rechnungsListe = new Vector();
-        etatPos = new Vector();
         anzahl = 0;
-        posAnzahl = 0;
-        summe = 0;
-        skontoToCalc = 0;
-        lieferrabattToCalc = 0;
         isActive = false;
         isBuilt = false;
         initComponents();
@@ -415,8 +401,7 @@ public class JPanelIncomingPayments extends javax.swing.JPanel {
         Collection Vertraege = null;
         Vertraege = dao.getVertraege();
         Iterator it_Vertrag = Vertraege.iterator();
-       
-        positionen = 0;
+
         int i=0;
         anzahl = Vertraege.size();
         setTabelle();

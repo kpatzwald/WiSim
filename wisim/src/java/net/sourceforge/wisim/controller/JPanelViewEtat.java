@@ -54,7 +54,6 @@ public class JPanelViewEtat extends javax.swing.JPanel {
 	private double calcedGesamt;
 	private static Color darkgreen = new Color(51, 153, 51);
 	private static Color red = new Color(255, 0, 0);
-	private static Color orange = new Color(255, 153, 0);
 	private boolean isBuilt;
 	private boolean isActive;
         private WiSimMainController wiSimMainController;

@@ -61,15 +61,8 @@ public class JPanelNewContract extends JPanel {
 	private Hashtable kundenTabelle;
 	private Hashtable artikelTabelle;
 	private Hashtable artikelObjekt;
-	private Vector artikel;
 	private float mwst;
-	private double rabattwert;
-	private double skontowert;
-	private double angebotsPreis;
-	private double stueckPreis;
-	private double zwischensum1;
-	private long mengenwert;
-	private boolean skontofrist;
+
 	private Validator validate;
 	private WiSimMainController wiSimMainController;
 	//Logger
@@ -84,15 +77,7 @@ public class JPanelNewContract extends JPanel {
 		kundenTabelle = new Hashtable();
 		artikelTabelle = new Hashtable();
 		artikelObjekt = new Hashtable();
-		artikel = new Vector();
 		validate = new Validator();
-		rabattwert = 0;
-		skontowert = 0;
-		mengenwert = 0;
-		angebotsPreis = 0;
-		zwischensum1 = 0;
-		stueckPreis = 0;
-		skontofrist = false;
 		initComponents();
 		ladeMwSt();
 		form = new DecimalFormat("###,##0.00");
@@ -785,10 +770,8 @@ public class JPanelNewContract extends JPanel {
 			}
 			if (skonto != null) {
 				jTextFieldSkonto.setText(skonto);
-				skontowert = Double.parseDouble(skonto);
 			} else {
 				jTextFieldSkonto.setText("");
-				skontowert = 0;
 			}
 
 		}
@@ -848,10 +831,8 @@ public class JPanelNewContract extends JPanel {
 			}
 			if (rabatt != null) {
 				jTextFieldRabatt.setText(rabatt);
-				rabattwert = Double.parseDouble(rabatt);
 			} else {
 				jTextFieldRabatt.setText("");
-				rabattwert = 0;
 			}
 		}
 	}
@@ -943,10 +924,6 @@ public class JPanelNewContract extends JPanel {
 	 * gefordert.
 	 */
 	private void pruefeAbnahmemenge() {
-
-		angebotsPreis = 0;
-		zwischensum1 = 0;
-
 		String abnahmemenge = jTextFieldNeuerVertragAbnahmemenge.getText();
 		boolean abnahmemengeOk = false;
 		if (!abnahmemenge.equals("") && abnahmemenge != null) {
@@ -962,10 +939,8 @@ public class JPanelNewContract extends JPanel {
 			}
 			if (abnahmemenge != null) {
 				jTextFieldNeuerVertragAbnahmemenge.setText(abnahmemenge);
-				mengenwert = Long.parseLong(abnahmemenge);
 			} else {
 				jTextFieldNeuerVertragAbnahmemenge.setText("");
-				mengenwert = 0;
 			}
 
 		}
@@ -1174,11 +1149,6 @@ public class JPanelNewContract extends JPanel {
 		if (auswahlArtikel != null) {
 			//Gibt aus dem vorher ausgewähltem und dann gespeichertem Artikelobjekt den Stückpreis aus
 			jTextFieldNeuerVertragStueckpreis.setText(form.format(auswahlArtikel.getStueckpreis()));
-			try {
-				stueckPreis = form.parse(jTextFieldNeuerVertragStueckpreis.getText()).doubleValue();
-			} catch (ParseException e) {
-				wiSimLogger.log(Level.WARNING,"JPanelNeuerVertrag.ladeStueckpreis",e,false);
-			}
 			calculate();
 		} else {
 			jTextFieldNeuerVertragStueckpreis.setText("");
@@ -1294,12 +1264,6 @@ public class JPanelNewContract extends JPanel {
 		jTextFieldNeuerVertragAngebotspreisOhneSkonto.setText("");
 		jTextFieldNeuerVertragAngebotspreisMwST.setText("");
 		jTextFieldNeuerVertragAngebotspreis.setText("");
-
-		rabattwert = 0;
-		skontowert = 0;
-		mengenwert = 0;
-		angebotsPreis = 0;
-		stueckPreis = 0;
 
 		jComboBoxArtikel.setSelectedIndex(0);
 		jComboBoxKunde.setSelectedIndex(0);

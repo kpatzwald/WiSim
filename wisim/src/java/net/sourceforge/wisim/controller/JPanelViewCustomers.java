@@ -42,7 +42,6 @@ public class JPanelViewCustomers extends javax.swing.JPanel {
     private Vector verlauf;
     private Hashtable kundenObjekte;
     private Hashtable kundenAuswahl;
-    private int position;
     private int positionen;
     private WiSimLogger logger;
     
@@ -445,7 +444,6 @@ public class JPanelViewCustomers extends javax.swing.JPanel {
         jTextAreaKundenUebersichtBemerkung.setText("");
         DefaultListModel clearmodel1 = (DefaultListModel) jListTextFieldKundenUebersichtVerlauf.getModel();
         clearmodel1.removeAllElements();
-        position = 0;
     }
     
     /** Lädt Kundenverlauf zum Bearbeiten aus der Datenbank
@@ -469,22 +467,6 @@ public class JPanelViewCustomers extends javax.swing.JPanel {
             
         }catch (WiSimDAOException wde) {
             logger.log("ladeVerlauf()",wde);
-        }
-    }
-    
-    /** Lädt eine Kundennotiz aus der Datenbank
-     * @param noteNr Nummer der Bemerkung
-     */
-    private void ladeNotizen(int noteNr){
-        try {
-            Memo n = dao.getNotiz(noteNr);
-            if (n != null){
-                jTextAreaKundenUebersichtBemerkung.setText(n.getDate()+": "+n.getText());
-            }else{
-                jTextAreaKundenUebersichtBemerkung.setText("");
-            }
-        }catch (WiSimDAOException wde) {
-            logger.log("ladeNotizen(int)",wde);
         }
     }
     

@@ -40,31 +40,22 @@ import javax.swing.table.DefaultTableModel;
 
 public class JPanelViewSuppliers extends javax.swing.JPanel {
   private WiSimDAO dao;
-  private Vector alleArtikel;
   private Vector listeArtikel;
-  private Vector einzelteile;
   private Hashtable lieferantenObjekte;  
   private Hashtable lieferantenAuswahl;
   private Hashtable zubehoerTabelle;
-  private Hashtable einzelteileTabelle;
   private int position;
   private int positionen;
-  //Logger
-  private WiSimLogger wiSimLogger;
   
   /** Creates new form JPanelLieferantenliste
      * @param wiSimMainController Der Maincontroller
      */
    public JPanelViewSuppliers(WiSimMainController wiSimMainController) {
-        wiSimLogger = wiSimMainController.getWiSimLogger();  
         initComponents();
         initDAO(wiSimMainController);
         zubehoerTabelle = new Hashtable();
-        einzelteileTabelle = new Hashtable();
         lieferantenAuswahl = new Hashtable();
         lieferantenObjekte = new Hashtable();
-        einzelteile = new Vector();
-        alleArtikel = new Vector();
         listeArtikel = new Vector();
         listeArtikel.add("Bitte wählen");
   }
@@ -535,6 +526,5 @@ private void setzeStandard() {
   private javax.swing.JTextField jTextFieldLieferantPLZ;
   private javax.swing.JTextField jTextFieldLieferantEMail;
   private javax.swing.JTable jTableLieferanten;
-  // End of variables declaration//GEN-END:variables
-  
+  // End of variables declaration//GEN-END:variables 
 }

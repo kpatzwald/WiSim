@@ -54,15 +54,12 @@ import org.gjt.mm.mysql.Driver;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
-import net.sourceforge.wisim.dao.WiSimDAO;
-
 /**
  * JPanelOptions ermöglicht dem Benutzer Einstellungen vorzunehmen.
  * @author benjamin.pasero
  */
 public class JPanelOptions extends javax.swing.JPanel {
-    
-    private WiSimDAO dao;
+
     private WiSimMainController wiSimMainController;
     
     //Logger
@@ -75,12 +72,7 @@ public class JPanelOptions extends javax.swing.JPanel {
     public JPanelOptions(WiSimMainController wiSimMainController) {
         wiSimLogger = wiSimMainController.getWiSimLogger();
         initComponents();
-        initDAO(wiSimMainController);
         this.wiSimMainController = wiSimMainController;
-    }
-    
-    private void initDAO(WiSimMainController wiSimMainController) {
-        dao = wiSimMainController.getDAO();
     }
     
     /** This method is called from within the constructor to

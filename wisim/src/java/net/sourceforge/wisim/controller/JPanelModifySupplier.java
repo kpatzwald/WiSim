@@ -43,7 +43,6 @@ public class JPanelModifySupplier extends javax.swing.JPanel {
   private WiSimDAO dao;
   private Vector alleArtikel;
   private Vector listeArtikel;
-  private Vector einzelteile;
   private Hashtable lieferantenObjekte;  
   private Hashtable lieferantenAuswahl;
   private Hashtable zubehoerTabelle;
@@ -51,20 +50,21 @@ public class JPanelModifySupplier extends javax.swing.JPanel {
   private int position;
   //Logger
   private WiSimLogger wiSimLogger;
+  private WiSimMainController wiSimMainController;
   
   /** Creates new form JPanelLieferantBearbeiten
      * @param wiSimMainController Der Maincontroller
      */
   
-  public JPanelModifySupplier(WiSimMainController wiSimMainController) {
-        wiSimLogger = wiSimMainController.getWiSimLogger();  
+  public JPanelModifySupplier(WiSimMainController wiSimMainController) { 
+  		this.wiSimMainController = wiSimMainController;
+  		wiSimLogger = wiSimMainController.getWiSimLogger();
         initComponents();
         initDAO(wiSimMainController);
         zubehoerTabelle = new Hashtable();
         einzelteileTabelle = new Hashtable();
         lieferantenAuswahl = new Hashtable();
         lieferantenObjekte = new Hashtable();
-        einzelteile = new Vector();
         alleArtikel = new Vector();
         listeArtikel = new Vector();
         listeArtikel.add("Bitte wählen");
@@ -729,9 +729,9 @@ else{
                 }
             }   
         } catch (WiSimDAOException e) {
-            System.err.println(e.getMessage());
+			wiSimLogger.log("jButtonLieferantenAnlegen1ActionPerformed()", e);
         } catch (WiSimDAOWriteException e) {
-            System.err.println(e.getMessage());
+			wiSimLogger.log("jButtonLieferantenAnlegen1ActionPerformed()", e);
         }
           
         try { 
@@ -740,7 +740,7 @@ else{
             ladeLieferant();
             setzeStandard();
         }catch (Exception e) {
-            System.err.println("Fehler: " + e.getMessage());
+			wiSimLogger.log("jButtonLieferantenAnlegen1ActionPerformed()", e);
         }
     }
 }
@@ -764,7 +764,7 @@ private void ladeLieferanten() {
     try {
         lieferantenliste = dao.getLieferanten();
     } catch (WiSimDAOException e) {
-        System.err.println(e.getMessage());
+		wiSimLogger.log("ladeLieferanten()", e);
     }
     DefaultComboBoxModel model = (DefaultComboBoxModel)jComboBoxLieferantBearbeiten.getModel();
     model.removeAllElements();
@@ -823,7 +823,7 @@ private void ladeEinzelteile() {
     try {
         teile = dao.getEinzelteile();
     } catch (WiSimDAOException e) {
-        System.err.println(e.getMessage());
+		wiSimLogger.log("ladeEinzelteile()", e);
     }
     DefaultComboBoxModel model = (DefaultComboBoxModel) jComboBoxNeuerLieferantArtikel.getModel();
     model.removeAllElements();
@@ -860,9 +860,9 @@ private void loescheZugehoerigeEinzelteile(int id){
             dao.loescheLieferliste(id,liste.getEinzelteilID());
        }
     } catch (WiSimDAOException e) {
-        System.err.println(e.getMessage());
-    } catch (WiSimDAOWriteException w) {
-        System.err.println(w.getMessage());
+		wiSimLogger.log("loescheZugehoerigeEinzelteile()", e);
+    } catch (WiSimDAOWriteException e) {
+		wiSimLogger.log("loescheZugehoerigeEinzelteile()", e);
     }
 }
   
@@ -913,7 +913,7 @@ private void ladeZugehoerigeEinzelteile(int id){
             jTable1.setRowSelectionInterval(position-1, position-1);
        }
     } catch (WiSimDAOException e) {
-            System.err.println(e.getMessage());
+		wiSimLogger.log("ladeZugehoerigeEinzelteile()", e);
     }
 }
 
@@ -925,9 +925,9 @@ private void ladeZugehoerigeEinzelteile(int id){
               dao.setLieferantLoeschStatus(LtId,true);
               ladeLieferanten();
           } catch (WiSimDAOException e) {
-                   System.err.println("Fehler: " + e.getMessage());
+				wiSimLogger.log("loescheLieferant()", e);
             } catch (WiSimDAOWriteException e) {
-                     System.err.println("Fehler: " + e.getMessage());
+				wiSimLogger.log("loescheLieferant()", e);
               }
           }
   }     

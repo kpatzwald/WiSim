@@ -39,7 +39,6 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
     private WiSimDAO dao;
     private Hashtable kundenAuswahl;
     private Hashtable kundenObjekte;
-    private Hashtable kundenNotizen;
     private Vector verlauf;
     private WiSimLogger logger;
     private WiSimMainController wiSimMainController;
@@ -432,22 +431,6 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
 
     }//GEN-END:initComponents
 
-    private void jTextAreaKundeBearbeitenBemerkungFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextAreaKundeBearbeitenBemerkungFocusGained
-        // Add your handling code here:
-    }//GEN-LAST:event_jTextAreaKundeBearbeitenBemerkungFocusGained
-
-    private void jListTextFieldKundeBearbeitenVerlaufFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jListTextFieldKundeBearbeitenVerlaufFocusGained
-        // Add your handling code here:
-    }//GEN-LAST:event_jListTextFieldKundeBearbeitenVerlaufFocusGained
-
-    private void jTabbedPaneKundeBearbeitenNotizenFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTabbedPaneKundeBearbeitenNotizenFocusGained
-        // Add your handling code here:
-    }//GEN-LAST:event_jTabbedPaneKundeBearbeitenNotizenFocusGained
-
-    private void jTextAreaKundeBearbeitenBemerkungFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextAreaKundeBearbeitenBemerkungFocusLost
-        // Add your handling code here:
-    }//GEN-LAST:event_jTextAreaKundeBearbeitenBemerkungFocusLost
-
   private void jTextFieldKundeBearbeitenPLZFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldKundeBearbeitenPLZFocusGained
     actualPLZ = jTextFieldKundeBearbeitenPLZ.getText();
   }//GEN-LAST:event_jTextFieldKundeBearbeitenPLZFocusGained
@@ -646,17 +629,6 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
         }else return 0;
     }
     
-    /** Ermittelt die Aktuelle Memo
-     * @return Kundenobjekt
-     * @param noteNr Nummer der Memo
-     *
-     */
-    private Memo setSelectedNotiz(int noteNr){
-        Memo selNotiz = new Memo();
-        selNotiz = (Memo)verlauf.elementAt(noteNr);
-        return selNotiz;
-    }
-    
     /** Lädt einen Kunden zum Bearbeiten aus der Datenbank
      * @param KdID Kunden ID
      */
@@ -711,22 +683,6 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
             logger.log("ladeVerlauf(int)",wde);
         }
         
-    }
-    
-    /** Lädt eine Kundennotiz aus der Datenbank
-     * @param noteNr Nummer der Bemerkung
-     */
-    private void ladeNotizen(int noteNr){
-        try {
-            Memo n = dao.getNotiz(noteNr);
-            if (n != null){
-                jTextAreaKundeBearbeitenBemerkung.setText(n.getDate()+": "+n.getText());
-            }else{
-                jTextAreaKundeBearbeitenBemerkung.setText("");
-            }
-        }catch (WiSimDAOException wde) {
-            logger.log("ladeNotizen(int)",wde);
-        }
     }
     
     /** Gibt Notizobjekt in aktuell TAB aus

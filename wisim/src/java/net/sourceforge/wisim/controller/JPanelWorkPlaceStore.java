@@ -48,7 +48,6 @@ public class JPanelWorkPlaceStore extends javax.swing.JPanel {
     private Collection arbeitsplatzLager;
     private int apAnzahl;
     private int apElemAnzahl;
-    private JLabel label;
     private JProgressBar jprg;
     private boolean isBuilt;
     private boolean isActive;
@@ -68,7 +67,6 @@ public class JPanelWorkPlaceStore extends javax.swing.JPanel {
         arbeitsplatzLager = new Vector();
         apAnzahl = 0;
         apElemAnzahl = 0;
-        label = new JLabel();
         isBuilt = false;
         isActive = false;
         tempEingangslagerBestand = new Vector();
@@ -633,12 +631,6 @@ public class JPanelWorkPlaceStore extends javax.swing.JPanel {
                     //Zelle wird nur aktualisiert wenn sich der Bestand geändert hat.
                     if (jTableGesamtliste.getValueAt(i, 1) != null && !jTableGesamtliste.getValueAt(i, 1).equals("")) {
                         if (apLager.getBestand() != Integer.parseInt((String) jTableGesamtliste.getValueAt(i, 1))) {
-                            WiSimComponent et = new WiSimComponent();
-                            try {
-                                et = dao.getEinzelteil(apLager.getEinzelteilNr());
-                            } catch (WiSimDAOException e) {
-                                wiSimLogger.log("refreshArbeitsplatzLagerElementeTabelle()", e);
-                            }
                             
                             jTableGesamtliste.setValueAt(String.valueOf(apLager.getBestand()), i, 1);
                             

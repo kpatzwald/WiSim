@@ -52,9 +52,7 @@ public class JPanelViewContract extends javax.swing.JPanel {
 	private Hashtable auftragObjekt1;
 	private Hashtable auftragObjekt2;
 	private Hashtable kundeObjekt;
-	private Hashtable kundenId;
 	private Date auftragDateSQL;
-	private int vertragAnzahl;
 	private int rows;
 	private int selectedAuftrag1;
 	private int selectedAuftrag2;
@@ -63,9 +61,7 @@ public class JPanelViewContract extends javax.swing.JPanel {
 	private int eingabeDatumJahr;
 	private Color darkgreen = new Color(51, 153, 51);
 	private Color red = new Color(255, 0, 0);
-	private Color orange = new Color(255, 153, 0);
-	private Date heuteDateSQL;
-        private WiSimMainController wiSimMainController;
+    private WiSimMainController wiSimMainController;
 
 	//Logger
 	private WiSimLogger wiSimLogger;
@@ -77,9 +73,7 @@ public class JPanelViewContract extends javax.swing.JPanel {
 		auftragObjekt1 = new Hashtable();
 		auftragObjekt2 = new Hashtable();
 		kundeObjekt = new Hashtable();
-		kundenId = new Hashtable();
 		auftragDateSQL = null;
-		heuteDateSQL = null;
 		rows = 0;
 		kdId = 0;
 		selectedAuftrag1 = 0;
