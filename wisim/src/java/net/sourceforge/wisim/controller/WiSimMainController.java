@@ -281,15 +281,15 @@ public class WiSimMainController extends javax.swing.JFrame {
         jCheckBoxOneWeek.setText("Beende nach 1 Woche");
         jPanel2.add(jCheckBoxOneWeek);
 
-        jLabelGreen.setIcon(new javax.swing.ImageIcon("C:\\Dokumente und Einstellungen\\Ben.BENOWAR\\Desktop\\Ampel WiSim\\Final\\ampel_gruen.gif"));
+        jLabelGreen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ampel_aus.gif")));	
         jLabelGreen.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0)));
         jPanelStatus.add(jLabelGreen);
 
-        jLabelYellow.setIcon(new javax.swing.ImageIcon("C:\\Dokumente und Einstellungen\\Ben.BENOWAR\\Desktop\\Ampel WiSim\\Final\\ampel_aus.gif"));
+        jLabelYellow.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ampel_aus.gif")));	
         jLabelYellow.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0)));
         jPanelStatus.add(jLabelYellow);
 
-        jLabelRed.setIcon(new javax.swing.ImageIcon("C:\\Dokumente und Einstellungen\\Ben.BENOWAR\\Desktop\\Ampel WiSim\\Final\\ampel_aus.gif"));
+        jLabelRed.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ampel_aus.gif")));	
         jLabelRed.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0)));
         jPanelStatus.add(jLabelRed);
 
@@ -917,6 +917,10 @@ public class WiSimMainController extends javax.swing.JFrame {
 
 		/** Reset the jPanelSimulationAnalysis */
 		 ((JPanelSimulationStart) actions.get("SimulationAnalysis")).resetFields();
+	}
+	
+	public void setGreenTrafficLights(String status) {
+		jLabelGreen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ampel_gruen.gif.gif")));	
 	}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
