@@ -2,7 +2,7 @@
 **   Copyright notice                                                       **
 **                                                                          **
 **   (c) 2003 WiSim Development Team                                        **
-**   http://wisim.sourceforge.net/   			                            **
+**   http://wisim.sourceforge.net/   			                                  **
 **                                                                          **
 **   All rights reserved                                                    **
 **                                                                          **
@@ -25,7 +25,9 @@ package net.sourceforge.wisim.networkplan;
 
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -62,6 +64,8 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 
 	/** Variables for movement of an element */
 	private int x1, y1;
+	private int maxX;
+	private int maxY;
 	private boolean dragging;
 	private int offsetX, offsetY;
 	private JNetworkplanElement movedElement;
@@ -149,6 +153,10 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 				}
 			}
 		}
+		
+		/** [DoItBen] Max Width Element holen! */
+		maxX = getMaxWidthPos() * 430;
+		maxY = getMaxHeightPos() * 280;
 
 		/** Get all JNetworkplanElements on this JNetworkplan */
 		paintJNetworkplanElements();
@@ -728,12 +736,26 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 
 		if (getComponentAt(x, y).getName() != null) {
 
-			/** Do not move the element out of the visible rect */
+			/** Do not move the element out in the negative area */
 			if (x1 < 0)
 				x1 = 0;
 
 			if (y1 < 0)
 				y1 = 0;
+
+			/** Set horizontal and vertical Scrollbars if needed */
+			if (x1 > maxX)
+				maxX = x1;
+
+			if (y1 > maxY)
+				maxY = y1;
+
+			int difX = (int) (maxX + movedElement.getSize().getWidth() - getSize().getWidth());
+			int difY = (int) (maxY + movedElement.getSize().getHeight() - getSize().getHeight());
+
+			Dimension newD = new Dimension((int) getSize().getWidth() + difX, (int) getSize().getHeight() + difY);
+			scrollRectToVisible(new Rectangle(newD));
+			setPreferredSize(newD);
 
 			movedElement.setLocation(x1, y1);
 			positionConnectionLines(movedElement);
@@ -1138,7 +1160,7 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 					updateHorizontalLinesBottom(jNpElem[((NetworkplanElement) npElemente.get(parent[u] - 1)).getLayoutManager()]);
 				}
 			}
-			
+
 			/** Synchronize the position of the vertical top-line of the child */
 			syncVerticalLinesTop(childJNpElem);
 		}

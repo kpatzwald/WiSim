@@ -126,7 +126,6 @@ public class ShowNetworkplan extends JFrame {
 		/** JScrollPane holding the network plan */
 		holdAll = new JScrollPane();
 		holdAll.setBounds(0, 0, screenSize.width - 10, screenSize.height - 67);
-
 		holdAll.getViewport().add(netzplanGrafik);
 		holdAll.getVerticalScrollBar().setUnitIncrement(20);
 		holdAll.getHorizontalScrollBar().setUnitIncrement(20);
