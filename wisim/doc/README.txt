@@ -1,8 +1,8 @@
 /*   ********************************************************************   **
 **   Copyright notice                                                       **
 **                                                                          **
-**   (c) 2003 WiSim Development Team					                              **
-**   http://wisim.sourceforge.net/   			                                  **
+**   (c) 2003 WiSim Development Team					                    **
+**   http://wisim.sourceforge.net/   			                            **
 **                                                                          **
 **   All rights reserved                                                    **
 **                                                                          **
@@ -44,11 +44,11 @@ Start
 
 Windows
 -------
-Just dobleclick the wisim.jar or run "java -jar wisim.jar" in a command. Make sure, you have enough privileges for creating a new database or ask your system administrator.
+Just doubleclick the wisim.jar or run "java -jar wisim.jar" in a command. Make sure, you have enough privileges to create a new database or ask your system administrator.
 
 Linux / Unix
 ------------
-Run "java -jar wisim.jar" in a shell. Make sure, you have enough privileges for create a new database or ask your system administrator.
+Run "java -jar wisim.jar" in a shell. Make sure, you have enough privileges to create a new database or ask your system administrator.
 
 COMPILING THE SOURCECODE:
 -------------------------
