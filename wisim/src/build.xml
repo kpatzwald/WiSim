@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+  <project basedir="." default="execution" name="WiSim">
+  <property name="root" value="d:/Entwicklung/Java/wisim_sourceforge" />
+  <property name="temp" value="D:/Temp" />
+  <property name="src" value="${root}/src/java/" />
+  <property name="build" value="${temp}/build" />
+  <property name="deploy" value="${temp}/deploy" />
+  <property name="classes" value="${build}/classes" />
+  <property name="SQLTreiber" value="${root}/libs/sql_treiber.jar" />
+  <property name="libs" value="${root}/libs/sql_treiber.jar; ${root}/libs/kunststoff.jar" />
+  <property name="kunststoff" value="${root}/libs/kunststoff.jar" />
+  <target name="init">
+    <mkdir dir="${build}" />
+    <mkdir dir="${classes}" />
+    <mkdir dir="${deploy}" />
+    <mkdir dir="${build}/classes/icons" />
+    <mkdir dir="${build}/classes/sql"/>
+     <copy todir="${build}/classes/icons">
+       <fileset dir="${root}/icons"/>
+     </copy>
+     <copy todir="${build}/classes/sql">
+       <fileset dir="${root}/src/sql"/>
+     </copy>
+  </target>
+  <target name="compile" depends="init">
+    <javac destdir="${classes}/" srcdir="${src}" classpath="${libs}" />
+  </target>
+  <target name="jar" depends="compile">
+    <unjar src="${SQLTreiber}" dest="${classes}" />
+    <unjar src="${kunststoff}" dest="${classes}" />
+      <jar jarfile="${deploy}/wisim.jar" basedir="${classes}">
+        <manifest>
+          <attribute name="Main-Class" value="net.sourceforge.wisim.controller.WiSimMainController" />
+        </manifest>
+      </jar>
+  </target>
+  <target name="deploy" depends="jar">
+    <copy file="${deploy}/wisim.jar" todir="${root}" overwrite="yes" />
+  </target>
+  <target name="execution" depends="deploy">
+    <java jar="${root}/wisim.jar" fork="true" />
+  </target>
+  <target name="clean">
+    <delete dir="${build}" />
+    <delete dir="${deploy}" />
+  </target>
+</project>
