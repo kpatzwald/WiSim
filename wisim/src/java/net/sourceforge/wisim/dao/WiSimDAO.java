@@ -551,4 +551,6 @@ public interface WiSimDAO {
 	 * @throws WiSimDAOException
 	 */
 	public void simulationReset() throws WiSimDAOException;
+	
+	public Hashtable getEtCapacity() throws WiSimDAOException;
 }

@@ -2187,17 +2187,17 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 			throw new WiSimDAOWriteException(sqlE.getMessage());
 		}
 	} /** Erhöht / Erniedrigt den Bestand eines Artikels im Lager.
-												     * @param artNr Article Nummer
-												     * @param menge neue Menge = aktuelleMenge + menge
-												     * Das heißt, wenn eine negative Menge angegeben wird, so erniedrigt man den Bestand.
-												     * @throws WiSimDAOWriteException if a database problem occurs or the connection was never initialized
-												     * @return True: Bestand wurde erhöht / erniedrigt.
-												     * False:
-												     * Bei Erhöhung: Gelieferte Menege übertrifft den Maximal Bestand. Der neue Bestand
-												     * ist jetzt der Maximal Bestand, der Rest der Lieferung wird ignoriert.
-												     * Bei Erniedrigung:
-												     * Der Bestand dieses Artikels ist schon auf 0.
-												     */
+														     * @param artNr Article Nummer
+														     * @param menge neue Menge = aktuelleMenge + menge
+														     * Das heißt, wenn eine negative Menge angegeben wird, so erniedrigt man den Bestand.
+														     * @throws WiSimDAOWriteException if a database problem occurs or the connection was never initialized
+														     * @return True: Bestand wurde erhöht / erniedrigt.
+														     * False:
+														     * Bei Erhöhung: Gelieferte Menege übertrifft den Maximal Bestand. Der neue Bestand
+														     * ist jetzt der Maximal Bestand, der Rest der Lieferung wird ignoriert.
+														     * Bei Erniedrigung:
+														     * Der Bestand dieses Artikels ist schon auf 0.
+														     */
 	public synchronized boolean setArtikelLagerBestand(int artNr, int menge) throws WiSimDAOWriteException {
 		// Serverlog
 		logger.finest("com.pixelpark.wisim.dao.WiSimDAOImpl.getEtat Action: start");
@@ -2724,4 +2724,20 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 		}
 	}
 
+	public Hashtable getEtCapacity() throws WiSimDAOException {
+		Hashtable etCapacity = new Hashtable();
+		String sql = "SELECT et_name , et_Mindestbestand, rel_et_lg_bestand FROM rel_et_lg, et WHERE f_et_nr = et_nr;";
+
+		try {
+			Statement stmt = conn.createStatement();
+			ResultSet res = stmt.executeQuery(sql);
+
+			while (res.next()) {
+				etCapacity.put(res.getString(1), new int[] { res.getInt(2), res.getInt(3)});
+			}
+		} catch (SQLException e) {
+			throw new WiSimDAOException(e.getMessage());
+		}
+		return etCapacity;
+	}
 }
