@@ -326,7 +326,6 @@ public class JPanelOptions extends javax.swing.JPanel {
         
         UIManager.LookAndFeelInfo plafs[] = UIManager.getInstalledLookAndFeels();
         int i=0;
-        String[] plafname = new String[plafs.length];
         while (i < plafs.length) {
             if  (skin.equals(plafs[i].getName())) {
                 plaf = plafs[i].getClassName();
@@ -426,7 +425,6 @@ public class JPanelOptions extends javax.swing.JPanel {
         else
             password = daten[3].trim();
         URL url = getClass().getResource("/sql/complete.sql");
-        String file = url.toString();
         
         try {
             InputStream in = url.openStream();
@@ -515,7 +513,7 @@ public class JPanelOptions extends javax.swing.JPanel {
                     
                     Statement stmt = conn.createStatement();
                     for (int k = 0; k < queriesFinal.length; k++){
-                        int res = stmt.executeUpdate(queriesFinal[k]);
+                        stmt.executeUpdate(queriesFinal[k]);
                     }
                     
                 } catch (SQLException e) {

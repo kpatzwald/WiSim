@@ -57,7 +57,6 @@ public class Validator {
     public boolean checkEMail(String text) {
         String regExpEmail = "^([a-zA-Z0-9_\\-\\.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a-zA-Z0-9\\-]+\\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\\]?)$";
         int length = text.length();
-        int i=0;
         if (length > 0) {
             if (text.matches(regExpEmail)) {
                 return true;

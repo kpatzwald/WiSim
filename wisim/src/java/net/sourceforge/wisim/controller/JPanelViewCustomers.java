@@ -446,7 +446,6 @@ public class JPanelViewCustomers extends javax.swing.JPanel {
         DefaultListModel clearmodel1 = (DefaultListModel) jListTextFieldKundenUebersichtVerlauf.getModel();
         clearmodel1.removeAllElements();
         position = 0;
-        boolean Deleted = true;
     }
     
     /** Lädt Kundenverlauf zum Bearbeiten aus der Datenbank

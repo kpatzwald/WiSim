@@ -203,7 +203,6 @@ public class WiSimDAOImpl implements WiSimDAO {
 
 
                     URL url = getClass().getResource("/sql/complete.sql");
-                    String file = url.toString();
 
                     try {
                         InputStream in = url.openStream();
@@ -292,7 +291,7 @@ public class WiSimDAOImpl implements WiSimDAO {
 
                                 stmt = conn.createStatement();
                                 for (int k = 0; k < queriesFinal.length; k++){
-                                    int res = stmt.executeUpdate(queriesFinal[k]);
+                                    stmt.executeUpdate(queriesFinal[k]);
                                 }
 
                             } catch (SQLException e) {
@@ -410,7 +409,7 @@ public class WiSimDAOImpl implements WiSimDAO {
                 + kunde.getKundentyp()
                 + "\") ";
                 
-                int res = stmt.executeUpdate(sql);
+                stmt.executeUpdate(sql);
                 
                 ResultSet lastKey = stmt.getGeneratedKeys();
                 while(lastKey.next()) {
@@ -479,7 +478,6 @@ public class WiSimDAOImpl implements WiSimDAO {
             // Create a Statement
             Statement stmt = conn.createStatement();
             ResultSet rset = stmt.executeQuery(sql);
-            City ort = new City();
             
             while (rset.next()) {
                     ContractAccount atr = new ContractAccount();
@@ -576,7 +574,7 @@ public class WiSimDAOImpl implements WiSimDAO {
                       "kd_Zahlungsmoral ='" + kunde.getZahlungsmoral() +"' "+
                       "WHERE kd_Nr = " + kunde.getId() + "";
                 
-                int res = stmt.executeUpdate(sql);
+                stmt.executeUpdate(sql);
                 ResultSet lastKey = stmt.getGeneratedKeys();
                 while(lastKey.next()) {
                     key = lastKey.getInt(1);
@@ -639,7 +637,7 @@ public class WiSimDAOImpl implements WiSimDAO {
         
         try {
             Statement stmt = conn.createStatement();
-            int res = stmt.executeUpdate(sql);
+            stmt.executeUpdate(sql);
             
             ResultSet lastKey = stmt.getGeneratedKeys();
             while(lastKey.next()) {
@@ -744,7 +742,7 @@ public class WiSimDAOImpl implements WiSimDAO {
                       "lt_Qualitaet = '" + lieferant.getLieferqualitaet() +"', "+
                       "lt_Zuverlaessigkeit = '" + lieferant.getZuverlaessigkeit() +"' "+
                       "WHERE lt_Nr = " + lieferant.getId() + "";
-                int res = stmt.executeUpdate(sql);
+                stmt.executeUpdate(sql);
                 ResultSet lastKey = stmt.getGeneratedKeys();
                 while(lastKey.next()) {
                     key = lastKey.getInt(1);
@@ -822,7 +820,7 @@ public class WiSimDAOImpl implements WiSimDAO {
                       "lt_deleted ='" + status +"' "+
                       "WHERE lt_Nr = " + LtNr + "";
                 
-                int res = stmt.executeUpdate(sql);
+                stmt.executeUpdate(sql);
                 ResultSet lastKey = stmt.getGeneratedKeys();
                 while(lastKey.next()) {
                     key = lastKey.getInt(1);
@@ -947,7 +945,7 @@ public class WiSimDAOImpl implements WiSimDAO {
                 + notiz.getKundenNr()
                 + ") ";
                 
-                int res = stmt.executeUpdate(sql);
+                stmt.executeUpdate(sql);
                 conn.commit();
             } catch (SQLException sqlE) {
                 conn.rollback();
@@ -1043,7 +1041,6 @@ public class WiSimDAOImpl implements WiSimDAO {
         logger.finest(
         "com.pixelpark.wisim.dao.WiSimDAOImpl.getLieferanten() Action: start");
         String sql = "";
-        String Ort = "";
         Collection lieferanten = new Vector();
         try {
             Statement stmt = conn.createStatement();
@@ -1139,11 +1136,10 @@ public class WiSimDAOImpl implements WiSimDAO {
         + liste.getMindestBestellMenge()
         + ");";
         
-        WiSimComponent einzelteil = new WiSimComponent();
         try {
             // Create a Statement
             Statement stmt = conn.createStatement();
-            int rset = stmt.executeUpdate(sql);
+            stmt.executeUpdate(sql);
 
         } catch (SQLException sqlE) {
             throw new WiSimDAOWriteException(sqlE.getMessage());
@@ -1512,7 +1508,7 @@ public class WiSimDAOImpl implements WiSimDAO {
                 Statement stmt = conn.createStatement();
                 
                 //Einzelteilauftrag wird geschrieben
-                int rset = stmt.executeUpdate(sql);
+                stmt.executeUpdate(sql);
                 ResultSet lastKey = stmt.getGeneratedKeys();
                 while(lastKey.next()) {
                     etatNr = lastKey.getInt(1);
@@ -1568,7 +1564,7 @@ public class WiSimDAOImpl implements WiSimDAO {
             try {
                 // Create a Statement
                 Statement stmt = conn.createStatement();
-                int rset = stmt.executeUpdate(sql);
+                stmt.executeUpdate(sql);
                 ResultSet lastKey = stmt.getGeneratedKeys();
                 while(lastKey.next()) {
                     return lastKey.getInt(1);
@@ -1613,7 +1609,7 @@ public class WiSimDAOImpl implements WiSimDAO {
             try {
                 // Create a Statement
                 Statement stmt = conn.createStatement();
-                int rset = stmt.executeUpdate(sql);
+                stmt.executeUpdate(sql);
                 ResultSet lastKey = stmt.getGeneratedKeys();
                 while(lastKey.next()) {
                     return lastKey.getInt(1);
@@ -1800,7 +1796,7 @@ public class WiSimDAOImpl implements WiSimDAO {
                 + vertrag.getAuftragsrechnungsId()
                 + "\") ";
                 
-                int res = stmt.executeUpdate(sql);
+                stmt.executeUpdate(sql);
                 
                 ResultSet lastKey = stmt.getGeneratedKeys();
                 while(lastKey.next()) {
@@ -1934,7 +1930,6 @@ public class WiSimDAOImpl implements WiSimDAO {
              ResultSet rset = stmt.executeQuery(sql);
              
              while (rset.next()) {
-                 OrderItem atPos = new OrderItem();
                  atp.setArtNr(rset.getInt(1));
                  atp.setAtNr(rset.getInt(2));
                  atp.setBestellmenge(rset.getLong(3));
@@ -1964,7 +1959,6 @@ public class WiSimDAOImpl implements WiSimDAO {
              ResultSet rset = stmt.executeQuery(sql);
              
              while (rset.next()) {
-                 OrderItem atPos = new OrderItem();
                  atr.setNr(rset.getInt(1));
                  atr.setBetrag(rset.getDouble(2));
                  atr.setAuftragNr(rset.getInt(3));
@@ -2028,7 +2022,7 @@ public class WiSimDAOImpl implements WiSimDAO {
                       "kd_deleted ='" + status +"' "+
                       "WHERE kd_Nr = " + KdNr + "";
                 
-                int res = stmt.executeUpdate(sql);
+                stmt.executeUpdate(sql);
                 ResultSet lastKey = stmt.getGeneratedKeys();
                 while(lastKey.next()) {
                     key = lastKey.getInt(1);
@@ -2141,7 +2135,6 @@ public class WiSimDAOImpl implements WiSimDAO {
              int i=0;
              while (rset.next()) {
                  WiSimComponent et = getEinzelteil(rset.getInt(1));
-                 Collection lagerplaetze = new Vector();
                  ComponentWarehouseItem etElem = new ComponentWarehouseItem();
                  etElem.setEinzelteilName(et.getName());
                  etElem.setId(et.getNr());
@@ -2225,7 +2218,6 @@ public class WiSimDAOImpl implements WiSimDAO {
              int i=0;
              while (rset.next()) {
                  Article art = getArtikel(rset.getInt(1));
-                 Collection lagerplaetze = new Vector();
                  ComponentWarehouseItem etElem = new ComponentWarehouseItem();
                  etElem.setEinzelteilName(art.getName());
                  etElem.setId(art.getNr());
@@ -2666,7 +2658,7 @@ public synchronized Collection getArbeitsplatzLager(
             try {
                 // Create a Statement
                 Statement stmt = conn.createStatement();
-                int rset = stmt.executeUpdate(sql);
+                stmt.executeUpdate(sql);
                 
             } catch (SQLException e) {
                 throw new WiSimDAOWriteException(e.getMessage());

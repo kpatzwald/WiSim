@@ -1239,7 +1239,6 @@ public class JPanelNewContract extends JPanel {
 		/*Wurde ein oder mehrere Pflichtfelder nicht ausgefüllt erscheint ein JOptionPane, dass dem
 		 *Benutzer die fehlenden noch leeren Felder anzeigt*/
 		if (!pflichtfelder.isEmpty()) {
-			JOptionPane errorPane = new JOptionPane();
 			if (pflichtfelder.size() > 1)
 				JOptionPane.showMessageDialog(this, "Folgende Felder müssen ausgefüllt werden: " + pflichtfelder.toString().substring(1, pflichtfelder.toString().length() - 1), "Fehler beim Anlegen des neuen Vertrages", JOptionPane.ERROR_MESSAGE);
 			else
@@ -1340,7 +1339,7 @@ public class JPanelNewContract extends JPanel {
 		if (vertraege != null) {
 			Iterator it = vertraege.iterator();
 			while (it.hasNext()) {
-				Contract testVertrag = (Contract) it.next();
+				it.next(); //dispensable?
 				i++;
 			}
 		}
@@ -1354,7 +1353,7 @@ public class JPanelNewContract extends JPanel {
 		if (atrechnungen != null) {
 			Iterator it = atrechnungen.iterator();
 			while (it.hasNext()) {
-				ContractAccount testAtr = (ContractAccount) it.next();
+				it.next(); //dispensable?
 				j++;
 			}
 		}

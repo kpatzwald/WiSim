@@ -399,7 +399,6 @@ public class JPanelNewCustomer extends javax.swing.JPanel {
             check.add("PLZ");
         
         if (!check.isEmpty()) {
-            JOptionPane errorPane = new JOptionPane();
             if (check.size() > 1)
                 JOptionPane.showMessageDialog(this, "Folgende Felder müssen ausgefüllt werden: "
                 + check.toString().substring(1,check.toString().length()-1), "Fehler beim Anlegen des neuen Kunden", JOptionPane.ERROR_MESSAGE);

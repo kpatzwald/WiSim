@@ -733,11 +733,9 @@ else{
         } catch (WiSimDAOWriteException e) {
             System.err.println(e.getMessage());
         }
-        Date dateNow = new Date();
-        java.sql.Date sqlDateNow = new java.sql.Date(dateNow.getTime());
           
         try { 
-            int changed = dao.aendereLieferant(lieferant);
+            dao.aendereLieferant(lieferant);
             ladeLieferanten();
             ladeLieferant();
             setzeStandard();
@@ -858,7 +856,7 @@ private void loescheZugehoerigeEinzelteile(int id){
       
         while (it_lieferlisten.hasNext()) {
             SupplyList liste = (SupplyList) it_lieferlisten.next();
-            WiSimComponent einzelteil = dao.getEinzelteil(liste.getEinzelteilID());
+            dao.getEinzelteil(liste.getEinzelteilID()); //dispensable?
             dao.loescheLieferliste(id,liste.getEinzelteilID());
        }
     } catch (WiSimDAOException e) {

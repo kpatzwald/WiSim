@@ -749,7 +749,6 @@ public class JPanelOrder extends javax.swing.JPanel {
         /*Wurde ein oder mehrere Pflichtfelder nicht ausgefüllt erscheint ein JOptionPane, dass dem
          *Benutzer die fehlenden noch leeren Felder anzeigt*/
         if (!pflichtfelder.isEmpty()) {
-            JOptionPane errorPane = new JOptionPane();
             if (pflichtfelder.size() > 1)
                 JOptionPane.showMessageDialog(this, "Folgende Felder müssen ausgefüllt werden: "
                 + pflichtfelder.toString().substring(1,pflichtfelder.toString().length()-1), "Fehler beim Anlegen des neuen Kunden", JOptionPane.ERROR_MESSAGE);
@@ -1297,8 +1296,7 @@ public class JPanelOrder extends javax.swing.JPanel {
             
             colLt.removeAllElements();
             colLt.add("Select:");
-            
-            int i=0;
+
             while (lt_it.hasNext()) {
                 Supplier lieferant = (Supplier) lt_it.next();
                 String item = lieferant.getFirma() + " (#" + lieferant.getId() + ")";

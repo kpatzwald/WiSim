@@ -728,7 +728,6 @@ public class JPanelViewContract extends javax.swing.JPanel {
 						//Status Icon
 						Image image = new BufferedImage(28, 30, 2);
 						Graphics g = image.getGraphics();
-						Date heuteDate = new Date();
 
 						if (auftrag1.getLieferdatum().before(wiSimMainController.getActDate())) {
 							g.setColor(darkgreen);
@@ -848,7 +847,6 @@ public class JPanelViewContract extends javax.swing.JPanel {
 
 				if (rows > 0) {
 
-					Contract auftrag = null;
 					setVertragsTabelle2();
 					int j = 0;
 
@@ -874,7 +872,6 @@ public class JPanelViewContract extends javax.swing.JPanel {
 							//Status Icon
 							Image image = new BufferedImage(28, 30, 2);
 							Graphics g = image.getGraphics();
-							Date heuteDate = new Date();
 
 							if (auftrag2.getLieferdatum().before(wiSimMainController.getActDate())) {
 								g.setColor(darkgreen);
@@ -1229,7 +1226,6 @@ public class JPanelViewContract extends javax.swing.JPanel {
 			long menge = 0;
 			double zwischensum1 = 0;
 			double zwischensum2 = 0;
-			double hilfe = 0;
 			double summe = 0;
 			double rabatt = 0;
 			double skonto = 0;

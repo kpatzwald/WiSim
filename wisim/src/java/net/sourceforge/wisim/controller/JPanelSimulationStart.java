@@ -355,7 +355,6 @@ public class JPanelSimulationStart extends javax.swing.JPanel {
     public void refreshJTreeEinkauf() {
         actDay++;
         Collection etatListe = new Vector();
-        Collection etatListeHeute = new Vector();
         
         //Liste aller Einzelteilaufträge
         try {

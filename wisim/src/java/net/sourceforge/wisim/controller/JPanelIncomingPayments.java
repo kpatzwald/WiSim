@@ -417,7 +417,6 @@ public class JPanelIncomingPayments extends javax.swing.JPanel {
         Iterator it_Vertrag = Vertraege.iterator();
        
         positionen = 0;
-        int row;
         int i=0;
         anzahl = Vertraege.size();
         setTabelle();

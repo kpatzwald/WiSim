@@ -529,7 +529,6 @@ public class JPanelNewSupplier extends javax.swing.JPanel {
     if (check.isEmpty())
       neuerLieferant();
     else {
-      JOptionPane errorPane = new JOptionPane();
       if (check.size() > 1)
         JOptionPane.showMessageDialog(this, "Folgende Felder müssen ausgefüllt werden: "
         + check.toString().substring(1,check.toString().length()-1), "Fehler beim Anlegen des neuen Lieferanten", JOptionPane.ERROR_MESSAGE);

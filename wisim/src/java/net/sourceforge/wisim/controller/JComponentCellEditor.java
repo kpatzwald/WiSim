@@ -155,10 +155,8 @@ Serializable {
      * @return editorComponent
      */
     public Component getTreeCellEditorComponent(JTree tree, Object value,
-    boolean isSelected, boolean expanded, boolean leaf, int row) {
-        String         stringValue = tree.convertValueToText(value, isSelected,
-        expanded, leaf, row, false);
-        
+    boolean isSelected, boolean expanded, boolean leaf, int row) {   
+		tree.convertValueToText(value, isSelected, expanded, leaf, row, false); //dispensable?			    
         editorComponent = (JComponent)value;
         container = tree;
         return editorComponent;

@@ -761,9 +761,6 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
 				int KdNr = getSelKundeID();
 				if (KdNr != 0)
 				{
-					Date dateNow = new Date();
-					java.sql.Date sqlDateNow =
-						new java.sql.Date(dateNow.getTime());
 					Memo dieneu = new Memo();
 					try
 					{
@@ -797,7 +794,7 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
             if (!verlauf.isEmpty()){
                 lNotiz = (Memo)verlauf.elementAt(listenId);
                 try {
-                    int okay = dao.delNotiz(lNotiz.getId());
+                    dao.delNotiz(lNotiz.getId());
                 } catch (WiSimDAOWriteException e) {
                     logger.log("loescheNotiz(int)",e);
                 }
@@ -911,7 +908,7 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
         }
 
         try {
-            int changed = dao.aendereKunden(kunde);
+            dao.aendereKunden(kunde);
             ladeKunden();
         } catch (WiSimDAOWriteException e) {
             logger.log("kundenSpeichern()",e);
