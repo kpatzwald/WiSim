@@ -130,6 +130,7 @@ public class JPanelKundeBearbeiten extends javax.swing.JPanel {
 
         setLayout(null);
 
+        setPreferredSize(new java.awt.Dimension(800, 600));
         jPanelNeuerKunde3.setLayout(null);
 
         jLabelNeuerKunde3.setFont(new java.awt.Font("Dialog", 1, 24));
@@ -255,6 +256,9 @@ public class JPanelKundeBearbeiten extends javax.swing.JPanel {
 
         jTextFieldKundeBearbeitenPLZ.setDocument(new JTextFieldValidation(5));
         jTextFieldKundeBearbeitenPLZ.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTextFieldKundeBearbeitenPLZFocusGained(evt);
+            }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jTextFieldKundeBearbeitenPLZFocusLost(evt);
             }
@@ -277,6 +281,9 @@ public class JPanelKundeBearbeiten extends javax.swing.JPanel {
 
         jTextFieldKundeBearbeitenEMail.setDocument(new JTextFieldValidation(50));
         jTextFieldKundeBearbeitenEMail.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTextFieldKundeBearbeitenEMailFocusGained(evt);
+            }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jTextFieldKundeBearbeitenEMailFocusLost(evt);
             }
@@ -403,33 +410,13 @@ public class JPanelKundeBearbeiten extends javax.swing.JPanel {
         jLabelNotiz.setBounds(360, 230, 120, 20);
 
         jTabbedPaneKundeBearbeitenNotizen.setDebugGraphicsOptions(javax.swing.DebugGraphics.NONE_OPTION);
-        jTabbedPaneKundeBearbeitenNotizen.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                jTabbedPaneKundeBearbeitenNotizenFocusGained(evt);
-            }
-        });
-
         jTextAreaKundeBearbeitenBemerkung.setEditable(false);
         jTextAreaKundeBearbeitenBemerkung.setLineWrap(true);
-        jTextAreaKundeBearbeitenBemerkung.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                jTextAreaKundeBearbeitenBemerkungFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                jTextAreaKundeBearbeitenBemerkungFocusLost(evt);
-            }
-        });
-
         jScrollPaneKundeBearbeitenBemerkung.setViewportView(jTextAreaKundeBearbeitenBemerkung);
 
         jTabbedPaneKundeBearbeitenNotizen.addTab("aktuell", jScrollPaneKundeBearbeitenBemerkung);
 
         jListTextFieldKundeBearbeitenVerlauf.setModel(new DefaultListModel());
-        jListTextFieldKundeBearbeitenVerlauf.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                jListTextFieldKundeBearbeitenVerlaufFocusGained(evt);
-            }
-        });
         jListTextFieldKundeBearbeitenVerlauf.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 jListTextFieldKundeBearbeitenVerlaufValueChanged(evt);

@@ -102,6 +102,7 @@ public class JPanelNeuerKunde extends javax.swing.JPanel {
 
         setLayout(null);
 
+        setPreferredSize(new java.awt.Dimension(800, 600));
         jLabelNeuerKunde.setFont(new java.awt.Font("Dialog", 1, 24));
         jLabelNeuerKunde.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelNeuerKunde.setText("Neuer Kunde");

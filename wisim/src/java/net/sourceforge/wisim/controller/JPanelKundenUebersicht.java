@@ -106,6 +106,7 @@ public class JPanelKundenUebersicht extends javax.swing.JPanel {
 
         setLayout(null);
 
+        setPreferredSize(new java.awt.Dimension(800, 600));
         jLabelKundenUebersichtUeberschrift.setFont(new java.awt.Font("Dialog", 1, 24));
         jLabelKundenUebersichtUeberschrift.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelKundenUebersichtUeberschrift.setText("Kunden\u00fcbersicht");
