@@ -334,11 +334,37 @@
             </Component>
             <Component class="javax.swing.JButton" name="jButtonSimReset">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.openide.explorer.propertysheet.editors.IconEditor">
+                  <Image iconType="3" name="/icons/reset.gif"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Reset"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonSimResetActionPerformed"/>
               </Events>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabelFactor">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Zeitfaktor"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="jComboBoxFactor">
+              <Properties>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="5">
+                    <StringItem index="0" value="1x"/>
+                    <StringItem index="1" value="1/2x"/>
+                    <StringItem index="2" value="1/4x"/>
+                    <StringItem index="3" value="1/8x"/>
+                    <StringItem index="4" value="1/16x"/>
+                  </StringArray>
+                </Property>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JCheckBox" name="jCheckBoxOneWeek">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Beende nach 1 Woche"/>
+              </Properties>
             </Component>
           </SubComponents>
         </Container>
