@@ -31,6 +31,8 @@ package net.sourceforge.wisim.controller;
 
 import net.sourceforge.wisim.dao.*;
 import net.sourceforge.wisim.model.*;
+
+import java.awt.Dimension;
 import java.util.*;
 import javax.swing.table.DefaultTableModel;
 
@@ -58,6 +60,7 @@ public class JPanelViewSuppliers extends javax.swing.JPanel {
 		lieferantenObjekte = new Hashtable();
 		listeArtikel = new Vector();
 		listeArtikel.add("Bitte wählen");
+		this.setPreferredSize(new Dimension(800,600));
 	}
 
 	private void initDAO(WiSimMainController wiSimMainController) {
@@ -397,7 +400,7 @@ public class JPanelViewSuppliers extends javax.swing.JPanel {
 		}
 		//DefaultTableModel mit Variablen Zeilen, 3 TableHeads und nicht editierbaren Zellen
 		Object[][] tableInit = new Object[rows][3];
-		DefaultTableModel defTable = new DefaultTableModel(tableInit, new String[] { "Article", "MinAbnahme", "Preis/Stk" }) {
+		DefaultTableModel defTable = new DefaultTableModel(tableInit, new String[] { "Artikel", "MinAbnahme", "Preis/Stk" }) {
 			boolean[] canEdit = new boolean[] { false, false, false };
 			public boolean isCellEditable(int rowIndex, int columnIndex) {
 				return canEdit[columnIndex];
@@ -468,7 +471,7 @@ public class JPanelViewSuppliers extends javax.swing.JPanel {
 		boolean Deleted = true;
 		updatePositionsTable(Deleted);
 	}
-	// Variables declaration - do not modify//GEN-BEGIN:variables
+	// Variables declaration - do not modify
 	private javax.swing.JTextField jTextFieldLieferantStrasse;
 	private javax.swing.JLabel jLabelLieferantBearbeitenUeberschrift;
 	private javax.swing.JLabel jLabelLieferantLieferqualitaet2;
@@ -493,5 +496,5 @@ public class JPanelViewSuppliers extends javax.swing.JPanel {
 	private javax.swing.JTextField jTextFieldLieferantPLZ;
 	private javax.swing.JTextField jTextFieldLieferantEMail;
 	private javax.swing.JTable jTableLieferanten;
-	// End of variables declaration//GEN-END:variables 
+	// End of variables declaration
 }
