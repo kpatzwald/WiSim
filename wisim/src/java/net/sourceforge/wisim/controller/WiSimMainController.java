@@ -770,19 +770,26 @@ public class WiSimMainController extends javax.swing.JFrame {
 	 */
 	public static void main(String args[]) {
 
-		/** Update the PLAF */
-		com.incors.plaf.kunststoff.KunststoffLookAndFeel plaf = new com.incors.plaf.kunststoff.KunststoffLookAndFeel();
 		try {
-			UIManager.setLookAndFeel(plaf);
-		} catch (Exception e) {
+			/** Update the PLAF */
+			com.incors.plaf.kunststoff.KunststoffLookAndFeel plaf = new com.incors.plaf.kunststoff.KunststoffLookAndFeel();
+			try {
+				UIManager.setLookAndFeel(plaf);
+			} catch (Exception e) {
+			}
+			
+			/** Initialize splashscreen swing components */
+			loadStatusBar = new JProgressBar(0, 100);
+			statusText = new JLabel();
+			
+			/** Start the splashscreen and load the wiSimMainController */
+			new WiSimSplashscreen(loadStatusBar, statusText).runSplashscreen();
+		} catch (Throwable t) {
+			System.err.println("Schwerer Fehler. WiSim kann nicht gestartet werden. Wurde das korrekte JDK (1.4.x) verwendet?");
+			//DoItBen Bitte den obigen Satz übersetzen. Aber das Deutsche auch stehen lassen.
+			System.err.println(t.getMessage());
+			System.exit(1);
 		}
-
-		/** Initialize splashscreen swing components */
-		loadStatusBar = new JProgressBar(0, 100);
-		statusText = new JLabel();
-
-		/** Start the splashscreen and load the wiSimMainController */
-		new WiSimSplashscreen(loadStatusBar, statusText).runSplashscreen();
 	}
 
 	/** Setzt das Datumsfeld dieses Panes zurück */
