@@ -26,6 +26,7 @@ package net.sourceforge.wisim.networkplan;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -67,13 +68,30 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 	private Component movedElement;
 	private JNetworkplanElement selectedElement;
 
-	private JNetworkplanElement npGen[];
+	/** Array for each JNetworkplanElement */
+	private JNetworkplanElement jNpElem[];
 
 	private JSeparator line;
 
+	/** Variables for the Edit panel */
 	private JPanel jPanelEdit;
-	private boolean editPanelOpen = false;
+	private boolean editPanelOpen;
 	private JNetworkplanElement clickedComponent;
+
+	/** Hashtable to save the positions of the elements */
+	private Hashtable elementsPosition;
+
+	/** Bounds of each JNetworkplanElement */
+	private final int jNpElemBoundsX = 430;
+	private final int jNpElemBoundsY = 280;
+
+	/** Size of each JNetworkplanElement */
+	private final int jNpElemWidth = 300;
+	private final int jNpElemHeight = 190;
+
+	/** Padding of elements */
+	private final int jNPaddingX = 30;
+	private final int jNPaddingY = 30;
 
 	/**
 	 * Initialize the position-Matrix and tupel-Array for each row.
@@ -84,6 +102,9 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 
 		x1 = 0;
 		y1 = 0;
+		elementsPosition = new Hashtable();
+		editPanelOpen = false;
+		this.npElemente = npElemente;
 
 		/** Listener for user-interaction with the mouse */
 		addMouseListener(this);
@@ -100,13 +121,11 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 			for (int b = 0; b < maxPosY; b++)
 				position[a][b] = 0;
 
-		this.npElemente = npElemente;
-
 		/** Calculate the networkplan elements */
 		npCalc = new NetworkplanCalculator(npElemente);
 		npElemente = npCalc.getNpElemente();
 
-		/** Displaying the critical path */
+		/** Display the critical path */
 		showCriticalPath();
 
 		/** Get positions of each element */
@@ -133,21 +152,26 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 		}
 
 		/** Get all JNetworkplanElements on this JNetworkplan */
-		paintSwingElmements();
-
-		//		line = new JSeparator();
-		//		add(line);
-		//		addLines();
+		paintJNetworkplanElements();
 	}
 
+	/** Default constructor */
 	public JNetworkplan() {
 		maxPosX = 0;
 		maxPosY = 0;
 	}
 
 	/** Sets the swing elements and builds the network plan */
-	public void paintSwingElmements() {
+	public void paintJNetworkplanElements() {
+
+		/** TRUE if the networkplan has only one element */
 		boolean onlyOneElement = false;
+
+		int child[] = ((NetworkplanElement) npElemente.get(0)).getChild();
+
+		/** This JNetworkplan has only one element */
+		if (child[0] == 0)
+			onlyOneElement = true;
 
 		/** Count the elements of the tupel */
 		int a = 0;
@@ -160,8 +184,8 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 			a++;
 		}
 
-		/** Array with networkplan elements swing generators */
-		npGen = new JNetworkplanElement[count];
+		/** Array with JNetworkplanElements */
+		jNpElem = new JNetworkplanElement[count];
 
 		int i = 0;
 		int freeWidth = 0;
@@ -170,11 +194,12 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 		 *  Paint the middle of the tree with the most elements  *
 		 *********************************************************/
 
+		/** Get the row thats the middle of the networkplan */
 		int middlePos = getMostWidthRow() - 1;
 		int middlePosElements = tupel[middlePos].size();
 
 		/** Width of the middle */
-		int stomachSize = 430 * middlePosElements;
+		int stomachSize = jNpElemBoundsX * middlePosElements;
 
 		Vector middleElements = tupel[middlePos];
 
@@ -185,6 +210,8 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 		while (middleElementsIt.hasNext()) {
 
 			int currentElementNumber = ((Integer) middleElementsIt.next()).intValue();
+
+			/** If this element is a long vertical connection line checkIfLine is negative */
 			int checkIfLine = currentElementNumber;
 
 			if (currentElementNumber < 0)
@@ -192,21 +219,19 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 
 			NetworkplanElement np = (NetworkplanElement) npElemente.get(currentElementNumber - 1);
 
-			int child[] = np.getChild();
-			if (child[0] == 0)
-				onlyOneElement = true;
-
 			/** This element is not a vertical connection line */
 			if (checkIfLine > 0) {
-				npGen[i] = new JNetworkplanElement(np);
+				jNpElem[i] = new JNetworkplanElement(np);
 				np.setLayoutManager(i);
-				npGen[i].setName(String.valueOf(np.getIndex()));
-				this.add(npGen[i]);
-				npGen[i].setBounds(30 + x * 430, 30 + middlePos * 280, 300, 190);
+				jNpElem[i].setName(String.valueOf(np.getIndex()));
+				this.add(jNpElem[i]);
+				jNpElem[i].setBounds(jNPaddingX + x * jNpElemBoundsX, jNPaddingY + middlePos * jNpElemBoundsY, jNpElemWidth, jNpElemHeight);
+				elementsPosition.put(
+					new Integer(np.getIndex()),
+					new Point(jNPaddingX + x * jNpElemBoundsX, jNPaddingY + middlePos * jNpElemBoundsY));
 				i++;
 			}
 			x++;
-
 		}
 
 		/******************************************
@@ -233,7 +258,7 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 			}
 
 			int topElementsCount = tupel[topPos].size();
-			int freeSize = stomachSize - (topElementsCount - 1) * 430;
+			int freeSize = stomachSize - (topElementsCount - 1) * jNpElemBoundsX;
 
 			topElementsIt = topElements.iterator();
 
@@ -243,6 +268,8 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 			while (topElementsIt.hasNext()) {
 
 				int currentElementNumber = ((Integer) topElementsIt.next()).intValue();
+
+				/** If this element is a long vertical connection line checkIfLine is negative */
 				int checkIfLine = currentElementNumber;
 
 				if (currentElementNumber < 0)
@@ -250,8 +277,8 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 
 				NetworkplanElement np = (NetworkplanElement) npElemente.get(currentElementNumber - 1);
 
-				int child[] = np.getChild();
-				double relFreeSize = ((double) child.length / (double) childCount) * stomachSize; //korrekt
+				child = np.getChild();
+				double relFreeSize = ((double) child.length / (double) childCount) * stomachSize;
 
 				/** Center the element */
 				freeWidth = (int) relFreeSize / 2 - 215 + occupied;
@@ -260,11 +287,18 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 
 				/** This element is not a vertical connection line */
 				if (checkIfLine > 0) {
-					npGen[i] = new JNetworkplanElement(np);
+					jNpElem[i] = new JNetworkplanElement(np);
 					np.setLayoutManager(i);
-					npGen[i].setName(String.valueOf(np.getIndex()));
-					this.add(npGen[i]);
-					npGen[i].setBounds(30 + y * 430 + freeWidth, 30 + topPos * 280, 300, 190);
+					jNpElem[i].setName(String.valueOf(np.getIndex()));
+					this.add(jNpElem[i]);
+					jNpElem[i].setBounds(
+						jNPaddingX + y * jNpElemBoundsX + freeWidth,
+						jNPaddingY + topPos * jNpElemBoundsY,
+						jNpElemWidth,
+						jNpElemHeight);
+					elementsPosition.put(
+						new Integer(np.getIndex()),
+						new Point(jNPaddingX + y * jNpElemBoundsX + freeWidth, jNPaddingY + topPos * jNpElemBoundsY));
 					i++;
 				}
 				y++;
@@ -285,7 +319,7 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 			Vector bottomElements = tupel[bottomPos];
 
 			int bottomElementsCount = tupel[bottomPos].size();
-			int freeSize = stomachSize - (bottomElementsCount - 1) * 430;
+			int freeSize = stomachSize - (bottomElementsCount - 1) * jNpElemBoundsX;
 
 			int occupied = 0;
 
@@ -293,6 +327,8 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 			while (bottomElementsIt.hasNext()) {
 
 				int currentElementNumber = ((Integer) bottomElementsIt.next()).intValue();
+
+				/** If this element is a long vertical connection line checkIfLine is negative */
 				int checkIfLine = currentElementNumber;
 
 				if (currentElementNumber < 0)
@@ -311,216 +347,27 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 
 				/** This element is not a vertical connection line */
 				if (checkIfLine > 0) {
-					npGen[i] = new JNetworkplanElement(np);
+					jNpElem[i] = new JNetworkplanElement(np);
 					np.setLayoutManager(i);
-					npGen[i].setName(String.valueOf(np.getIndex()));
-					this.add(npGen[i]);
-					npGen[i].setBounds(30 + y * 430 + freeWidth, 30 + bottomPos * 280, 300, 190);
+					jNpElem[i].setName(String.valueOf(np.getIndex()));
+					this.add(jNpElem[i]);
+					jNpElem[i].setBounds(
+						jNPaddingX + y * jNpElemBoundsX + freeWidth,
+						jNPaddingY + bottomPos * jNpElemBoundsY,
+						jNpElemWidth,
+						jNpElemHeight);
+					elementsPosition.put(
+						new Integer(np.getIndex()),
+						new Point(jNPaddingX + y * jNpElemBoundsX + freeWidth, jNPaddingY + bottomPos * jNpElemBoundsY));
 					i++;
 				}
 				y++;
-
 			}
 			bottomPos++;
 		}
 
 		/** Paint the horizontal and vertical connection lines with JSeperators */
-		a = 0;
-
-		while (a < npGen.length && npGen[a] != null) {
-
-			/** Vertical small connection lines to the element at top and bottom */
-			int xPosStart = (int) npGen[a].getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE).getX();
-
-			/** Top Connection */
-			if (!npGen[a].getNp().isStartElem()) {
-				int yPosStart = (int) npGen[a].getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE).getY() - 65;
-
-				JSeparator jSeparatorVerticalCon = new JSeparator();
-				jSeparatorVerticalCon.setOrientation(SwingConstants.VERTICAL);
-				jSeparatorVerticalCon.setBounds(xPosStart, yPosStart, 1, 65);
-
-				if (npGen[a].getNp().isCriticalPath())
-					jSeparatorVerticalCon.setForeground(Color.RED);
-				else
-					jSeparatorVerticalCon.setForeground(Color.BLACK);
-
-				this.add(jSeparatorVerticalCon);
-			}
-
-			/** Bottom Connection */
-			if (!npGen[a].getNp().isEndElem()) {
-				int yPosStart = (int) npGen[a].getAnchorPoint(JNetworkplanElement.ANCHOR_BOTTOM_MIDDLE).getY();
-
-				JSeparator jSeparatorVerticalCon = new JSeparator();
-				jSeparatorVerticalCon.setOrientation(SwingConstants.VERTICAL);
-				jSeparatorVerticalCon.setBounds(xPosStart, yPosStart, 1, 65);
-
-				if (npGen[a].getNp().isCriticalPath())
-					jSeparatorVerticalCon.setForeground(Color.RED);
-				else
-					jSeparatorVerticalCon.setForeground(Color.BLACK);
-
-				this.add(jSeparatorVerticalCon);
-			}
-
-			/** Horizontal Connection Line connecting the childs */
-			int child[] = npGen[a].getNp().getChild();
-			if (child.length > 1) {
-
-				int h = 0;
-				while (h < child.length) {
-
-					xPosStart =
-						(int) npGen[((NetworkplanElement) npElemente.get(child[h] - 1))
-							.getLayoutManager()]
-							.getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE)
-							.getX();
-
-					int xPosLength = 0;
-
-					if (xPosStart > (int) npGen[a].getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE).getX()) {
-						xPosStart = (int) npGen[a].getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE).getX();
-
-						xPosLength =
-							(int) npGen[((NetworkplanElement) npElemente.get(child[h] - 1))
-								.getLayoutManager()]
-								.getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE)
-								.getX()
-								- xPosStart;
-					}
-
-					int yPosStart =
-						(int) npGen[((NetworkplanElement) npElemente.get(child[h] - 1))
-							.getLayoutManager()]
-							.getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE)
-							.getY();
-
-					if (xPosLength == 0) {
-						xPosLength = (int) npGen[a].getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE).getX() - xPosStart;
-					}
-
-					if (xPosLength < 0)
-						xPosLength *= -1;
-
-					JSeparator jSeparatorHorizontalCon = new JSeparator();
-					jSeparatorHorizontalCon.setOrientation(SwingConstants.HORIZONTAL);
-					jSeparatorHorizontalCon.setBounds(xPosStart, yPosStart - 65, xPosLength, 1);
-
-					if (((NetworkplanElement) npElemente.get(child[h] - 1)).isCriticalPath())
-						jSeparatorHorizontalCon.setForeground(Color.RED);
-					else
-						jSeparatorHorizontalCon.setForeground(Color.BLACK);
-
-					this.add(jSeparatorHorizontalCon);
-					h++;
-				}
-			}
-
-			/** Horizontal Connection Line connecting the parents */
-			int parent[] = npGen[a].getNp().getParent();
-			if (parent.length > 1) {
-
-				int h = 0;
-
-				while (h < parent.length) {
-
-					xPosStart =
-						(int) npGen[((NetworkplanElement) npElemente.get(parent[h] - 1))
-							.getLayoutManager()]
-							.getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE)
-							.getX();
-
-					int xPosLength = 0;
-
-					if (xPosStart > (int) npGen[a].getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE).getX()) {
-						xPosStart = (int) npGen[a].getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE).getX();
-
-						xPosLength =
-							(int) npGen[((NetworkplanElement) npElemente.get(parent[h] - 1))
-								.getLayoutManager()]
-								.getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE)
-								.getX()
-								- xPosStart;
-					}
-
-					int yPosStart = (int) npGen[a].getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE).getY();
-
-					if (xPosLength == 0) {
-						xPosLength = (int) npGen[a].getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE).getX() - xPosStart;
-					}
-
-					if (xPosLength < 0)
-						xPosLength *= -1;
-
-					JSeparator jSeparatorHorizontalCon = new JSeparator();
-					jSeparatorHorizontalCon.setOrientation(SwingConstants.HORIZONTAL);
-					jSeparatorHorizontalCon.setBounds(xPosStart, yPosStart - 65, xPosLength, 1);
-
-					if (((NetworkplanElement) npElemente.get(parent[h] - 1)).isCriticalPath())
-						jSeparatorHorizontalCon.setForeground(Color.RED);
-					else
-						jSeparatorHorizontalCon.setForeground(Color.BLACK);
-
-					this.add(jSeparatorHorizontalCon);
-
-					h++;
-				}
-			}
-			a++;
-		}
-
-		/** Paint the vertical long connection lines if existing. */
-		int z = 0;
-		while (tupel[z] != null && !onlyOneElement) {
-			Vector temp = tupel[z];
-
-			int g = 0;
-			while (g < temp.size()) {
-
-				Vector completed = new Vector();
-
-				if (((Integer) temp.get(g)).intValue() < 0) {
-					int currentNumber = ((Integer) temp.get(g)).intValue();
-
-					if (!completed.contains(new Integer(currentNumber))) {
-						NetworkplanElement np = (NetworkplanElement) npElemente.get(currentNumber * (-1) - 1);
-						int child[] = np.getChild();
-
-						int xPosStart =
-							(int) npGen[np.getLayoutManager()].getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE).getX();
-						int yPosStart =
-							(int) npGen[np.getLayoutManager()].getAnchorPoint(JNetworkplanElement.ANCHOR_BOTTOM_MIDDLE).getY()
-								+ 65;
-						int yPosLength =
-							(int) npGen[((NetworkplanElement) npElemente.get(child[0] - 1))
-								.getLayoutManager()]
-								.getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE)
-								.getY()
-								- 65
-								- yPosStart;
-
-						JSeparator jSeparatorVerticalCon = new JSeparator();
-						jSeparatorVerticalCon.setOrientation(SwingConstants.VERTICAL);
-						jSeparatorVerticalCon.setBounds(xPosStart, yPosStart, 1, yPosLength);
-
-						if (np.isCriticalPath())
-							jSeparatorVerticalCon.setForeground(Color.RED);
-						else
-							jSeparatorVerticalCon.setForeground(Color.BLACK);
-
-						completed.add(new Integer(currentNumber));
-
-						if (np.isCriticalPath())
-							jSeparatorVerticalCon.setForeground(Color.RED);
-
-						this.add(jSeparatorVerticalCon);
-					}
-				}
-				g++;
-			}
-			z++;
-		}
+		paintConnectionLines();
 	}
 
 	/**
@@ -594,8 +441,7 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 						while (c < parent.length) {
 
 							/** The current tupel (row) does not contain the parents */
-							if (!tupel[i].contains(new Integer(parent[c]))
-								&& !tupel[i].contains(new Integer(parent[c] * (-1)))) {
+							if (!tupel[i].contains(new Integer(parent[c])) && !tupel[i].contains(new Integer(parent[c] * (-1)))) {
 								parentsExists = false;
 								break;
 							}
@@ -614,8 +460,7 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 							 * this child dont exist 
 							 */
 						} else {
-							tupel[i
-								+ 1].add(new Integer(((NetworkplanElement) npElemente.get(currentElem - 1)).getIndex() * (-1)));
+							tupel[i + 1].add(new Integer(((NetworkplanElement) npElemente.get(currentElem - 1)).getIndex() * (-1)));
 						}
 					}
 					b++;
@@ -695,6 +540,7 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 		return position;
 	}
 	/**
+	 * Get the max Height of this JNetworkplan
 	 * @return maxHeightPos
 	 */
 	public int getMaxHeightPos() {
@@ -702,6 +548,7 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 	}
 
 	/**
+	 * Get the max Width of this JNetworkplan
 	 * @return maxWidthPos
 	 */
 	public int getMaxWidthPos() {
@@ -854,6 +701,10 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 	/** Forget this JNetworkplanElement */
 	public void mouseReleased(MouseEvent evt) {
 		if (movedElement != null) {
+
+			/** Save the new position of this element */
+			//elementsPosition.put(new Integer(((JNetworkplanElement)movedElement).getNp().getIndex()), movedElement.getLocation());
+
 			movedElement.setCursor(new Cursor(12));
 			movedElement = null;
 		}
@@ -874,7 +725,8 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 
 		if (getComponentAt(x, y).getName() != null) {
 			movedElement.setLocation(x1, y1);
-			//			addLines();
+
+			/** [DoItBen] Repaint of the connection lines */
 		}
 	}
 
@@ -911,8 +763,6 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 		/** 
 		 * Open the JPanel for editing if the user clicked on an networkplan element 
 		 * and no other JPanel for editing is opened at that time.
-		 * [DoItBen]: Kritischer Pfad wird nach Edit nicht richtig dargestellt
-		 * [DoItBen]: Die Position des Elements geht verloren nach Edit
 		 */
 		if (getComponentAt(x, y).getName() != null && !editPanelOpen) {
 
@@ -950,6 +800,7 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 			jTextFieldDescription.setBounds(100, 50, 160, 20);
 			jTextFieldDescription.setBorder(new LineBorder(new Color(0, 0, 0)));
 			jTextFieldDescription.setText(clickedComponent.getNp().getDescription());
+			jTextFieldDescription.moveCaretPosition(0);
 
 			jButtonEdit.setText("Edit");
 			jButtonEdit.addActionListener(new java.awt.event.ActionListener() {
@@ -992,7 +843,8 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 					showCriticalPath();
 
 					/** Get all JNetworkplanElements on this JNetworkplan */
-					paintSwingElmements();
+					//paintSwingElmements();
+					positionElements();
 
 					/** Stop stopwatch */
 					long endTime = System.currentTimeMillis();
@@ -1065,10 +917,10 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 
 		add(line);
 
-		int xPosStart = (int) npGen[0].getAnchorPoint(JNetworkplanElement.ANCHOR_BOTTOM_MIDDLE).getX();
-		int xPosEnd = (int) npGen[1].getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE).getX();
-		int yPosStart = (int) npGen[0].getAnchorPoint(JNetworkplanElement.ANCHOR_BOTTOM_MIDDLE).getY();
-		int yPosEnd = (int) npGen[1].getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE).getY();
+		int xPosStart = (int) jNpElem[0].getAnchorPoint(JNetworkplanElement.ANCHOR_BOTTOM_MIDDLE).getX();
+		int xPosEnd = (int) jNpElem[1].getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE).getX();
+		int yPosStart = (int) jNpElem[0].getAnchorPoint(JNetworkplanElement.ANCHOR_BOTTOM_MIDDLE).getY();
+		int yPosEnd = (int) jNpElem[1].getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE).getY();
 
 		int xLength = xPosEnd - xPosStart;
 		int yLength = yPosEnd - yPosStart;
@@ -1085,6 +937,237 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 		while (a < npElemente.size()) {
 			((NetworkplanElement) npElemente.get(a)).setCriticalPath(false);
 			a++;
+		}
+	}
+
+	/**
+	 * Set the positions of each networkplan element if known
+	 */
+	public void positionElements() {
+
+		/** Array with networkplan elements swing generators */
+		int a = 0;
+		while (a < npElemente.size()) {
+
+			NetworkplanElement np = (NetworkplanElement) npElemente.get(a);
+			jNpElem[a] = new JNetworkplanElement(np);
+			np.setLayoutManager(a);
+			jNpElem[a].setName(String.valueOf(np.getIndex()));
+			this.add(jNpElem[a]);
+
+			Point location = (Point) elementsPosition.get(new Integer(np.getIndex()));
+
+			jNpElem[a].setBounds((int) location.getX(), (int) location.getY(), jNpElemWidth, jNpElemHeight);
+
+			a++;
+		}
+		paintConnectionLines();
+	}
+
+	/**
+	 * Paint the connection lines between the networkplan elements 
+	 */
+	public void paintConnectionLines() {
+		/** Paint the horizontal and vertical connection lines with JSeperators */
+		int a = 0;
+		boolean onlyOneElement = false;
+
+		int child[] = ((NetworkplanElement) npElemente.get(0)).getChild();
+
+		if (child[0] == 0)
+			onlyOneElement = true;
+
+		while (a < jNpElem.length && jNpElem[a] != null) {
+
+			/** Vertical small connection lines to the element at top and bottom */
+			int xPosStart = (int) jNpElem[a].getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE).getX();
+
+			/** Top Connection */
+			if (!jNpElem[a].getNp().isStartElem()) {
+				int yPosStart = (int) jNpElem[a].getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE).getY() - 65;
+
+				JSeparator jSeparatorVerticalCon = new JSeparator();
+				jSeparatorVerticalCon.setOrientation(SwingConstants.VERTICAL);
+				jSeparatorVerticalCon.setBounds(xPosStart, yPosStart, 1, 65);
+
+				if (jNpElem[a].getNp().isCriticalPath())
+					jSeparatorVerticalCon.setForeground(Color.RED);
+				else
+					jSeparatorVerticalCon.setForeground(Color.BLACK);
+
+				this.add(jSeparatorVerticalCon);
+			}
+
+			/** Bottom Connection */
+			if (!jNpElem[a].getNp().isEndElem()) {
+				int yPosStart = (int) jNpElem[a].getAnchorPoint(JNetworkplanElement.ANCHOR_BOTTOM_MIDDLE).getY();
+
+				JSeparator jSeparatorVerticalCon = new JSeparator();
+				jSeparatorVerticalCon.setOrientation(SwingConstants.VERTICAL);
+				jSeparatorVerticalCon.setBounds(xPosStart, yPosStart, 1, 65);
+
+				if (jNpElem[a].getNp().isCriticalPath())
+					jSeparatorVerticalCon.setForeground(Color.RED);
+				else
+					jSeparatorVerticalCon.setForeground(Color.BLACK);
+
+				this.add(jSeparatorVerticalCon);
+			}
+
+			/** Horizontal Connection Line connecting the childs */
+			child = jNpElem[a].getNp().getChild();
+			if (child.length > 1) {
+
+				int h = 0;
+				while (h < child.length) {
+
+					xPosStart =
+						(int) jNpElem[((NetworkplanElement) npElemente.get(child[h] - 1))
+							.getLayoutManager()]
+							.getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE)
+							.getX();
+
+					int xPosLength = 0;
+
+					if (xPosStart > (int) jNpElem[a].getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE).getX()) {
+						xPosStart = (int) jNpElem[a].getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE).getX();
+
+						xPosLength =
+							(int) jNpElem[((NetworkplanElement) npElemente.get(child[h] - 1))
+								.getLayoutManager()]
+								.getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE)
+								.getX()
+								- xPosStart;
+					}
+
+					int yPosStart =
+						(int) jNpElem[((NetworkplanElement) npElemente.get(child[h] - 1))
+							.getLayoutManager()]
+							.getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE)
+							.getY();
+
+					if (xPosLength == 0) {
+						xPosLength = (int) jNpElem[a].getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE).getX() - xPosStart;
+					}
+
+					if (xPosLength < 0)
+						xPosLength *= -1;
+
+					JSeparator jSeparatorHorizontalCon = new JSeparator();
+					jSeparatorHorizontalCon.setOrientation(SwingConstants.HORIZONTAL);
+					jSeparatorHorizontalCon.setBounds(xPosStart, yPosStart - 65, xPosLength, 1);
+
+					if (((NetworkplanElement) npElemente.get(child[h] - 1)).isCriticalPath())
+						jSeparatorHorizontalCon.setForeground(Color.RED);
+					else
+						jSeparatorHorizontalCon.setForeground(Color.BLACK);
+
+					this.add(jSeparatorHorizontalCon);
+					h++;
+				}
+			}
+
+			/** Horizontal Connection Line connecting the parents */
+			int parent[] = jNpElem[a].getNp().getParent();
+			if (parent.length > 1) {
+
+				int h = 0;
+
+				while (h < parent.length) {
+
+					xPosStart =
+						(int) jNpElem[((NetworkplanElement) npElemente.get(parent[h] - 1))
+							.getLayoutManager()]
+							.getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE)
+							.getX();
+
+					int xPosLength = 0;
+
+					if (xPosStart > (int) jNpElem[a].getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE).getX()) {
+						xPosStart = (int) jNpElem[a].getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE).getX();
+
+						xPosLength =
+							(int) jNpElem[((NetworkplanElement) npElemente.get(parent[h] - 1))
+								.getLayoutManager()]
+								.getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE)
+								.getX()
+								- xPosStart;
+					}
+
+					int yPosStart = (int) jNpElem[a].getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE).getY();
+
+					if (xPosLength == 0) {
+						xPosLength = (int) jNpElem[a].getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE).getX() - xPosStart;
+					}
+
+					if (xPosLength < 0)
+						xPosLength *= -1;
+
+					JSeparator jSeparatorHorizontalCon = new JSeparator();
+					jSeparatorHorizontalCon.setOrientation(SwingConstants.HORIZONTAL);
+					jSeparatorHorizontalCon.setBounds(xPosStart, yPosStart - 65, xPosLength, 1);
+
+					if (((NetworkplanElement) npElemente.get(parent[h] - 1)).isCriticalPath())
+						jSeparatorHorizontalCon.setForeground(Color.RED);
+					else
+						jSeparatorHorizontalCon.setForeground(Color.BLACK);
+
+					this.add(jSeparatorHorizontalCon);
+
+					h++;
+				}
+			}
+			a++;
+		}
+
+		/** Paint the vertical long connection lines if existing. */
+		int z = 0;
+		while (tupel[z] != null && !onlyOneElement) {
+			Vector temp = tupel[z];
+
+			int g = 0;
+			while (g < temp.size()) {
+
+				Vector completed = new Vector();
+
+				if (((Integer) temp.get(g)).intValue() < 0) {
+					int currentNumber = ((Integer) temp.get(g)).intValue();
+
+					if (!completed.contains(new Integer(currentNumber))) {
+						NetworkplanElement np = (NetworkplanElement) npElemente.get(currentNumber * (-1) - 1);
+						child = np.getChild();
+
+						int xPosStart = (int) jNpElem[np.getLayoutManager()].getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE).getX();
+						int yPosStart =
+							(int) jNpElem[np.getLayoutManager()].getAnchorPoint(JNetworkplanElement.ANCHOR_BOTTOM_MIDDLE).getY() + 65;
+						int yPosLength =
+							(int) jNpElem[((NetworkplanElement) npElemente.get(child[0] - 1))
+								.getLayoutManager()]
+								.getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE)
+								.getY()
+								- 65
+								- yPosStart;
+
+						JSeparator jSeparatorVerticalCon = new JSeparator();
+						jSeparatorVerticalCon.setOrientation(SwingConstants.VERTICAL);
+						jSeparatorVerticalCon.setBounds(xPosStart, yPosStart, 1, yPosLength);
+
+						if (np.isCriticalPath())
+							jSeparatorVerticalCon.setForeground(Color.RED);
+						else
+							jSeparatorVerticalCon.setForeground(Color.BLACK);
+
+						completed.add(new Integer(currentNumber));
+
+						if (np.isCriticalPath())
+							jSeparatorVerticalCon.setForeground(Color.RED);
+
+						this.add(jSeparatorVerticalCon);
+					}
+				}
+				g++;
+			}
+			z++;
 		}
 	}
 }
