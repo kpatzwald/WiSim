@@ -66,8 +66,10 @@ public class DesktopMenu extends JMenu implements ActionListener {
 	 */
 	public DesktopMenu(DesktopMediator desktopMediator, boolean tileMode) {
 
-		super("Window");
+		super("Fenster");
+		
 		setMnemonic(KeyEvent.VK_W);
+		setMnemonic('F');
 
 		this.desktopMediator = desktopMediator;
 		this.tileMode = tileMode;

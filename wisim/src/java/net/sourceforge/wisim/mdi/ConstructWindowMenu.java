@@ -66,22 +66,25 @@ public class ConstructWindowMenu implements ActionListener {
      */
       private void constructMenuItems(JMenu sourceMenu, boolean tileMode) {
 
-            sourceMenu.add(new BaseMenuItem(this, "Tile", KeyEvent.VK_T, -1));
-            sourceMenu.add(new BaseMenuItem(this, "Cascade", KeyEvent.VK_C, -1));
+            sourceMenu.add(new BaseMenuItem(this, "Nebeneinander", 'N', -1));
+            sourceMenu.add(new BaseMenuItem(this, "‹berlappend", '‹', -1));
             sourceMenu.addSeparator();
 
             JMenu autoMenu = new JMenu("Auto");
             autoMenu.setMnemonic(KeyEvent.VK_U);
+            autoMenu.setMnemonic('A');
             ButtonGroup autoMenuGroup = new ButtonGroup();
             JRadioButtonMenuItem radioItem = 
                   new BaseRadioButtonMenuItem(this, 
-                        "Tile", KeyEvent.VK_T, -1, tileMode);
+                        "Nebeneinander", KeyEvent.VK_T, -1, tileMode);
+            radioItem.setMnemonic('N');
             autoMenu.add(radioItem);
             autoMenuGroup.add(radioItem);
 
             radioItem = 
                   new BaseRadioButtonMenuItem(this, 
-                        "Cascade", KeyEvent.VK_C, -1, !tileMode);
+                        "‹berlappend", KeyEvent.VK_C, -1, !tileMode);
+						radioItem.setMnemonic('‹');
             autoMenu.add(radioItem);
             autoMenuGroup.add(radioItem);
 
@@ -89,7 +92,7 @@ public class ConstructWindowMenu implements ActionListener {
             sourceMenu.addSeparator();
 
             sourceMenu.add(new BaseMenuItem(this, 
-                  "Close", KeyEvent.VK_S, KeyEvent.VK_Z));
+                  "Schlieﬂen", KeyEvent.VK_S, KeyEvent.VK_Z));
             sourceMenu.addSeparator();
 
       }

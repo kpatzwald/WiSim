@@ -109,15 +109,15 @@ public class DesktopListener implements ComponentListener, ActionListener, Inter
 
 		String actionCmd = e.getActionCommand();
 
-		if (actionCmd.equals("Tile")) {
+		if (actionCmd.equals("Nebeneinander")) {
 			desktopMediator.tileInternalFrames();
-		} else if (actionCmd.equals("Cascade")) {
+		} else if (actionCmd.equals("‹berlappend")) {
 			desktopMediator.cascadeInternalFrames();
-		} else if (actionCmd.equals("Close")) {
+		} else if (actionCmd.equals("Schlieﬂen")) {
 			desktopMediator.closeSelectedFrame();
-		} else if (actionCmd.equals("TileRadio")) {
+		} else if (actionCmd.equals("NebeneinanderRadio")) {
 			desktopMediator.setAutoTile(true);
-		} else if (actionCmd.equals("CascadeRadio")) {
+		} else if (actionCmd.equals("‹berlappendRadio")) {
 			desktopMediator.setAutoTile(false);
 		} else { // no action command? 
 			// then select the associated frame (if any)
