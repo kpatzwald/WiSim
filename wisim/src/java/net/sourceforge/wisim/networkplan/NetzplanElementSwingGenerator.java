@@ -25,9 +25,6 @@ package net.sourceforge.wisim.networkplan;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 
@@ -42,7 +39,7 @@ import javax.swing.border.LineBorder;
  * @author benjamin.pasero
  * @version 0.5a
  */
-public class NetzplanElementSwingGenerator {
+public class NetzplanElementSwingGenerator extends JPanel {
 
 	private JLabel jLabelDuration;
 	private JLabel jLabelFAZ;
@@ -56,7 +53,6 @@ public class NetzplanElementSwingGenerator {
 	private JLabel jLabelSEZ;
 	private JSeparator jSeparatorConTop;
 	private JSeparator jSeparatorConBottom;
-	private JPanel npElementContainer;
 	private JPanel npElementRect;
 	private boolean isCriticalPathElement;
 	private NetzplanElement currentNpElem;
@@ -75,7 +71,6 @@ public class NetzplanElementSwingGenerator {
 	 * Paints a new networkplan element in a JLabel
 	 */
 	public NetzplanElementSwingGenerator() {
-		npElementContainer = new JPanel();
 		npElementRect = new JPanel();
 		jSeparatorConTop = new JSeparator();
 		jSeparatorConBottom = new JSeparator();
@@ -94,21 +89,21 @@ public class NetzplanElementSwingGenerator {
 		outerTextFont = new Font("Dialog", 1, 16);
 		descriptionFont = new Font("Dialog", 1, 14);
 
-		npElementRect.addMouseMotionListener(new MouseMotionAdapter() {
-			public void mouseMoved(java.awt.event.MouseEvent evt) {
-				npElementRectMouseMoved(evt);
-			}
-		});
-
-		npElementRect.addMouseListener(new MouseAdapter() {
-			public void mouseExited(java.awt.event.MouseEvent evt) {
-				npElementRectMouseExited(evt);
-			}
-
-			public void mouseClicked(MouseEvent evt) {
-				npElementRectMouseClicked(evt);
-			}
-		});
+		//		npElementRect.addMouseMotionListener(new MouseMotionAdapter() {
+		//			public void mouseMoved(java.awt.event.MouseEvent evt) {
+		//				npElementRectMouseMoved(evt);				
+		//			}
+		//		});
+		//
+		//		npElementRect.addMouseListener(new MouseAdapter() {
+		//			public void mouseExited(java.awt.event.MouseEvent evt) {
+		//				npElementRectMouseExited(evt);				
+		//			}
+		//
+		//			public void mouseClicked(MouseEvent evt) {
+		//				npElementRectMouseClicked(evt);
+		//			}
+		//		});
 	}
 
 	/**
@@ -121,13 +116,13 @@ public class NetzplanElementSwingGenerator {
 		currentNpElem = np;
 
 		/** Container that holds all swing-elements */
-		npElementContainer.setLayout(null);
+		this.setLayout(null);
 
 		/** Alpha is set to 100, makes this JPanel transparent */
-		Color c = new Color(255, 255, 255, 100);
+		Color c = new Color(255, 255, 255, 0);
 
-		npElementContainer.setBackground(c);
-		//npElementContainer.setPreferredSize(new Dimension(widht, height));
+		this.setBackground(c);
+		//this.setPreferredSize(new Dimension(widht, height));
 
 		/** Rectangle of the network plan element */
 		npElementRect.setLayout(null);
@@ -142,13 +137,13 @@ public class NetzplanElementSwingGenerator {
 
 		npElementRect.setBorder(new LineBorder(lineColor));
 
-		//npElementRect.setPreferredSize(new Dimension(300, 150));
+		//this.setPreferredSize(new Dimension(300, 150));
 
 		/** Connection-line between two elements on top */
 		if (!np.isStartElem()) {
 			jSeparatorConTop.setForeground(lineColor);
 			jSeparatorConTop.setOrientation(SwingConstants.VERTICAL);
-			npElementContainer.add(jSeparatorConTop);
+			this.add(jSeparatorConTop);
 			jSeparatorConTop.setBounds(width / 2, 0, width / 2, 65);
 		}
 
@@ -156,7 +151,7 @@ public class NetzplanElementSwingGenerator {
 		if (!np.isEndElem()) {
 			jSeparatorConBottom.setForeground(lineColor);
 			jSeparatorConBottom.setOrientation(SwingConstants.VERTICAL);
-			npElementContainer.add(jSeparatorConBottom);
+			this.add(jSeparatorConBottom);
 			jSeparatorConBottom.setBounds(width / 2, 215, width / 2, 270);
 		}
 
@@ -352,37 +347,37 @@ public class NetzplanElementSwingGenerator {
 			jLabelLine1.setBounds(85, 30, 210, 19);
 		}
 
-		npElementContainer.add(npElementRect);
+		this.add(npElementRect);
 		npElementRect.setBounds(30, 65, 300, 150);
 
 		/** Writing FAZ */
 		jLabelFAZ.setFont(outerTextFont);
 		jLabelFAZ.setText(String.valueOf(np.getFaz()));
-		npElementContainer.add(jLabelFAZ);
+		this.add(jLabelFAZ);
 		jLabelFAZ.setBounds(30, 41, 40, 20);
 
 		/** Writing FEZ */
 		jLabelFEZ.setFont(outerTextFont);
 		jLabelFEZ.setHorizontalAlignment(SwingConstants.RIGHT);
 		jLabelFEZ.setText(String.valueOf(np.getFez()));
-		npElementContainer.add(jLabelFEZ);
+		this.add(jLabelFEZ);
 		jLabelFEZ.setBounds(290, 41, 40, 20);
 
 		/** Writing SAZ */
 		jLabelSAZ.setFont(outerTextFont);
 		jLabelSAZ.setText(String.valueOf(np.getSaz()));
-		npElementContainer.add(jLabelSAZ);
+		this.add(jLabelSAZ);
 		jLabelSAZ.setBounds(30, 217, 40, 20);
 
 		/** Writing SEZ */
 		jLabelSEZ.setFont(outerTextFont);
 		jLabelSEZ.setHorizontalAlignment(SwingConstants.RIGHT);
 		jLabelSEZ.setText(String.valueOf(np.getSez()));
-		npElementContainer.add(jLabelSEZ);
+		this.add(jLabelSEZ);
 		jLabelSEZ.setBounds(290, 217, 40, 20);
 
 		//npElementContainer.setBounds(60, 290, 360, 275);
-		return npElementContainer;
+		return this;
 	}
 
 	/**
@@ -437,6 +432,6 @@ public class NetzplanElementSwingGenerator {
 	/** Something happens when the user clicks the element ;-) */
 	private void npElementRectMouseClicked(java.awt.event.MouseEvent evt) {
 		String message = String.valueOf(currentNpElem.getIndex());
-		JOptionPane.showMessageDialog(npElementContainer, "This is activity number " + message);
+		JOptionPane.showMessageDialog(this, "This is activity number " + message);
 	}
 }

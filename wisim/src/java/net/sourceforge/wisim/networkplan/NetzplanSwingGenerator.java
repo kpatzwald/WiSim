@@ -24,6 +24,11 @@
 package net.sourceforge.wisim.networkplan;
 
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.awt.event.WindowEvent;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -38,7 +43,7 @@ import javax.swing.SwingConstants;
  * @author benjamin.pasero
  * @version 0.5a
  */
-public class NetzplanSwingGenerator {
+public class NetzplanSwingGenerator extends JPanel implements MouseListener, MouseMotionListener {
 
 	private Vector npElemente;
 	private NetzplanCalculator npCalc;
@@ -53,12 +58,21 @@ public class NetzplanSwingGenerator {
 
 	private JPanel jPanelNetworkplanContainer;
 
+	private int x1 = 0, y1 = 0;
+	private boolean dragging;
+	private int offsetX, offsetY;
+	private String movedElementName = "";
+	private Component movedElement;
+
 	/**
 	 * Initialize the position-Matrix and tupel-Array for each row.
 	 * Add each networkplan element on a JPanel. 
 	 * @param npElemente
 	 */
 	public NetzplanSwingGenerator(Vector npElemente) {
+
+		addMouseListener(this);
+		addMouseMotionListener(this);
 
 		/** Guess the x and y spread of the network plan */
 		maxPosX = npElemente.size();
@@ -173,7 +187,8 @@ public class NetzplanSwingGenerator {
 			/** This element is not a vertical connection line */
 			if (checkIfLine > 0) {
 				npElemPanel = npGen[i].generateNetzplanelement(np);
-				jPanelNetworkplanContainer.add(npElemPanel);
+				npElemPanel.setName(String.valueOf(np.getIndex()));
+				this.add(npElemPanel);
 				npElemPanel.setBounds(30 + x * 430, 30 + middlePos * 280, 360, 280);
 			}
 
@@ -239,7 +254,8 @@ public class NetzplanSwingGenerator {
 				/** This element is not a vertical connection line */
 				if (checkIfLine > 0) {
 					npElemPanel = npGen[i].generateNetzplanelement(np);
-					jPanelNetworkplanContainer.add(npElemPanel);
+					npElemPanel.setName(String.valueOf(np.getIndex()));
+					this.add(npElemPanel);
 					npElemPanel.setBounds(30 + y * 430 + freeWidth, 30 + topPos * 280, 360, 280);
 				}
 
@@ -296,7 +312,8 @@ public class NetzplanSwingGenerator {
 				if (checkIfLine > 0) {
 					npElemPanel = npGen[i].generateNetzplanelement(np);
 
-					jPanelNetworkplanContainer.add(npElemPanel);
+					npElemPanel.setName(String.valueOf(np.getIndex()));
+					this.add(npElemPanel);
 					npElemPanel.setBounds(30 + y * 430 + freeWidth, 30 + bottomPos * 280, 360, 280);
 				}
 
@@ -337,7 +354,7 @@ public class NetzplanSwingGenerator {
 				if (np.isCriticalPath())
 					jSeparatorHorizontalCon.setForeground(Color.RED);
 
-				jPanelNetworkplanContainer.add(jSeparatorHorizontalCon);
+				this.add(jSeparatorHorizontalCon);
 			}
 
 			/** Horizontal Connection Line connecting the parents */
@@ -376,7 +393,7 @@ public class NetzplanSwingGenerator {
 
 				jSeparatorHorizontalCon.setForeground(Color.BLACK);
 
-				jPanelNetworkplanContainer.add(jSeparatorHorizontalCon);
+				this.add(jSeparatorHorizontalCon);
 			}
 		}
 
@@ -401,7 +418,7 @@ public class NetzplanSwingGenerator {
 					if (np.isCriticalPath())
 						jSeparatorVerticalCon.setForeground(Color.RED);
 
-					jPanelNetworkplanContainer.add(jSeparatorVerticalCon);
+					this.add(jSeparatorVerticalCon);
 				}
 				g++;
 			}
@@ -561,7 +578,7 @@ public class NetzplanSwingGenerator {
 	 * @return the network plan
 	 */
 	public JPanel getNetzplanGraphic() {
-		return jPanelNetworkplanContainer;
+		return this;
 	}
 
 	/** Display the critical path */
@@ -705,5 +722,67 @@ public class NetzplanSwingGenerator {
 			c++;
 		}
 		return childWidth;
+	}
+
+	public void mousePressed(MouseEvent evt) {
+		if (dragging)
+			return;
+
+		int x = evt.getX();
+		int y = evt.getY();
+
+		if (getComponentAt(x, y).getName() != null) {
+			if (x1 == 0 && y1 == 0) {
+				x1 = (int) getComponentAt(x, y).getLocation().getX();
+				y1 = (int) getComponentAt(x, y).getLocation().getY();
+			}
+
+			if (movedElementName.equals("")) {
+				movedElementName = getComponentAt(x, y).getName();
+				movedElement = getComponentAt(x, y);
+			}
+
+			dragging = true;
+			offsetX = x - x1;
+			offsetY = y - y1;
+		}
+	}
+
+	public void mouseReleased(MouseEvent evt) {
+		movedElementName = "";
+		movedElement = null;
+		dragging = false;
+		x1 = 0;
+		y1 = 0;
+	}
+
+	public void mouseDragged(MouseEvent evt) {
+		if (dragging == false || evt.getX() < 0 || evt.getY() < 0)
+			return;
+
+		int x = evt.getX();
+		int y = evt.getY();
+		x1 = x - offsetX;
+		y1 = y - offsetY;
+
+		if (getComponentAt(x, y).getName() != null)
+			movedElement.setLocation(x1, y1);
+	}
+
+	public void mouseMoved(MouseEvent evt) {
+	}
+
+	public void mouseClicked(MouseEvent evt) {
+	}
+
+	public void mouseEntered(MouseEvent evt) {
+		/** Blue highlight */
+	}
+	public void mouseExited(MouseEvent evt) {
+		/** Back to normal color */
+	}
+
+	private void exitForm(WindowEvent evt) {
+		System.exit(0);
 	}
 }

@@ -45,6 +45,8 @@ public class NetzplanShow extends JFrame {
 	private Vector npElemente;
 	private JPanel netzplanGrafik;
 
+	private JScrollPane holdAll;
+
 	/**
 	 * Set up the JFrame that holds a JScrollPane with the network plan
 	 */
@@ -112,7 +114,7 @@ public class NetzplanShow extends JFrame {
 		}
 
 		/** JScrollPane holding the network plan */
-		JScrollPane holdAll = new JScrollPane();
+		holdAll = new JScrollPane();
 		holdAll.setBounds(0, 0, screenSize.width - 10, screenSize.height - 67);
 
 		holdAll.getViewport().add(netzplanGrafik);
