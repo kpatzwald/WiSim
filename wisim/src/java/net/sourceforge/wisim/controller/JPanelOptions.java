@@ -29,13 +29,7 @@
 
 package net.sourceforge.wisim.controller;
 
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.logging.Level;
-import java.util.regex.Pattern;
 
 import javax.swing.JOptionPane;
 import javax.swing.JTree;
@@ -44,11 +38,10 @@ import javax.swing.UIManager;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
+import net.sourceforge.wisim.dao.WiSimAuthentificationDAO;
 import net.sourceforge.wisim.dao.WiSimDAO;
 import net.sourceforge.wisim.dao.WiSimDAOException;
 import net.sourceforge.wisim.model.WiSimLogger;
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
 
 /**
  * JPanelOptions ermöglicht dem Benutzer Einstellungen vorzunehmen.
@@ -61,6 +54,8 @@ public class JPanelOptions extends javax.swing.JPanel {
 	//Logger
 	private WiSimLogger wiSimLogger;
 
+	private WiSimAuthentificationDAO authDAO;
+
 	/** Creates new form JPanelOptions
 	 * @param wiSimMainController Der Maincontroller
 	 */
@@ -68,6 +63,7 @@ public class JPanelOptions extends javax.swing.JPanel {
 		wiSimLogger = wiSimMainController.getWiSimLogger();
 		initComponents();
 		this.wiSimMainController = wiSimMainController;
+		authDAO = wiSimMainController.getAuthDAO();
 	}
 
 	/** This method is called from within the constructor to
@@ -82,10 +78,10 @@ public class JPanelOptions extends javax.swing.JPanel {
 		elementGeneral.add(new DefaultMutableTreeNode("Layout"));
 		root.add(elementGeneral);
 
-		DefaultMutableTreeNode elementMySQL = new DefaultMutableTreeNode("MySQL");
-		elementMySQL.add(new DefaultMutableTreeNode("Einstellungen"));
-		elementMySQL.add(new DefaultMutableTreeNode("Datenbank zurücksetzen"));
-		root.add(elementMySQL);
+		DefaultMutableTreeNode elementDB = new DefaultMutableTreeNode("Datenbank");
+		elementDB.add(new DefaultMutableTreeNode("Einstellungen"));
+		elementDB.add(new DefaultMutableTreeNode("Datenbank zurücksetzen"));
+		root.add(elementDB);
 
 		DefaultTreeModel treeModel = new DefaultTreeModel(root);
 
@@ -291,7 +287,6 @@ public class JPanelOptions extends javax.swing.JPanel {
 
 	private void jButtonUpdateSettingsActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jButtonUpdateSettingsActionPerformed
 		updateDBSettings();
-		JOptionPane.showMessageDialog(this, "Die Einstellungen wurden gespeichert.\n" + "Ein Neustart der Applikation ist erforderlich!");
 	} //GEN-LAST:event_jButtonUpdateSettingsActionPerformed
 
 	private void jPanelMySQLInfoAncestorAdded(javax.swing.event.AncestorEvent evt) { //GEN-FIRST:event_jPanelMySQLInfoAncestorAdded
@@ -304,31 +299,74 @@ public class JPanelOptions extends javax.swing.JPanel {
 
 	private void jButtonRefreshActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jButtonRefreshActionPerformed
 		resetDB();
-		JOptionPane.showMessageDialog(this, "Die Datenbank wurde zurückgesetzt!");
 	} //GEN-LAST:event_jButtonRefreshActionPerformed
 
 	private void jComboBoxSelectSkinActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jComboBoxSelectSkinActionPerformed
-		String skin = jComboBoxSelectSkin.getSelectedItem().toString();
-		String plaf = "";
-
-		UIManager.LookAndFeelInfo plafs[] = UIManager.getInstalledLookAndFeels();
-		int i = 0;
-		while (i < plafs.length) {
-			if (skin.equals(plafs[i].getName())) {
-				plaf = plafs[i].getClassName();
-			}
-			i++;
-		}
-		try {
-			UIManager.setLookAndFeel(plaf);
-			SwingUtilities.updateComponentTreeUI(this);
-			SwingUtilities.updateComponentTreeUI(wiSimMainController);
-		} catch (Exception e) {
-			wiSimLogger.log("setLookAndFeel()", e);
-		}
+		lookAndFeel();
 	} //GEN-LAST:event_jComboBoxSelectSkinActionPerformed
 
 	private void jTreeOptionsValueChanged(javax.swing.event.TreeSelectionEvent evt) { //GEN-FIRST:event_jTreeOptionsValueChanged
+		treeOptions();
+	} //GEN-LAST:event_jTreeOptionsValueChanged
+
+	/** Resets the DB
+	 */
+	private void resetDB() {
+		int choise = JOptionPane.showConfirmDialog(this, "Die Datenbank wird auf die initialen Werte der Datei \"complete.sql\" zurückgesetzt.\nAlle Benutzereingaben werden gelöscht.\nDatenbank zurücksetzen?", "Achtung!", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+		if (choise == JOptionPane.YES_OPTION) {
+			jLabelBeschreibung1.setText("Bitte warten....");
+			WiSimDAO dao = wiSimMainController.getDAO();
+			try {
+				dao.dbReset();
+				jLabelBeschreibung1.setText("Fertig!");
+			} catch (WiSimDAOException e) {
+				jLabelBeschreibung1.setText("Probleme beim Zurücksetzten der DB");
+				wiSimLogger.log(Level.WARNING, "resetDB()", e, false);
+			}
+			JOptionPane.showMessageDialog(this, "Die Datenbank wurde zurückgesetzt!");
+		}
+	}
+
+	/** Füllt die Textfelder mit den Daten aus der "config.dat" */
+	private void fillDBInfoFields() {
+		jTextFieldHostname.setText(authDAO.getHostName());
+		jTextFieldPort.setText(authDAO.getPort());
+		jTextFieldUsername.setText(authDAO.getUser());
+		jPasswordField.setText(authDAO.getPassword());
+	}
+
+	/** Schreibt die Daten aus den Textfeldern in die "config.dat" */
+	private void updateDBSettings() {
+		String hostname = jTextFieldHostname.getText();
+		if (hostname.equals("")) {
+			hostname = "localhost";
+		}
+
+		String port = jTextFieldPort.getText();
+		if (port.equals("")) {
+			port = "3306";
+		}
+
+		String user = jTextFieldUsername.getText();
+		if (user.equals("")) {
+			user = "root";
+		}
+
+		String password = jPasswordField.getPassword().toString();
+
+		authDAO.updateDBSettings(hostname, port, user, password);
+
+		JOptionPane.showMessageDialog(this, "Die Einstellungen wurden gespeichert.\n" + "Ein Neustart der Applikation ist erforderlich!");
+	}
+
+	/** Enables the JButtonRefresh. It is important, that nobody can refresh
+	 * the DB if the simulation is running
+	 */
+	public void setJButtonRefreshEnable(boolean enable) {
+		jButtonRefresh.setEnabled(enable);
+	}
+
+	private void treeOptions() {
 		if (!jTreeOptions.isSelectionEmpty()) {
 			String menue = jTreeOptions.getLastSelectedPathComponent().toString();
 			if (menue.equals("Einstellungen")) {
@@ -348,93 +386,27 @@ public class JPanelOptions extends javax.swing.JPanel {
 				jLabelBeschreibung1.setText("Warte auf Bestätigung");
 			}
 		}
-	} //GEN-LAST:event_jTreeOptionsValueChanged
-
-	/** Resets the DB
-	 */
-	public void resetDB() {
-		jLabelBeschreibung1.setText("Bitte warten....");
-		WiSimDAO dao = wiSimMainController.getDAO();
-		try {
-			dao.dbReset();
-			jLabelBeschreibung1.setText("Fertig!");
-		} catch (WiSimDAOException e) {
-			jLabelBeschreibung1.setText("Probleme beim Zurücksetzten der DB");
-			wiSimLogger.log(Level.WARNING, "resetDB()", e, false);
-		}
 	}
 
-	/** Füllt die Textfelder mit den Daten aus der "config.dat" */
-	public void fillDBInfoFields() {
-		//Datei mit DB Infos wird eingelesen
-		String result = "";
+	private void lookAndFeel() {
+		String skin = jComboBoxSelectSkin.getSelectedItem().toString();
+		String plaf = "";
+
+		UIManager.LookAndFeelInfo plafs[] = UIManager.getInstalledLookAndFeels();
+		int i = 0;
+		while (i < plafs.length) {
+			if (skin.equals(plafs[i].getName())) {
+				plaf = plafs[i].getClassName();
+			}
+			i++;
+		}
 		try {
-			FileInputStream file = new FileInputStream("config.dat");
-			DataInputStream in = new DataInputStream(file);
-
-			BASE64Decoder decoder = new BASE64Decoder();
-			byte[] b = decoder.decodeBuffer(in);
-			in.close();
-			result = new String(b);
-
-		} catch (IOException e) {
+			UIManager.setLookAndFeel(plaf);
+			SwingUtilities.updateComponentTreeUI(this);
+			SwingUtilities.updateComponentTreeUI(wiSimMainController);
+		} catch (Exception e) {
+			wiSimLogger.log("setLookAndFeel()", e);
 		}
-
-		Pattern p = Pattern.compile("\n");
-		String[] daten = p.split(result);
-
-		//Manipulation verhindern
-		if (daten.length < 3 || daten.length > 4) {
-			result = "localhost\n3306\nroot";
-			daten = p.split(result);
-		}
-
-		jTextFieldHostname.setText(daten[0].trim());
-		jTextFieldPort.setText(daten[1].trim());
-		jTextFieldUsername.setText(daten[2].trim());
-
-		if (daten.length < 4)
-			jPasswordField.setText("");
-		else
-			jPasswordField.setText(daten[3].trim());
-	}
-
-	/** Schreibt die Daten aus den Textfeldern in die "config.dat" */
-	public void updateDBSettings() {
-		String hostname = jTextFieldHostname.getText();
-		if (hostname.equals("")) {
-			hostname = "localhost";
-		}
-
-		String port = jTextFieldPort.getText();
-		if (port.equals("")) {
-			port = "3306";
-		}
-
-		String user = jTextFieldUsername.getText();
-		if (user.equals("")) {
-			user = "root";
-		}
-
-		String values = hostname + "\n" + port + "\n" + user + "\n" + String.valueOf(jPasswordField.getPassword());
-		byte[] b = values.getBytes();
-		BASE64Encoder encoder = new BASE64Encoder();
-		values = encoder.encode(b);
-
-		try {
-			File file = new File("config.dat");
-			FileWriter fw = new FileWriter(file);
-			fw.write(values);
-			fw.close();
-		} catch (IOException e) {
-		}
-	}
-
-	/** Enables the JButtonRefresh. It is important, that nobody can refresh
-	 * the DB if the simulation is running
-	 */
-	public void setJButtonRefreshEnable(boolean enable) {
-		jButtonRefresh.setEnabled(enable);
 	}
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables
