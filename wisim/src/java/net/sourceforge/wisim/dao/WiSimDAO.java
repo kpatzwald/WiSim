@@ -531,4 +531,10 @@ public interface WiSimDAO {
 	 * @throws WiSimDAOException If an error occurs
 	 */
 	public Vector getNetworkplanElements() throws WiSimDAOException;
+	
+	/** Resets the db
+	 * 
+	 * @throws WiSimDAOException If an error occurs
+	 */
+	public void dbReset() throws WiSimDAOException;
 }
