@@ -713,15 +713,10 @@ public class WiSimMainController extends javax.swing.JFrame {
 	 * @param String Name of the panel, representing the JInternalFrame-Content
 	 */
 	public void addPanel(String panelName) {
-		//getContentPane().removeAll();
 
 		//Update Plugable look and feel
 		SwingUtilities.updateComponentTreeUI((JPanel) actions.get(panelName));
 		SwingUtilities.updateComponentTreeUI(jMenuBarWiSim);
-
-		//		getContentPane().add((JPanel) actions.get(panel), java.awt.BorderLayout.CENTER);
-		//		getContentPane().validate();
-		//		getContentPane().repaint();
 
 		JInternalFrame frames[] = desktopPane.getAllFrames();
 		boolean isOpen = false;
