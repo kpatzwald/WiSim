@@ -2179,17 +2179,17 @@ public class WiSimDAOImpl implements WiSimDAO {
 			throw new WiSimDAOWriteException(sqlE.getMessage());
 		}
 	} /** Erhöht / Erniedrigt den Bestand eines Artikels im Lager.
-							     * @param artNr Article Nummer
-							     * @param menge neue Menge = aktuelleMenge + menge
-							     * Das heißt, wenn eine negative Menge angegeben wird, so erniedrigt man den Bestand.
-							     * @throws WiSimDAOWriteException if a database problem occurs or the connection was never initialized
-							     * @return True: Bestand wurde erhöht / erniedrigt.
-							     * False:
-							     * Bei Erhöhung: Gelieferte Menege übertrifft den Maximal Bestand. Der neue Bestand
-							     * ist jetzt der Maximal Bestand, der Rest der Lieferung wird ignoriert.
-							     * Bei Erniedrigung:
-							     * Der Bestand dieses Artikels ist schon auf 0.
-							     */
+								     * @param artNr Article Nummer
+								     * @param menge neue Menge = aktuelleMenge + menge
+								     * Das heißt, wenn eine negative Menge angegeben wird, so erniedrigt man den Bestand.
+								     * @throws WiSimDAOWriteException if a database problem occurs or the connection was never initialized
+								     * @return True: Bestand wurde erhöht / erniedrigt.
+								     * False:
+								     * Bei Erhöhung: Gelieferte Menege übertrifft den Maximal Bestand. Der neue Bestand
+								     * ist jetzt der Maximal Bestand, der Rest der Lieferung wird ignoriert.
+								     * Bei Erniedrigung:
+								     * Der Bestand dieses Artikels ist schon auf 0.
+								     */
 	public synchronized boolean setArtikelLagerBestand(int artNr, int menge) throws WiSimDAOWriteException {
 		// Serverlog
 		logger.finest("com.pixelpark.wisim.dao.WiSimDAOImpl.getEtat Action: start");
@@ -2556,7 +2556,103 @@ public class WiSimDAOImpl implements WiSimDAO {
 		try {
 			InputStream in = url.openStream();
 			DataInputStream data = new DataInputStream(in);
-			
+
+			buffer = new byte[in.available()];
+			data.readFully(buffer);
+			in.close();
+		} catch (IOException e) {
+			throw new WiSimDAOException(e.getMessage());
+		}
+
+		result = new String(buffer, 0, buffer.length);
+		p = Pattern.compile("\n");
+
+		String[] anweisungen = p.split(result);
+		int n = 0;
+		for (int i = 0; i < anweisungen.length; i++) {
+			if (anweisungen[i].startsWith("#") || anweisungen[i].toCharArray().length == 1) {
+				anweisungen[i] = null;
+				n++;
+			}
+		}
+
+		String[] queries = new String[anweisungen.length - n];
+		int j = 0;
+		for (int i = 0; i < anweisungen.length; i++) {
+			if (anweisungen[i] != null) {
+				queries[j] = anweisungen[i];
+				j++;
+			}
+		}
+
+		int i = 0;
+		int m = 1;
+		while (i < queries.length) {
+			if (queries[i].startsWith(" ")) {
+				queries[i - m] = queries[i - m].concat(queries[i]);
+				m++;
+				queries[i] = null;
+			} else if (queries[i].startsWith(")")) {
+				queries[i - m] = queries[i - m].concat(queries[i]);
+				queries[i] = null;
+			} else
+				m = 1;
+			i++;
+		}
+
+		int a = 0;
+		for (int b = 0; b < queries.length; b++) {
+			if (queries[b] == null) {
+				a++;
+			}
+		}
+
+		String[] queriesFinal = new String[queries.length - a];
+		int c = 0;
+		for (int d = 0; d < queries.length; d++) {
+			if (queries[d] != null) {
+				queriesFinal[c] = queries[d];
+				c++;
+			}
+		}
+
+		for (int z = 0; z < queriesFinal.length; z++) {
+			char ersetzen[] = queriesFinal[z].toCharArray();
+			for (int e = 0; e < ersetzen.length; e++) {
+				if (ersetzen[e] == ';' || ersetzen[e] == '\n') {
+					ersetzen[e] = ' ';
+				}
+			}
+			queriesFinal[z] = String.valueOf(ersetzen);
+		}
+
+		try {
+
+			Statement stmt = conn.createStatement();
+			for (int k = 0; k < queriesFinal.length; k++) {
+				stmt.executeUpdate(queriesFinal[k]);
+			}
+
+		} catch (SQLException e) {
+			throw new WiSimDAOException(e.getMessage());
+		}
+
+	}
+
+	/** Resets the DB
+		 * 
+		 * @throws WiSimDAOException If an error occurs
+		 */
+	public void simulationReset() throws WiSimDAOException {
+		String result;
+		Pattern p;
+		URL url = getClass().getResource("/sql/simulation.sql");
+
+		byte buffer[] = null;
+		try {
+			InputStream in = url.openStream();
+			DataInputStream data = new DataInputStream(in);
+
 			buffer = new byte[in.available()];
 			data.readFully(buffer);
 			in.close();

@@ -545,4 +545,10 @@ public interface WiSimDAO {
 	 * @throws WiSimDAOException If an error occurs
 	 */
 	public void dbReset() throws WiSimDAOException;
+	
+	/** Resets the simulation and related db-relations
+	 * 
+	 * @throws WiSimDAOException
+	 */
+	public void simulationReset() throws WiSimDAOException;
 }

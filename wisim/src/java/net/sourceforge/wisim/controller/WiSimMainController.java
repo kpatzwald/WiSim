@@ -930,7 +930,7 @@ public class WiSimMainController extends javax.swing.JFrame {
 		setTrafficLightsOff();
 		WiSimDAO dao = this.getDAO();
 		try {
-			dao.dbReset();
+			dao.simulationReset();
 			resetFields();
 		} catch (WiSimDAOException e) {
 			wiSimLogger.log(Level.WARNING, "resetDB()", e, false);
