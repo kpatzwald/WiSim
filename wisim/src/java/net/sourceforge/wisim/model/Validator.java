@@ -71,7 +71,7 @@ public class Validator {
      * @param text Zu überprüfender Text.
      */
     public boolean checkPreis(String text) {
-        String regExp = "^([0-9]{0,7}[.]{1}[0-9]{2})$";
+        String regExp = "^([.|,][0-9]{1,2})|[0-9]{1,7}([.|,][0-9]{0,2})?$";
         if (text.matches(regExp))
             return true;
         
@@ -96,8 +96,8 @@ public class Validator {
      * @return boolean
      * @param text Zu überprüfender Text.
      */
-    public boolean checkProzent(String text) {
-        String regExp = "[0-9]{1,2}\\.[0-9]{1}";
+    public boolean checkPercent(String text) {
+        String regExp = "^([.|,][0-9]{1,2})|[0-9]{1,2}([.|,][0-9]{0,2})?$";
         if (text.matches(regExp))
             return true;
         
