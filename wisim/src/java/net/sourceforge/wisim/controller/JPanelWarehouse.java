@@ -41,7 +41,7 @@ import javax.swing.*;
  * ausgegeben. Jeder WarehouseLocation kann einzelnd eingesehen werden.
  * @author Benjamin Pasero
  */
-public class JPanelWarehouse extends javax.swing.JPanel {
+public class JPanelWarehouse extends javax.swing.JPanel implements SimulationPane {
     private WiSimDAO dao;
     private Collection lagerplaetze;
     private Vector einzelteileListe;
@@ -58,6 +58,7 @@ public class JPanelWarehouse extends javax.swing.JPanel {
     private static Color redDither = new Color(255, 0, 0, 50);
     private static Color orangeDither = new Color(255, 153, 0, 50);
     private static Color blackDither = new Color(255, 255, 255, 50);
+    private WiSimMainController wiSimMainController;
     
     //Logger
     private WiSimLogger wiSimLogger;
@@ -66,6 +67,7 @@ public class JPanelWarehouse extends javax.swing.JPanel {
      * @param wiSimMainController
      */
     public JPanelWarehouse(WiSimMainController wiSimMainController) {
+    	this.wiSimMainController = wiSimMainController;
         wiSimLogger = wiSimMainController.getWiSimLogger();
         initDAO(wiSimMainController);
         lagerplaetze = new Vector();
@@ -309,12 +311,14 @@ public class JPanelWarehouse extends javax.swing.JPanel {
     
     private void formAncestorRemoved(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_formAncestorRemoved
         setIsActive(false);
+        wiSimMainController.removeActivPanel(this);
     }//GEN-LAST:event_formAncestorRemoved
     
     private void formAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_formAncestorAdded
         buildLegende();
         setIsBuilt(true);
         setIsActive(true);
+        wiSimMainController.addActivPanel(this);
     }//GEN-LAST:event_formAncestorAdded
     
     private void jComboBoxArtikelImLagerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxArtikelImLagerActionPerformed
@@ -885,4 +889,11 @@ public class JPanelWarehouse extends javax.swing.JPanel {
     public boolean getIsActive() {
         return isActive;
     }
+
+	/* (non-Javadoc)
+	 * @see net.sourceforge.wisim.model.SimulationPane#refresh()
+	 */
+	public void refresh() {
+		refreshLagerGesamtliste();
+	}
 }
