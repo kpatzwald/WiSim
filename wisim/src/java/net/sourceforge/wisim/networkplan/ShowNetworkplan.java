@@ -208,7 +208,9 @@ public class ShowNetworkplan extends JFrame {
 
 			case 6 :
 				filled.add(new NetworkplanElement(1, 2, new int[] { 2 }, "Ausgieﬂen Fundamente"));
-				filled.add(new NetworkplanElement(2, 2, new int[] { 0 }, "Ausgieﬂen Fundamente"));
+				filled.add(new NetworkplanElement(2, 2, new int[] { 3 }, "Ausgieﬂen Fundamente"));
+				filled.add(new NetworkplanElement(3, 2, new int[] { 4 }, "Ausgieﬂen Fundamente"));
+				filled.add(new NetworkplanElement(4, 2, new int[] { 0 }, "Ausgieﬂen Fundamente"));
 				break;
 
 			case 7 :
@@ -279,7 +281,7 @@ public class ShowNetworkplan extends JFrame {
 				}
 				break;
 
-			default: // Example with setting of parent elements instead of childs
+			default : // Example with setting of parent elements instead of childs
 				filled.add(new NetworkplanElement(1, 2, "Ausgieﬂen Fundamente", new int[] { 0 }));
 				filled.add(new NetworkplanElement(2, 2, "Ausgieﬂen Fundamente", new int[] { 1 }));
 				filled.add(new NetworkplanElement(3, 5, "Verschalung Betonsockel", new int[] { 2 }));

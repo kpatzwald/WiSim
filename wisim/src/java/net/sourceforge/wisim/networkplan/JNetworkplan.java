@@ -1,8 +1,8 @@
 /*   ********************************************************************   **
 **   Copyright notice                                                       **
 **                                                                          **
-**   (c) 2003 WiSim Development Team					                    **
-**   http://wisim.sourceforge.net/   			                            **
+**   (c) 2003 WiSim Development Team					                    					**
+**   http://wisim.sourceforge.net/   			                            			**
 **                                                                          **
 **   All rights reserved                                                    **
 **                                                                          **
@@ -24,7 +24,6 @@
 package net.sourceforge.wisim.networkplan;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
@@ -54,9 +53,9 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 	private int[][] position;
 	private Vector tupel[];
 
+	/** Variables showing the dimension of the JNetworkplan */
 	private int maxWidthPos;
 	private int maxHeightPos;
-
 	private final int maxPosX;
 	private final int maxPosY;
 
@@ -64,21 +63,22 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 	private int x1, y1;
 	private boolean dragging;
 	private int offsetX, offsetY;
-	private Component movedElement;
+	private JNetworkplanElement movedElement;
 	private JNetworkplanElement selectedElement;
 
 	/** Array for each JNetworkplanElement */
 	private JNetworkplanElement jNpElem[];
 
-	private JSeparator line;
+	/** Hashtable to save the positions of the JNetworkplanElements */
+	private Hashtable elementsPosition;
+
+	/** Hashtable for the connection lines */
+	private Hashtable elementsConLine;
 
 	/** Variables for the Edit panel */
 	private JPanel jPanelEdit;
 	private boolean editPanelOpen;
 	private JNetworkplanElement clickedComponent;
-
-	/** Hashtable to save the positions of the elements */
-	private Hashtable elementsPosition;
 
 	/** Bounds of each JNetworkplanElement */
 	private final int jNpElemBoundsX = 430;
@@ -99,11 +99,13 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 	 */
 	public JNetworkplan(Vector npElemente) {
 
+		/** Initializing */
 		x1 = 0;
 		y1 = 0;
+		elementsConLine = new Hashtable();
 		elementsPosition = new Hashtable();
 		editPanelOpen = false;
-		this.npElemente =npElemente;
+		this.npElemente = npElemente;
 
 		/** Listener for user-interaction with the mouse */
 		addMouseListener(this);
@@ -116,10 +118,6 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 
 		/** Matrix for positioning of the elements */
 		position = new int[maxPosX][maxPosY];
-
-		for (int a = 0; a < maxPosX; a++)
-			for (int b = 0; b < maxPosY; b++)
-				position[a][b] = 0;
 
 		/** Calculate the networkplan elements */
 		npCalc = new NetworkplanCalculator(npElemente);
@@ -522,13 +520,6 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 		/** END Debug output */
 	}
 
-	/**
-	 * @return the network plan
-	 */
-	public JNetworkplan getNetzplanGraphic() {
-		return this;
-	}
-
 	/** Display the critical path */
 	public void showCriticalPath() {
 		Vector criticalPath = npCalc.getCriticalPath();
@@ -545,6 +536,7 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 	public int[][] getPosition() {
 		return position;
 	}
+
 	/**
 	 * Get the max Height of this JNetworkplan
 	 * @return maxHeightPos
@@ -670,6 +662,10 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 		return childWidth;
 	}
 
+	/****************************************************
+	 *  						Mouse Event Listener  							*
+	 ****************************************************/
+
 	/** Save this component if its a JNetworkplanElement for movement */
 	public void mousePressed(MouseEvent evt) {
 		if (dragging || editPanelOpen)
@@ -685,7 +681,7 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 			}
 
 			if (movedElement == null) {
-				movedElement = getComponentAt(x, y);
+				movedElement = (JNetworkplanElement) getComponentAt(x, y);
 
 				/** Place this Element top of all */
 				remove(movedElement);
@@ -696,18 +692,18 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 			offsetX = x - x1;
 			offsetY = y - y1;
 
-			movedElement.setCursor(new Cursor(13));
+			movedElement.setCursor(new Cursor(Cursor.MOVE_CURSOR));
 		}
 	}
 
-	/** Forget this JNetworkplanElement */
+	/** Forget this JNetworkplanElement after Mouse-Release*/
 	public void mouseReleased(MouseEvent evt) {
 		if (movedElement != null) {
 
 			/** Save the new position of this element */
 			//elementsPosition.put(new Integer(((JNetworkplanElement)movedElement).getNp().getIndex()), movedElement.getLocation());
 
-			movedElement.setCursor(new Cursor(12));
+			movedElement.setCursor(new Cursor(Cursor.HAND_CURSOR));
 			movedElement = null;
 		}
 		dragging = false;
@@ -727,8 +723,7 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 
 		if (getComponentAt(x, y).getName() != null) {
 			movedElement.setLocation(x1, y1);
-
-			/** [DoItBen] Repaint of the connection lines */
+			moveConnectionLines();
 		}
 	}
 
@@ -737,14 +732,21 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 		int x = evt.getX();
 		int y = evt.getY();
 
+		/** Only highlight if no Edit-Panel is opened */
 		if (!editPanelOpen) {
+
+			/** Only highlight if Mouselocation is on a JNetworkplanElement */
 			if (getComponentAt(x, y).getName() != null && selectedElement == null) {
 				selectedElement = (JNetworkplanElement) getComponentAt(x, y);
 				selectedElement.npElementRectMouseMoved();
-				selectedElement.setCursor(new Cursor(12));
+				selectedElement.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+				/** Deselect the element when the user leaves it */
 			} else if (getComponentAt(x, y).getName() == null && selectedElement != null) {
 				selectedElement.npElementRectMouseExited();
 				selectedElement = null;
+
+				/** Case when JNetworkplanElements are overlapping */
 			} else if (getComponentAt(x, y).getName() != null && selectedElement != null) {
 				if (!getComponentAt(x, y).getName().equals(selectedElement.getName())) {
 					selectedElement.npElementRectMouseExited();
@@ -836,6 +838,7 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 					/** Start stopwatch */
 					long startTime = System.currentTimeMillis();
 
+					/** Make a new calculation (light) */
 					npCalc = new NetworkplanCalculator(npElemente, true);
 					npElemente = npCalc.getNpElemente();
 					resetCriticalPath();
@@ -880,13 +883,15 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 			jButtonCancle.setBounds(145, 82, 81, 26);
 			jButtonCancle.setBorder(new LineBorder(Color.BLACK));
 
-			jPanelEdit.setCursor(new Cursor(0));
+			jPanelEdit.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 
 			add(jPanelEdit, 0);
 
+			/** Center the Edit-Panel over the JNetworkplanElement */
 			int elemXPos = (int) clickedComponent.getLocation().getX() + 10;
 			int elemYPos = (int) clickedComponent.getLocation().getY() + 35;
 
+			/** The Edit-Panel will allways be shown in the visible rect */
 			if (elemXPos < 0)
 				elemXPos = 0;
 
@@ -902,25 +907,6 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 	}
 
 	public void mouseExited(MouseEvent evt) {
-	}
-
-	/** Draw connection lines between the elements with drawLine() */
-	public void addLines() {
-
-		remove(line);
-		line = new JSeparator();
-		line.setOrientation(SwingConstants.VERTICAL);
-
-		add(line);
-
-		int xPosStart = (int) jNpElem[0].getAnchorPoint(JNetworkplanElement.ANCHOR_BOTTOM_MIDDLE).getX();
-		int yPosStart = (int) jNpElem[0].getAnchorPoint(JNetworkplanElement.ANCHOR_BOTTOM_MIDDLE).getY();
-		int yPosEnd = (int) jNpElem[1].getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE).getY();
-
-		int yLength = yPosEnd - yPosStart;
-
-		line.setBounds(xPosStart, yPosStart, 1, yLength);
-
 	}
 
 	/**
@@ -962,6 +948,7 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 	 * Paint the connection lines between the networkplan elements 
 	 */
 	public void paintConnectionLines() {
+
 		/** Paint the horizontal and vertical connection lines with JSeperators */
 		int a = 0;
 		boolean onlyOneElement = false;
@@ -970,6 +957,8 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 
 		if (child[0] == 0)
 			onlyOneElement = true;
+
+		JSeparator horizontalCon[] = new JSeparator[jNpElem.length];
 
 		while (a < jNpElem.length && jNpElem[a] != null) {
 
@@ -990,6 +979,22 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 					jSeparatorVerticalCon.setForeground(Color.BLACK);
 
 				this.add(jSeparatorVerticalCon);
+
+				/** Save this line */
+				elementsConLine.put(jNpElem[a].getName() + "top", jSeparatorVerticalCon);
+
+				/** Save a possible middle horizontal connection line */
+				horizontalCon[a] = new JSeparator();
+				add(horizontalCon[a]);
+				elementsConLine.put(jNpElem[a].getName() + "middle", horizontalCon[a]);
+
+			} else {
+				/** Save a possible middle horizontal connection line */
+				horizontalCon[a] = new JSeparator();
+				add(horizontalCon[a]);
+				horizontalCon[a].setForeground(Color.WHITE);
+				horizontalCon[a].setOrientation(SwingConstants.HORIZONTAL);
+				elementsConLine.put(jNpElem[a].getName() + "middle", horizontalCon[a]);
 			}
 
 			/** Bottom Connection */
@@ -1006,6 +1011,9 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 					jSeparatorVerticalCon.setForeground(Color.BLACK);
 
 				this.add(jSeparatorVerticalCon);
+
+				/** Save this line */
+				elementsConLine.put(jNpElem[a].getName() + "bottom", jSeparatorVerticalCon);
 			}
 
 			/** Horizontal Connection Line connecting the childs */
@@ -1128,11 +1136,112 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 							jSeparatorVerticalCon.setForeground(Color.RED);
 
 						this.add(jSeparatorVerticalCon);
+						
+						/** Save this line */
+						elementsConLine.put(jNpElem[np.getLayoutManager()].getName() + "bottom", jSeparatorVerticalCon);
 					}
 				}
 				g++;
 			}
 			z++;
+		}
+	}
+
+	/**
+	 * Every time the user moves a JNetworkplanElement with the mouse this function
+	 * is called. The connected lines to this element move in dependence of the
+	 * movement of the JNetworkplanElement.
+	 */
+	public void moveConnectionLines() {
+
+		/** The moved JNetworkplanElement is not the End-Element and has a connection-line on the bottom */
+		if (elementsConLine.containsKey(movedElement.getName() + "bottom")) {
+			JSeparator actLineBottom = (JSeparator) elementsConLine.get(movedElement.getName() + "bottom");
+
+			int child[] = movedElement.getNp().getChild();
+			JNetworkplanElement childJNpElem = jNpElem[((NetworkplanElement) npElemente.get(child[0] - 1)).getLayoutManager()];
+
+			/** Set the position and size of the connection line */
+			int difHeight = (int) ((JSeparator) elementsConLine.get(childJNpElem.getName() + "top")).getLocation().getY() - (int) movedElement.getLocation().getY() - 170;
+			actLineBottom.setLocation((int) movedElement.getLocation().getX() + jNpElemWidth/2, (int) movedElement.getLocation().getY() + 170);
+			actLineBottom.setSize(1, difHeight);
+
+			/** Add a horizontal connector if the user moves the element on the X-axis */
+			int difX = (int) movedElement.getLocation().getX() - (int) childJNpElem.getLocation().getX();
+
+			/** The user moved the element on the X-Axis */
+			if (difX != 0) {
+				JSeparator horizontalCon = (JSeparator) elementsConLine.get(movedElement.getName() + "middle");
+				horizontalCon.setForeground(actLineBottom.getForeground());
+				horizontalCon.setOrientation(SwingConstants.HORIZONTAL);
+
+				/** The user moved the element to the right */
+				if (difX > 0) {
+
+					/** Set the position and size of the connection line */
+					int xStart = (int) childJNpElem.getAnchorPoint(JNetworkplanElement.ANCHOR_BOTTOM_MIDDLE).getX();
+					int yStart = (int) ((JSeparator) elementsConLine.get(childJNpElem.getName() + "top")).getLocation().getY();
+					int xLength = difX;
+
+					horizontalCon.setBounds(xStart, yStart, xLength, 1);
+
+					/** The user moved the element to the left */
+				} else {
+
+					/** Set the position and size of the connection line */
+					int xStart = (int) childJNpElem.getAnchorPoint(JNetworkplanElement.ANCHOR_BOTTOM_MIDDLE).getX() + difX;
+					int yStart = (int) ((JSeparator) elementsConLine.get(childJNpElem.getName() + "top")).getLocation().getY();
+					int xLength = difX * (-1);
+
+					horizontalCon.setBounds(xStart, yStart, xLength, 1);
+				}
+			}
+		}
+
+		/** The moved JNetworkplanElement is not the Start-Element and has a connection-line on the top */
+		if (elementsConLine.containsKey(movedElement.getName() + "top")) {
+			JSeparator actLineTop = (JSeparator) elementsConLine.get(movedElement.getName() + "top");
+
+			int parent[] = movedElement.getNp().getParent();
+			JNetworkplanElement parentJNpElem = jNpElem[((NetworkplanElement) npElemente.get(parent[0] - 1)).getLayoutManager()];
+
+			/** Set the position and size of the connection line */
+			int difHeight = (int) movedElement.getLocation().getY() - (int) ((JSeparator) elementsConLine.get(parentJNpElem.getName() + "bottom")).getLocation().getY() - 45;
+			int anchorY = (int) ((JSeparator) elementsConLine.get(parentJNpElem.getName() + "bottom")).getLocation().getY() + (int) ((JSeparator) elementsConLine.get(parentJNpElem.getName() + "bottom")).getSize().getHeight();
+
+			actLineTop.setLocation((int) movedElement.getLocation().getX() + jNpElemWidth/2, anchorY);
+			actLineTop.setSize(1, difHeight + 65);
+
+			/** Add a horizontal connector if the user moves the element on the X-axis */
+			int difX = (int) movedElement.getLocation().getX() - (int) parentJNpElem.getLocation().getX();
+
+			/** The user moved the element on the X-Axis */
+			if (difX != 0) {
+				JSeparator horizontalCon = (JSeparator) elementsConLine.get(parentJNpElem.getName() + "middle");
+				horizontalCon.setForeground(actLineTop.getForeground());
+				horizontalCon.setOrientation(SwingConstants.HORIZONTAL);
+
+				/** The user moved the element to the right */
+				if (difX > 0) {
+
+					/** Set the position and size of the connection line */
+					int xStart = (int) parentJNpElem.getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE).getX();
+					int yStart = anchorY;
+					int xLength = difX;
+
+					horizontalCon.setBounds(xStart, yStart, xLength, 1);
+
+					/** The user moved the element to the left */
+				} else {
+
+					/** Set the position and size of the connection line */
+					int xStart = (int) parentJNpElem.getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE).getX() + difX;
+					int yStart = anchorY;
+					int xLength = difX * (-1);
+
+					horizontalCon.setBounds(xStart, yStart, xLength, 1);
+				}
+			}
 		}
 	}
 }

@@ -432,8 +432,8 @@ public class JNetworkplanElement extends JPanel {
 
 			case ANCHOR_MIDDLE_RIGHT :
 				return new Point((int) getLocation().getX() + WIDTH, (int) getLocation().getY() + 95);
-		
-			default:
+
+			default :
 				return new Point(0, 0);
 		}
 	}
@@ -452,9 +452,5 @@ public class JNetworkplanElement extends JPanel {
 	 */
 	public void setNp(NetworkplanElement element) {
 		np = element;
-	}
-
-	public void setDescription(String s) {
-
 	}
 }
