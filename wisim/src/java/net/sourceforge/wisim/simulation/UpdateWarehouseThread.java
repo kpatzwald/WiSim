@@ -99,22 +99,18 @@ public class UpdateWarehouseThread extends Thread {
 			}
 
 			//Refresh
-			//if (lager.getIsActive()) {
 			if (wiSimMainController.getActivPanels().contains(lager)) {
 				lager.refresh();
 			}
 
-			//if (apLager.getIsActive()) {
 			if (wiSimMainController.getActivPanels().contains(apLager)) {
 				apLager.refresh();
 			}
 
-			//if (etatEinsehen.getIsActive()) {
 			if (wiSimMainController.getActivPanels().contains(etatEinsehen)) {
 				etatEinsehen.refresh();
 			}
 
-			//if (jPanelZahlungseingang.getIsActive())
 			if (wiSimMainController.getActivPanels().contains(jPanelZahlungseingang)) {
 				jPanelZahlungseingang.refresh();
 			}
