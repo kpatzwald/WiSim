@@ -50,6 +50,8 @@ public class NetzplanElement {
 	private String bezeichnung;
 
 	private Collection vorgaengerBasket;
+	
+	private boolean selected;
 
 	public NetzplanElement(int nummer, double dauer, int[] nachfolger, String bezeichnung) {
 		this.nummer = nummer;
@@ -58,6 +60,7 @@ public class NetzplanElement {
 		vorgaengerBasket = new Vector();
 		this.bezeichnung = bezeichnung;
 		criticalPath = false;
+		selected = false;
 	}
 
 	/**
@@ -270,4 +273,20 @@ public class NetzplanElement {
 	public void setCriticalPath(boolean b) {
 		criticalPath = b;
 	}
+	/**
+	 * TODO Kommentar für isSelected()
+	 * @return
+	 */
+	public boolean isSelected() {
+		return selected;
+	}
+
+	/**
+	 * TODO Kommentar für setSelected()
+	 * @param b
+	 */
+	public void setSelected(boolean b) {
+		selected = b;
+	}
+
 }

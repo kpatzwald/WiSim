@@ -48,9 +48,10 @@ public class NetzplanGrafikGenerator {
 	private int[][] position;
 	private double maxWidth;
 	private BufferedImage netzplanGrafik;
+	private int selected;
 
 	public NetzplanGrafikGenerator(Vector npElemente) {
-
+		
 		/** Matrix for positioning of the elements */
 		position = new int[20][20];
 		for (int a = 0; a < 20; a++)
@@ -294,30 +295,30 @@ public class NetzplanGrafikGenerator {
 		} 
 		
 		/** START Debug output */
-		int blub = 0;
-		while (blub < i) {
-
-			String string = "";
-			Vector test = (Vector) tupel[blub];
-			Iterator testIt = test.iterator();
-			while (testIt.hasNext()) {
-				int tempInt = ((Integer) testIt.next()).intValue();
-				if (tempInt != 0) {
-					NetzplanElement npEle = (NetzplanElement) npElemente.get(tempInt - 1);
-					string = string + " " + (npEle.getNummer());
-				} else {
-					string = string + " 0";
-				}
-			}
-			System.out.println("Tupel[" + blub + "]: " + string);
-			blub++;
-		}
-
-		Iterator completeIt = completed.iterator();
-		String completedList = "";
-		while (completeIt.hasNext())
-			completedList = completedList + " " + String.valueOf(((Integer) completeIt.next()).intValue());
-		System.out.println("CompletedList: " + completedList);
+//		int blub = 0;
+//		while (blub < i) {
+//
+//			String string = "";
+//			Vector test = (Vector) tupel[blub];
+//			Iterator testIt = test.iterator();
+//			while (testIt.hasNext()) {
+//				int tempInt = ((Integer) testIt.next()).intValue();
+//				if (tempInt != 0) {
+//					NetzplanElement npEle = (NetzplanElement) npElemente.get(tempInt - 1);
+//					string = string + " " + (npEle.getNummer());
+//				} else {
+//					string = string + " 0";
+//				}
+//			}
+//			System.out.println("Tupel[" + blub + "]: " + string);
+//			blub++;
+//		}
+//
+//		Iterator completeIt = completed.iterator();
+//		String completedList = "";
+//		while (completeIt.hasNext())
+//			completedList = completedList + " " + String.valueOf(((Integer) completeIt.next()).intValue());
+//		System.out.println("CompletedList: " + completedList);
 		/** END Debug output */ 
 		
 		 
@@ -357,4 +358,12 @@ public class NetzplanGrafikGenerator {
 			((NetzplanElement) npElemente.get(((Integer) criticalPathIt.next()).intValue() - 1)).setCriticalPath(true);
 		}
 	}
+	/**
+	 * TODO Kommentar für getPosition()
+	 * @return
+	 */
+	public int[][] getPosition() {
+		return position;
+	}
+
 }

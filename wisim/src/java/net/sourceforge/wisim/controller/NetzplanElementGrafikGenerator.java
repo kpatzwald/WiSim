@@ -194,14 +194,29 @@ public class NetzplanElementGrafikGenerator {
 			}
 		}
 
-		/** Paint critical path element */
-		if (np.isCriticalPath())
-			g.setColor(Color.RED);
-		else
-			g.setColor(Color.BLACK);
-
 		/** Draw whole rectangle of the element */
-		g.drawRect(0, 30, width, 100);
+		if (np.isSelected()) {		
+			g.setColor(Color.LIGHT_GRAY);
+			
+			g.fillRect(0, 30, width, 100);
+
+			g.setColor(Color.BLACK);
+			g.drawRect(0, 30, width, 100);
+
+		} else {
+			/** Paint critical path element */
+			if (np.isCriticalPath())
+				g.setColor(Color.RED);
+			else
+				g.setColor(Color.BLACK);
+			g.drawRect(0, 30, width, 100);
+
+			/** Paint critical path element */
+			if (np.isCriticalPath())
+				g.setColor(Color.RED);
+			else
+				g.setColor(Color.BLACK);
+		}
 
 		/** Vertical line between number & duration */
 		g.drawLine(60, 30, 60, 130);
@@ -212,6 +227,12 @@ public class NetzplanElementGrafikGenerator {
 		/** Vertical line between total float and free float */
 		g.drawLine(175, 80, 175, 130);
 
+		/** Paint critical path element */
+		if (np.isCriticalPath())
+			g.setColor(Color.RED);
+		else
+			g.setColor(Color.BLACK);
+			
 		/** Connection-line between two elements on top */
 		if (!np.isStartElem())
 			g.drawLine(width / 2, 0, width / 2, 30);
