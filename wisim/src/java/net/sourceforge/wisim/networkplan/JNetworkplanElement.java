@@ -420,7 +420,7 @@ public class JNetworkplanElement extends JPanel {
 		jLabelDuration.setBorder(new LineBorder(lineColor));
 		jLabelNumber.setBorder(new LineBorder(lineColor));
 	}
-
+	
 	/**
 	 * Get the x- and y-Values of one of the four anchor points of this element
 	 * @param anchor ANCHOR_TOP_MIDDLE or ANCHOR_BOTTOM_MIDDLE or ANCHOR_MIDDLE_LEFT

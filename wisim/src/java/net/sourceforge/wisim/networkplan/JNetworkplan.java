@@ -788,8 +788,13 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 				y1 = (int) getComponentAt(x, y).getLocation().getY();
 			}
 
-			if (movedElement == null)
+			if (movedElement == null) {
 				movedElement = getComponentAt(x, y);
+
+				/** Place this Element top of all */
+				remove(movedElement);
+				add(movedElement, 0);
+			}
 
 			dragging = true;
 			offsetX = x - x1;
