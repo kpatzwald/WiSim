@@ -71,7 +71,7 @@ public class ShowNetzplan extends JPanel {
 		/*npElemente.add(new NetzplanElement(1, 3, new int[] { 2 }, "Erdaushub Fundamente und so wei"));
 		npElemente.add(new NetzplanElement(2, 2, new int[] { 3, 4 }, "Ausgieﬂen Fundamente"));
 		npElemente.add(new NetzplanElement(3, 5, new int[] { 5 }, "Verschalung Betonsockel"));
-		npElemente.add(new NetzplanElement(4, 3, new int[] { 5 }, "Betonierung Betonsockel"));
+		npElemente.add(new NetzplanElement(4, 3, new int[] { 5 }, "Betonierung Betonsockel weil es geht und so"));
 		npElemente.add(new NetzplanElement(5, 10, new int[] { 6 }, "Bestellung Betonteile"));
 		npElemente.add(new NetzplanElement(6, 2, new int[] { 0 }, "Aushub Versorgungsleitung"));*/
 

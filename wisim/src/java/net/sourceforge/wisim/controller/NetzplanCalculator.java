@@ -173,7 +173,7 @@ public class NetzplanCalculator {
 		while (npElemIt.hasNext()) {
 			NetzplanElement npElem = (NetzplanElement) npElemIt.next();
 			if (npElem.getFp() == 0 && npElem.getGp() == 0)
-				criticalPath.add(npElem);
+				criticalPath.add(new Integer(npElem.getNummer()));
 		}
 		return criticalPath;
 	}

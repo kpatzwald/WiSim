@@ -36,6 +36,7 @@ public class NetzplanElement {
 
 	private int nummer;
 	private double dauer;
+	private boolean criticalPath;
 	private int[] vorgaenger;
 	private int[] nachfolger;
 
@@ -56,6 +57,7 @@ public class NetzplanElement {
 		this.nachfolger = nachfolger;
 		vorgaengerBasket = new Vector();
 		this.bezeichnung = bezeichnung;
+		criticalPath = false;
 	}
 
 	/**
@@ -253,4 +255,18 @@ public class NetzplanElement {
 		else
 			return false;
 	}
+	/**
+	 * @return
+	 */
+	public boolean isCriticalPath() {
+		return criticalPath;
+	}
+
+	/**
+	 * @param b
+	 */
+	public void setCriticalPath(boolean b) {
+		criticalPath = b;
+	}
+
 }

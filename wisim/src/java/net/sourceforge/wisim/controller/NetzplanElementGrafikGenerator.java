@@ -63,7 +63,10 @@ public class NetzplanElementGrafikGenerator {
 		if (scaleX < 0)
 			scaleX = 0;
 
-		g.setColor(Color.BLACK);
+		if (np.isCriticalPath())
+			g.setColor(Color.RED);
+		else
+			g.setColor(Color.BLACK);
 
 		/** Draw whole rectangle of the element */
 		g.drawRect(0, 30, 200 + scaleX, 100);
@@ -86,6 +89,7 @@ public class NetzplanElementGrafikGenerator {
 			g.drawLine(140, 130, 140, 160);
 
 		/** Drawing the number */
+		g.setColor(Color.BLACK);
 		g.setFont(new Font("SansSerif", 0, 30));
 
 		if (String.valueOf(np.getNummer()).matches("^[0-9]{2}$"))
