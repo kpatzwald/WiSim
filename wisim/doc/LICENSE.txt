@@ -1,0 +1,30 @@
+------------------------------------------------------
+ The WiSim license.
+ Copyright (c) 2003 WiSim Development Team
+ Document version 1.00, 28-05-2003
+------------------------------------------------------
+
+The WiSim project is free software under the terms of the GNU General Public License.
+
+Below we have made a digest interpretation of the license in order to let you grasp the important facts. Please note this is not a legal document. For the exact interpretation of the license you must read it and understand it. 
+
+
+The GNU PGL says:
+- you may copy, redistribute and modify the software as long as it retains the copyright notices and remains under the GNU GPL. This means that whatever you do with the software, you can never restrict anybody from the rights to further copy, modify and distribute the program.
+- you must give a copy of this license to the people that recieve the software from you. They must know their rights!
+- you must deliver the source-code; In the case of WiSim the source-code is the program itself as WiSim is a bunch of files... no problems there.
+- if you modify the software or add modules that work in conjunction with WiSim these must also be licensed under the GNU GPL - and they are thereby free to the public! You must also state clearly what you have changed if you modify anything.
+- there are absolutely no warranty of anything. At all!
+
+If you do not follow the GNU GPL you may not use The WiSim Project at all!
+
+The GNU General Public License can be found at http://www.gnu.org/copyleft/gpl.html. A copy is found in the textfile GPL.
+
+
+IMPORTANT STATEMENTS:
+Furthermore we have made some statements that I believe is a consequense of the GNU GPL:
+- Modifications must not alter or remove any copyright notices in the software.
+- Copies and distributions of The WiSim project - modified or unmodified - must retain all copyright-notices.
+
+An here are some statements that I regard to be my natural claims as the copyright holder:
+- The name "WiSim" must not be used to endorse or promote products derived from this software without prior written permission from the copyright holder, WiSim-Team. This does not apply to add-on modules or tools that work in conjunction with WiSim. In such a case the WiSim name may be used to indicate that the product is integrated with and/or supports WiSim.
