@@ -32,10 +32,13 @@ package net.sourceforge.wisim.controller;
 import java.awt.BorderLayout;
 import java.awt.GraphicsEnvironment;
 import java.text.DateFormat;
+import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.Locale;
+import java.util.Vector;
 import java.util.logging.Level;
 
 import javax.swing.JInternalFrame;
@@ -48,6 +51,7 @@ import net.sourceforge.wisim.dao.WiSimDAO;
 import net.sourceforge.wisim.dao.WiSimDAOException;
 import net.sourceforge.wisim.dao.WiSimDAOFactory;
 import net.sourceforge.wisim.mdi.JScrollableDesktopPane;
+import net.sourceforge.wisim.model.SimulationPane;
 import net.sourceforge.wisim.model.WiSimLogger;
 import net.sourceforge.wisim.simulation.ActualTime;
 import net.sourceforge.wisim.simulation.CoreTime;
@@ -75,6 +79,7 @@ public class WiSimMainController extends javax.swing.JFrame {
 	private GregorianCalendar gc;
 	private boolean simulationState;
 	private boolean suspendState;
+	private Collection activPanels;
 
 	// Sets the length of one timestep of the simulation
 	// 1 Timestep = 1 min = 100 ms
@@ -119,6 +124,7 @@ public class WiSimMainController extends javax.swing.JFrame {
 		gc = new GregorianCalendar();
 		simulationState = false;
 		suspendState = false;
+		activPanels = (Collection) new Vector();
 	}
 
 	/*Hashtable with all possible actions. Every action represent a JPanel / JInternalFrame.*/
@@ -137,7 +143,7 @@ public class WiSimMainController extends javax.swing.JFrame {
 		actions.put("ViewContract", new JPanelViewContract(this));
 		actions.put("Options", new JPanelOptions(this));
 		actions.put("ViewEtat", new JPanelViewEtat(this));
-		actions.put("SimulationAnalysis", new JPanelSimulationStart(this));
+		actions.put("SimulationAnalysis", new JPanelSimulationAnalysis(this));
 		actions.put("WorkPlaceStore", new JPanelWorkPlaceStore(this));
 		actions.put("Networkplan", new JPanelNetworkplan(this));
 		actions.put("IncomingPayment", new JPanelIncomingPayments(this));
@@ -567,10 +573,6 @@ public class WiSimMainController extends javax.swing.JFrame {
 		addPanel("ViewSuppliers");
 	} //GEN-LAST:event_jMenuItemLieferantenlisteActionPerformed
 
-        private void jMenuItemSimAnalysisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSimAnalysisActionPerformed
-		addPanel("SimulationAnalysis");
-        }//GEN-LAST:event_jMenuItemSimAnalysisActionPerformed
-
 	private void jMenuItemEtatEinsehenActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jMenuItemEtatEinsehenActionPerformed
 		addPanel("ViewEtat");
 	} //GEN-LAST:event_jMenuItemEtatEinsehenActionPerformed
@@ -721,6 +723,7 @@ public class WiSimMainController extends javax.swing.JFrame {
 		resetTextFieldDate();
 	}
 
+
 	private void simulationController() {
 		if (simulationState == false)
 			startSimulation();
@@ -735,14 +738,15 @@ public class WiSimMainController extends javax.swing.JFrame {
 	 *
 	 */
 	private void startSimulation() {
-		//KTODO Ausblenden von Zeitfaktor und "Beenden Nach 1 Woche"
 		jButtonSimStart.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/suspend.gif")));
 		jButtonSimStart.setText("Pause");
 		JPanelOptions jPanelOptions = (JPanelOptions) actions.get("Options");
 		jPanelOptions.setJButtonRefreshEnable(false);
+		jComboBoxFactor.setEnabled(false);
+		jCheckBoxOneWeek.setEnabled(false);
 
 		/** Reset the jPanelSimulationAnalysis */
-		((JPanelSimulationStart) actions.get("SimulationAnalysis")).resetFields();
+		((JPanelSimulationAnalysis) actions.get("SimulationAnalysis")).resetFields();
 
 		resetFields();
 		//jComboBoxZeitfaktor.setEnabled(false);
@@ -775,7 +779,7 @@ public class WiSimMainController extends javax.swing.JFrame {
 		runController = new ProductionController(this);
 
 		/** Set the runController in the Analys of the Production */
-		 ((JPanelSimulationStart) actions.get("SimulationAnalysis")).setRunController(runController);
+		 ((JPanelSimulationAnalysis) actions.get("SimulationAnalysis")).setRunController(runController);
 
 		try {
 			threads = new ProductionSimulationThread[anzahlArbeitsplaetze + 1];
@@ -796,7 +800,6 @@ public class WiSimMainController extends javax.swing.JFrame {
 
 	/** Suspends the simulation */
 	private void suspendSimulation() {
-		// KTODO Buttons zur Simulationssteuerung dürfen nicht ihre Größe ändern.
 		if (simulationState) {
 			jButtonSimStart.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/resume.gif")));
 			jButtonSimStart.setText("Weiter");
@@ -881,6 +884,8 @@ public class WiSimMainController extends javax.swing.JFrame {
 		jButtonSimReset.setEnabled(true);
 		JPanelOptions jPanelOptions = (JPanelOptions) actions.get("Options");
 		jPanelOptions.setJButtonRefreshEnable(true);
+		jComboBoxFactor.setEnabled(true);
+		jCheckBoxOneWeek.setEnabled(true);
 
 		if (simulationState) {
 			coreTime.interrupt();
@@ -903,25 +908,48 @@ public class WiSimMainController extends javax.swing.JFrame {
 		}
 	}
 
+
 	/** Resets the simulation */
 	private void resetSimulation() {
-		//KTODO Refresh des aktuellen Panes fehlt
 		WiSimDAO dao = this.getDAO();
 		try {
 			dao.dbReset();
 			resetFields();
-			JOptionPane.showMessageDialog(this, "Die Simulation wurde zurückgesetzt!");
 		} catch (WiSimDAOException e) {
 			wiSimLogger.log(Level.WARNING, "resetDB()", e, false);
 		}
 
-		/** Reset the jPanelSimulationAnalysis */
-		 ((JPanelSimulationStart) actions.get("SimulationAnalysis")).resetFields();
+		Iterator it = activPanels.iterator();
+		while (it.hasNext())
+		{
+			SimulationPane simPane = (SimulationPane) it.next();
+			simPane.refresh();
+		}
+		JOptionPane.showMessageDialog(this, "Die Simulation wurde zurückgesetzt!");
 	}
 	
 	public void setGreenTrafficLights(String status) {
 		jLabelGreen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ampel_gruen.gif.gif")));	
 	}
+	
+	/**
+		 * @return
+		 */
+		public Collection getActivPanels() {
+			return activPanels;
+		}
+
+		/**
+		 * @param activPanel
+		 */
+		public void addActivPanel(JPanel activPanel) {
+			this.activPanels.add(activPanel);
+		}
+	
+		public void removeActivPanel(JPanel activPanel)
+		{
+			activPanels.remove(activPanel);
+		}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonSimReset;
