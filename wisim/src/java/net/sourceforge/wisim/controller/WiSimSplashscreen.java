@@ -144,6 +144,8 @@ public class WiSimSplashscreen extends JFrame {
 				}
 			}
 		};
+		
+		splashScreenThread.setName("Display SplashScreen Thread");
 
 		/** Thread for loading the wiSimMainController */
 		wiSimThread = new Thread() {
@@ -159,6 +161,7 @@ public class WiSimSplashscreen extends JFrame {
 
 					/** Hide the splashscreen */
 					setVisible(false);
+					dispose();
 
 					/** Stop the two threads */
 					splashScreenThread.interrupt();
@@ -166,6 +169,8 @@ public class WiSimSplashscreen extends JFrame {
 				}
 			}
 		};
+		
+		wiSimThread.setName("Load WiSim Thread");
 	}
 
 	/** Quit if the user closes the splashscreen */

@@ -113,7 +113,7 @@ public class WiSimMainController extends javax.swing.JFrame {
 
 		/** Complete Splashscreen status bar */
 		loadStatusBar.setValue(100);
-		statusText.setText("Complete!");
+		statusText.setText("Fertig!");
 
 		com.incors.plaf.kunststoff.KunststoffLookAndFeel plaf = new com.incors.plaf.kunststoff.KunststoffLookAndFeel();
 
@@ -144,55 +144,55 @@ public class WiSimMainController extends javax.swing.JFrame {
 		actions = new Hashtable();
 		actions.put("NewOrder", new JPanelNewOrder(this));
 		loadStatusBar.setValue(15);
-		statusText.setText("Loading Panel \"NewOrder\"...");
+		statusText.setText("Lade \"Bestellung\"...");
 		actions.put("Help", new JPanelHelp());
 		loadStatusBar.setValue(20);
-		statusText.setText("Loading Panel \"Help\"...");
+		statusText.setText("Lade \"Hilfe\"...");
 		actions.put("ModifyCustomer", new JPanelModifyCustomer(this));
 		loadStatusBar.setValue(25);
-		statusText.setText("Loading Panel \"ModifyCustomer\"...");
+		statusText.setText("Lade \"Kunde bearbeiten\"...");
 		actions.put("Warehouse", new JPanelWarehouse(this));
 		loadStatusBar.setValue(30);
-		statusText.setText("Loading Panel \"Warehouse\"...");
+		statusText.setText("Lade \"Lager\"...");
 		actions.put("ModifySupplier", new JPanelModifySupplier(this));
 		loadStatusBar.setValue(35);
-		statusText.setText("Loading Panel \"ModifySupplier\"...");
+		statusText.setText("Lade \"Lieferant bearbeiten\"...");
 		actions.put("ViewSuppliers", new JPanelViewSuppliers(this));
 		loadStatusBar.setValue(40);
-		statusText.setText("Loading Panel \"ViewSuppliers\"...");
+		statusText.setText("Lade \"Lieferantenliste\"...");
 		actions.put("NewCustomer", new JPanelNewCustomer(this));
 		loadStatusBar.setValue(45);
-		statusText.setText("Loading Panel \"NewCustomer\"...");
+		statusText.setText("Lade \"Neuer Kunde\"...");
 		actions.put("ViewCustomers", new JPanelViewCustomers(this));
 		loadStatusBar.setValue(50);
-		statusText.setText("Loading Panel \"ViewCustomers\"...");
+		statusText.setText("Lade \"Kundenuebersicht\"...");
 		actions.put("NewSupplier", new JPanelNewSupplier(this));
 		loadStatusBar.setValue(55);
-		statusText.setText("Loading Panel \"NewSupplier\"...");
+		statusText.setText("Lade \"Neuer Lieferant\"...");
 		actions.put("NewContract", new JPanelNewContract(this));
 		loadStatusBar.setValue(60);
-		statusText.setText("Loading Panel \"NewContract\"...");
+		statusText.setText("Lade \"Neuer Vertrag\"...");
 		actions.put("ViewContract", new JPanelViewContract(this));
 		loadStatusBar.setValue(65);
-		statusText.setText("Loading Panel \"ViewContract\"...");
+		statusText.setText("Lade \"Vertrag einsehen\"...");
 		actions.put("Options", new JPanelOptions(this));
 		loadStatusBar.setValue(70);
-		statusText.setText("Loading Panel \"Options\"...");
+		statusText.setText("Lade \"Optionen\"...");
 		actions.put("ViewOrders", new JPanelViewOrders(this));
 		loadStatusBar.setValue(75);
-		statusText.setText("Loading Panel \"ViewOrders\"...");
+		statusText.setText("Lade \"Auftrag einsehen\"...");
 		actions.put("SimulationAnalysis", new JPanelSimulationAnalysis(this));
 		loadStatusBar.setValue(80);
-		statusText.setText("Loading Panel \"SimulationAnalysis\"...");
+		statusText.setText("Lade \"Auswertung Simulation\"...");
 		actions.put("WorkPlaceStore", new JPanelWorkPlaceStore(this));
 		loadStatusBar.setValue(85);
-		statusText.setText("Loading Panel \"WorkPlaceStore\"...");
+		statusText.setText("Lade \"Arbeitsplatzlager\"...");
 		actions.put("Networkplan", new JPanelNetworkplan(this));
 		loadStatusBar.setValue(90);
-		statusText.setText("Loading Panel \"Networkplan\"...");
+		statusText.setText("Lade \"Netzplan\"...");
 		actions.put("IncomingPayment", new JPanelIncomingPayments(this));
 		loadStatusBar.setValue(95);
-		statusText.setText("Loading Panel \"IncomingPayment\"...");
+		statusText.setText("Lade \"Zahlungseingang\"...");
 	}
 
 	/*Hashtable titles with the german titles of the JInternalFrames.*/
@@ -220,7 +220,7 @@ public class WiSimMainController extends javax.swing.JFrame {
 	/*Initialize the data access object (dao)*/
 	private void initDAO() {
 		loadStatusBar.setValue(5);
-		statusText.setText("Initializing DAO...");
+		statusText.setText("Initialisiere DB-Verbindung...");
 
 		dao = null;
 		authDAO = null;
@@ -241,7 +241,7 @@ public class WiSimMainController extends javax.swing.JFrame {
 	 */
 	private void initComponents() { //GEN-BEGIN:initComponents
 		loadStatusBar.setValue(10);
-		statusText.setText("Initializing MDI...");
+		statusText.setText("Initialisiere MDI...");
 
 		jPanel1 = new javax.swing.JPanel();
 		jLabelDate = new javax.swing.JLabel();
