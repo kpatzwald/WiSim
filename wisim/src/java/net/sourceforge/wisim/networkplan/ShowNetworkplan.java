@@ -101,10 +101,11 @@ public class ShowNetworkplan extends JFrame {
 			String errorMessage =
 				"Error: The network plan seems not to be correct!"
 					+ "\n\nPlease check your networkplan:"
-					+ "\n\n- Make sure each element has a child element that exists"
+					+ "\n\n- Make sure the list of activities is in a correct order"
+					+ "\n- Make sure each element has a child element that exists"
 					+ "\n- Make sure you dont used one number for two elements"
-					+ "\n- Make sure have only 1 start- and 1 end-element"
-					+ "\n- Use 0 for the child of the last element";
+					+ "\n- Use 0 for the child of the last element"
+					+ "\n- Use 0 for the parent of the first element";
 
 			JTextArea errorDescription = new JTextArea(errorMessage);
 			errorDescription.setEditable(false);
@@ -112,10 +113,9 @@ public class ShowNetworkplan extends JFrame {
 			errorDescription.setForeground(Color.RED);
 			errorDescription.setBackground(new Color(204, 204, 204));
 			errorDescription.setFont(new Font("Dialog", 1, 20));
-
+			setBackground(Color.WHITE);
 			netzplanGrafik = new JNetworkplan();
 			netzplanGrafik.add(errorDescription);
-
 		}
 
 		/** JScrollPane holding the network plan */

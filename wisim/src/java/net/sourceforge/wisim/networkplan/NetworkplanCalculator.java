@@ -109,6 +109,7 @@ public class NetworkplanCalculator {
 	/** Forward Calculation */
 	public void calculateFazFez() {
 		npElemIt = npElemente.iterator();
+
 		while (npElemIt.hasNext()) {
 			NetworkplanElement npElem = (NetworkplanElement) npElemIt.next();
 
@@ -121,12 +122,16 @@ public class NetworkplanCalculator {
 				double maxFez = 0;
 				while (i < parent.length) {
 					NetworkplanElement npElemParent = (NetworkplanElement) npElemente.get(parent[i] - 1);
+
 					if (maxFez < npElemParent.getFez())
 						maxFez = npElemParent.getFez();
+
 					i++;
 				}
+
 				npElem.setFaz(maxFez);
 				npElem.setFez(npElem.getFaz() + npElem.getDuration());
+
 			}
 		}
 	}
@@ -142,6 +147,8 @@ public class NetworkplanCalculator {
 		}
 
 		npElemIt = npElementeDesc.iterator();
+		Vector uncompleted = new Vector();
+
 		while (npElemIt.hasNext()) {
 
 			NetworkplanElement npElem = (NetworkplanElement) npElemIt.next();
@@ -153,15 +160,49 @@ public class NetworkplanCalculator {
 			} else {
 				int i = 1;
 				double minSaz = ((NetworkplanElement) npElemente.get(child[0] - 1)).getSaz();
-				while (i < child.length) {
-					NetworkplanElement npElemChild = (NetworkplanElement) npElemente.get(child[i] - 1);
-					if (minSaz > npElemChild.getSaz())
-						minSaz = npElemChild.getSaz();
-					i++;
+
+				if (minSaz > 0) {
+					while (i < child.length) {
+						NetworkplanElement npElemChild = (NetworkplanElement) npElemente.get(child[i] - 1);
+						if (minSaz > npElemChild.getSaz())
+							minSaz = npElemChild.getSaz();
+						i++;
+					}
+					npElem.setSaz(minSaz - npElem.getDuration());
+					npElem.setSez(minSaz);
+
+					/** This child was not yet calculated */
+				} else {
+					uncompleted.add(npElem);
 				}
-				npElem.setSaz(minSaz - npElem.getDuration());
-				npElem.setSez(minSaz);
 			}
+		}
+
+		a = 0;
+		/** Calculate the missing elements */
+		while (a < uncompleted.size()) {
+			NetworkplanElement npElem = (NetworkplanElement) uncompleted.get(a);
+
+			int child[] = npElem.getChild();
+			if (child[0] == 0) {
+				npElem.setSaz(npElem.getFaz());
+				npElem.setSez(npElem.getFez());
+			} else {
+				int i = 1;
+				double minSaz = ((NetworkplanElement) npElemente.get(child[0] - 1)).getSaz();
+
+				if (minSaz != 0) {
+					while (i < child.length) {
+						NetworkplanElement npElemChild = (NetworkplanElement) npElemente.get(child[i] - 1);
+						if (minSaz > npElemChild.getSaz())
+							minSaz = npElemChild.getSaz();
+						i++;
+					}
+					npElem.setSaz(minSaz - npElem.getDuration());
+					npElem.setSez(minSaz);
+				}
+			}
+			a++;
 		}
 	}
 
