@@ -16,7 +16,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
-import javax.swing.UIManager;
 
 /**
  * @author Ben
@@ -25,6 +24,9 @@ public class WiSimSplashscreen extends JFrame {
 
 	private static JProgressBar loadStatusBar;
 	private static JLabel statusText;
+	
+	private final int splashScreenHeight = 476;
+	private final int splashScreenWidth = 582;
 
 	private JPanel splashContainer;
 	private WiSimMainController wiSim;
@@ -40,14 +42,6 @@ public class WiSimSplashscreen extends JFrame {
 		WiSimSplashscreen.statusText = statusText;
 
 		introIsBuilt = false;
-
-		/** Set up the kunststoff PLAF */
-		com.incors.plaf.kunststoff.KunststoffLookAndFeel plaf = new com.incors.plaf.kunststoff.KunststoffLookAndFeel();
-
-		try {
-			UIManager.setLookAndFeel(plaf);
-		} catch (Exception e) {
-		}
 
 		/** Listener for closing the JFrame */
 		addWindowListener(new java.awt.event.WindowAdapter() {
@@ -99,7 +93,7 @@ public class WiSimSplashscreen extends JFrame {
 						JPanel statusHold = new JPanel();
 						statusHold.setBackground(new Color(128, 128, 128));
 						getContentPane().add(statusHold, 0);
-						statusHold.setBounds(100, 570, 300, 30);
+						statusHold.setBounds(50, 440, 300, 30);
 
 						/** Label for displaying the status text */
 						WiSimSplashscreen.statusText.setFont(new Font("Dialog", 0, 15));
@@ -113,12 +107,12 @@ public class WiSimSplashscreen extends JFrame {
 						int midHeight = (int) screenSize.getHeight() / 2;
 						int midWidth = (int) screenSize.getWidth() / 2;
 
-						splashContainer.setBounds(0, 0, 752, 615);
-						setBounds(midWidth - 375, midHeight - 312, 752, 615);
+						splashContainer.setBounds(0, 0, splashScreenWidth, splashScreenHeight);
+						setBounds(midWidth - splashScreenWidth / 2, midHeight - splashScreenHeight / 2, splashScreenWidth, splashScreenHeight);
 
 						/** Get a JProgressBar for displaying the load status */
 						splashContainer.add(WiSimSplashscreen.loadStatusBar);
-						WiSimSplashscreen.loadStatusBar.setBounds(100, 550, 300, 20);
+						WiSimSplashscreen.loadStatusBar.setBounds(50, 420, 300, 20);
 						WiSimSplashscreen.loadStatusBar.setStringPainted(true);
 
 						introIsBuilt = true;
@@ -144,7 +138,7 @@ public class WiSimSplashscreen extends JFrame {
 				}
 			}
 		};
-		
+
 		splashScreenThread.setName("Display SplashScreen Thread");
 
 		/** Thread for loading the wiSimMainController */
@@ -169,7 +163,6 @@ public class WiSimSplashscreen extends JFrame {
 				}
 			}
 		};
-		
 		wiSimThread.setName("Load WiSim Thread");
 	}
 
