@@ -625,72 +625,75 @@ public class JPanelWarehouse extends javax.swing.JPanel implements SimulationPan
 	/** Zeigt Infos zu dem Article auf dem selektierten WarehouseLocation an */
 	private void getArticleData() {
 
-		if (!jComboBoxLagerplatz.getSelectedItem().toString().equals("Select:") && !jComboBoxLagerplatz.getSelectedItem().toString().equals(actLgPlatz)) {
-			jComboBoxArtikelImLager.removeAllItems();
-			etElems.removeAllElements();
+		/** [DoItBen] Change action! */
+		if (jComboBoxLagerplatz.getSelectedItem() != null) {
+			if (!jComboBoxLagerplatz.getSelectedItem().toString().equals("Select:") && !jComboBoxLagerplatz.getSelectedItem().toString().equals(actLgPlatz)) {
+				jComboBoxArtikelImLager.removeAllItems();
+				etElems.removeAllElements();
 
-			actLgPlatz = jComboBoxLagerplatz.getSelectedItem().toString();
-			Collection etElemsCol = new Vector();
-			Collection artElemsCol = new Vector();
-			try {
-				etElemsCol = dao.getEinzelteilLagerElement(jComboBoxLagerplatz.getSelectedItem().toString());
-				artElemsCol = dao.getArtikelLagerElement(jComboBoxLagerplatz.getSelectedItem().toString());
-			} catch (WiSimDAOException e) {
-				wiSimLogger.log("getArtikelImLagerplatzInfo()", e);
-			}
-
-			Iterator artElems_it = artElemsCol.iterator();
-			Iterator etElems_it = etElemsCol.iterator();
-			int i = 0;
-
-			while (artElems_it.hasNext()) {
-				ComponentWarehouseItem etElem = (ComponentWarehouseItem) artElems_it.next();
-				Article art = new Article();
+				actLgPlatz = jComboBoxLagerplatz.getSelectedItem().toString();
+				Collection etElemsCol = new Vector();
+				Collection artElemsCol = new Vector();
 				try {
-					art = dao.getArtikel(etElem.getId());
+					etElemsCol = dao.getEinzelteilLagerElement(jComboBoxLagerplatz.getSelectedItem().toString());
+					artElemsCol = dao.getArtikelLagerElement(jComboBoxLagerplatz.getSelectedItem().toString());
 				} catch (WiSimDAOException e) {
 					wiSimLogger.log("getArtikelImLagerplatzInfo()", e);
 				}
 
-				etElem.setEinzelteilName(art.getName());
-				etElem.setMinBestand(art.getMindestbestand());
-				etElems.add(etElem);
+				Iterator artElems_it = artElemsCol.iterator();
+				Iterator etElems_it = etElemsCol.iterator();
+				int i = 0;
 
-				jComboBoxArtikelImLager.insertItemAt(art.getName(), i);
-				i++;
-			}
+				while (artElems_it.hasNext()) {
+					ComponentWarehouseItem etElem = (ComponentWarehouseItem) artElems_it.next();
+					Article art = new Article();
+					try {
+						art = dao.getArtikel(etElem.getId());
+					} catch (WiSimDAOException e) {
+						wiSimLogger.log("getArtikelImLagerplatzInfo()", e);
+					}
 
-			while (etElems_it.hasNext()) {
-				ComponentWarehouseItem etElem = (ComponentWarehouseItem) etElems_it.next();
-				WiSimComponent et = new WiSimComponent();
-				try {
-					et = dao.getEinzelteil(etElem.getId());
-				} catch (WiSimDAOException e) {
-					wiSimLogger.log("getArtikelImLagerplatzInfo()", e);
+					etElem.setEinzelteilName(art.getName());
+					etElem.setMinBestand(art.getMindestbestand());
+					etElems.add(etElem);
+
+					jComboBoxArtikelImLager.insertItemAt(art.getName(), i);
+					i++;
 				}
 
-				etElem.setEinzelteilName(et.getName());
-				etElem.setMinBestand(et.getMindestbestand());
-				etElems.add(etElem);
+				while (etElems_it.hasNext()) {
+					ComponentWarehouseItem etElem = (ComponentWarehouseItem) etElems_it.next();
+					WiSimComponent et = new WiSimComponent();
+					try {
+						et = dao.getEinzelteil(etElem.getId());
+					} catch (WiSimDAOException e) {
+						wiSimLogger.log("getArtikelImLagerplatzInfo()", e);
+					}
 
-				jComboBoxArtikelImLager.insertItemAt(et.getName(), i);
-				i++;
-			}
-			if (jComboBoxArtikelImLager.getItemCount() == 0) {
-				jComboBoxArtikelImLager.insertItemAt("leer", 0);
-			}
-			jComboBoxArtikelImLager.setSelectedIndex(0);
-		}
+					etElem.setEinzelteilName(et.getName());
+					etElem.setMinBestand(et.getMindestbestand());
+					etElems.add(etElem);
 
-		if (jComboBoxLagerplatz.getSelectedItem().toString().equals("Select:")) {
-			actLgPlatz = jComboBoxLagerplatz.getSelectedItem().toString();
-			jComboBoxArtikelImLager.removeAllItems();
-			etElems.removeAllElements();
-			jTextFieldMindestbestand.setText("");
-			jTextFieldBestand.setText("");
-			jTextFieldBelegung.setText("");
-			jTextFieldFrei.setText("");
-			jComboBoxArtikelImLager.setSelectedIndex(-1);
+					jComboBoxArtikelImLager.insertItemAt(et.getName(), i);
+					i++;
+				}
+				if (jComboBoxArtikelImLager.getItemCount() == 0) {
+					jComboBoxArtikelImLager.insertItemAt("leer", 0);
+				}
+				jComboBoxArtikelImLager.setSelectedIndex(0);
+			}
+
+			if (jComboBoxLagerplatz.getSelectedItem().toString().equals("Select:")) {
+				actLgPlatz = jComboBoxLagerplatz.getSelectedItem().toString();
+				jComboBoxArtikelImLager.removeAllItems();
+				etElems.removeAllElements();
+				jTextFieldMindestbestand.setText("");
+				jTextFieldBestand.setText("");
+				jTextFieldBelegung.setText("");
+				jTextFieldFrei.setText("");
+				jComboBoxArtikelImLager.setSelectedIndex(-1);
+			}
 		}
 	}
 

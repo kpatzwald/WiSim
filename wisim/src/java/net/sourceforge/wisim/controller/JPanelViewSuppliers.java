@@ -49,10 +49,10 @@ public class JPanelViewSuppliers extends javax.swing.JPanel {
 	private Hashtable zubehoerTabelle;
 	private int position;
 	private int positionen;
-	
+
 	//	Logger
 	private WiSimLogger wiSimLogger;
-	
+
 	private DecimalFormat format;
 
 	/** Creates new form JPanelLieferantenliste
@@ -67,7 +67,7 @@ public class JPanelViewSuppliers extends javax.swing.JPanel {
 		lieferantenObjekte = new Hashtable();
 		listeArtikel = new Vector();
 		listeArtikel.add("Bitte wählen");
-		this.setPreferredSize(new Dimension(800,600));
+		this.setPreferredSize(new Dimension(800, 600));
 		format = new DecimalFormat("###,##0.00");
 	}
 

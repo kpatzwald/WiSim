@@ -408,327 +408,43 @@ public class JPanelModifySupplier extends javax.swing.JPanel {
 	} //GEN-END:initComponents
 
 	private void jButtonLieferantenAnlegen2ActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jButtonLieferantenAnlegen2ActionPerformed
-		int auswahl = getSelLieferantenID();
-		if (auswahl != 0) {
-			deleteSupplier(getSelLieferantenID());
-			JOptionPane.showMessageDialog(this, "Der Lieferant wurde erfolgreich gelöscht.", "Vertrag", JOptionPane.INFORMATION_MESSAGE);
-		} else {
-			JOptionPane.showMessageDialog(this, "Bitte wählen Sie erst einen Lieferanten aus.", "Fehler beim Löschen eines Kunden", JOptionPane.ERROR_MESSAGE);
-		}
+		deleteSupplierEvent();
 	} //GEN-LAST:event_jButtonLieferantenAnlegen2ActionPerformed
 
 	private void jTextFieldNeuerLieferantPLZFocusLost(java.awt.event.FocusEvent evt) { //GEN-FIRST:event_jTextFieldNeuerLieferantPLZFocusLost
-		Validator validate = new Validator();
-		String plz = jTextFieldNeuerLieferantPLZ.getText();
-
-		boolean plzOk = false;
-
-		if (!plz.equals("") && plz != null) {
-
-			while (!plzOk && plz != null) {
-
-				if (!validate.checkPlz(plz)) {
-					plz = JOptionPane.showInputDialog("Ungültige PLZ! Bitte neu eingeben:", plz);
-				} else {
-					plzOk = true;
-				}
-			}
-			if (plz != null) {
-				jTextFieldNeuerLieferantPLZ.setText(plz);
-			} else {
-				jTextFieldNeuerLieferantPLZ.setText("");
-			}
-		}
+		validatePLZ();
 	} //GEN-LAST:event_jTextFieldNeuerLieferantPLZFocusLost
 
 	private void jTextFieldNeuerLieferantEMailFocusLost(java.awt.event.FocusEvent evt) { //GEN-FIRST:event_jTextFieldNeuerLieferantEMailFocusLost
-		Validator validate = new Validator();
-		String email = jTextFieldNeuerLieferantEMail.getText();
-
-		boolean emailOk = false;
-
-		if (!email.equals("") && email != null) {
-
-			while (!emailOk && email != null) {
-
-				if (!validate.checkEMail(email)) {
-					email = JOptionPane.showInputDialog("Ungültige eMail! Bitte neu eingeben:", email);
-				} else {
-					emailOk = true;
-				}
-			}
-			if (email != null) {
-				jTextFieldNeuerLieferantEMail.setText(email);
-			} else {
-				jTextFieldNeuerLieferantEMail.setText("");
-			}
-		}
+		validateEmail();
 	} //GEN-LAST:event_jTextFieldNeuerLieferantEMailFocusLost
 
 	private void jTextFieldLieferantBearbeitenMindestAbnahmeFocusLost(java.awt.event.FocusEvent evt) { //GEN-FIRST:event_jTextFieldLieferantBearbeitenMindestAbnahmeFocusLost
-		Validator validate = new Validator();
-		String zahl = jTextFieldLieferantBearbeitenMindestAbnahme.getText();
-
-		boolean zahlOk = false;
-		if (!zahl.equals("")) {
-			while (!zahlOk && zahl != null) {
-				if (!validate.checkZahl(zahl)) {
-					zahl = JOptionPane.showInputDialog("Ungültige Zahl!", zahl);
-				} else {
-					zahlOk = true;
-				}
-			}
-			if (zahl != null) {
-				jTextFieldLieferantBearbeitenMindestAbnahme.setText(zahl);
-			} else {
-				jTextFieldLieferantBearbeitenMindestAbnahme.setText("");
-			}
-		}
+		validateMindestAbnahme();
 	} //GEN-LAST:event_jTextFieldLieferantBearbeitenMindestAbnahmeFocusLost
 
 	private void jTextFieldLieferantBearbeitenArtikelPreisFocusLost(java.awt.event.FocusEvent evt) { //GEN-FIRST:event_jTextFieldLieferantBearbeitenArtikelPreisFocusLost
-
-		Validator validate = new Validator();
-		String preis = jTextFieldLieferantBearbeitenArtikelPreis.getText();
-
-		boolean preisOk = false;
-		if (!preis.equals("")) {
-			while (!preisOk && preis != null) {
-				if (!validate.checkPreis(preis)) {
-					preis = JOptionPane.showInputDialog("Ungültiger Peis! Bitte geben Sie den Preis implements Format xx.xx ein!", preis);
-
-				} else {
-					preisOk = true;
-				}
-			}
-			if (preis != null) {
-				jTextFieldLieferantBearbeitenArtikelPreis.setText(preis);
-			} else {
-				jTextFieldLieferantBearbeitenArtikelPreis.setText("");
-			}
-		}
+		validateArtikelPreis();
 	} //GEN-LAST:event_jTextFieldLieferantBearbeitenArtikelPreisFocusLost
 	private void jButtonLieferantBearbeitenArtikelEntfernenActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jButtonLieferantBearbeitenArtikelEntfernenActionPerformed
-		int selectedPosition = jTable1.getSelectedRow();
-
-		//gesamter Tabelleninhalt wird Zwischengespeichert
-		Vector tableTempRow = new Vector();
-		int row = 0;
-
-		while (row < position) {
-			tableTempRow.add(jTable1.getValueAt(row, 0) + "," + jTable1.getValueAt(row, 1) + "," + jTable1.getValueAt(row, 2));
-			row++;
-		}
-
-		//Selektierte Zeile wird gelöscht
-
-		if (selectedPosition >= 0) {
-
-			if (jTable1.getValueAt(selectedPosition, 0) != null) {
-				zubehoerTabelle.remove(String.valueOf(jTable1.getValueAt(selectedPosition, 0)));
-				jTable1.setValueAt(null, selectedPosition, 0);
-				jTable1.setValueAt(null, selectedPosition, 1);
-				jTable1.setValueAt(null, selectedPosition, 2);
-				tableTempRow.remove(selectedPosition);
-				position--;
-			}
-		}
-
-		//DefaultTableModel mit Variablen Zeilen, 3 TableHeads und nicht editierbaren Zellen
-		boolean deleted = true;
-		updatePositionsTable(deleted);
-
-		//Tabelle wird neu geschrieben
-		if (tableTempRow.size() > 0) {
-			Iterator it_tableTempRow = tableTempRow.iterator();
-			row = 0;
-
-			while (it_tableTempRow.hasNext()) {
-				String complete = (String) it_tableTempRow.next();
-				String[] chunks = complete.split(",");
-				jTable1.setValueAt(chunks[0], row, 0);
-				jTable1.setValueAt(chunks[1], row, 1);
-				jTable1.setValueAt(chunks[2], row, 2);
-				row++;
-			}
-		}
-		position = tableTempRow.size();
-
-		if (position != 0) {
-			jTable1.setRowSelectionInterval(position - 1, position - 1);
-		}
+		artikelEntfernenEvent();
 	} //GEN-LAST:event_jButtonLieferantBearbeitenArtikelEntfernenActionPerformed
 	private void jButtonLieferantBearbeitenArtikelHinzufuegenActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jButtonLieferantBearbeitenArtikelHinzufuegenActionPerformed
-		Vector errors = new Vector();
-
-		if (jTextFieldLieferantBearbeitenArtikelPreis.getText().equals(""))
-			errors.add("Artikelpreis");
-
-		if (jTextFieldLieferantBearbeitenMindestAbnahme.getText().equals(""))
-			errors.add("Mindestabnahme");
-
-		if (errors.isEmpty()) {
-			String artikel = jComboBoxNeuerLieferantArtikel.getSelectedItem().toString();
-
-			if (!artikel.equals("Bitte wählen")) {
-				String preis = jTextFieldLieferantBearbeitenArtikelPreis.getText();
-				int menge = Integer.parseInt(jTextFieldLieferantBearbeitenMindestAbnahme.getText());
-
-				//gesamter Tabelleninhalt wird Zwischengespeichert
-				Vector tableTempRow = new Vector();
-				int row = 0;
-				while (row < position) {
-					tableTempRow.add(jTable1.getValueAt(row, 0) + ";" + jTable1.getValueAt(row, 1) + ";" + jTable1.getValueAt(row, 2));
-					row++;
-				}
-
-				if (!zubehoerTabelle.containsValue(String.valueOf(jComboBoxNeuerLieferantArtikel.getSelectedIndex()))) {
-
-					//Position hinzufügen:
-					WiSimComponent teil = new WiSimComponent();
-					WiSimComponent eteil = (WiSimComponent) alleArtikel.get(jComboBoxNeuerLieferantArtikel.getSelectedIndex());
-					teil.setNr(eteil.getNr());
-					zubehoerTabelle.put(String.valueOf(jComboBoxNeuerLieferantArtikel.getSelectedItem()), String.valueOf(jComboBoxNeuerLieferantArtikel.getSelectedIndex()));
-					alleArtikel.add(alleArtikel.get(jComboBoxNeuerLieferantArtikel.getSelectedIndex()));
-
-					//DefaultTableModel mit Variablen Zeilen, 3 TableHeads und nicht editierbaren Zellen
-					boolean deleted = false;
-					updatePositionsTable(deleted);
-
-					//Tabelle wird neu geschrieben
-					if (tableTempRow.size() > 0) {
-						Iterator it_tableTempRow = tableTempRow.iterator();
-						row = 0;
-
-						while (it_tableTempRow.hasNext()) {
-							String complete = (String) it_tableTempRow.next();
-							String[] chunks = complete.split(";");
-							jTable1.setValueAt(chunks[0], row, 0);
-							jTable1.setValueAt(chunks[1], row, 1);
-							jTable1.setValueAt(chunks[2], row, 2);
-							row++;
-						}
-					}
-					jTable1.setValueAt(artikel, position, 0);
-					jTable1.setValueAt(String.valueOf(menge), position, 1);
-					if (preis.matches("^[0-9]*[,][0-9]*")) {
-						preis = preis.replaceAll(",", ".");
-					}
-					jTable1.setValueAt(format.format(Double.parseDouble(preis)), position, 2);
-					position++;
-					jTable1.setRowSelectionInterval(position - 1, position - 1);
-				} else {
-					JOptionPane.showMessageDialog(null, "Dieser Artikel ist bereits vorhanden!");
-				}
-			}
-		} else {
-			if (errors.size() > 1)
-				JOptionPane.showMessageDialog(this, "Folgende Felder müssen ausgefüllt werden: " + errors.toString().substring(1, errors.toString().length() - 1), "Fehler beim Hinzufügen des Artikels", JOptionPane.ERROR_MESSAGE);
-			else
-				JOptionPane.showMessageDialog(this, "Das folgende Feld muss ausgefüllt werden: " + errors.toString().substring(1, errors.toString().length() - 1), "Fehler beim Hinzufügen des Artikels", JOptionPane.ERROR_MESSAGE);
-		}
+		artikelHinzufuegenEvent();
 	} //GEN-LAST:event_jButtonLieferantBearbeitenArtikelHinzufuegenActionPerformed
 
 	private void jButtonLieferantenAnlegen1ActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jButtonLieferantenAnlegen1ActionPerformed
-		int auswahl = getSelLieferantenID();
-
-		if (auswahl == 0) {
-			JOptionPane.showMessageDialog(this, "Bitte wählen Sie erst einen Lieferanten aus.", "Fehler beim Löschen eines Kunden", JOptionPane.ERROR_MESSAGE);
-		} else {
-			Vector check = new Vector();
-			if (jTextFieldNeuerLieferantFirma.getText().equals(""))
-				check.add("Firma");
-			if (jTextFieldNeuerLieferantName.getText().equals(""))
-				check.add("Name");
-			if (jTextFieldNeuerLieferantVorname.getText().equals(""))
-				check.add("Vorname");
-			if (jTextFieldNeuerLieferantTelefon.getText().equals(""))
-				check.add("Telefon");
-			if (jTextFieldNeuerLieferantStrasse.getText().equals(""))
-				check.add("Strasse");
-			if (jTextFieldNeuerLieferantOrt.getText().equals(""))
-				check.add("Ort");
-			if (jTextFieldNeuerLieferantPLZ.getText().equals(""))
-				check.add("PLZ");
-			if (!check.isEmpty()) {
-
-				if (check.size() > 1)
-					JOptionPane.showMessageDialog(this, "Folgende Felder müssen ausgefüllt werden: " + check.toString().substring(1, check.toString().length() - 1), "Fehler beim Bearbeiten des Lieferanten", JOptionPane.ERROR_MESSAGE);
-				else
-					JOptionPane.showMessageDialog(this, "Folgende Felder müssen ausgefüllt werden: " + check.toString().substring(1, check.toString().length() - 1), "Fehler beim Bearbeiten des Lieferanten", JOptionPane.ERROR_MESSAGE);
-			} else {
-
-				//liefert listItem des selektierten Eintrags
-				String selectedItem = String.valueOf(jComboBoxLieferantBearbeiten.getSelectedIndex());
-				//sucht das aktive KundenObjekt in Hashtabelle kundenAuswahl
-				Supplier changedLieferant = (Supplier) lieferantenObjekte.get(selectedItem);
-				int ltID = changedLieferant.getId();
-
-				Supplier lieferant = new Supplier();
-				lieferant.setId(ltID);
-				lieferant.setNachname(jTextFieldNeuerLieferantName.getText());
-				lieferant.setVorname(jTextFieldNeuerLieferantVorname.getText());
-				lieferant.setFirma(jTextFieldNeuerLieferantFirma.getText());
-				lieferant.setStrasse(jTextFieldNeuerLieferantStrasse.getText());
-				lieferant.setTelefon(jTextFieldNeuerLieferantTelefon.getText());
-				lieferant.setFax(jTextFieldNeuerLieferantFax.getText());
-				lieferant.setEmail(jTextFieldNeuerLieferantEMail.getText());
-				lieferant.setPlz(jTextFieldNeuerLieferantPLZ.getText());
-				lieferant.setOrt(jTextFieldNeuerLieferantOrt.getText());
-				lieferant.setLieferqualitaet(String.valueOf(jComboBoxNeuerLieferantLieferqualitaet.getSelectedItem()));
-				lieferant.setZuverlaessigkeit(String.valueOf(jComboBoxNeuerLieferantZuverlaessigkeit.getSelectedItem()));
-
-				try {
-					City ort = new City();
-					ort.setName(lieferant.getOrt());
-					ort.setPlz(lieferant.getPlz());
-					lieferant.setPlzId(dao.neuerOrt(ort));
-
-					//Tabelle wird neu geschrieben
-					if (jTable1.getRowCount() >= 0) {
-
-						deleteDependingSpareParts(ltID);
-						SupplyList liste = new SupplyList();
-
-						for (int row = 0; row < jTable1.getRowCount(); row++) {
-							liste.setLieferantenID(ltID);
-							String zubehoerName = (String) jTable1.getValueAt(row, 0);
-							String zubehoerId = (String) zubehoerTabelle.get(zubehoerName);
-							liste.setEinzelteilID(Integer.parseInt(zubehoerId));
-							liste.setPreis(format.parse(String.valueOf(jTable1.getValueAt(row, 2))).doubleValue());
-							liste.setMindestBestellMenge(Long.parseLong(String.valueOf(jTable1.getValueAt(row, 1))));
-							dao.setLieferliste(liste);
-						}
-					}
-				} catch (WiSimDAOException e) {
-					wiSimLogger.log("jButtonLieferantenAnlegen1ActionPerformed()", e);
-				} catch (WiSimDAOWriteException e) {
-					wiSimLogger.log("jButtonLieferantenAnlegen1ActionPerformed()", e);
-				} catch (ParseException e) {
-					wiSimLogger.log(Level.WARNING, "JPanelModifySupplier.jButtonLieferantenAnlegen1ActionPerformed()", e, false);
-				}
-
-				try {
-					dao.aendereLieferant(lieferant);
-					loadSuppliers();
-					loadSupplier();
-					setStandard();
-				} catch (WiSimDAOException e) {
-					wiSimLogger.log("jButtonLieferantenAnlegen1ActionPerformed()", e);
-				} catch (WiSimDAOWriteException e) {
-					wiSimLogger.log("jButtonLieferantenAnlegen1ActionPerformed()", e);
-				}
-			}
-			JOptionPane.showMessageDialog(this, "Die Änderungen des Lieferanten wurde erfolgreich gespeichert.", "Lieferant", JOptionPane.INFORMATION_MESSAGE);
-		}
-
+		lieferantAnlegenEvent();
 	} //GEN-LAST:event_jButtonLieferantenAnlegen1ActionPerformed
 
 	private void jComboBoxLieferantBearbeitenActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jComboBoxLieferantBearbeitenActionPerformed
-		if (jComboBoxLieferantBearbeiten.getSelectedItem().equals("Bitte wählen")) {
-			setStandard();
-		} else
-			loadSupplier();
+		/** [DoItBen] change action! */
+		if(jComboBoxLieferantBearbeiten.getSelectedItem() != null)  {
+			if (jComboBoxLieferantBearbeiten.getSelectedItem().equals("Bitte wählen")) {
+				setStandard();
+			} else
+				loadSupplier();
+		}
 	} //GEN-LAST:event_jComboBoxLieferantBearbeitenActionPerformed
 
 	private void jComboBoxLieferantBearbeitenAncestorAdded(javax.swing.event.AncestorEvent evt) { //GEN-FIRST:event_jComboBoxLieferantBearbeitenAncestorAdded
@@ -986,6 +702,325 @@ public class JPanelModifySupplier extends javax.swing.JPanel {
 		} else
 			return 0;
 	}
+
+	private void deleteSupplierEvent() {
+		int auswahl = getSelLieferantenID();
+		if (auswahl != 0) {
+			deleteSupplier(getSelLieferantenID());
+			JOptionPane.showMessageDialog(this, "Der Lieferant wurde erfolgreich gelöscht.", "Vertrag", JOptionPane.INFORMATION_MESSAGE);
+		} else {
+			JOptionPane.showMessageDialog(this, "Bitte wählen Sie erst einen Lieferanten aus.", "Fehler beim Löschen eines Kunden", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
+	private void validatePLZ() {
+		Validator validate = new Validator();
+		String plz = jTextFieldNeuerLieferantPLZ.getText();
+
+		boolean plzOk = false;
+
+		if (!plz.equals("") && plz != null) {
+
+			while (!plzOk && plz != null) {
+
+				if (!validate.checkPlz(plz)) {
+					plz = JOptionPane.showInputDialog("Ungültige PLZ! Bitte neu eingeben:", plz);
+				} else {
+					plzOk = true;
+				}
+			}
+			if (plz != null) {
+				jTextFieldNeuerLieferantPLZ.setText(plz);
+			} else {
+				jTextFieldNeuerLieferantPLZ.setText("");
+			}
+		}
+	}
+
+	private void validateEmail() {
+		Validator validate = new Validator();
+		String email = jTextFieldNeuerLieferantEMail.getText();
+
+		boolean emailOk = false;
+
+		if (!email.equals("") && email != null) {
+
+			while (!emailOk && email != null) {
+
+				if (!validate.checkEMail(email)) {
+					email = JOptionPane.showInputDialog("Ungültige eMail! Bitte neu eingeben:", email);
+				} else {
+					emailOk = true;
+				}
+			}
+			if (email != null) {
+				jTextFieldNeuerLieferantEMail.setText(email);
+			} else {
+				jTextFieldNeuerLieferantEMail.setText("");
+			}
+		}
+	}
+
+	private void validateMindestAbnahme() {
+		Validator validate = new Validator();
+		String zahl = jTextFieldLieferantBearbeitenMindestAbnahme.getText();
+
+		boolean zahlOk = false;
+		if (!zahl.equals("")) {
+			while (!zahlOk && zahl != null) {
+				if (!validate.checkZahl(zahl)) {
+					zahl = JOptionPane.showInputDialog("Ungültige Zahl!", zahl);
+				} else {
+					zahlOk = true;
+				}
+			}
+			if (zahl != null) {
+				jTextFieldLieferantBearbeitenMindestAbnahme.setText(zahl);
+			} else {
+				jTextFieldLieferantBearbeitenMindestAbnahme.setText("");
+			}
+		}
+	}
+
+	private void validateArtikelPreis() {
+		Validator validate = new Validator();
+		String preis = jTextFieldLieferantBearbeitenArtikelPreis.getText();
+
+		boolean preisOk = false;
+		if (!preis.equals("")) {
+			while (!preisOk && preis != null) {
+				if (!validate.checkPreis(preis)) {
+					preis = JOptionPane.showInputDialog("Ungültiger Peis! Bitte geben Sie den Preis implements Format xx.xx ein!", preis);
+
+				} else {
+					preisOk = true;
+				}
+			}
+			if (preis != null) {
+				jTextFieldLieferantBearbeitenArtikelPreis.setText(preis);
+			} else {
+				jTextFieldLieferantBearbeitenArtikelPreis.setText("");
+			}
+		}
+	}
+
+	private void artikelEntfernenEvent() {
+		int selectedPosition = jTable1.getSelectedRow();
+
+		//gesamter Tabelleninhalt wird Zwischengespeichert
+		Vector tableTempRow = new Vector();
+		int row = 0;
+
+		while (row < position) {
+			tableTempRow.add(jTable1.getValueAt(row, 0) + "," + jTable1.getValueAt(row, 1) + "," + jTable1.getValueAt(row, 2));
+			row++;
+		}
+
+		//Selektierte Zeile wird gelöscht
+
+		if (selectedPosition >= 0) {
+
+			if (jTable1.getValueAt(selectedPosition, 0) != null) {
+				zubehoerTabelle.remove(String.valueOf(jTable1.getValueAt(selectedPosition, 0)));
+				jTable1.setValueAt(null, selectedPosition, 0);
+				jTable1.setValueAt(null, selectedPosition, 1);
+				jTable1.setValueAt(null, selectedPosition, 2);
+				tableTempRow.remove(selectedPosition);
+				position--;
+			}
+		}
+
+		//DefaultTableModel mit Variablen Zeilen, 3 TableHeads und nicht editierbaren Zellen
+		boolean deleted = true;
+		updatePositionsTable(deleted);
+
+		//Tabelle wird neu geschrieben
+		if (tableTempRow.size() > 0) {
+			Iterator it_tableTempRow = tableTempRow.iterator();
+			row = 0;
+
+			while (it_tableTempRow.hasNext()) {
+				String complete = (String) it_tableTempRow.next();
+				String[] chunks = complete.split(",");
+				jTable1.setValueAt(chunks[0], row, 0);
+				jTable1.setValueAt(chunks[1], row, 1);
+				jTable1.setValueAt(chunks[2], row, 2);
+				row++;
+			}
+		}
+		position = tableTempRow.size();
+
+		if (position != 0) {
+			jTable1.setRowSelectionInterval(position - 1, position - 1);
+		}
+	}
+
+	private void artikelHinzufuegenEvent() {
+		Vector errors = new Vector();
+
+		if (jTextFieldLieferantBearbeitenArtikelPreis.getText().equals(""))
+			errors.add("Artikelpreis");
+
+		if (jTextFieldLieferantBearbeitenMindestAbnahme.getText().equals(""))
+			errors.add("Mindestabnahme");
+
+		if (errors.isEmpty()) {
+			String artikel = jComboBoxNeuerLieferantArtikel.getSelectedItem().toString();
+
+			if (!artikel.equals("Bitte wählen")) {
+				String preis = jTextFieldLieferantBearbeitenArtikelPreis.getText();
+				int menge = Integer.parseInt(jTextFieldLieferantBearbeitenMindestAbnahme.getText());
+
+				//gesamter Tabelleninhalt wird Zwischengespeichert
+				Vector tableTempRow = new Vector();
+				int row = 0;
+				while (row < position) {
+					tableTempRow.add(jTable1.getValueAt(row, 0) + ";" + jTable1.getValueAt(row, 1) + ";" + jTable1.getValueAt(row, 2));
+					row++;
+				}
+
+				if (!zubehoerTabelle.containsValue(String.valueOf(jComboBoxNeuerLieferantArtikel.getSelectedIndex()))) {
+
+					//Position hinzufügen:
+					WiSimComponent teil = new WiSimComponent();
+					WiSimComponent eteil = (WiSimComponent) alleArtikel.get(jComboBoxNeuerLieferantArtikel.getSelectedIndex());
+					teil.setNr(eteil.getNr());
+					zubehoerTabelle.put(String.valueOf(jComboBoxNeuerLieferantArtikel.getSelectedItem()), String.valueOf(jComboBoxNeuerLieferantArtikel.getSelectedIndex()));
+					alleArtikel.add(alleArtikel.get(jComboBoxNeuerLieferantArtikel.getSelectedIndex()));
+
+					//DefaultTableModel mit Variablen Zeilen, 3 TableHeads und nicht editierbaren Zellen
+					boolean deleted = false;
+					updatePositionsTable(deleted);
+
+					//Tabelle wird neu geschrieben
+					if (tableTempRow.size() > 0) {
+						Iterator it_tableTempRow = tableTempRow.iterator();
+						row = 0;
+
+						while (it_tableTempRow.hasNext()) {
+							String complete = (String) it_tableTempRow.next();
+							String[] chunks = complete.split(";");
+							jTable1.setValueAt(chunks[0], row, 0);
+							jTable1.setValueAt(chunks[1], row, 1);
+							jTable1.setValueAt(chunks[2], row, 2);
+							row++;
+						}
+					}
+					jTable1.setValueAt(artikel, position, 0);
+					jTable1.setValueAt(String.valueOf(menge), position, 1);
+					if (preis.matches("^[0-9]*[,][0-9]*")) {
+						preis = preis.replaceAll(",", ".");
+					}
+					jTable1.setValueAt(format.format(Double.parseDouble(preis)), position, 2);
+					position++;
+					jTable1.setRowSelectionInterval(position - 1, position - 1);
+				} else {
+					JOptionPane.showMessageDialog(null, "Dieser Artikel ist bereits vorhanden!");
+				}
+			}
+		} else {
+			if (errors.size() > 1)
+				JOptionPane.showMessageDialog(this, "Folgende Felder müssen ausgefüllt werden: " + errors.toString().substring(1, errors.toString().length() - 1), "Fehler beim Hinzufügen des Artikels", JOptionPane.ERROR_MESSAGE);
+			else
+				JOptionPane.showMessageDialog(this, "Das folgende Feld muss ausgefüllt werden: " + errors.toString().substring(1, errors.toString().length() - 1), "Fehler beim Hinzufügen des Artikels", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
+	private void lieferantAnlegenEvent() {
+		int auswahl = getSelLieferantenID();
+
+		if (auswahl == 0) {
+			JOptionPane.showMessageDialog(this, "Bitte wählen Sie erst einen Lieferanten aus.", "Fehler beim Löschen eines Kunden", JOptionPane.ERROR_MESSAGE);
+		} else {
+			Vector check = new Vector();
+			if (jTextFieldNeuerLieferantFirma.getText().equals(""))
+				check.add("Firma");
+			if (jTextFieldNeuerLieferantName.getText().equals(""))
+				check.add("Name");
+			if (jTextFieldNeuerLieferantVorname.getText().equals(""))
+				check.add("Vorname");
+			if (jTextFieldNeuerLieferantTelefon.getText().equals(""))
+				check.add("Telefon");
+			if (jTextFieldNeuerLieferantStrasse.getText().equals(""))
+				check.add("Strasse");
+			if (jTextFieldNeuerLieferantOrt.getText().equals(""))
+				check.add("Ort");
+			if (jTextFieldNeuerLieferantPLZ.getText().equals(""))
+				check.add("PLZ");
+			if (!check.isEmpty()) {
+
+				if (check.size() > 1)
+					JOptionPane.showMessageDialog(this, "Folgende Felder müssen ausgefüllt werden: " + check.toString().substring(1, check.toString().length() - 1), "Fehler beim Bearbeiten des Lieferanten", JOptionPane.ERROR_MESSAGE);
+				else
+					JOptionPane.showMessageDialog(this, "Folgende Felder müssen ausgefüllt werden: " + check.toString().substring(1, check.toString().length() - 1), "Fehler beim Bearbeiten des Lieferanten", JOptionPane.ERROR_MESSAGE);
+			} else {
+
+				//liefert listItem des selektierten Eintrags
+				String selectedItem = String.valueOf(jComboBoxLieferantBearbeiten.getSelectedIndex());
+				//sucht das aktive KundenObjekt in Hashtabelle kundenAuswahl
+				Supplier changedLieferant = (Supplier) lieferantenObjekte.get(selectedItem);
+				int ltID = changedLieferant.getId();
+
+				Supplier lieferant = new Supplier();
+				lieferant.setId(ltID);
+				lieferant.setNachname(jTextFieldNeuerLieferantName.getText());
+				lieferant.setVorname(jTextFieldNeuerLieferantVorname.getText());
+				lieferant.setFirma(jTextFieldNeuerLieferantFirma.getText());
+				lieferant.setStrasse(jTextFieldNeuerLieferantStrasse.getText());
+				lieferant.setTelefon(jTextFieldNeuerLieferantTelefon.getText());
+				lieferant.setFax(jTextFieldNeuerLieferantFax.getText());
+				lieferant.setEmail(jTextFieldNeuerLieferantEMail.getText());
+				lieferant.setPlz(jTextFieldNeuerLieferantPLZ.getText());
+				lieferant.setOrt(jTextFieldNeuerLieferantOrt.getText());
+				lieferant.setLieferqualitaet(String.valueOf(jComboBoxNeuerLieferantLieferqualitaet.getSelectedItem()));
+				lieferant.setZuverlaessigkeit(String.valueOf(jComboBoxNeuerLieferantZuverlaessigkeit.getSelectedItem()));
+
+				try {
+					City ort = new City();
+					ort.setName(lieferant.getOrt());
+					ort.setPlz(lieferant.getPlz());
+					lieferant.setPlzId(dao.neuerOrt(ort));
+
+					//Tabelle wird neu geschrieben
+					if (jTable1.getRowCount() >= 0) {
+
+						deleteDependingSpareParts(ltID);
+						SupplyList liste = new SupplyList();
+
+						for (int row = 0; row < jTable1.getRowCount(); row++) {
+							liste.setLieferantenID(ltID);
+							String zubehoerName = (String) jTable1.getValueAt(row, 0);
+							String zubehoerId = (String) zubehoerTabelle.get(zubehoerName);
+							liste.setEinzelteilID(Integer.parseInt(zubehoerId));
+							liste.setPreis(format.parse(String.valueOf(jTable1.getValueAt(row, 2))).doubleValue());
+							liste.setMindestBestellMenge(Long.parseLong(String.valueOf(jTable1.getValueAt(row, 1))));
+							dao.setLieferliste(liste);
+						}
+					}
+				} catch (WiSimDAOException e) {
+					wiSimLogger.log("jButtonLieferantenAnlegen1ActionPerformed()", e);
+				} catch (WiSimDAOWriteException e) {
+					wiSimLogger.log("jButtonLieferantenAnlegen1ActionPerformed()", e);
+				} catch (ParseException e) {
+					wiSimLogger.log(Level.WARNING, "JPanelModifySupplier.jButtonLieferantenAnlegen1ActionPerformed()", e, false);
+				}
+
+				try {
+					dao.aendereLieferant(lieferant);
+					loadSuppliers();
+					loadSupplier();
+					setStandard();
+				} catch (WiSimDAOException e) {
+					wiSimLogger.log("jButtonLieferantenAnlegen1ActionPerformed()", e);
+				} catch (WiSimDAOWriteException e) {
+					wiSimLogger.log("jButtonLieferantenAnlegen1ActionPerformed()", e);
+				}
+			}
+			JOptionPane.showMessageDialog(this, "Die Änderungen des Lieferanten wurde erfolgreich gespeichert.", "Lieferant", JOptionPane.INFORMATION_MESSAGE);
+		}
+
+	}
+
 	// Variables declaration - do not modify//GEN-BEGIN:variables
 	private javax.swing.JButton jButtonLieferantBearbeitenArtikelEntfernen;
 	private javax.swing.JButton jButtonLieferantBearbeitenArtikelHinzufuegen;
@@ -1028,5 +1063,4 @@ public class JPanelModifySupplier extends javax.swing.JPanel {
 	private javax.swing.JTextField jTextFieldNeuerLieferantTelefon;
 	private javax.swing.JTextField jTextFieldNeuerLieferantVorname;
 	// End of variables declaration//GEN-END:variables
-
 }

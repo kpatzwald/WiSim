@@ -117,7 +117,7 @@ public class JPanelNetworkplan extends javax.swing.JPanel {
 
 		/** JScrollPane holding the network plan */
 		holdAll = new JScrollPane();
-		holdAll.setBounds(0, 0, (int)getPreferredSize().getWidth(), (int)getPreferredSize().getHeight());
+		holdAll.setBounds(0, 0, (int) getPreferredSize().getWidth(), (int) getPreferredSize().getHeight());
 		holdAll.getViewport().add(netzplanGrafik);
 		holdAll.getVerticalScrollBar().setUnitIncrement(20);
 		holdAll.getHorizontalScrollBar().setUnitIncrement(20);

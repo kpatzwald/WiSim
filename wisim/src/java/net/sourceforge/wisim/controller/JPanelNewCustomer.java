@@ -438,7 +438,7 @@ public class JPanelNewCustomer extends javax.swing.JPanel {
 
 				//Felder werden resettet
 				resetFields();
-				JOptionPane.showMessageDialog(this,"Der Kunde wurde erfolgreich gespeichert.", "Kunde", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(this, "Der Kunde wurde erfolgreich gespeichert.", "Kunde", JOptionPane.INFORMATION_MESSAGE);
 
 			} catch (WiSimDAOException e) {
 				wiSimLogger.log("neuerKunde()", e);
