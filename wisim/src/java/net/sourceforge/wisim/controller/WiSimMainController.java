@@ -43,6 +43,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import net.sourceforge.wisim.dao.WiSimDAO;
+import net.sourceforge.wisim.dao.WiSimDAOException;
 import net.sourceforge.wisim.dao.WiSimDAOFactory;
 import net.sourceforge.wisim.mdi.JScrollableDesktopPane;
 
@@ -60,6 +61,21 @@ public class WiSimMainController extends javax.swing.JFrame {
 	private DateFormat df;
 	private DateFormat justDate;
 	private JScrollableDesktopPane desktopPane;
+	private ActualTime actTime;
+	private CoreTime coreTime;
+	private GregorianCalendar gc;
+
+	// Sets the length of one timestep of the simulation
+	// 1 Timestep = 1 min = 100 ms
+	private final static int TIMESTEP = 100;
+
+	//	Simulation of the production
+	private ProductionController runController;
+	private ProductionSimulationThread[] threads;
+
+	// Simulation
+	private UpdateSimulationAnalysis updateSimulationsauswertung;
+	private UpdateWarehouseThread updateLagerThread;
 
 	/** Creates new form WiSimMainController */
 	public WiSimMainController() {
@@ -69,6 +85,7 @@ public class WiSimMainController extends javax.swing.JFrame {
 		initActions();
 		initApplication();
 		initTitles();
+		initSimulationSettings();
 
 		com.incors.plaf.kunststoff.KunststoffLookAndFeel plaf = new com.incors.plaf.kunststoff.KunststoffLookAndFeel();
 
@@ -81,6 +98,14 @@ public class WiSimMainController extends javax.swing.JFrame {
 		actDateGC = new GregorianCalendar();
 		df = DateFormat.getDateTimeInstance(DateFormat.FULL, DateFormat.SHORT, Locale.GERMANY);
 		justDate = DateFormat.getDateInstance(DateFormat.FULL, Locale.GERMANY);
+	}
+
+	/** Initializate the settings for the simulation
+	 * 
+	 */
+	private void initSimulationSettings() {
+		actDate = new Date(new GregorianCalendar(2003, 8, 1, 0, 0).getTimeInMillis());
+		gc = new GregorianCalendar();
 	}
 
 	/*Hashtable with all possible actions. Every action represent a JPanel / JInternalFrame.*/
@@ -144,7 +169,7 @@ public class WiSimMainController extends javax.swing.JFrame {
 		jPanel1 = new javax.swing.JPanel();
 		jLabelDate = new javax.swing.JLabel();
 		jPanel2 = new javax.swing.JPanel();
-		jButtonSimStart = new javax.swing.JButton();
+		jToggleButtonWiSimStart = new javax.swing.JToggleButton();
 		jButtonSimStop = new javax.swing.JButton();
 		jButtonSimReset = new javax.swing.JButton();
 		jMenuBarWiSim = new javax.swing.JMenuBar();
@@ -188,25 +213,37 @@ public class WiSimMainController extends javax.swing.JFrame {
 		jPanel1.setLayout(new java.awt.BorderLayout());
 
 		jLabelDate.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-		jLabelDate.setText("Montag, 1. September 2003");
+		jLabelDate.setText("Montag, 1. September 2003 ");
 		jLabelDate.setPreferredSize(new java.awt.Dimension(250, 25));
 		jPanel1.add(jLabelDate, java.awt.BorderLayout.EAST);
 
 		jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.X_AXIS));
 
-		jButtonSimStart.setText("Start");
-		jButtonSimStart.addActionListener(new java.awt.event.ActionListener() {
+		jToggleButtonWiSimStart.setText("Start");
+		jToggleButtonWiSimStart.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				jButtonSimStartActionPerformed(evt);
+				jToggleButtonWiSimStartActionPerformed(evt);
 			}
 		});
 
-		jPanel2.add(jButtonSimStart);
+		jPanel2.add(jToggleButtonWiSimStart);
 
 		jButtonSimStop.setText("Stop");
+		jButtonSimStop.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				jButtonSimStopActionPerformed(evt);
+			}
+		});
+
 		jPanel2.add(jButtonSimStop);
 
 		jButtonSimReset.setText("Reset");
+		jButtonSimReset.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				jButtonSimResetActionPerformed(evt);
+			}
+		});
+
 		jPanel2.add(jButtonSimReset);
 
 		jPanel1.add(jPanel2, java.awt.BorderLayout.CENTER);
@@ -435,9 +472,17 @@ public class WiSimMainController extends javax.swing.JFrame {
 		setBounds((screenSize.width - 800) / 2, (screenSize.height - 600) / 2, 800, 600);
 	} //GEN-END:initComponents
 
-	private void jButtonSimStartActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jButtonSimStartActionPerformed
+	private void jButtonSimResetActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jButtonSimResetActionPerformed
+		// Add your handling code here:
+	} //GEN-LAST:event_jButtonSimResetActionPerformed
+
+	private void jButtonSimStopActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jButtonSimStopActionPerformed
+		stopSimulation();
+	} //GEN-LAST:event_jButtonSimStopActionPerformed
+
+	private void jToggleButtonWiSimStartActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jToggleButtonWiSimStartActionPerformed
 		startSimulation();
-	} //GEN-LAST:event_jButtonSimStartActionPerformed
+	} //GEN-LAST:event_jToggleButtonWiSimStartActionPerformed
 
 	private void jMenuItemZahlungseingangActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jMenuItemZahlungseingangActionPerformed
 		addPanel("IncomingPayment");
@@ -553,7 +598,7 @@ public class WiSimMainController extends javax.swing.JFrame {
 		}
 	}
 
-	/** Liefert ein WiSimDao-Objekt
+	/** Returns the WiSim-DAO
 	 * @return WiSimDao
 	 */
 	public WiSimDAO getDAO() {
@@ -587,32 +632,105 @@ public class WiSimMainController extends javax.swing.JFrame {
 		jLabelDate.setText(justDate.format(actDate));
 	}
 
-	/** Erneuert die Datumsanzeige.
-	 * @param actDate
+	/** Actualice the simulation time
+	 * @param actDate The simulation time to set
 	 */
 	public void refreshTextFieldDate(java.util.Date actDate) {
 		this.actDate = actDate;
 		actDateGC.setTimeInMillis(actDate.getTime());
-		jLabelDate.setText(df.format(actDate));
+		jLabelDate.setText(df.format(actDate) + " ");
 	}
 
-	/** Gibt die Simulationszeit zurück
-	 * @return Die Simulationszeit
+	/** Returns the simulation time
+	 * @return Date The simulation time
 	 */
 	public Date getActDate() {
 		return actDate;
 	}
 
-	/**
+	/** Resets the date */
+	private void resetFields() {
+		actDate = new Date(new GregorianCalendar(2003, 8, 1, 0, 0).getTimeInMillis());
+		resetTextFieldDate();
+	}
+
+	/** Starts the simulation if jToggledButtonWiSimStart is pressed
 	* 
 	*/
 	private void startSimulation() {
+		jToggleButtonWiSimStart.setEnabled(false);
+		JPanelOptions jPanelOptions = (JPanelOptions) actions.get("Options");
+		jPanelOptions.setJButtonRefreshEnable(false);
+		
+		resetFields();
+		//jComboBoxZeitfaktor.setEnabled(false);
+		jButtonSimReset.setEnabled(false);
+		//jCheckBoxEineWoche.setEnabled(false);
+		actTime = new ActualTime();
+		int faktor = 1; //KTODO Provisorisch, solange der Faktor nicht über ein Swing-Element vom Benutzer gewählt werden kann.
+		coreTime = new CoreTime(actTime, faktor, TIMESTEP);
+		gc.setTime(actDate);
+		boolean beendeNachEinerWoche = false; //KTODO Provisorisch, solange der Wert nicht über ein Swing-Element vom Benutzer gewählt werden kann.
+		updateSimulationsauswertung = new UpdateSimulationAnalysis(actTime, this, beendeNachEinerWoche);
+		updateLagerThread = new UpdateWarehouseThread(this);
+
+		coreTime.start();
+		updateSimulationsauswertung.start();
+		updateLagerThread.start();
+
+		// Simulation of the production
+		int anzahlArbeitsplaetze = -1;
+		try {
+			anzahlArbeitsplaetze = dao.getAnzahlArbeitsplätze();
+		} catch (WiSimDAOException e) {
+			wiSimLogger.log("startStopSimulation()", e);
+		}
+
+		runController = new ProductionController(this);
+		try {
+			threads = new ProductionSimulationThread[anzahlArbeitsplaetze + 1];
+			for (int i = 1; i <= anzahlArbeitsplaetze; i++) {
+
+				threads[i] = new ProductionSimulationThread(dao.getArbeitsplatz(i), runController, this, faktor, TIMESTEP);
+				threads[i].start();
+
+			}
+		} catch (WiSimDAOException e) {
+			wiSimLogger.log("startStopSimulation()", e);
+		}
+		// End of simulation of the production
+	}
+
+	/** Stops the simulation
+	 * 
+	 */
+	private void stopSimulation() {
+		jToggleButtonWiSimStart.setSelected(false);
+		jToggleButtonWiSimStart.setEnabled(true);
+		jButtonSimReset.setEnabled(true);
+		JPanelOptions jPanelOptions = (JPanelOptions) actions.get("Options");
+		jPanelOptions.setJButtonRefreshEnable(true);
+		
+		coreTime.interrupt();
+		updateSimulationsauswertung.interrupt();
+		updateLagerThread.interrupt();
+		int anzahlArbeitsplaetze = -1;
+		try {
+			anzahlArbeitsplaetze = dao.getAnzahlArbeitsplätze();
+		} catch (WiSimDAOException e) {
+			wiSimLogger.log("startStopSimulation()", e);
+		}
+
+		// Stops the simulation of the produktion
+		for (int i = 1; i <= anzahlArbeitsplaetze; i++) {
+			threads[i].interrupt();
+		}
+		// End of stoping the simulation of the produktion
 
 	}
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables
 	private javax.swing.JButton jButtonSimReset;
-	private javax.swing.JButton jButtonSimStart;
 	private javax.swing.JButton jButtonSimStop;
 	private javax.swing.JLabel jLabelDate;
 	private javax.swing.JMenuBar jMenuBarWiSim;
@@ -647,6 +765,7 @@ public class WiSimMainController extends javax.swing.JFrame {
 	private javax.swing.JPanel jPanel1;
 	private javax.swing.JPanel jPanel2;
 	private javax.swing.JSeparator jSeparator2;
+	private javax.swing.JToggleButton jToggleButtonWiSimStart;
 	// End of variables declaration//GEN-END:variables
 
 }
