@@ -50,7 +50,7 @@ public class Old_ShowNetzplanJustText {
 //		npElemente.add(new NetworkplanElement(9, 7, new int[] { 10 }, "Montage Lagerhalle"));
 //		npElemente.add(new NetworkplanElement(10, 4, new int[] { 0 }, "Installationsarbeiten"));
 
-		NetworkplanCalculator npCalc = new NetworkplanCalculator(npElemente);
+		NetworkplanCalculator npCalc = new NetworkplanCalculator(npElemente, true);
 		npElemente = npCalc.getNpElemente();
 
 		Iterator npElemIt = npElemente.iterator();

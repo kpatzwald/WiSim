@@ -60,7 +60,7 @@ public class Old_NetzplanGrafikGenerator {
 				position[a][b] = 0;
 
 		this.npElemente = npElemente;
-		npCalc = new NetworkplanCalculator(npElemente);
+		npCalc = new NetworkplanCalculator(npElemente, true);
 		npElemente = npCalc.getNpElemente();
 		showCriticalPath();
 		
