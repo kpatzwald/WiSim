@@ -62,7 +62,7 @@ public class WiSimLogger {
 		logger.log(Level.WARNING, "No Message", t);
 		JOptionPane jp = new JOptionPane();
 		jp.setMessageType(javax.swing.JOptionPane.ERROR_MESSAGE);
-		JOptionPane.showMessageDialog(null, "Unerwarteter Fehler! Programm wird beendet!\n(Geloggt in c:\\ " + logFile + ")", "Fehler", JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(null, "Unerwarteter Fehler! Programm wird beendet!\n(Geloggt im WiSim-Verzeichnis als: " + logFile + ")", "Fehler", JOptionPane.ERROR_MESSAGE);
 		System.exit(1);
 	}
 
@@ -74,7 +74,7 @@ public class WiSimLogger {
 		logger.log(Level.WARNING, msg, t);
 		JOptionPane jp = new JOptionPane();
 		jp.setMessageType(javax.swing.JOptionPane.ERROR_MESSAGE);
-		JOptionPane.showMessageDialog(null, "Unerwarteter Fehler! Programm wird beendet!\n(Geloggt in c:\\ " + logFile + ")", "Fehler", JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(null, "Unerwarteter Fehler! Programm wird beendet!\n(Geloggt im WiSim-Verzeichnis als: " + logFile + ")", "Fehler", JOptionPane.ERROR_MESSAGE);
 		System.exit(1);
 	}
 
@@ -83,13 +83,13 @@ public class WiSimLogger {
 			logger.log(level, msg, t);
 			JOptionPane jp = new JOptionPane();
 			jp.setMessageType(javax.swing.JOptionPane.ERROR_MESSAGE);
-			JOptionPane.showMessageDialog(null, "Unerwarteter Fehler! Programm wird beendet!\n(Geloggt in c:\\ " + logFile + ")", "Fehler", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Unerwarteter Fehler! Programm wird beendet!\n(Geloggt im WiSim-Verzeichnis als: " + logFile + ")", "Fehler", JOptionPane.ERROR_MESSAGE);
 			System.exit(1);
 		} else {
 			logger.log(level, msg, t);
 			JOptionPane jp = new JOptionPane();
 			jp.setMessageType(javax.swing.JOptionPane.ERROR_MESSAGE);
-			JOptionPane.showMessageDialog(null, "Unerwarteter Fehler!\n(Geloggt in c:\\ " + logFile + ")", "Fehler", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Unerwarteter Fehler!\n(Geloggt im WiSim-Verzeichnis als: " + logFile + ")", "Fehler", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -106,13 +106,13 @@ public class WiSimLogger {
 				logger.log(level, msg, t);
 				JOptionPane jp = new JOptionPane();
 				jp.setMessageType(javax.swing.JOptionPane.ERROR_MESSAGE);
-				JOptionPane.showMessageDialog(null, "Unerwarteter Fehler! Programm wird beendet!\n(Geloggt in c:\\ " + logFile + ")", "Fehler", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Unerwarteter Fehler! Programm wird beendet!\n(Geloggt im WiSim-Verzeichnis als: " + logFile + ")", "Fehler", JOptionPane.ERROR_MESSAGE);
 				System.exit(1);
 			} else {
 				logger.log(level, msg, t);
 				JOptionPane jp = new JOptionPane();
 				jp.setMessageType(javax.swing.JOptionPane.ERROR_MESSAGE);
-				JOptionPane.showMessageDialog(null, "Unerwarteter Fehler!\n(Geloggt in c:\\ " + logFile + ")", "Fehler", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Unerwarteter Fehler!\n(Geloggt im WiSim-Verzeichnis als: " + logFile + ")", "Fehler", JOptionPane.ERROR_MESSAGE);
 			}
 		} else {
 			if (exit) {
