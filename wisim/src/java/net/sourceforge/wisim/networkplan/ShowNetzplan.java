@@ -184,7 +184,7 @@ public class ShowNetzplan extends JPanel {
 		Vector filled = new Vector();
 
 		/** Elements of the network plan */
-		filled.add(new NetzplanElement(1, 20, new int[] { 2, 6, 8 }, "Entwicklung, Planung"));
+		filled.add(new NetzplanElement(1, 20, new int[] { 2, 6, 8 }, "Entwicklung, Planung und Test der einzelnen"));
 		filled.add(new NetzplanElement(2, 3, new int[] { 3 }, "Erdaushub Fundamente"));
 		filled.add(new NetzplanElement(3, 2, new int[] { 4 }, "Ausgieﬂen Fundamente"));
 		filled.add(new NetzplanElement(4, 5, new int[] { 5 }, "Verschalung Betonsockel"));

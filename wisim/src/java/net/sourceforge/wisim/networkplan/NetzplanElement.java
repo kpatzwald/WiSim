@@ -50,7 +50,7 @@ public class NetzplanElement {
 	private String bezeichnung;
 
 	private Collection vorgaengerBasket;
-	
+
 	private boolean selected;
 
 	public NetzplanElement(int nummer, double dauer, int[] nachfolger, String bezeichnung) {
@@ -65,7 +65,7 @@ public class NetzplanElement {
 
 	/**
 	 * Get the duration of the network plan element
-	 * @return 
+	 * @return
 	 */
 	public double getDauer() {
 		return dauer;
@@ -274,7 +274,7 @@ public class NetzplanElement {
 		criticalPath = b;
 	}
 	/**
-	 * TODO Kommentar für isSelected()
+	 * TODOBen Kommentar für isSelected()
 	 * @return
 	 */
 	public boolean isSelected() {
@@ -282,7 +282,7 @@ public class NetzplanElement {
 	}
 
 	/**
-	 * TODO Kommentar für setSelected()
+	 * TODOBen Kommentar für setSelected()
 	 * @param b
 	 */
 	public void setSelected(boolean b) {

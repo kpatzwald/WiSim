@@ -31,12 +31,12 @@ import java.util.Iterator;
 import java.util.Vector;
 
 /**
- * Class for generating the network plan in a Buffered Image. 
+ * Class for generating the network plan in a Buffered Image.
  * Size is set dynamic in dependence to the number of elements
  * and their positions.
  * There is a critical bug with generating (very) complex network
- * plans. This bug will be fixed in the future versions. 
- * 
+ * plans. This bug will be fixed in the future versions.
+ *
  * @author Benjamin Pasero
  * @version 0.2a
  */
@@ -51,7 +51,7 @@ public class NetzplanGrafikGenerator {
 	private int selected;
 
 	public NetzplanGrafikGenerator(Vector npElemente) {
-		
+
 		/** Matrix for positioning of the elements */
 		position = new int[20][20];
 		for (int a = 0; a < 20; a++)
@@ -152,11 +152,11 @@ public class NetzplanGrafikGenerator {
 		}
 	}
 
-	/** 
-	 * Calculate the positions of the elements in the matrix position[x][y] 
+	/**
+	 * Calculate the positions of the elements in the matrix position[x][y]
 	 * position is a coordinate system with x and y axis. Each x/y-coordinate
 	 * can contain a number of a network plan element
-	 * 
+	 *
 	 * German pseudo-code:
 	 * 1.) Variablen
 	 *
@@ -166,50 +166,50 @@ public class NetzplanGrafikGenerator {
 	 *
 	 *	nachfolgerBasket: Vektor mit Nummern von Vorgängen
 	 *	nachfolger[]: Nummern der Vorgänge die einem Vorgang folgen
-	 *	
-	 *	
+	 *
+	 *
 	 *	2.) Initialisierung
-	 *	
+	 *
 	 *	tupel[0] Vektor erhält die Nummer des ersten Vorganges
 	 *	completedAll erhält die Nummer des ersten Vorganges
 	 *	nachfolger[] des Startelementes werden geholt
 	 *	nachfolgerBasket wird mit nachfolger[]-Nummern gefüllt
-	 *	
-	 *	
-	 *	3.) 
+	 *
+	 *
+	 *	3.)
 	 *	Wiederhole solange != Letztes Netzplanelement, i++
 	 *
 	 *		Zurücksetzen der Vektoren:
 	 *			tupel[i] = new Vector();
-	 *			
+	 *
 	 *		Nachfolger bearbeiten:
-	 *		
-	 *			Für jedes Element im nachfolgerBasket 
-	 *	
+	 *
+	 *			Für jedes Element im nachfolgerBasket
+	 *
 	 *				Ermittle die Vorgänger
-	 *		
+	 *
 	 *				Wenn es mehr als einen Vorgänger für ein Vorgang gibt, dann:
 	 *					Überprüfe ob jeder Vorgänger im Vektor completedAll liegt
-	 *					
+	 *
 	 *				Wenn alle Vorgänger in completedAll liegen und der aktuelle Vorgang
 	 *				nicht in completed liegt, dann
-	 *				
+	 *
 	 *					Füge aktuelle Vorgangsnummer in Vektor(a) bei tupel[i]
 	 *					Füge aktuelle Vorgangsnummer in Vektor completed
-	 *					
+	 *
 	 *				sonst
-	 *					
+	 *
 	 *					Füge in tupel[i] die Nummer des Vorganges, die im vorhergehenden
 	 *					Tupel an dieser Stelle vorhanden war (a ist Breite des aktuellen Tupels)
-	 *				
+	 *
 	 *				Inkrementiere (a)
-	 *		
+	 *
 	 *		Füge Inhalt aus Vektor completed in Vektor completedAll
-	 *		
+	 *
 	 *		nachfolgerBasket = new Vector();
-	 *		
-	 *		Für jedes Element im aktuellen Tupel werden die  Nummern der Nachfolger in 
-	 *		den nachfolgerBasket geschrieben  
+	 *
+	 *		Für jedes Element im aktuellen Tupel werden die  Nummern der Nachfolger in
+	 *		den nachfolgerBasket geschrieben
 	 * */
 	public void calculatePositions() {
 
@@ -247,7 +247,7 @@ public class NetzplanGrafikGenerator {
 				int[] vorgaenger =
 					((NetzplanElement) npElemente.get(((Integer) nachfolgerBasket.get(a)).intValue() - 1)).getVorgaenger();
 				boolean complete = true;
-				
+
 				/** Check if all parent activites were already stored in the tupel */
 				if (vorgaenger.length > 1) {
 
@@ -260,13 +260,13 @@ public class NetzplanGrafikGenerator {
 							break;
 						}
 					}
-				} 
-				
+				}
+
 				/** Parents where already stored in the tupel */
 				if (complete && !completed.contains((Integer) nachfolgerBasket.get(a))) {
 					tupel[i].add((Integer) nachfolgerBasket.get(a));
 					completed.add(nachfolgerBasket.get(a));
-					
+
 				/** Parents are not yet stored in the tupel */
 				} else if (!complete) {
 					tupel[i].add(tupel[i - 1].get(a));
@@ -276,7 +276,7 @@ public class NetzplanGrafikGenerator {
 			completedAll.addAll(completed);
 			nachfolgerBasket = new Vector();
 			int b = 0;
-			
+
 			/** Get all followers of the current tupel[]-network elements */
 			while (b < tupel[i].size()) {
 				nachfolger = ((NetzplanElement) npElemente.get(((Integer) tupel[i].get(b)).intValue() - 1)).getNachfolger();
@@ -292,8 +292,8 @@ public class NetzplanGrafikGenerator {
 				b++;
 			}
 			i++;
-		} 
-		
+		}
+
 		/** START Debug output */
 //		int blub = 0;
 //		while (blub < i) {
@@ -319,9 +319,9 @@ public class NetzplanGrafikGenerator {
 //		while (completeIt.hasNext())
 //			completedList = completedList + " " + String.valueOf(((Integer) completeIt.next()).intValue());
 //		System.out.println("CompletedList: " + completedList);
-		/** END Debug output */ 
-		
-		 
+		/** END Debug output */
+
+
 		/** Set the positions */
 		int j = 0;
 		while (tupel[j] != null) {
@@ -359,11 +359,10 @@ public class NetzplanGrafikGenerator {
 		}
 	}
 	/**
-	 * TODO Kommentar für getPosition()
+	 * TODOBen Kommentar für getPosition()
 	 * @return
 	 */
 	public int[][] getPosition() {
 		return position;
 	}
-
 }
