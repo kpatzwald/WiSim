@@ -135,57 +135,74 @@ public class WiSimMainController extends javax.swing.JFrame {
 	/*Hashtable with all possible actions. Every action represent a JPanel / JInternalFrame.*/
 	private void initActions() {
 		actions = new Hashtable();
-		actions.put("NewOrder", new JPanelNewOrder(this));
-		loadStatusBar.setValue(15);
+
+		loadStatusBar.setValue(28);
 		statusText.setText("Lade \"Bestellung\"...");
-		actions.put("Help", new JPanelHelp());
-		loadStatusBar.setValue(20);
+		actions.put("NewOrder", new JPanelNewOrder(this));
+
+		loadStatusBar.setValue(33);
 		statusText.setText("Lade \"Hilfe\"...");
-		actions.put("ModifyCustomer", new JPanelModifyCustomer(this));
-		loadStatusBar.setValue(25);
-		statusText.setText("Lade \"Kunde bearbeiten\"...");
-		actions.put("Warehouse", new JPanelWarehouse(this));
-		loadStatusBar.setValue(30);
-		statusText.setText("Lade \"Lager\"...");
-		actions.put("ModifySupplier", new JPanelModifySupplier(this));
+		actions.put("Help", new JPanelHelp());
+
 		loadStatusBar.setValue(35);
-		statusText.setText("Lade \"Lieferant bearbeiten\"...");
-		actions.put("ViewSuppliers", new JPanelViewSuppliers(this));
-		loadStatusBar.setValue(40);
-		statusText.setText("Lade \"Lieferantenliste\"...");
-		actions.put("NewCustomer", new JPanelNewCustomer(this));
+		statusText.setText("Lade \"Kunde bearbeiten\"...");
+		actions.put("ModifyCustomer", new JPanelModifyCustomer(this));
+
+		loadStatusBar.setValue(39);
+		statusText.setText("Lade \"Lager\"...");
+		actions.put("Warehouse", new JPanelWarehouse(this));
+
 		loadStatusBar.setValue(45);
+		statusText.setText("Lade \"Lieferant bearbeiten\"...");
+		actions.put("ModifySupplier", new JPanelModifySupplier(this));
+
+		loadStatusBar.setValue(49);
+		statusText.setText("Lade \"Lieferantenliste\"...");
+		actions.put("ViewSuppliers", new JPanelViewSuppliers(this));
+
+		loadStatusBar.setValue(53);
 		statusText.setText("Lade \"Neuer Kunde\"...");
-		actions.put("ViewCustomers", new JPanelViewCustomers(this));
-		loadStatusBar.setValue(50);
+		actions.put("NewCustomer", new JPanelNewCustomer(this));
+
+		loadStatusBar.setValue(56);
 		statusText.setText("Lade \"Kundenuebersicht\"...");
-		actions.put("NewSupplier", new JPanelNewSupplier(this));
-		loadStatusBar.setValue(55);
-		statusText.setText("Lade \"Neuer Lieferant\"...");
-		actions.put("NewContract", new JPanelNewContract(this));
+		actions.put("ViewCustomers", new JPanelViewCustomers(this));
+
 		loadStatusBar.setValue(60);
+		statusText.setText("Lade \"Neuer Lieferant\"...");
+		actions.put("NewSupplier", new JPanelNewSupplier(this));
+
+		loadStatusBar.setValue(64);
 		statusText.setText("Lade \"Neuer Vertrag\"...");
-		actions.put("ViewContract", new JPanelViewContract(this));
-		loadStatusBar.setValue(65);
-		statusText.setText("Lade \"Vertrag einsehen\"...");
-		actions.put("Options", new JPanelOptions(this));
+		actions.put("NewContract", new JPanelNewContract(this));
+
 		loadStatusBar.setValue(70);
-		statusText.setText("Lade \"Optionen\"...");
-		actions.put("ViewOrders", new JPanelViewOrders(this));
+		statusText.setText("Lade \"Vertrag einsehen\"...");
+		actions.put("ViewContract", new JPanelViewContract(this));
+
 		loadStatusBar.setValue(75);
+		statusText.setText("Lade \"Optionen\"...");
+		actions.put("Options", new JPanelOptions(this));
+
+		loadStatusBar.setValue(78);
 		statusText.setText("Lade \"Auftrag einsehen\"...");
-		actions.put("SimulationAnalysis", new JPanelSimulationAnalysis(this));
-		loadStatusBar.setValue(80);
+		actions.put("ViewOrders", new JPanelViewOrders(this));
+
+		loadStatusBar.setValue(82);
 		statusText.setText("Lade \"Auswertung Simulation\"...");
-		actions.put("WorkPlaceStore", new JPanelWorkPlaceStore(this));
-		loadStatusBar.setValue(85);
+		actions.put("SimulationAnalysis", new JPanelSimulationAnalysis(this));
+
+		loadStatusBar.setValue(86);
 		statusText.setText("Lade \"Arbeitsplatzlager\"...");
-		actions.put("Networkplan", new JPanelNetworkplan(this));
-		loadStatusBar.setValue(90);
+		actions.put("WorkPlaceStore", new JPanelWorkPlaceStore(this));
+
+		loadStatusBar.setValue(92);
 		statusText.setText("Lade \"Netzplan\"...");
-		actions.put("IncomingPayment", new JPanelIncomingPayments(this));
-		loadStatusBar.setValue(95);
+		actions.put("Networkplan", new JPanelNetworkplan(this));
+
+		loadStatusBar.setValue(97);
 		statusText.setText("Lade \"Zahlungseingang\"...");
+		actions.put("IncomingPayment", new JPanelIncomingPayments(this));
 	}
 
 	/*Hashtable titles with the german titles of the JInternalFrames.*/
@@ -212,9 +229,8 @@ public class WiSimMainController extends javax.swing.JFrame {
 
 	/*Initialize the data access object (dao)*/
 	private void initDAO() {
-		loadStatusBar.setValue(5);
 		statusText.setText("Initialisiere DB-Verbindung...");
-
+		loadStatusBar.setValue(0);
 		dao = null;
 		authDAO = null;
 		try {
@@ -224,7 +240,6 @@ public class WiSimMainController extends javax.swing.JFrame {
 		} catch (Throwable t) {
 			wiSimLogger.log(Level.WARNING, "initDAO", t, true);
 		}
-
 	}
 
 	/** This method is called from within the constructor to
@@ -234,7 +249,7 @@ public class WiSimMainController extends javax.swing.JFrame {
 	 */
 	private void initComponents() { //GEN-BEGIN:initComponents
 		jPanelSimBar = new javax.swing.JPanel();
-		loadStatusBar.setValue(10);
+		loadStatusBar.setValue(15);
 		statusText.setText("Lade MDI...");
 		jLabelDate = new javax.swing.JLabel();
 		jPanelSimControl = new javax.swing.JPanel();
@@ -754,18 +769,18 @@ public class WiSimMainController extends javax.swing.JFrame {
 	 * @param args the command line arguments
 	 */
 	public static void main(String args[]) {
-		
+
 		/** Update the PLAF */
 		com.incors.plaf.kunststoff.KunststoffLookAndFeel plaf = new com.incors.plaf.kunststoff.KunststoffLookAndFeel();
 		try {
 			UIManager.setLookAndFeel(plaf);
 		} catch (Exception e) {
 		}
-		
+
 		/** Initialize splashscreen swing components */
 		loadStatusBar = new JProgressBar(0, 100);
 		statusText = new JLabel();
-		
+
 		/** Start the splashscreen and load the wiSimMainController */
 		new WiSimSplashscreen(loadStatusBar, statusText).runSplashscreen();
 	}

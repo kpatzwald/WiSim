@@ -117,7 +117,11 @@ public class WiSimSplashscreen extends JFrame {
 
 						introIsBuilt = true;
 						setVisible(true);
-
+						
+						/**Set the ProgressBar visible, even if its 0% */
+						WiSimSplashscreen.loadStatusBar.setValue(1);
+						WiSimSplashscreen.loadStatusBar.setValue(0);
+						
 						/** Wait 100ms befor loading the wiSimThread */
 						try {
 							sleep(100);
