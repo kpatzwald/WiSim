@@ -58,7 +58,6 @@ import net.sourceforge.wisim.model.WorkPlace;
 public class JNetworkplan extends JPanel implements MouseListener, MouseMotionListener {
 
 	private WiSimDAO dao;
-	private WiSimMainController wiSimMainController;
 
 	//	Logger
 	private WiSimLogger wiSimLogger;
@@ -114,8 +113,6 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 	 * @param npElemente Vector with all networkplan elements
 	 */
 	public JNetworkplan(WiSimMainController wiSimMainController, Vector npElemente) {
-
-		this.wiSimMainController = wiSimMainController;
 		wiSimLogger = wiSimMainController.getWiSimLogger();
 		initDAO(wiSimMainController);
 
