@@ -47,8 +47,6 @@ public class Old_NetzplanElementGrafikGenerator {
 
 	private BufferedImage npElem;
 	private Graphics g;
-	private Font font;
-	private int height;
 	private static final int width = 300;
 
 	/** Creates a new instance of IconGenerater */

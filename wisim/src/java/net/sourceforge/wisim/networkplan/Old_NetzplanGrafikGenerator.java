@@ -49,7 +49,6 @@ public class Old_NetzplanGrafikGenerator {
 	private Vector tupel[];
 	private double maxWidth;
 	private BufferedImage netzplanGrafik;
-	private int selected;
 
 	public Old_NetzplanGrafikGenerator(Vector npElemente) {
 

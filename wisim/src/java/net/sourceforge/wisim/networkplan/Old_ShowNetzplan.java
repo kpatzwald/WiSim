@@ -126,8 +126,8 @@ public class Old_ShowNetzplan extends JPanel {
 
 		/** Set the selected network plan element */
 		while (npElementeIt.hasNext()) {
-			NetworkplanElement npElem = (NetworkplanElement) npElementeIt.next();
-
+//			NetworkplanElement npElem = (NetworkplanElement) npElementeIt.next();
+//
 //			if (npElem.getNummer() == selected) {
 //				npElem.setSelected(true);
 //			} else {

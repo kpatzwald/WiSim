@@ -30,7 +30,6 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.awt.event.WindowEvent;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Vector;
@@ -264,9 +263,6 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 				childCount += np.getChild().length;
 			}
 
-			int topElementsCount = tupel[topPos].size();
-			int freeSize = stomachSize - (topElementsCount - 1) * jNpElemBoundsX;
-
 			topElementsIt = topElements.iterator();
 
 			int y = 0;
@@ -326,9 +322,6 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 
 			int y = 0;
 			Vector bottomElements = tupel[bottomPos];
-
-			int bottomElementsCount = tupel[bottomPos].size();
-			int freeSize = stomachSize - (bottomElementsCount - 1) * jNpElemBoundsX;
 
 			int occupied = 0;
 
@@ -944,10 +937,6 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 	public void mouseExited(MouseEvent evt) {
 	}
 
-	private void exitForm(WindowEvent evt) {
-		System.exit(0);
-	}
-
 	/** Draw connection lines between the elements with drawLine() */
 	public void addLines() {
 
@@ -958,11 +947,9 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 		add(line);
 
 		int xPosStart = (int) jNpElem[0].getAnchorPoint(JNetworkplanElement.ANCHOR_BOTTOM_MIDDLE).getX();
-		int xPosEnd = (int) jNpElem[1].getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE).getX();
 		int yPosStart = (int) jNpElem[0].getAnchorPoint(JNetworkplanElement.ANCHOR_BOTTOM_MIDDLE).getY();
 		int yPosEnd = (int) jNpElem[1].getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE).getY();
 
-		int xLength = xPosEnd - xPosStart;
 		int yLength = yPosEnd - yPosStart;
 
 		line.setBounds(xPosStart, yPosStart, 1, yLength);
