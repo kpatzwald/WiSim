@@ -1034,6 +1034,11 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 				int yPosStart = (int) jNpElem[a].getAnchorPoint(JNetworkplanElement.ANCHOR_TOP_MIDDLE).getY() - 65;
 
 				JSeparator jSeparatorVerticalCon = new JSeparator();
+
+				/** This element is a pseudo activity */
+				if (jNpElem[a].getNp().isPseudoActivity())
+					jSeparatorVerticalCon = new JDottedLine();
+
 				jSeparatorVerticalCon.setOrientation(SwingConstants.VERTICAL);
 				jSeparatorVerticalCon.setBounds(xPosStart, yPosStart, 1, 65);
 
@@ -1049,6 +1054,11 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 
 				/** Save a possible middle horizontal connection line */
 				horizontalCon[a] = new JSeparator();
+
+				/** This Element is a pseudo Activity */
+				if (jNpElem[a].getNp().isPseudoActivity() || ((NetworkplanElement)npElemente.get(parent[0] - 1)).isPseudoActivity())
+					horizontalCon[a] = new JDottedLine();
+
 				add(horizontalCon[a]);
 				elementsConLine.put(parent[0] + "middle" + jNpElem[a].getName(), horizontalCon[a]);
 			}
@@ -1060,6 +1070,11 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 				child = jNpElem[a].getNp().getChild();
 
 				JSeparator jSeparatorVerticalCon = new JSeparator();
+
+				/** This element is a pseudo activity */
+				if (jNpElem[a].getNp().isPseudoActivity())
+					jSeparatorVerticalCon = new JDottedLine();
+
 				jSeparatorVerticalCon.setOrientation(SwingConstants.VERTICAL);
 				jSeparatorVerticalCon.setBounds(xPosStart, yPosStart, 1, 65);
 
@@ -1075,6 +1090,11 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 
 				/** Save a possible middle horizontal connection line */
 				horizontalCon[a] = new JSeparator();
+
+				/** This Element is a pseudo Activity */
+				if (jNpElem[a].getNp().isPseudoActivity() || ((NetworkplanElement)npElemente.get(child[0] - 1)).isPseudoActivity())
+					horizontalCon[a] = new JDottedLine();
+
 				add(horizontalCon[a]);
 				elementsConLine.put(jNpElem[a].getName() + "middle" + child[0], horizontalCon[a]);
 			}

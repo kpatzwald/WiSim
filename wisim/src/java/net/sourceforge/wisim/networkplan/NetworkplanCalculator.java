@@ -105,25 +105,29 @@ public class NetworkplanCalculator {
 		while (npElemIt.hasNext()) {
 			NetworkplanElement npElem = (NetworkplanElement) npElemIt.next();
 
-			int parent[] = npElem.getParent();
-			if (parent[0] == 0) {
-				npElem.setFaz(0);
-				npElem.setFez(npElem.getDuration());
-			} else {
-				int i = 0;
-				double maxFez = 0;
-				while (i < parent.length) {
-					NetworkplanElement npElemParent = (NetworkplanElement) npElemente.get(parent[i] - 1);
+			if (!npElem.isPseudoActivity()) {
+				int parent[] = npElem.getParent();
+				if (parent[0] == 0) {
+					npElem.setFaz(0);
+					npElem.setFez(npElem.getDuration());
+				} else {
+					int i = 0;
+					double maxFez = 0;
+					while (i < parent.length) {
+						NetworkplanElement npElemParent = (NetworkplanElement) npElemente.get(parent[i] - 1);
+						
+						if (maxFez < npElemParent.getFez())
+							maxFez = npElemParent.getFez();
 
-					if (maxFez < npElemParent.getFez())
-						maxFez = npElemParent.getFez();
+						i++;
+					}
 
-					i++;
+					npElem.setFaz(maxFez);
+					npElem.setFez(npElem.getFaz() + npElem.getDuration());
 				}
-
-				npElem.setFaz(maxFez);
+			} else {
+				npElem.setFaz(0);
 				npElem.setFez(npElem.getFaz() + npElem.getDuration());
-
 			}
 		}
 	}
@@ -146,17 +150,20 @@ public class NetworkplanCalculator {
 			NetworkplanElement npElem = (NetworkplanElement) npElemIt.next();
 
 			int child[] = npElem.getChild();
+
 			if (child[0] == 0) {
 				npElem.setSaz(npElem.getFaz());
 				npElem.setSez(npElem.getFez());
 			} else {
-				int i = 1;
-				double minSaz = ((NetworkplanElement) npElemente.get(child[0] - 1)).getSaz();
+				int i = 0;
+				//				double minSaz = ((NetworkplanElement) npElemente.get(child[0] - 1)).getSaz();
+				double minSaz = Integer.MAX_VALUE;
 
 				if (minSaz > 0) {
 					while (i < child.length) {
 						NetworkplanElement npElemChild = (NetworkplanElement) npElemente.get(child[i] - 1);
-						if (minSaz > npElemChild.getSaz())
+						
+						if (minSaz > npElemChild.getSaz() && !npElemChild.isPseudoActivity())
 							minSaz = npElemChild.getSaz();
 						i++;
 					}
@@ -215,12 +222,12 @@ public class NetworkplanCalculator {
 
 			int child[] = npElem.getChild();
 			if (child[0] != 0) {
-				int i = 1;
-				double minFaz = ((NetworkplanElement) npElemente.get(child[0] - 1)).getFaz();
-
+				int i = 0;
+				//				double minFaz = ((NetworkplanElement) npElemente.get(child[0] - 1)).getFaz();
+				double minFaz = Integer.MAX_VALUE;
 				while (i < child.length) {
 					NetworkplanElement npElemParent = (NetworkplanElement) npElemente.get(child[i] - 1);
-					if (minFaz > npElemParent.getFaz())
+					if (minFaz > npElemParent.getFaz() && !npElemParent.isPseudoActivity())
 						minFaz = npElemParent.getFaz();
 					i++;
 				}
@@ -320,6 +327,9 @@ public class NetworkplanCalculator {
 	 * Determination of the child network elements 
 	 */
 	public void setChilds() {
+
+		checkForPseudoActivity();
+
 		npElemIt = npElemente.iterator();
 		while (npElemIt.hasNext()) {
 			NetworkplanElement npElem = (NetworkplanElement) npElemIt.next();
@@ -339,6 +349,24 @@ public class NetworkplanCalculator {
 			} else {
 				npElem.addIntoChildBasket(new Integer(0));
 				npElem.getFromChildBasket();
+			}
+		}
+	}
+
+	/** 
+	 * Check from second to last element if parent is 0. If so, its
+	 * a pseudo element.
+	 */
+	public void checkForPseudoActivity() {
+
+		for (int a = 1; a < npElemente.size(); a++) {
+			NetworkplanElement np = ((NetworkplanElement) npElemente.get(a));
+			int parent[] = np.getParent();
+
+			/** This Element is a pseudo Activity */
+			if (parent[0] == 0) {
+				np.setParent(new int[] { 1 });
+				np.setPseudoActivity(true);
 			}
 		}
 	}

@@ -56,6 +56,8 @@ public class NetworkplanElement {
 	private int layoutManager;
 
 	private boolean childSet;
+	
+	private boolean pseudoActivity;
 
 	/**
 	 * Class representating one networkplan element. 
@@ -74,6 +76,7 @@ public class NetworkplanElement {
 		childBasket = new Vector();
 		this.description = description;
 		criticalPath = false;
+		pseudoActivity = false;
 	}
 
 	/**
@@ -419,4 +422,18 @@ public class NetworkplanElement {
 	public Collection getChildBasket() {
 		return childBasket;
 	}
+	/**
+	 * @return
+	 */
+	public boolean isPseudoActivity() {
+		return pseudoActivity;
+	}
+
+	/**
+	 * @param pseudoActivity
+	 */
+	public void setPseudoActivity(boolean pseudoActivity) {
+		this.pseudoActivity = pseudoActivity;
+	}
+
 }

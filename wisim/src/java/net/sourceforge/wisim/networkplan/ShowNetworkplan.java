@@ -147,7 +147,7 @@ public class ShowNetworkplan extends JFrame {
 		Vector filled = new Vector();
 
 		/** Selected network plan */
-		int show = 4;
+		int show = 3;
 
 		/** Some network plans to choose */
 		switch (show) {
@@ -229,7 +229,7 @@ public class ShowNetworkplan extends JFrame {
 					String hostname = "localhost";
 					String port = "3306";
 					String user = "root";
-					String password = "root";
+					String password = "";
 					String dbname = "wisim";
 
 					/** Get a connection */
@@ -238,28 +238,28 @@ public class ShowNetworkplan extends JFrame {
 
 					/** Select Statement */
 					Statement stmt = conn.createStatement();
-					String sql = "SELECT ap_Nr, ap_Dauer, ap_Beschreibung, nf_nachfolger FROM ap, nf WHERE ap_Nr = f_ap_nr";
+					String sql = "SELECT ap_Nr, ap_Dauer, ap_Beschreibung, vg_vorgaenger FROM ap, vg WHERE ap_Nr = f_ap_nr";
 
 					ResultSet rset = stmt.executeQuery(sql);
 
-					Hashtable childBasket = new Hashtable();
+					Hashtable parentBasket = new Hashtable();
 					Vector completed = new Vector();
 
 					while (rset.next()) {
 
-						NetworkplanElement np = new NetworkplanElement(rset.getInt(1), new Double(String.valueOf(rset.getInt(2))).doubleValue(), new int[0], rset.getString(3));
+						NetworkplanElement np = new NetworkplanElement(rset.getInt(1), new Double(String.valueOf(rset.getInt(2))).doubleValue(), rset.getString(3), new int[0]);
 
 						/** This is a new element */
 						if (!completed.contains(new Integer(np.getNumber()))) {
 							completed.add(new Integer(np.getNumber()));
 							filled.add(np);
-							Vector child = new Vector();
-							child.add(new Integer(rset.getInt(4)));
-							childBasket.put(new Integer(np.getNumber()), child);
+							Vector parent = new Vector();
+							parent.add(new Integer(rset.getInt(4)));
+							parentBasket.put(new Integer(np.getNumber()), parent);
 
 							/** This is an existing element with more than one child */
 						} else {
-							((Vector) childBasket.get(new Integer(np.getNumber()))).add(new Integer(rset.getInt(4)));
+							((Vector) parentBasket.get(new Integer(np.getNumber()))).add(new Integer(rset.getInt(4)));
 						}
 					}
 
@@ -268,17 +268,17 @@ public class ShowNetworkplan extends JFrame {
 					/** Set each element's childs from the childBasket */
 					while (a < filled.size()) {
 						NetworkplanElement np = (NetworkplanElement) filled.get(a);
-						Vector child = (Vector) childBasket.get(new Integer(np.getNumber()));
+						Vector parent = (Vector) parentBasket.get(new Integer(np.getNumber()));
 
-						int childs[] = new int[child.size()];
+						int parents[] = new int[parent.size()];
 
 						int b = 0;
-						while (b < child.size()) {
-							childs[b] = ((Integer) child.get(b)).intValue();
+						while (b < parent.size()) {
+							parents[b] = ((Integer) parent.get(b)).intValue();
 							b++;
 						}
 
-						np.setChild(childs);
+						np.setParent(parents);
 						a++;
 					}
 				} catch (SQLException e) {
@@ -305,8 +305,8 @@ public class ShowNetworkplan extends JFrame {
 			case 9 : //More then one start element
 				filled.add(new NetworkplanElement(1, 2, "Ausgießen Fundamente", new int[] { 0 }));
 				filled.add(new NetworkplanElement(2, 5, "Ausgießen Fundamente", new int[] { 0 }));
-				filled.add(new NetworkplanElement(3, 20,"Ausgießen Fundamente", new int[] { 1, 2 }));
-				filled.add(new NetworkplanElement(4, 2, "Ausgießen Fundamente", new int[] { 3 }));
+				filled.add(new NetworkplanElement(3, 20, "Ausgießen Fundamente", new int[] { 1 }));
+				filled.add(new NetworkplanElement(4, 2, "Ausgießen Fundamente", new int[] { 2, 3 }));
 				filled.add(new NetworkplanElement(5, 2, "Ausgießen Fundamente", new int[] { 4 }));
 				break;
 		}
