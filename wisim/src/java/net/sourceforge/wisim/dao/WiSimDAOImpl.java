@@ -781,7 +781,7 @@ public class WiSimDAOImpl implements WiSimDAO {
                 sql = "UPDATE atr SET "+
                       "atr_zleingang = '" + status +"' "+
                       "WHERE atr_Nr = " + Nr + "";
-                int res = stmt.executeUpdate(sql);
+                stmt.executeUpdate(sql);
                 ResultSet lastKey = stmt.getGeneratedKeys();
                 while(lastKey.next()) {
                     key = lastKey.getInt(1);
@@ -795,7 +795,7 @@ public class WiSimDAOImpl implements WiSimDAO {
         catch (SQLException sqlE) {
             throw new WiSimDAOException(sqlE.getMessage());
         }
-        return -1;
+        return key;
     }
     
     
@@ -1264,16 +1264,13 @@ public class WiSimDAOImpl implements WiSimDAO {
 				+ " AND rel_et_ap_Lagertyp = 'Einzelteil'";
 
 			int bestand;
-			int maxBestand;
 			try
 			{
 				ResultSet rset = stmt.executeQuery(sql);
 				bestand = -1;
-				maxBestand = -1;
-				
+
 				while (rset.next()) {
 					bestand = rset.getInt(1);
-					maxBestand = rset.getInt(2);
 				}
 			}
 			catch (SQLException e1)

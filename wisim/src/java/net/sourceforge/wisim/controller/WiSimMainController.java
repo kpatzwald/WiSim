@@ -92,7 +92,7 @@ public class WiSimMainController extends javax.swing.JFrame {
         private void initActions() {
 		actions = new Hashtable();
 		actions.put("Bestellung", new JPanelOrder(this));
-		actions.put("Hilfe", new JPanelHelp(this));
+		actions.put("Hilfe", new JPanelHelp());
 		actions.put("ModifyCustomer", new JPanelModifyCustomer(this));
 		actions.put("Lager", new JPanelWarehouse(this));
 		actions.put("LieferantBearbeiten", new JPanelModifySupplier(this));

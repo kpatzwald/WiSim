@@ -38,7 +38,7 @@ import javax.swing.JOptionPane;
 public class JPanelHelp extends javax.swing.JPanel {
 
   /** Creates new form JPanelHilfe */
-    public JPanelHelp(WiSimMainController wiSimMainController) {
+    public JPanelHelp() {
     initComponents();
     modGui();
   }

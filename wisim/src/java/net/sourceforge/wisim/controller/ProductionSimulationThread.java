@@ -154,7 +154,7 @@ public class ProductionSimulationThread extends Thread
 				// Letzter WorkPlace
 				if (ap.getNachfolger()[0] == 0)
 				{
-					runController.hubKomplett(getName(), ap);
+					runController.hubKomplett(ap);
 				}
 			}
 

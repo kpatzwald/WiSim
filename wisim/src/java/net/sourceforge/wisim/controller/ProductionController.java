@@ -361,7 +361,7 @@ public class ProductionController
 			{
 				if (ap.getVorgaenger()[0] != 0)
 				{
-					this.fuelleEingangslagerAuf(thread.getName(),ap);
+					this.fuelleEingangslagerAuf(ap);
 				}
 				wait();
 			}
@@ -501,7 +501,7 @@ public class ProductionController
    * @param name Name des Thread
    * @param ap WorkPlace
    */
-	public synchronized void hubKomplett(String name, WorkPlace ap)
+	public synchronized void hubKomplett(WorkPlace ap)
 	{
 		try
 		{
@@ -538,7 +538,6 @@ public class ProductionController
    * @param ap WorkPlace
    */  
 	public synchronized void fuelleEingangslagerAuf(
-		String name,
 		WorkPlace ap)
 	{
 		try

@@ -134,7 +134,7 @@ public class DesktopMediator implements DesktopConstants {
 	private void createFrameAssociates(BaseInternalFrame frame) {
 
 		BaseToggleButton button = null;
-		BaseRadioButtonMenuItem menuButton = null;
+		//BaseRadioButtonMenuItem menuButton = null;
 
 		button = desktopResizableToolbar.add(frame.getTitle());
 
