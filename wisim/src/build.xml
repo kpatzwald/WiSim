@@ -24,15 +24,17 @@
 
 
   <project basedir="." default="execution" name="WiSim">
-  <property name="root" value="e:/Eigene Dateien/Entwicklung/Java/wisim" />
-  <property name="temp" value="e:/Temp" />
+  <property name="root" value="${basedir}/.." />
+  <property name="temp" value="${java.io.tmpdir}" />
   <property name="src" value="${root}/src/java/" />
   <property name="build" value="${temp}/build" />
   <property name="deploy" value="${temp}/deploy" />
   <property name="classes" value="${build}/classes" />
+  <property name="res" value="${temp}/res"/>
   <property name="SQLTreiber" value="${root}/libs/sql_treiber.jar" />
   <property name="libs" value="${root}/libs/sql_treiber.jar; ${root}/libs/kunststoff.jar" />
   <property name="kunststoff" value="${root}/libs/kunststoff.jar" />
+  
   <target name="init">
     <mkdir dir="${build}" />
     <mkdir dir="${classes}" />
@@ -46,9 +48,11 @@
        <fileset dir="${root}/src/sql"/>
      </copy>
   </target>
+  
   <target name="compile" depends="init">
     <javac destdir="${classes}/" srcdir="${src}" classpath="${libs}" />
   </target>
+  
   <target name="jar" depends="compile">
     <unjar src="${SQLTreiber}" dest="${classes}" />
     <unjar src="${kunststoff}" dest="${classes}" />
@@ -58,19 +62,32 @@
         </manifest>
       </jar>
   </target>
+  
   <target name="deploy" depends="jar">
     <copy file="${deploy}/wisim.jar" todir="${root}" overwrite="yes" />
   </target>
+  
   <target name="execution" depends="deploy">
     <java jar="${root}/wisim.jar" fork="true" />
   </target>
+  
   <target name="clean">
     <delete dir="${build}" />
     <delete dir="${deploy}" />
+    <delete dir="${res}"/>
   </target>
   
-  <target name="image_jar">
-    <jar jarfile="${deploy}/src.jar" basedir="e:/temp/icons"/>
-    <copy file="${deploy}/src.jar" todir="${root}/libs" overwrite="yes" />
+  <target name="res">
+  	<mkdir dir="${res}" />
+  	<mkdir dir="${res}/icons" />
+  	<mkdir dir="${res}/sql" />
+  	<copy todir="${res}/icons">
+       <fileset dir="${root}/icons"/>
+     </copy>
+     <copy todir="${res}/sql">
+       <fileset dir="${root}/src/sql"/>
+     </copy>
+    <jar jarfile="${deploy}/res.jar" basedir="${res}"/>
+    <copy file="${deploy}/res.jar" todir="${root}/libs" overwrite="yes" />
   </target>
 </project>
