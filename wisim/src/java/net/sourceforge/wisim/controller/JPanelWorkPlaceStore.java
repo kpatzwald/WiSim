@@ -286,6 +286,7 @@ public class JPanelWorkPlaceStore extends javax.swing.JPanel {
     
     private void formAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_formAncestorAdded
         setIsActive(true);
+        setIsBuilt(true);
     }//GEN-LAST:event_formAncestorAdded
     
     private void jPanelArbeiterAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jPanelArbeiterAncestorAdded
