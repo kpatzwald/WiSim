@@ -30,25 +30,23 @@
 package net.sourceforge.wisim.controller;
 
 import java.io.DataInputStream;
-
-import java.util.logging.Level;
-import java.util.regex.Pattern;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.regex.Pattern;
 
+import javax.swing.JOptionPane;
 import javax.swing.JTree;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-import javax.swing.JOptionPane;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
 import net.sourceforge.wisim.dao.WiSimDAO;
 import net.sourceforge.wisim.dao.WiSimDAOException;
-import net.sourceforge.wisim.model.*;
-
+import net.sourceforge.wisim.model.WiSimLogger;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 

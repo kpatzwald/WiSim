@@ -48,8 +48,13 @@ import net.sourceforge.wisim.dao.WiSimDAO;
 import net.sourceforge.wisim.dao.WiSimDAOException;
 import net.sourceforge.wisim.dao.WiSimDAOFactory;
 import net.sourceforge.wisim.mdi.JScrollableDesktopPane;
-import net.sourceforge.wisim.model.*;
-import net.sourceforge.wisim.simulation.*;
+import net.sourceforge.wisim.model.WiSimLogger;
+import net.sourceforge.wisim.simulation.ActualTime;
+import net.sourceforge.wisim.simulation.CoreTime;
+import net.sourceforge.wisim.simulation.ProductionController;
+import net.sourceforge.wisim.simulation.ProductionSimulationThread;
+import net.sourceforge.wisim.simulation.UpdateSimulationAnalysis;
+import net.sourceforge.wisim.simulation.UpdateWarehouseThread;
 
 /** Main Class of WiSim - Business Game
  * @author Kay Patzwald

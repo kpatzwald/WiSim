@@ -28,16 +28,37 @@
  */
 
 package net.sourceforge.wisim.controller;
-import net.sourceforge.wisim.dao.*;
-import net.sourceforge.wisim.model.*;
-import net.sourceforge.wisim.simulation.*;
 
-import javax.swing.tree.*;
-import javax.swing.plaf.metal.*;
-import java.util.*;
 import java.sql.Date;
-import javax.swing.*;
-import javax.swing.event.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.ConcurrentModificationException;
+import java.util.Enumeration;
+import java.util.GregorianCalendar;
+import java.util.HashSet;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.Set;
+import java.util.Vector;
+
+import javax.swing.ImageIcon;
+import javax.swing.event.TreeExpansionEvent;
+import javax.swing.plaf.metal.MetalIconFactory;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
+
+import net.sourceforge.wisim.dao.WiSimDAO;
+import net.sourceforge.wisim.dao.WiSimDAOException;
+import net.sourceforge.wisim.dao.WiSimDAOWriteException;
+import net.sourceforge.wisim.model.ComponentContract;
+import net.sourceforge.wisim.model.ComponentContractItem;
+import net.sourceforge.wisim.model.ComponentWarehouseItem;
+import net.sourceforge.wisim.model.Contract;
+import net.sourceforge.wisim.model.Customer;
+import net.sourceforge.wisim.model.Supplier;
+import net.sourceforge.wisim.model.WiSimComponent;
+import net.sourceforge.wisim.model.WiSimLogger;
+import net.sourceforge.wisim.simulation.ProductionController;
 
 /** In diesem Fenster kann der Benutzer die Simulation starten. Ereignisse (z.B.
  * eingehende Lieferungen, produzierte Hubs, versendete Hubs) werden angezeigt.
