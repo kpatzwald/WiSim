@@ -155,7 +155,7 @@ public class NewWiSimGUI extends javax.swing.JFrame {
 	} //GEN-END:initComponents
 
 	private void jMenuItemViewCustomersActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jMenuItemViewCustomersActionPerformed
-		addInternalFrame("ViewCustomers");
+		//addInternalFrame("ViewCustomers");
 	} //GEN-LAST:event_jMenuItemViewCustomersActionPerformed
 
 	private void jMenuItemModifyCustomerActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jMenuItemModifyCustomerActionPerformed
