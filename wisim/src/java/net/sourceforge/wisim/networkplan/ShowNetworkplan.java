@@ -1,8 +1,8 @@
 /*   ********************************************************************   **
 **   Copyright notice                                                       **
 **                                                                          **
-**   (c) 2003 WiSim Development Team					                    **
-**   http://wisim.sourceforge.net/   			                            **
+**   (c) 2003 WiSim Development Team					                    					**
+**   http://wisim.sourceforge.net/   			                            			**
 **                                                                          **
 **   All rights reserved                                                    **
 **                                                                          **
@@ -43,12 +43,17 @@ import javax.swing.JTextArea;
 /**
  * Class for displaying the networkplan in a JFrame
  * @author benjamin.pasero
- * @version 0.6a
+ * @version 0.7a
  */
 public class ShowNetworkplan extends JFrame {
 
+	/** Vector containing all networkplan elements */
 	private Vector npElemente;
+
+	/** Extends JPanel and holds all JNetworkplanElements */
 	private JNetworkplan netzplanGrafik;
+
+	/** Holds the JNetworkplan and displays scrollbars if necessary */
 	private JScrollPane holdAll;
 
 	/**
@@ -57,9 +62,10 @@ public class ShowNetworkplan extends JFrame {
 	public ShowNetworkplan() {
 
 		npElemente = getNetworkPlanElements();
-		setTitle("Networkplan editor Ver. 0.6a");
+		setTitle("Networkplan editor Ver. 0.7a");
 		getContentPane().setLayout(null);
 
+		/** Maximize JFrame to screen-resolution */
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		setBounds(0, 0, screenSize.width, screenSize.height);
 
@@ -142,7 +148,7 @@ public class ShowNetworkplan extends JFrame {
 		Vector filled = new Vector();
 
 		/** Selected network plan */
-		int show = 0;
+		int show = 3;
 
 		/** Some network plans to choose */
 		switch (show) {
@@ -213,8 +219,8 @@ public class ShowNetworkplan extends JFrame {
 				filled.add(new NetworkplanElement(4, 2, new int[] { 0 }, "Ausgieﬂen Fundamente"));
 				break;
 
-			case 7 :
 				/** Get the informations from the database */
+			case 7 :
 
 				try {
 

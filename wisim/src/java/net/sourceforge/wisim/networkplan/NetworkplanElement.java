@@ -1,8 +1,8 @@
 /*   ********************************************************************   **
 **   Copyright notice                                                       **
 **                                                                          **
-**   (c) 2003 WiSim Development Team					                    **
-**   http://wisim.sourceforge.net/   			                            **
+**   (c) 2003 WiSim Development Team					                    					**
+**   http://wisim.sourceforge.net/   			                            			**
 **                                                                          **
 **   All rights reserved                                                    **
 **                                                                          **
@@ -30,7 +30,7 @@ import java.util.Vector;
 /**
  * Class for generating one network plan element
  * @author Benjamin Pasero
- * @version 0.6a
+ * @version 0.7a
  */
 public class NetworkplanElement {
 
@@ -60,10 +60,10 @@ public class NetworkplanElement {
 	/**
 	 * Class representating one networkplan element. 
 	 * The user sets the child elements of the activity. The parent elements are calculated.
-	 * @param number
-	 * @param duration
-	 * @param child
-	 * @param description
+	 * @param number Number of the activity
+	 * @param duration Duration of the activity
+	 * @param child dependant Child(s) of the activity 
+	 * @param description Description of the activity
 	 */
 	public NetworkplanElement(int number, double duration, int[] child, String description) {
 		childSet = true;
@@ -80,10 +80,10 @@ public class NetworkplanElement {
 	 * Class representating one networkplan element. 
 	 * The user sets the parent elements of the activity. The child elements are calculated.
 	 * wants to set the parents and not the childs.
-	 * @param number
-	 * @param duration
-	 * @param child
-	 * @param description
+	 * @param number of the activity
+	 * @param duration of the activity
+	 * @param description of the activity
+	 * @param parent dependant Parent(s) of the activity
 	 */
 	public NetworkplanElement(int number, double duration, String description, int[] parent) {
 		childSet = false;
@@ -337,7 +337,7 @@ public class NetworkplanElement {
 	public boolean isStartElem() {
 		if (parent[0] == 0)
 			return true;
-		
+
 		return false;
 	}
 
@@ -347,7 +347,7 @@ public class NetworkplanElement {
 	public boolean isEndElem() {
 		if (child[0] == 0)
 			return true;
-		
+
 		return false;
 	}
 	/**

@@ -1,8 +1,8 @@
 /*   ********************************************************************   **
 **   Copyright notice                                                       **
 **                                                                          **
-**   (c) 2003 WiSim Development Team					                    **
-**   http://wisim.sourceforge.net/   			                            **
+**   (c) 2003 WiSim Development Team					                    					**
+**   http://wisim.sourceforge.net/   			                            			**
 **                                                                          **
 **   All rights reserved                                                    **
 **                                                                          **
@@ -30,7 +30,7 @@ import java.util.Vector;
 /**
  * Class for calculating a network plan element.
  * @author Benjamin Pasero
- * @version 0.6a
+ * @version 0.7a
  */
 public class NetworkplanCalculator {
 
@@ -39,39 +39,31 @@ public class NetworkplanCalculator {
 
 	/**
 	 * Calculates a networkplan element
-	 * @param npElemente
-	 */
-	public NetworkplanCalculator(Vector npElemente) {
-		this.npElemente = npElemente;
-		npElemIt = npElemente.iterator();
-
-		/** Set index in the vector storing the networkplan elements */
-		setIndex();
-
-		if (((NetworkplanElement) npElemente.get(0)).isChildSet()) {
-
-			/** Calculate the parent networkplan elements */
-			setParents();
-
-		} else {
-
-			/** Calculate the child networkplan elements */
-			setChilds();
-		}
-
-		/** Calculation */
-		calculateFazFez();
-		calculateSazSez();
-		calculatePuffer();
-	}
-
-	/**
-	 * Calculates a networkplan element (light version after edit)
-	 * @param npElemente
+	 * @param npElemente Vector holding all networkplan elements
+	 * @param lightReCalc TRUE if only Faz / Fez, Saz / Sez and Buffer
+	 * have to be calculated. FALSE if its first calculation
 	 */
 	public NetworkplanCalculator(Vector npElemente, boolean lightReCalc) {
 		this.npElemente = npElemente;
 		npElemIt = npElemente.iterator();
+
+		/** This is the first calculation */
+		if (!lightReCalc) {
+
+			/** Set index in the vector storing the networkplan elements */
+			setIndex();
+
+			if (((NetworkplanElement) npElemente.get(0)).isChildSet()) {
+
+				/** Calculate the parent networkplan elements */
+				setParents();
+
+			} else {
+
+				/** Calculate the child networkplan elements */
+				setChilds();
+			}
+		}
 
 		/** Calculation */
 		calculateFazFez();

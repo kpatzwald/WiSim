@@ -1,8 +1,8 @@
 /*   ********************************************************************   **
 **   Copyright notice                                                       **
 **                                                                          **
-**   (c) 2003 WiSim Development Team					                    **
-**   http://wisim.sourceforge.net/   			                            **
+**   (c) 2003 WiSim Development Team					                    					**
+**   http://wisim.sourceforge.net/   			                            			**
 **                                                                          **
 **   All rights reserved                                                    **
 **                                                                          **
@@ -38,7 +38,7 @@ import javax.swing.border.LineBorder;
 /**
  * JNetworkplanElement extends JPanel and represents one networkplan element
  * @author benjamin.pasero
- * @version 0.6a
+ * @version 0.7a
  */
 public class JNetworkplanElement extends JPanel {
 
@@ -56,6 +56,7 @@ public class JNetworkplanElement extends JPanel {
 	private JPanel npElementRect;
 
 	private boolean isCriticalPathElement;
+	private boolean displayArrow;
 	private NetworkplanElement np;
 
 	/** Defining some Fonts */
@@ -96,6 +97,7 @@ public class JNetworkplanElement extends JPanel {
 		outerTextFont = new Font("Dialog", 1, 16);
 		descriptionFont = new Font("Dialog", 1, 14);
 		this.np = np;
+		displayArrow = true;
 
 		/** Generate the networkplan element */
 		generateNetzplanelement(np);
@@ -117,6 +119,7 @@ public class JNetworkplanElement extends JPanel {
 		innerTextFont = new Font("Dialog", 1, 24);
 		outerTextFont = new Font("Dialog", 1, 16);
 		descriptionFont = new Font("Dialog", 1, 14);
+		displayArrow = true;
 	}
 
 	/**
@@ -195,10 +198,7 @@ public class JNetworkplanElement extends JPanel {
 
 			/** Handle Exception: String has no white space */
 			if (chunks.length == 1) {
-				String temp =
-					description.substring(0, description.length() / 2)
-						+ " "
-						+ description.substring(description.length() / 2, description.length());
+				String temp = description.substring(0, description.length() / 2) + " " + description.substring(description.length() / 2, description.length());
 				chunks = temp.split(" ");
 			}
 
@@ -390,8 +390,7 @@ public class JNetworkplanElement extends JPanel {
 	 * @return Length of the text in pixel
 	 */
 	public int getTextLength(String text, Font font) {
-		return (int) Math.round(
-			(font.getStringBounds(text, 0, text.length(), new FontRenderContext(new AffineTransform(), false, false))).getWidth());
+		return (int) Math.round((font.getStringBounds(text, 0, text.length(), new FontRenderContext(new AffineTransform(), false, false))).getWidth());
 	}
 
 	/** Paint the element blue if the mouse moves over it */
@@ -459,12 +458,29 @@ public class JNetworkplanElement extends JPanel {
 		np = element;
 	}
 
-	/** Paint an arrow */
+	/** Paint an arrow if necessary */
 	public void paintComponent(Graphics g) {
-		if (!np.isStartElem()) {
-			if (np.isCriticalPath())
-				g.setColor(Color.RED);
-			g.fillPolygon(new int[] { 145, 150, 155 }, new int[] { 10, 20, 10 }, 3);
+		if (displayArrow) {
+			if (!np.isStartElem()) {
+				if (np.isCriticalPath())
+					g.setColor(Color.RED);
+				g.fillPolygon(new int[] { 145, 150, 155 }, new int[] { 10, 20, 10 }, 3);
+			}
 		}
+	}
+
+	/**
+	 * @return TRUE if the arrow should be displayed
+	 */
+	public boolean isDisplayArrow() {
+		return displayArrow;
+	}
+
+	/**
+	 * Set if the small arrow on top of the element should be drawn
+	 * @param displayArrow TRUE: draw arrow FALSE: dont draw arrow
+	 */
+	public void setDisplayArrow(boolean displayArrow) {
+		this.displayArrow = displayArrow;
 	}
 }
