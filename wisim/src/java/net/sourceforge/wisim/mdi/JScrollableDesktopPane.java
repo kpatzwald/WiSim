@@ -22,7 +22,6 @@
 **   ********************************************************************   */
 
 package net.sourceforge.wisim.mdi;
-
 import java.awt.BorderLayout;
 
 import javax.swing.ImageIcon;

@@ -22,7 +22,6 @@
 **   ********************************************************************   */
 
 package net.sourceforge.wisim.mdi;
-
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 
@@ -166,7 +165,7 @@ public class DesktopMediator implements DesktopConstants {
 			dMenu.remove(f.getAssociatedMenuButton());
 		}
 		// and select the next available frame...
-		desktopScrollpane.selectNextFrame();
+		//desktopScrollpane.selectNextFrame();
 
 	}
 
@@ -265,20 +264,4 @@ public class DesktopMediator implements DesktopConstants {
 	public JInternalFrame[] getAllFrames() {
 		return desktopScrollpane.getAllFrames();
 	}
-
-	/**
-	 * @return JInternalFrame
-	 */
-	public JInternalFrame getLastSelectedFrame() {
-		return lastSelectedFrame;
-	}
-
-	/**
-	 * Sets the lastSelectedFrame.
-	 * @param lastSelectedFrame The lastSelectedFrame to set
-	 */
-	public void setLastSelectedFrame(JInternalFrame lastSelectedFrame) {
-		this.lastSelectedFrame = lastSelectedFrame;
-	}
-
 }

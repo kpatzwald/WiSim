@@ -22,7 +22,6 @@
 **   ********************************************************************   */
 
 package net.sourceforge.wisim.mdi;
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Insets;

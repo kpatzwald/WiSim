@@ -22,7 +22,6 @@
 **   ********************************************************************   */
 
 package net.sourceforge.wisim.mdi;
-
 import java.awt.Color;
 import java.awt.Dimension;
 
@@ -229,20 +228,9 @@ public class BaseInternalFrame extends JInternalFrame {
 		  * buttons that may be associated with it
 		  */
 		public void deSelectFrameAndAssociatedButtons() {
-			// deselect associated toolbar button
-			if (associatedButton != null) {
-				associatedButton.setSelected(false);
-				((BaseToggleButton) associatedButton).flagContentsChanged(false);
-			}
-
-			// deselect menu button
-			if (associatedMenuButton != null) {
-				associatedMenuButton.setSelected(false);
-			}
-
 			try {
-				setSelected(false);
 				setIcon(true); // deselect and iconify the frame
+				setSelected(false);
 			} catch (java.beans.PropertyVetoException pve) {
 				System.out.println(pve.getMessage());
 			}

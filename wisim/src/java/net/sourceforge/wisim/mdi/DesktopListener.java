@@ -28,6 +28,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 
+import javax.swing.event.InternalFrameEvent;
+import javax.swing.event.InternalFrameListener;
+
 /**
  * This class provides common Component and Action Listeners for
  * other objects in the system.
@@ -36,7 +39,7 @@ import java.awt.event.ComponentListener;
  * @version 1.0  11-Aug-2001
  */
 
-public class DesktopListener implements ComponentListener, ActionListener {
+public class DesktopListener implements ComponentListener, ActionListener, InternalFrameListener {
 
 	private DesktopMediator desktopMediator;
 
@@ -123,23 +126,64 @@ public class DesktopListener implements ComponentListener, ActionListener {
 
 			if (associatedFrame != null) {
 				if (associatedFrame.isIcon() || !associatedFrame.isVisible() || !associatedFrame.isSelected()) {
-					if (!associatedFrame.equals(desktopMediator.getSelectedFrame()))
-					{
-						desktopMediator.setLastSelectedFrame(desktopMediator.getSelectedFrame());
-					}
-					
+
 					associatedFrame.selectFrameAndAssociatedButtons();
 					desktopMediator.centerView(associatedFrame);
-				} else {
+				} else {	
 					associatedFrame.deSelectFrameAndAssociatedButtons();
-					//System.out.println(desktopMediator.getLastSelectedFrame());
-//					if (desktopMediator.getLastSelectedFrame() != null)
-//					 ((BaseInternalFrame) desktopMediator.getLastSelectedFrame()).selectFrameAndAssociatedButtons();
 				}
 			}
 
 		}
 
+	}
+
+	/* (non-Javadoc)
+	 * @see javax.swing.event.InternalFrameListener#internalFrameActivated(javax.swing.event.InternalFrameEvent)
+	 */
+	public void internalFrameActivated(InternalFrameEvent e) {
+	}
+
+	/* (non-Javadoc)
+	 * @see javax.swing.event.InternalFrameListener#internalFrameClosed(javax.swing.event.InternalFrameEvent)
+	 */
+	public void internalFrameClosed(InternalFrameEvent e) {
+	}
+
+	/* (non-Javadoc)
+	 * @see javax.swing.event.InternalFrameListener#internalFrameClosing(javax.swing.event.InternalFrameEvent)
+	 */
+	public void internalFrameClosing(InternalFrameEvent e) {
+	}
+
+	/* (non-Javadoc)
+	 * @see javax.swing.event.InternalFrameListener#internalFrameDeactivated(javax.swing.event.InternalFrameEvent)
+	 */
+	public void internalFrameDeactivated(InternalFrameEvent e) {
+		BaseInternalFrame frame = (BaseInternalFrame) e.getInternalFrame();
+		frame.getAssociatedButton().setSelected(false);
+		frame.getAssociatedMenuButton().setSelected(false);
+	}
+
+	/* (non-Javadoc)
+	 * @see javax.swing.event.InternalFrameListener#internalFrameDeiconified(javax.swing.event.InternalFrameEvent)
+	 */
+	public void internalFrameDeiconified(InternalFrameEvent e) {
+	}
+
+	/* (non-Javadoc)
+	 * @see javax.swing.event.InternalFrameListener#internalFrameIconified(javax.swing.event.InternalFrameEvent)
+	 */
+	public void internalFrameIconified(InternalFrameEvent e) {
+		BaseInternalFrame frame = (BaseInternalFrame) e.getInternalFrame();
+		frame.getAssociatedButton().setSelected(false);
+		frame.getAssociatedMenuButton().setSelected(false);
+	}
+
+	/* (non-Javadoc)
+	 * @see javax.swing.event.InternalFrameListener#internalFrameOpened(javax.swing.event.InternalFrameEvent)
+	 */
+	public void internalFrameOpened(InternalFrameEvent e) {
 	}
 
 }

@@ -22,7 +22,6 @@
 **   ********************************************************************   */
 
 package net.sourceforge.wisim.mdi;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 

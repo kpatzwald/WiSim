@@ -93,7 +93,7 @@ public class DesktopScrollPane extends JScrollPane {
 
 		BaseInternalFrame f = new BaseInternalFrame(title, icon, frameContents, isClosable);
 		f.addComponentListener(dListener);
-
+		f.addInternalFrameListener(dListener);
 		initAndAddFrame(f, x, y);
 		return f;
 
@@ -111,6 +111,7 @@ public class DesktopScrollPane extends JScrollPane {
 	  */
 	public void add(DesktopListener dListener, JInternalFrame f, int x, int y) {
 		f.addComponentListener(dListener);
+		f.addInternalFrameListener(dListener);
 		initAndAddFrame(f, x, y);
 	}
 

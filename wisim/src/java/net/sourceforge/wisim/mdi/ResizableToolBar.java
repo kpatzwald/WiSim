@@ -26,14 +26,14 @@ package net.sourceforge.wisim.mdi;
 import java.awt.Dimension;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
-import java.util.Enumeration;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Vector;
 
 import javax.swing.AbstractButton;
-import javax.swing.ButtonGroup;
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
-
 
 /**
  * Generic self-contained resizable toolbar class. When a button addition exceeds 
@@ -45,206 +45,204 @@ import javax.swing.SwingUtilities;
  * @version 1.0  03-Mar-2001
  */
 
+public class ResizableToolBar extends JToolBar implements ComponentListener {
+	private Collection buttons;
 
-public class ResizableToolBar extends JToolBar 
-            implements ComponentListener {
+	private int minButtonWidth;
+	private int maxButtonWidth;
 
-      // ButtonGroups for toolbar buttons
-      private ButtonGroup buttonGroup;
+	/**
+	 * creates the ResizableToolbar object
+	 *
+	 * @param minButtonWidth the minimum button width allowed
+	 * @param maxButtonWidth the maximum button width allowed
+	 */
+	public ResizableToolBar(int minButtonWidth, int maxButtonWidth) {
+		buttons = (Collection) new Vector();
+		setFloatable(false);
+		this.minButtonWidth = minButtonWidth;
+		this.maxButtonWidth = maxButtonWidth;
 
-      private int minButtonWidth;
-      private int maxButtonWidth;
+		addComponentListener(this);
 
+	}
 
-    /**
-     * creates the ResizableToolbar object
-     *
-     * @param minButtonWidth the minimum button width allowed
-     * @param maxButtonWidth the maximum button width allowed
-     */
-      public ResizableToolBar(int minButtonWidth, int maxButtonWidth) {
+	/**
+	 * adds a button to the ResizableToolbar
+	 *
+	 * @param button the button to add
+	 */
+	public void add(AbstractButton button) {
+		buttons.add(button);
+		super.add(button);
+		if (getSelectedButton() != null)
+		{
+			getSelectedButton().setSelected(false);
+		}
+		button.setSelected(true);
+		resizeButtons();
 
-            buttonGroup = new ButtonGroup();
-            setFloatable(false);
-            this.minButtonWidth = minButtonWidth;
-            this.maxButtonWidth = maxButtonWidth;
+	}
+	
+	public AbstractButton getSelectedButton ()
+	{
+		JToggleButton b = null;
+		Iterator it = buttons.iterator();
+		while (it.hasNext())
+		{
+			b = (JToggleButton) it.next();
+			if (b.isSelected())
+				return b;
+		}
+		return b;
+	}
 
-            addComponentListener(this);
+	/**
+	 * removes a button from the ResizableToolbar
+	 *
+	 * @param button the button to remove
+	 */
+	public void remove(AbstractButton button) {
+		super.remove(button);
+		button.remove(button);
+		resizeButtons();
+		repaint();
+	}
 
-      }
+//	/**
+//	 * returns the ResizableToolbar elements
+//	 *
+//	 * @return an Collection of the ResizableToolbar elements
+//	 */
+//	private Collection getElements() {
+//		return buttons;
+//	}
 
-    /**
-     * adds a button to the ResizableToolbar
-     *
-     * @param button the button to add
-     */
-      public void add(AbstractButton button) {
-            buttonGroup.add(button);
-            super.add(button);
-            button.setSelected(true);
-            resizeButtons();
-      
-      }
+	/**
+	 * returns the number of buttons stored within the ResizableToolbar
+	 *
+	 * @return the number of buttons
+	 */
+	public int getButtonCount() {
+		return buttons.size();
+	}
 
+	/** 
+	  * resizes the buttons of the toolbar, depending upon the total number 
+	  * of components stored therein. 
+	  * Executes as an "invoked later" thread for a slight perceived 
+	  * performance boost.
+	  */
+	private void resizeButtons() {
 
-    /**
-     * removes a button from the ResizableToolbar
-     *
-     * @param button the button to remove
-     */
-      public void remove(AbstractButton button) {
-            super.remove(button);
-            buttonGroup.remove(button);
-            resizeButtons();
-            repaint();
-      }
+		final float exactButtonWidth = getCurrentButtonWidth();
 
-    /**
-     * returns the ResizableToolbar elements
-     *
-     * @return an Enumeration of the ResizableToolbar elements
-     */
-      public Enumeration getElements() {
-            return buttonGroup.getElements();
-      }
+		SwingUtilities.invokeLater(new Runnable() {
 
-    /**
-     * returns the number of buttons stored within the ResizableToolbar
-     *
-     * @return the number of buttons
-     */
-      public int getButtonCount() {
-            // note: getButtonCount() will not work with JDK 1.2
-            return buttonGroup.getButtonCount();
-      }
+			public void run() {
 
+				JToggleButton b = null;
+				Iterator it = buttons.iterator();
+				
+				float currentButtonXLocation = 0.0f;
 
-      /** 
-        * resizes the buttons of the toolbar, depending upon the total number 
-        * of components stored therein. 
-        * Executes as an "invoked later" thread for a slight perceived 
-        * performance boost.
-        */
-      private void resizeButtons() {
+				// resize the buttons
+				while (it.hasNext() ) {
+					b = (JToggleButton) it.next();
+					int buttonWidth = Math.round(currentButtonXLocation + exactButtonWidth) - Math.round(currentButtonXLocation);
+					assignWidth(b, buttonWidth);
 
-            final float exactButtonWidth = getCurrentButtonWidth();
+					currentButtonXLocation += exactButtonWidth;
+				}
 
-            SwingUtilities.invokeLater(new Runnable() { 
+				revalidate();
 
-                  public void run(){ 
+			}
+		});
+	}
 
-                        JToggleButton b = null;
-                        Enumeration e = getElements();
+	/**
+	 * returns the current button width, defined as the width of the ResizableToolbar
+	 *      divided by the number of buttons. The value returned ranges from 
+	 *      minButtonWidth to maxButtonWidth (two variables defined upon creation 
+	 *      of the ResizableToolbar instance).
+	 *
+	 * @return the current button width as a float. 
+	 */
+	private float getCurrentButtonWidth() {
 
-                        float currentButtonXLocation=0.0f;
+		int width = getWidth() - getInsets().left - getInsets().right;
 
-                        // resize the buttons
-                        while (e.hasMoreElements()) {
-                              b = (JToggleButton)e.nextElement();
-                              int buttonWidth = 
-                                    Math.round(currentButtonXLocation + 
-                                          exactButtonWidth) -
-                                    Math.round(currentButtonXLocation);
-                              assignWidth(b, buttonWidth);
+		// if width <= 0, means JToolbar hasn't been displayed yet, so use
+		// the maximum button width
+		float buttonWidth = ((width <= 0) ? maxButtonWidth : width);
 
-                              currentButtonXLocation+=exactButtonWidth;
-                        }
+		int numButtons = getButtonCount();
 
-                        revalidate();
+		// have at least one button? then divide the width by the # of buttons
+		// (ie: resultant buttonWidth = viewport width / # of buttons)
+		if (numButtons > 0) {
+			buttonWidth /= numButtons;
+		}
 
-                  }
-            }); 
-      }
+		if (buttonWidth < minButtonWidth) {
+			buttonWidth = minButtonWidth;
+		} else if (buttonWidth > maxButtonWidth) {
+			buttonWidth = maxButtonWidth;
+		}
 
+		return buttonWidth;
+	}
 
-    /**
-     * returns the current button width, defined as the width of the ResizableToolbar
-     *      divided by the number of buttons. The value returned ranges from 
-     *      minButtonWidth to maxButtonWidth (two variables defined upon creation 
-     *      of the ResizableToolbar instance).
-     *
-     * @return the current button width as a float. 
-     */
-    private float getCurrentButtonWidth() {
+	/**
+	 * assigns a new width to the specified button
+	 *
+	 * @param b the button whose width is to be adjusted
+	 * @param buttonWidth the new width 
+	 */
+	private void assignWidth(JToggleButton b, int buttonWidth) {
 
-            int width = getWidth() - getInsets().left - getInsets().right;
+		b.setMinimumSize(new Dimension(buttonWidth - 2, b.getPreferredSize().height));
+		b.setPreferredSize(new Dimension(buttonWidth, b.getPreferredSize().height));
+		Dimension newSize = b.getPreferredSize();
+		b.setMaximumSize(newSize);
+		b.setSize(newSize);
 
-            // if width <= 0, means JToolbar hasn't been displayed yet, so use
-            // the maximum button width
-            float buttonWidth = 
-                  ((width <= 0) ? maxButtonWidth : width);
+	}
 
-            int numButtons = getButtonCount(); 
+	/////
+	// respond to resize events...
+	/////
 
-            // have at least one button? then divide the width by the # of buttons
-            // (ie: resultant buttonWidth = viewport width / # of buttons)
-            if (numButtons > 0) {
-                  buttonWidth/=numButtons;
-            } 
+	/** 
+	 * resize the buttons when the ResizableToolbar itself is resized
+	 *
+	 * @param e the ComponentEvent
+	 */
+	public void componentResized(ComponentEvent e) {
+		resizeButtons();
+	}
 
-            if (buttonWidth < minButtonWidth) {
-                  buttonWidth = minButtonWidth;
-            }
-            else if (buttonWidth > maxButtonWidth) {
-                  buttonWidth = maxButtonWidth;
-            }
-
-            return buttonWidth;
-    }
-
-
-    /**
-     * assigns a new width to the specified button
-     *
-     * @param b the button whose width is to be adjusted
-     * @param buttonWidth the new width 
-     */
-    private void assignWidth(JToggleButton b, int buttonWidth) {
-
-            b.setMinimumSize(
-                  new Dimension(buttonWidth-2, b.getPreferredSize().height));
-            b.setPreferredSize(
-                  new Dimension(buttonWidth, b.getPreferredSize().height));
-            Dimension newSize=b.getPreferredSize();
-            b.setMaximumSize(newSize);
-            b.setSize(newSize);
-
-    }
-
-
-
-      /////
-      // respond to resize events...
-      /////
-
-      /** 
-       * resize the buttons when the ResizableToolbar itself is resized
-       *
-       * @param e the ComponentEvent
-       */   
-      public void componentResized(ComponentEvent e) {
-            resizeButtons();
-      }
-
-
-      /**
-      * interface placeholder
-      *
-      * @param e the ComponentEvent
-      */
-      public void componentShown(ComponentEvent e) {}
-      /**
-      * interface placeholder
-      *
-      * @param e the ComponentEvent
-      */
-      public void componentMoved(ComponentEvent e) {}
-      /**
-      * interface placeholder
-      *
-      * @param e the ComponentEvent
-      */
-      public void componentHidden(ComponentEvent e) {}
-
+	/**
+	* interface placeholder
+	*
+	* @param e the ComponentEvent
+	*/
+	public void componentShown(ComponentEvent e) {
+	}
+	/**
+	* interface placeholder
+	*
+	* @param e the ComponentEvent
+	*/
+	public void componentMoved(ComponentEvent e) {
+	}
+	/**
+	* interface placeholder
+	*
+	* @param e the ComponentEvent
+	*/
+	public void componentHidden(ComponentEvent e) {
+	}
 
 }
