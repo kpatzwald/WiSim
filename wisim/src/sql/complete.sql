@@ -1,8 +1,8 @@
 ##/*   ********************************************************************   **
 ##**   Copyright notice                                                       **
 ##**                                                                          **
-##**   (c) 2003 WiSim Development Team					                              **
-##**   http://wisim.sourceforge.net/   			                                  **
+##**   (c) 2003 WiSim Development Team					                      **
+##**   http://wisim.sourceforge.net/   			                              **
 ##**                                                                          **
 ##**   All rights reserved                                                    **
 ##**                                                                          **
@@ -320,11 +320,11 @@ CREATE TABLE kd (
 # Daten für Tabelle `kd`
 #
 
-INSERT INTO kd VALUES (1, 'B', '', '3', 'Pixelpark', 'Pasero', 'Benjamin', 'Rotherstr. 9', 'benjamin.pasero@pixelpark.com', '030-123455', '030-123456', 'FALSE', 1);
-INSERT INTO kd VALUES (2, 'B', '', '3', 'Pixelpark', 'Drechsler', 'Christian', 'Rotherstr. 9', 'christian.drechsler@pixelpark.com', '030-123455', '030-123456', 'FALSE', 1);
-INSERT INTO kd VALUES (3, 'B', '', '3', 'Pixelpark', 'Freitag', 'Denise', 'Rotherstr. 9', 'denise.freitag@pixelpark.com', '030-123455', '030-123456', 'FALSE', 1);
-INSERT INTO kd VALUES (4, 'B', '', '3', 'Pixelpark', 'Ziola', 'Janett', 'Rotherstr. 9', 'janett.ziola@pixelpark.com', '030-123455', '030-123456', 'FALSE', 1);
-INSERT INTO kd VALUES (5, 'B', '', '3', 'Pixelpark', 'Patzwald', 'Kay', 'Rotherstr. 9', 'kay.patzwald@pixelpark.com', '030-123455', '030-123456', 'FALSE', 1);
+INSERT INTO kd VALUES (1, 'B', '', '3', 'Pixelpark', 'P.', 'Benjamin', 'Rotherstr. 9', 'bp@pixelpark.com', '030-123455', '030-123456', 'FALSE', 1);
+INSERT INTO kd VALUES (2, 'B', '', '3', 'Pixelpark', 'D.', 'Christian', 'Rotherstr. 9', 'cd@pixelpark.com', '030-123455', '030-123456', 'FALSE', 1);
+INSERT INTO kd VALUES (3, 'B', '', '3', 'Pixelpark', 'F.', 'Denise', 'Rotherstr. 9', 'df@pixelpark.com', '030-123455', '030-123456', 'FALSE', 1);
+INSERT INTO kd VALUES (4, 'B', '', '3', 'Pixelpark', 'Z.', 'Janett', 'Rotherstr. 9', 'jz@pixelpark.com', '030-123455', '030-123456', 'FALSE', 1);
+INSERT INTO kd VALUES (5, 'B', '', '3', 'Pixelpark', 'P.', 'Kay', 'Rotherstr. 9', 'kp@pixelpark.com', '030-123455', '030-123456', 'FALSE', 1);
 # --------------------------------------------------------
 
 #
