@@ -611,8 +611,8 @@ if (errors.isEmpty()){
             if (!zubehoerTabelle.containsValue(String.valueOf(jComboBoxNeuerLieferantArtikel.getSelectedIndex()))){
 
              //Position hinzufügen:
-                Einzelteil teil = new Einzelteil();
-                Einzelteil eteil = (Einzelteil) alleArtikel.get(jComboBoxNeuerLieferantArtikel.getSelectedIndex());
+                WiSimComponent teil = new WiSimComponent();
+                WiSimComponent eteil = (WiSimComponent) alleArtikel.get(jComboBoxNeuerLieferantArtikel.getSelectedIndex());
                 teil.setNr(eteil.getNr());
                 zubehoerTabelle.put(String.valueOf(jComboBoxNeuerLieferantArtikel.getSelectedItem()),String.valueOf(jComboBoxNeuerLieferantArtikel.getSelectedIndex())); 
                 alleArtikel.add(alleArtikel.get(jComboBoxNeuerLieferantArtikel.getSelectedIndex()));
@@ -641,7 +641,7 @@ if (errors.isEmpty()){
                 position++;
                 jTable1.setRowSelectionInterval(position-1, position-1);
             }else {
-                JOptionPane.showMessageDialog(null, "Dieser Artikel ist bereits vorhanden!");
+                JOptionPane.showMessageDialog(null, "Dieser Article ist bereits vorhanden!");
             } 
     }
 }else {     
@@ -689,10 +689,10 @@ else{
     //liefert listItem des selektierten Eintrags
         String selectedItem = String.valueOf(jComboBoxLieferantBearbeiten.getSelectedIndex());
     //sucht das aktive KundenObjekt in Hashtabelle kundenAuswahl
-        Lieferant changedLieferant = (Lieferant)lieferantenObjekte.get(selectedItem);   
+        Supplier changedLieferant = (Supplier)lieferantenObjekte.get(selectedItem);   
         int ltID = changedLieferant.getId();          
           
-        Lieferant lieferant = new Lieferant();
+        Supplier lieferant = new Supplier();
         lieferant.setId(ltID);
         lieferant.setNachname(jTextFieldNeuerLieferantName.getText());
         lieferant.setVorname(jTextFieldNeuerLieferantVorname.getText());
@@ -707,7 +707,7 @@ else{
         lieferant.setZuverlaessigkeit(String.valueOf(jComboBoxNeuerLieferantZuverlaessigkeit.getSelectedItem()));
         
         try {
-            Ort ort = new Ort();
+            City ort = new City();
             ort.setName(lieferant.getOrt());
             ort.setPlz(lieferant.getPlz());  
             lieferant.setPlzId(dao.neuerOrt(ort));
@@ -716,7 +716,7 @@ else{
             if (jTable1.getRowCount() >= 0) {
                     
                 loescheZugehoerigeEinzelteile(ltID);
-                Lieferliste liste = new Lieferliste();
+                SupplyList liste = new SupplyList();
                 
                 for (int row = 0; row < jTable1.getRowCount(); row++){
                     liste.setLieferantenID(ltID);
@@ -780,7 +780,7 @@ private void ladeLieferanten() {
        
         while (it.hasNext()) {
             indexcounter++;
-            Lieferant listenlieferant = (Lieferant) it.next();
+            Supplier listenlieferant = (Supplier) it.next();
             String listItem = String.valueOf(listenlieferant.getFirma());
             model.addElement(listItem);
             lieferantenObjekte.put((String.valueOf(indexcounter)),listenlieferant);
@@ -796,7 +796,7 @@ private void ladeLieferanten() {
     //liefert listItem des selektierten Eintrags        
     String listItem = String.valueOf(jComboBoxLieferantBearbeiten.getSelectedIndex());
     //sucht das aktive KundenObjekt in Hashtabelle lieferantenObjekte
-    Lieferant auswahlLieferant = (Lieferant)lieferantenObjekte.get(listItem);          
+    Supplier auswahlLieferant = (Supplier)lieferantenObjekte.get(listItem);          
     position = 0;
     boolean Deleted = true;
     updatePositionsTable(Deleted);
@@ -836,11 +836,11 @@ private void ladeEinzelteile() {
         Iterator it = teile.iterator();
       
         while (it.hasNext()) {
-            Einzelteil teil = (Einzelteil) it.next();
+            WiSimComponent teil = (WiSimComponent) it.next();
             if (teil.getNr() != HUB)
             	model.addElement(teil.getName());
             einzelteileTabelle.put(teil.getName(), String.valueOf(teil.getNr()));
-            Einzelteil etatPos = new Einzelteil();
+            WiSimComponent etatPos = new WiSimComponent();
             etatPos.setNr(teil.getNr());
             alleArtikel.add(etatPos);             
         }
@@ -857,8 +857,8 @@ private void loescheZugehoerigeEinzelteile(int id){
         Iterator it_lieferlisten = lieferliste.iterator();
       
         while (it_lieferlisten.hasNext()) {
-            Lieferliste liste = (Lieferliste) it_lieferlisten.next();
-            Einzelteil einzelteil = dao.getEinzelteil(liste.getEinzelteilID());
+            SupplyList liste = (SupplyList) it_lieferlisten.next();
+            WiSimComponent einzelteil = dao.getEinzelteil(liste.getEinzelteilID());
             dao.loescheLieferliste(id,liste.getEinzelteilID());
        }
     } catch (WiSimDAOException e) {
@@ -873,12 +873,12 @@ private void ladeZugehoerigeEinzelteile(int id){
   
     try {
         Collection lieferliste = null;
-        Einzelteil einzelteil = null;
+        WiSimComponent einzelteil = null;
         lieferliste = dao.getLieferliste(id);
         Iterator it_lieferlisten = lieferliste.iterator();
       
         while (it_lieferlisten.hasNext()) {
-            Lieferliste liste = (Lieferliste) it_lieferlisten.next();
+            SupplyList liste = (SupplyList) it_lieferlisten.next();
             einzelteil = dao.getEinzelteil(liste.getEinzelteilID());
                     
           //gesamter Tabelleninhalt wird Zwischengespeichert
@@ -971,7 +971,7 @@ public void updatePositionsTable(boolean Deleted) {
     DefaultTableModel defTable = new DefaultTableModel(
         tableInit,
         new String [] {
-            "Artikel", "MinAbnahme", "Preis/Stk"
+            "Article", "MinAbnahme", "Preis/Stk"
         }
     ) 
     {
@@ -990,7 +990,7 @@ public void updatePositionsTable(boolean Deleted) {
         for (int i = 0; i < 3; i++) {
             column = jTable1.getColumnModel().getColumn(i);
             switch (i) {
-                    //Artikel
+                    //Article
                 case 0:
                     column.setPreferredWidth(120);
                     break;
@@ -1013,7 +1013,7 @@ public void updatePositionsTable(boolean Deleted) {
     //liefert listItem des selektierten Eintrags
     String listItem = String.valueOf(jComboBoxLieferantBearbeiten.getSelectedIndex());   
     //sucht das aktive KundenObjekt in Hashtabelle kundenObjekte
-    Lieferant auswahlLieferant = (Lieferant)lieferantenObjekte.get(listItem);
+    Supplier auswahlLieferant = (Supplier)lieferantenObjekte.get(listItem);
     if (auswahlLieferant != null){ 
         return auswahlLieferant.getId();
     }else return 0;

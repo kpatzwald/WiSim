@@ -46,7 +46,7 @@ public class IconNodeRenderer extends DefaultTreeCellRenderer {
      * @param leaf
      * @param row
      * @param hasFocus
-     * @return Component
+     * @return WiSimComponent
      */
     public Component getTreeCellRendererComponent(JTree tree, Object value,
     boolean sel, boolean expanded, boolean leaf,

@@ -34,7 +34,7 @@ import net.sourceforge.wisim.dao.*;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-/** Masken für die Einzelteil-Bestellung
+/** Masken für die WiSimComponent-Bestellung
  * @author benjamin.pasero
  */
 public class JPanelOrder extends javax.swing.JPanel {
@@ -369,7 +369,7 @@ public class JPanelOrder extends javax.swing.JPanel {
         jPanelEinzelteilPositionen.setBorder(new javax.swing.border.TitledBorder("2.) Einzelteile"));
         jLabelArtikel.setFont(new java.awt.Font("Dialog", 1, 14));
         jLabelArtikel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabelArtikel.setText("Artikel");
+        jLabelArtikel.setText("Article");
         jPanelEinzelteilPositionen.add(jLabelArtikel);
         jLabelArtikel.setBounds(40, 40, 70, 20);
 
@@ -459,7 +459,7 @@ public class JPanelOrder extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Artikel", "Menge", "Preis"
+                "Article", "Menge", "Preis"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -743,7 +743,7 @@ public class JPanelOrder extends javax.swing.JPanel {
         }
         
         if (positionen.isEmpty()) {
-            pflichtfelder.add("Artikel");
+            pflichtfelder.add("Article");
         }
         
         /*Wurde ein oder mehrere Pflichtfelder nicht ausgefüllt erscheint ein JOptionPane, dass dem
@@ -804,7 +804,7 @@ public class JPanelOrder extends javax.swing.JPanel {
         DefaultTableModel defTable = new DefaultTableModel(
         tableInit,
         new String [] {
-            "Artikel", "Menge", "Preis"
+            "Article", "Menge", "Preis"
         }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -843,7 +843,7 @@ public class JPanelOrder extends javax.swing.JPanel {
         jComboBoxLieferanten.setSelectedIndex(0);
     }
     
-    /** Berechnet Skonto, Lieferrabatt und Gesamtsumme aus dem Einzelteilauftrag. */
+    /** Berechnet Skonto, Lieferrabatt und Gesamtsumme aus dem ComponentContract. */
     public void calculateSum() {
         double calcedLieferrabatt = 0;
         double calcedSkonto = 0;
@@ -934,8 +934,8 @@ public class JPanelOrder extends javax.swing.JPanel {
         java.sql.Date lieferDateSQL = new java.sql.Date(lieferDatum.getTimeInMillis());
         
         //Einzelteilauftrag
-        Einzelteilauftrag etat = new Einzelteilauftrag();
-        Lieferant lieferant = (Lieferant) colLt.get(jComboBoxLieferanten.getSelectedIndex());
+        ComponentContract etat = new ComponentContract();
+        Supplier lieferant = (Supplier) colLt.get(jComboBoxLieferanten.getSelectedIndex());
         
         etat.setAuftragsdatum(new java.sql.Date(wiSimMainController.getActDate().getTime()));
         etat.setLieferantNr(lieferant.getId());
@@ -958,7 +958,7 @@ public class JPanelOrder extends javax.swing.JPanel {
         etat.setEinzelteilAuftragsRechnungNr(etatNr);
         
         //Einzelteilauftragsrechnung
-        Einzelteilauftragsrechnung etatr = new Einzelteilauftragsrechnung();
+        ComponentContractAccount etatr = new ComponentContractAccount();
         etatr.setBetrag(summe);
         
         //MwSt-Satz bestimmen
@@ -1224,9 +1224,9 @@ public class JPanelOrder extends javax.swing.JPanel {
             if (!positionen.contains(colArtikel.get(jComboBoxArtikel.getSelectedIndex()))) {
                 
                 //Position hinzufügen:
-                EinzelteilauftragPosition etatPos = new EinzelteilauftragPosition();
+                ComponentContractItem etatPos = new ComponentContractItem();
                 etatPos.setBestellmenge(Integer.parseInt(menge));
-                Lieferliste art = (Lieferliste) colArtikel.get(jComboBoxArtikel.getSelectedIndex());
+                SupplyList art = (SupplyList) colArtikel.get(jComboBoxArtikel.getSelectedIndex());
                 
                 etatPos.setEtNr(art.getEinzelteilID());
                 etatPos.setPreis(art.getPreis());
@@ -1260,13 +1260,13 @@ public class JPanelOrder extends javax.swing.JPanel {
                 jTablePositionen.setRowSelectionInterval(position-1, position-1);
                 setSumme();
             } else {
-                JOptionPane.showMessageDialog(null, "Dieser Artikel ist bereits in der Liste!");
+                JOptionPane.showMessageDialog(null, "Dieser Article ist bereits in der Liste!");
             }
         }
         calculateSum();
     }
     
-    /** Holt Infos über den selektierten Artikel aus der DB */
+    /** Holt Infos über den selektierten Article aus der DB */
     public void getArtikelInfo() {
         if (jComboBoxArtikel.getSelectedItem().toString().equals("Select:")) {
             jTextFieldPreis.setText("");
@@ -1274,7 +1274,7 @@ public class JPanelOrder extends javax.swing.JPanel {
             jSpinnerMenge.setModel(spin);
             jTextFieldMindestAbnahme.setText("");
         } else {
-            Lieferliste lieferliste = (Lieferliste) colArtikel.get(jComboBoxArtikel.getSelectedIndex());
+            SupplyList lieferliste = (SupplyList) colArtikel.get(jComboBoxArtikel.getSelectedIndex());
             jTextFieldPreis.setText(String.valueOf(lieferliste.getPreis()));
             jTextFieldMindestAbnahme.setText(String.valueOf(lieferliste.getMindestBestellMenge()));
             SpinnerNumberModel spin = new SpinnerNumberModel(lieferliste.getMindestBestellMenge(), lieferliste.getMindestBestellMenge(), 999999, 1);
@@ -1300,7 +1300,7 @@ public class JPanelOrder extends javax.swing.JPanel {
             
             int i=0;
             while (lt_it.hasNext()) {
-                Lieferant lieferant = (Lieferant) lt_it.next();
+                Supplier lieferant = (Supplier) lt_it.next();
                 String item = lieferant.getFirma() + " (#" + lieferant.getId() + ")";
                 jComboBoxLieferanten.addItem(item);
                 colLt.add(lieferant);
@@ -1308,12 +1308,12 @@ public class JPanelOrder extends javax.swing.JPanel {
         } catch (WiSimDAOException e) {System.out.println(e.getMessage());}
     }
     
-    /** Holt alle Artikel des Lieferanten aus der DB */
+    /** Holt alle Article des Lieferanten aus der DB */
     public void getArtikel() {
         //Tabelle wiederherstellen
         DefaultTableModel defTable = new DefaultTableModel(0,3);
         Vector tableHeader = new Vector();
-        tableHeader.add("Artikel");
+        tableHeader.add("Article");
         tableHeader.add("Menge");
         tableHeader.add("Preis");
         defTable.setColumnIdentifiers(tableHeader);
@@ -1334,12 +1334,12 @@ public class JPanelOrder extends javax.swing.JPanel {
             jComboBoxArtikel.removeAllItems();
             jComboBoxArtikel.addItem("Select:");
         } else {
-            Lieferant lieferant = (Lieferant) colLt.get(jComboBoxLieferanten.getSelectedIndex());
+            Supplier lieferant = (Supplier) colLt.get(jComboBoxLieferanten.getSelectedIndex());
             jTextFieldLieferqualitaet.setText(lieferant.getLieferqualitaet());
             jTextFieldLiefertreue.setText(lieferant.getZuverlaessigkeit());
             jTextFieldAnsprechperson.setText(lieferant.getVorname() + " " + lieferant.getNachname());
             
-            //Artikel
+            //Article
             try {
                 if (jComboBoxArtikel.getItemAt(1) != null) {
                     jComboBoxArtikel.removeAllItems();
@@ -1349,8 +1349,8 @@ public class JPanelOrder extends javax.swing.JPanel {
                 Collection lieferlisten = dao.getLieferliste(lieferant.getId());
                 Iterator it_lieferlisten = lieferlisten.iterator();
                 while (it_lieferlisten.hasNext()) {
-                    Lieferliste lieferliste = (Lieferliste) it_lieferlisten.next();
-                    Einzelteil einzelteil = dao.getEinzelteil(lieferliste.getEinzelteilID());
+                    SupplyList lieferliste = (SupplyList) it_lieferlisten.next();
+                    WiSimComponent einzelteil = dao.getEinzelteil(lieferliste.getEinzelteilID());
                     jComboBoxArtikel.addItem(einzelteil.getName());
                     colArtikel.add(lieferliste);
                 }

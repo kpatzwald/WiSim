@@ -22,42 +22,44 @@
 **   ********************************************************************   */
 
 /*
- * Einzelteilauftragsrechnung.java
+ * ContractAccount.java
  *
- * Created on 6. März 2003, 19:57
+ * Created on 21. März 2003, 03:30
  */
 
 package net.sourceforge.wisim.model;
 
-/** Einzelteilauftragsrechnung
- * @author Ben
+/** ContractAccount
+ * @author Denise freitag
  */
-public class Einzelteilauftragsrechnung {
+public class ContractAccount {
     
     int Nr;
     double Betrag;
-    int EinzelteilauftragNr;
+    int AuftragNr;
     float MwSt;
+    boolean zEingang;    
     
-    /** Einzelteileauftragsrechnung wenn die HUBFirma Einzelteile bei einem
-     * Lieferanten bestellt.
+    /** ContractAccount wenn die HUBFirma einen neuen Contract mit 
+     * 	einem Kunden macht.
      */
-    public Einzelteilauftragsrechnung() {
+    public ContractAccount() {
     }
     
-    /** Einzelteilauftragsrechnung
-     * @param Nr ID
-     * @param Betrag Summe der Positionen aus dem Einzelteilauftrag (Netto)
-     * @param EinzelteilauftragNr Referenz auf den Einzelteilauftrag
+    /** ContractAccount
+     * @param Nr Auftrags-Rechnungs-ID
+     * @param Betrag Summe der Positionen aus dem Auftrag (Netto/Angebotspreis)
+     * @param AuftragNr Referenz auf den Auftrag
      * @param MwSt Mehrwertsteuer
      */
-    public Einzelteilauftragsrechnung(int Nr, double Betrag, int EinzelteilauftragNr, float MwSt) {
+    public ContractAccount(int Nr, double Betrag, int AuftragNr, float MwSt, boolean zEingang) {
         this.Nr = Nr;
         this.Betrag = Betrag;
-        this.EinzelteilauftragNr = EinzelteilauftragNr;
+        this.AuftragNr = AuftragNr;
         this.MwSt = MwSt;
+        this.zEingang = zEingang;
     }
-    
+       
     /**
      * Returns the betrag.
      * @return float
@@ -70,8 +72,8 @@ public class Einzelteilauftragsrechnung {
      * Returns the einzelteilauftragNr.
      * @return int
      */
-    public int getEinzelteilauftragNr() {
-        return EinzelteilauftragNr;
+    public int getAuftragNr() {
+        return AuftragNr;
     }
     
     /**
@@ -91,19 +93,27 @@ public class Einzelteilauftragsrechnung {
     }
     
     /**
+     * Returns the zEingang
+     * @return boolean
+     */
+    public boolean getzEingang() {
+        return zEingang;
+    }
+    
+    /**
      * Sets the betrag.
      * @param betrag The betrag to set
      */
     public void setBetrag(double betrag) {
-        Betrag = betrag;
+        this.Betrag = betrag;
     }
     
     /**
-     * Sets the einzelteilauftragNr.
-     * @param einzelteilauftragNr The einzelteilauftragNr to set
+     * Sets the AuftragNr.
+     * @param AuftragNr The AuftragNr to set
      */
-    public void setEinzelteilauftragNr(int einzelteilauftragNr) {
-        EinzelteilauftragNr = einzelteilauftragNr;
+    public void setAuftragNr(int AuftragNr) {
+        this.AuftragNr = AuftragNr;
     }
     
     /**
@@ -111,7 +121,7 @@ public class Einzelteilauftragsrechnung {
      * @param mwSt The mwSt to set
      */
     public void setMwSt(float mwSt) {
-        MwSt = mwSt;
+        this.MwSt = mwSt;
     }
     
     /**
@@ -119,6 +129,15 @@ public class Einzelteilauftragsrechnung {
      * @param nr The nr to set
      */
     public void setNr(int nr) {
-        Nr = nr;
+        this.Nr = nr;
+    }
+    
+    /**
+     * Sets the zEingang
+     * @param zEingang The zEingang to set
+     */
+    public void setzEingang(boolean zEingang) {
+        this.zEingang = zEingang;
     }
 }
+

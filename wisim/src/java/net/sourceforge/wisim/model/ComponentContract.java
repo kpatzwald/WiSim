@@ -30,10 +30,10 @@
 package net.sourceforge.wisim.model;
 import java.sql.Date;
 import java.util.*;
-/** Einzelteilauftrag für Einzelteile
+/** ComponentContract für Einzelteile
  * @author benjamin.pasero
  */
-public class Einzelteilauftrag {
+public class ComponentContract {
     
     int Nr;
     int LieferantNr;
@@ -46,11 +46,11 @@ public class Einzelteilauftrag {
     Collection EinzelteilauftragPositionen;
     
     
-    /** Creates a new instance of Einzelteilauftrag */
-    public Einzelteilauftrag() {
+    /** Creates a new instance of ComponentContract */
+    public ComponentContract() {
     }
     
-    /** Creates a new instance of Einzelteilauftrag
+    /** Creates a new instance of ComponentContract
      * @param EinzelteilauftragPositionen
      * @param Nr ID
      * @param LieferantNr Referenz auf den Lieferanten
@@ -61,7 +61,7 @@ public class Einzelteilauftrag {
      * @param Auftragsdatum
      * @param Skonto
      */
-    public Einzelteilauftrag(int Nr, int LieferantNr, int EinzelteilAuftragsRechnungNr, float Lieferrabatt, int Skontofrist, Date Lieferdatum, Date Auftragsdatum, float Skonto, Collection EinzelteilauftragPositionen) {
+    public ComponentContract(int Nr, int LieferantNr, int EinzelteilAuftragsRechnungNr, float Lieferrabatt, int Skontofrist, Date Lieferdatum, Date Auftragsdatum, float Skonto, Collection EinzelteilauftragPositionen) {
         this.Nr = Nr;
         this.LieferantNr = LieferantNr;
         this.EinzelteilAuftragsRechnungNr = EinzelteilAuftragsRechnungNr;

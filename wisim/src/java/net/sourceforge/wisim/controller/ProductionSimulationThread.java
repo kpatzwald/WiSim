@@ -33,15 +33,15 @@ import java.util.logging.Level;
 
 import net.sourceforge.wisim.dao.WiSimDAO;
 import net.sourceforge.wisim.dao.WiSimDAOException;
-import net.sourceforge.wisim.model.Arbeitsplatz;
-import net.sourceforge.wisim.model.ArbeitsplatzLager;
+import net.sourceforge.wisim.model.WorkPlace;
+import net.sourceforge.wisim.model.WorkPlaceStore;
 
 /** Produktionsimulations-Thread
  * @author Kay Patzwald
  */
 public class ProductionSimulationThread extends Thread
 {
-	private Arbeitsplatz ap;
+	private WorkPlace ap;
 	private ProductionController runController;
 	private WiSimDAO dao;
 	private WiSimMainController wiSimMainController;
@@ -58,7 +58,7 @@ public class ProductionSimulationThread extends Thread
    * @param timestep
    */
 	public ProductionSimulationThread(
-		Arbeitsplatz ap,
+		WorkPlace ap,
 		ProductionController runController,
 		WiSimMainController wiSimMainController,
 		int faktor,
@@ -96,7 +96,7 @@ public class ProductionSimulationThread extends Thread
 
 			if (ap.getVorgaenger()[0] != 0)
 			{
-				ArbeitsplatzLager apLager = null;
+				WorkPlaceStore apLager = null;
 				try
 				{
 					apLager =
@@ -153,14 +153,14 @@ public class ProductionSimulationThread extends Thread
 					break;
 				}
 
-				// Letzter Arbeitsplatz
+				// Letzter WorkPlace
 				if (ap.getNachfolger()[0] == 0)
 				{
 					runController.hubKomplett(getName(), ap);
 				}
 			}
 
-			// Erster Arbeitsplatz ohne Vorgänger
+			// Erster WorkPlace ohne Vorgänger
 			else
 			{
 

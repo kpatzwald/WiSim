@@ -30,10 +30,10 @@ package net.sourceforge.wisim.model;
 import java.util.*;
 /** Die Summe der Einzelteile eines bestimmten Typs (Name, Einzelteile Nr, Bestand,
  * Mindestbestand, Maximalbestand und eine Liste mit Lagerplätzen wo sich dieses
- * Einzelteil befindet.
+ * WiSimComponent befindet.
  * @author benjamin.pasero
  */
-public class EinzelteilLagerElement {
+public class ComponentWarehouseItem {
     
     private String einzelteilName;
     private int id;
@@ -42,16 +42,16 @@ public class EinzelteilLagerElement {
     private int bestand;
     private Collection lagerplaetze;
     
-    /** Erstellt eine neue Instanz EinzelteilLagerElement.
-     * Es kann sich um einen Artikel oder Einzelteil im Lager handeln.
-     * @param einzelteilName Der Name des Einzelteils oder Artikel
+    /** Erstellt eine neue Instanz ComponentWarehouseItem.
+     * Es kann sich um einen Article oder WiSimComponent im Lager handeln.
+     * @param einzelteilName Der Name des Einzelteils oder Article
      * @param id Nummer des Artikels oder Einzelteiles
      * @param minBestand Mindestbestand
      * @param maxBestand Maximalbestand
      * @param bestand aktueller Bestand
-     * @param lagerplaetze Lagerplätze an denen der Artikel oder das Einzelteil lagert
+     * @param lagerplaetze Lagerplätze an denen der Article oder das WiSimComponent lagert
      */    
-    public EinzelteilLagerElement (String einzelteilName, int id, int minBestand, int maxBestand, int bestand, Collection lagerplaetze) {
+    public ComponentWarehouseItem (String einzelteilName, int id, int minBestand, int maxBestand, int bestand, Collection lagerplaetze) {
         this.einzelteilName = einzelteilName;
         this.id = id;
         this.minBestand = minBestand;
@@ -60,8 +60,8 @@ public class EinzelteilLagerElement {
         this.lagerplaetze = lagerplaetze;
     }
     
-    /** Erzeugt ein neues EinzelteilLagerElement */    
-    public EinzelteilLagerElement  () {
+    /** Erzeugt ein neues ComponentWarehouseItem */    
+    public ComponentWarehouseItem  () {
     }
     
     /**

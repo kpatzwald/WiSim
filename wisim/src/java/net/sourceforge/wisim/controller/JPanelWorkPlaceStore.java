@@ -38,7 +38,7 @@ import javax.swing.*;
 /**
  * Gibt eine Tabellenübersicht aller Arbeitsplätze mit den Beständen der
  * jeweiligen Einzelteile aus. Es lassen sich die Anzahl der Arbeiter
- * pro Arbeitsplatz einstellen.
+ * pro WorkPlace einstellen.
  * @author  benjamin.pasero
  */
 public class JPanelWorkPlaceStore extends javax.swing.JPanel {
@@ -263,7 +263,7 @@ public class JPanelWorkPlaceStore extends javax.swing.JPanel {
         jSpinnerArbeiter.setBounds(110, 50, 40, 24);
 
         jLabelArbeitsplatz.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabelArbeitsplatz.setText("Arbeitsplatz");
+        jLabelArbeitsplatz.setText("WorkPlace");
         jPanelArbeiter.add(jLabelArbeitsplatz);
         jLabelArbeitsplatz.setBounds(20, 20, 80, 16);
 
@@ -344,7 +344,7 @@ public class JPanelWorkPlaceStore extends javax.swing.JPanel {
         int i = 0;
         Iterator ap_it = arbeitsplaetze.iterator();
         while (ap_it.hasNext()) {
-            Arbeitsplatz ap = (Arbeitsplatz) ap_it.next();
+            WorkPlace ap = (WorkPlace) ap_it.next();
             
             jTableArbeitsplaetze.setValueAt(String.valueOf(ap.getNr()), i, 0);
             jTableArbeitsplaetze.setValueAt(ap.getBeschreibung(), i, 1);
@@ -383,7 +383,7 @@ public class JPanelWorkPlaceStore extends javax.swing.JPanel {
             
             jTableArbeitsplaetze.setValueAt(String.valueOf(ap.getDauer()), i, 4);
             
-            ArbeitsplatzLager apLager = new ArbeitsplatzLager();
+            WorkPlaceStore apLager = new WorkPlaceStore();
             try {
                 apLager = dao.getArbeitsplatzLager(ap.getNr(), 26, "Eingang");
             } catch (WiSimDAOException e) {
@@ -420,7 +420,7 @@ public class JPanelWorkPlaceStore extends javax.swing.JPanel {
     
     /** Zeigt die Elemente eines Arbeitsplatzlagers an. */
     public void getArbeitsplatzLagerElemente() {
-        Arbeitsplatz ap = (Arbeitsplatz) arbeitsplaetze.get(jTableArbeitsplaetze.getSelectedRow());
+        WorkPlace ap = (WorkPlace) arbeitsplaetze.get(jTableArbeitsplaetze.getSelectedRow());
         
         //Arbeiter-Pane
         jTextFieldArbeitsplatz.setText(String.valueOf(ap.getNr()));
@@ -440,15 +440,15 @@ public class JPanelWorkPlaceStore extends javax.swing.JPanel {
         }
     }
     
-    /** Baut die Arbeitsplatz-Tabelle */
+    /** Baut die WorkPlace-Tabelle */
     public void buildArbeitsplatzLagerElementeTabelle() {
         setArbeitsplatzLagerElementeTabelle();
         int i = 0;
         Iterator arbeitsplatzLager_it = arbeitsplatzLager.iterator();
         while (arbeitsplatzLager_it.hasNext()) {
-            ArbeitsplatzLager apLager = (ArbeitsplatzLager) arbeitsplatzLager_it.next();
+            WorkPlaceStore apLager = (WorkPlaceStore) arbeitsplatzLager_it.next();
             
-            Einzelteil et = new Einzelteil();
+            WiSimComponent et = new WiSimComponent();
             try {
                 et = dao.getEinzelteil(apLager.getEinzelteilNr());
             } catch (WiSimDAOException e) {
@@ -580,9 +580,9 @@ public class JPanelWorkPlaceStore extends javax.swing.JPanel {
         int i = 0;
         Iterator ap_it = arbeitsplaetze.iterator();
         while (ap_it.hasNext()) {
-            Arbeitsplatz ap = (Arbeitsplatz) ap_it.next();
+            WorkPlace ap = (WorkPlace) ap_it.next();
             
-            ArbeitsplatzLager apLager = new ArbeitsplatzLager();
+            WorkPlaceStore apLager = new WorkPlaceStore();
             try {
                 apLager = dao.getArbeitsplatzLager(ap.getNr(), 26, "Eingang");
             } catch (WiSimDAOException e) {
@@ -615,9 +615,9 @@ public class JPanelWorkPlaceStore extends javax.swing.JPanel {
             i++;
         }
         
-        //Refresh Tabelle ArbeitsplatzLager
+        //Refresh Tabelle WorkPlaceStore
         if (jTableArbeitsplaetze.getSelectedRow() >= 0) {
-            Arbeitsplatz ap = (Arbeitsplatz) arbeitsplaetze.get(jTableArbeitsplaetze.getSelectedRow());
+            WorkPlace ap = (WorkPlace) arbeitsplaetze.get(jTableArbeitsplaetze.getSelectedRow());
             try {
                 arbeitsplatzLager = dao.getArbeitsplatzLager(ap.getNr(), "Einzelteil");
             } catch (WiSimDAOException e) {
@@ -628,12 +628,12 @@ public class JPanelWorkPlaceStore extends javax.swing.JPanel {
             if (apElemAnzahl > 0) {
                 Iterator arbeitsplatzLager_it = arbeitsplatzLager.iterator();
                 while (arbeitsplatzLager_it.hasNext()) {
-                    ArbeitsplatzLager apLager = (ArbeitsplatzLager) arbeitsplatzLager_it.next();
+                    WorkPlaceStore apLager = (WorkPlaceStore) arbeitsplatzLager_it.next();
                     
                     //Zelle wird nur aktualisiert wenn sich der Bestand geändert hat.
                     if (jTableGesamtliste.getValueAt(i, 1) != null && !jTableGesamtliste.getValueAt(i, 1).equals("")) {
                         if (apLager.getBestand() != Integer.parseInt((String) jTableGesamtliste.getValueAt(i, 1))) {
-                            Einzelteil et = new Einzelteil();
+                            WiSimComponent et = new WiSimComponent();
                             try {
                                 et = dao.getEinzelteil(apLager.getEinzelteilNr());
                             } catch (WiSimDAOException e) {
@@ -679,8 +679,8 @@ public class JPanelWorkPlaceStore extends javax.swing.JPanel {
         }
     }
     
-    /** Setzt die Zahl an Arbeiter an diesem Arbeitsplatz
-     * @param apNr Arbeitsplatz Nr
+    /** Setzt die Zahl an Arbeiter an diesem WorkPlace
+     * @param apNr WorkPlace Nr
      * @param anzahl Anzahl der Mitarbeiter
      */
     public void setArbeiterZahl(int apNr, Integer anzahl) {

@@ -372,14 +372,14 @@ public class JPanelSimulationStart extends javax.swing.JPanel {
         
         Iterator etatListe_it = etatListe.iterator();
         while (etatListe_it.hasNext()) {
-            Einzelteilauftrag etat = (Einzelteilauftrag) etatListe_it.next();
+            ComponentContract etat = (ComponentContract) etatListe_it.next();
             
             Date lieferDate = etat.getLieferdatum();
             lieferDateGC.setTimeInMillis(lieferDate.getTime());
             
             //Der Einzelteilauftrag hat das selbe Datum wie das aktuelle Datum der Simulation
             if (actDateGC.get(5) == lieferDateGC.get(5) && actDateGC.get(2) == lieferDateGC.get(2)) {
-                Lieferant lt = new Lieferant();
+                Supplier lt = new Supplier();
                 try {
                     lt = dao.getLieferant(etat.getLieferantNr());
                 } catch (WiSimDAOException e) {
@@ -400,8 +400,8 @@ public class JPanelSimulationStart extends javax.swing.JPanel {
                 Iterator etatPosis_it = etatPosis.iterator();
                 int i = 1;
                 while (etatPosis_it.hasNext()) {
-                    EinzelteilauftragPosition etatPos = (EinzelteilauftragPosition) etatPosis_it.next();
-                    Einzelteil et = new Einzelteil();
+                    ComponentContractItem etatPos = (ComponentContractItem) etatPosis_it.next();
+                    WiSimComponent et = new WiSimComponent();
                     try {
                         et = dao.getEinzelteil(etatPos.getEtNr());
                     } catch (WiSimDAOException e) {
@@ -460,7 +460,7 @@ public class JPanelSimulationStart extends javax.swing.JPanel {
             
             Iterator artIt = artikelLagerElemente.iterator();
             while (artIt.hasNext()) {
-                EinzelteilLagerElement etElem = (EinzelteilLagerElement) artIt.next();
+                ComponentWarehouseItem etElem = (ComponentWarehouseItem) artIt.next();
                 hubBestandAktuell = hubBestandAktuell + etElem.getBestand();
             }
             
@@ -476,7 +476,7 @@ public class JPanelSimulationStart extends javax.swing.JPanel {
                 Enumeration keys = stueckliste.keys();
                 while (keys.hasMoreElements()) {
                     String key = (String) keys.nextElement();
-                    Einzelteil et = new Einzelteil();
+                    WiSimComponent et = new WiSimComponent();
                     
                     try {
                         et = dao.getEinzelteil(Integer.parseInt(key));
@@ -523,7 +523,7 @@ public class JPanelSimulationStart extends javax.swing.JPanel {
         
         Iterator vertragIt = vertraege.iterator();
         while (vertragIt.hasNext()) {
-            Vertrag vertrag = (Vertrag) vertragIt.next();
+            Contract vertrag = (Contract) vertragIt.next();
             Date lieferDate = vertrag.getLieferdatum();
             
             lieferDateGC.setTimeInMillis(lieferDate.getTime());
@@ -548,7 +548,7 @@ public class JPanelSimulationStart extends javax.swing.JPanel {
                     wiSimLogger.log("refreshJTreeVertrieb()", e);
                 }
                 
-                Kunde kunde = new Kunde();
+                Customer kunde = new Customer();
                 
                 try {
                     kunde = dao.getKunde(vertrag.getKundenId());
@@ -562,11 +562,11 @@ public class JPanelSimulationStart extends javax.swing.JPanel {
                 
                 //Neuer Node im JTree
                 if (status) {
-                    hubVertriebPos = new IconNode("Artikel: Hub   Menge: " + menge + " Stk. wurden an den Kunden geliefert!");
+                    hubVertriebPos = new IconNode("Article: Hub   Menge: " + menge + " Stk. wurden an den Kunden geliefert!");
                     hubVertriebPos.setIcon(hubIcon);
                     hubBestand = hubBestand - menge;
                 } else {
-                    hubVertriebPos = new IconNode("Artikel: Hub   Menge: " + menge + " Stk. konnte nicht geliefert werden (Lager leer)!");
+                    hubVertriebPos = new IconNode("Article: Hub   Menge: " + menge + " Stk. konnte nicht geliefert werden (Lager leer)!");
                     hubVertriebPos.setIcon(errorIcon);
                 }
                 hubVertrieb.add(hubVertriebPos);
@@ -767,7 +767,7 @@ public class JPanelSimulationStart extends javax.swing.JPanel {
         
         Iterator artIt = artikelLagerElemente.iterator();
         while (artIt.hasNext()) {
-            EinzelteilLagerElement etElem = (EinzelteilLagerElement) artIt.next();
+            ComponentWarehouseItem etElem = (ComponentWarehouseItem) artIt.next();
             hubBestand = hubBestand + etElem.getBestand();
         }
     }

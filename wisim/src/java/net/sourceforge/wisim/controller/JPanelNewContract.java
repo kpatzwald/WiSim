@@ -46,11 +46,11 @@ import javax.swing.JPanel;
 import net.sourceforge.wisim.dao.WiSimDAO;
 import net.sourceforge.wisim.dao.WiSimDAOException;
 import net.sourceforge.wisim.dao.WiSimDAOWriteException;
-import net.sourceforge.wisim.model.Artikel;
-import net.sourceforge.wisim.model.AuftragsPosition;
-import net.sourceforge.wisim.model.Auftragsrechnung;
-import net.sourceforge.wisim.model.Kunde;
-import net.sourceforge.wisim.model.Vertrag;
+import net.sourceforge.wisim.model.Article;
+import net.sourceforge.wisim.model.OrderItem;
+import net.sourceforge.wisim.model.ContractAccount;
+import net.sourceforge.wisim.model.Customer;
+import net.sourceforge.wisim.model.Contract;
 
 /**
  * @author Denise Freitag
@@ -267,10 +267,10 @@ public class JPanelNewContract extends JPanel {
 
 		jPanel3.setLayout(null);
 
-		jPanel3.setBorder(new javax.swing.border.TitledBorder("2. Artikel ausw\u00e4hlen"));
+		jPanel3.setBorder(new javax.swing.border.TitledBorder("2. Article ausw\u00e4hlen"));
 		jLabelArtikel.setFont(new java.awt.Font("Dialog", 1, 14));
 		jLabelArtikel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-		jLabelArtikel.setText("Artikel");
+		jLabelArtikel.setText("Article");
 		jPanel3.add(jLabelArtikel);
 		jLabelArtikel.setBounds(40, 40, 80, 19);
 
@@ -1070,7 +1070,7 @@ public class JPanelNewContract extends JPanel {
 		if (kunden != null) {
 			Iterator it = kunden.iterator();
 			while (it.hasNext()) {
-				Kunde kunde = (Kunde) it.next();
+				Customer kunde = (Customer) it.next();
 				//Merken des Nachnamen und Vornamen, um diese in die ComboBox einzutragen
 				String merkeName = String.valueOf(kunde.getVorname()).concat(" ");
 				merkeName = merkeName.concat(String.valueOf(kunde.getNachname()));
@@ -1092,7 +1092,7 @@ public class JPanelNewContract extends JPanel {
 		String listItem = String.valueOf(jComboBoxKunde.getSelectedIndex());
 
 		//sucht das ausgewählte KundenObjekt in Hashtabelle kundeObjekt
-		Kunde auswahlKunde = (Kunde) kundeObjekt.get(listItem);
+		Customer auswahlKunde = (Customer) kundeObjekt.get(listItem);
 
 		if (auswahlKunde != null) {
 
@@ -1110,7 +1110,7 @@ public class JPanelNewContract extends JPanel {
 				Iterator it = vertraege.iterator();
 
 				while (it.hasNext()) {
-					Vertrag vertrag = (Vertrag) it.next();
+					Contract vertrag = (Contract) it.next();
 
 					if (vertrag.getKundenId() == auswahlKunde.getId()) {
 						vertragszaehler++;
@@ -1132,7 +1132,7 @@ public class JPanelNewContract extends JPanel {
 	}
 
 	/**
-	 * Method ladeArtikel. Lädt die Artikel aus der Datenbank.
+	 * Method ladeArtikel. Lädt die Article aus der Datenbank.
 	 */
 	private void ladeArtikel() {
 		Collection artikel = null;
@@ -1150,10 +1150,10 @@ public class JPanelNewContract extends JPanel {
 		if (artikel != null) {
 			Iterator it = artikel.iterator();
 			while (it.hasNext()) {
-				Artikel artikel2 = (Artikel) it.next();
+				Article artikel2 = (Article) it.next();
 				model.addElement(artikel2.getName());
 				artikelTabelle.put(artikel2.getName(), String.valueOf(artikel2.getNr()));
-				//speichert das Objekt zum ausgewählten Artikel in die Hashtable artikelObjekt
+				//speichert das Objekt zum ausgewählten Article in die Hashtable artikelObjekt
 				artikelObjekt.put(String.valueOf(artikel2.getNr()), artikel2);
 			}
 			jComboBoxArtikel.setModel(model);
@@ -1161,7 +1161,7 @@ public class JPanelNewContract extends JPanel {
 	}
 
 	/**
-	 * Method ladeStueckpreis. Lädt von dem ausgewähltem Artikel den Stückpreis aus der Datenbank.
+	 * Method ladeStueckpreis. Lädt von dem ausgewähltem Article den Stückpreis aus der Datenbank.
 	 */
 	private void ladeStueckpreis() {
 
@@ -1169,7 +1169,7 @@ public class JPanelNewContract extends JPanel {
 		String listItem = String.valueOf(jComboBoxArtikel.getSelectedIndex());
 
 		//sucht das ausgewählte ArtikelObjekt in Hashtabelle artikelObjekt
-		Artikel auswahlArtikel = (Artikel) artikelObjekt.get(listItem);
+		Article auswahlArtikel = (Article) artikelObjekt.get(listItem);
 
 		if (auswahlArtikel != null) {
 			//Gibt aus dem vorher ausgewähltem und dann gespeichertem Artikelobjekt den Stückpreis aus
@@ -1213,7 +1213,7 @@ public class JPanelNewContract extends JPanel {
 		}
 
 		if (jComboBoxArtikel.getSelectedIndex() == 0) {
-			pflichtfelder.add("Artikel");
+			pflichtfelder.add("Article");
 		}
 
 		if (jTextFieldNeuerVertragAbnahmemenge.getText().equals("")) {
@@ -1326,7 +1326,7 @@ public class JPanelNewContract extends JPanel {
 		}
 		java.sql.Date lieferDateSQL = new java.sql.Date(lieferDatum.getTimeInMillis());
 
-		// Id's in Auftragsrechnung und in Auftrag zählen
+		// Id's in ContractAccount und in Auftrag zählen
 
 		Collection vertraege = null;
 		Collection atrechnungen = null;
@@ -1340,7 +1340,7 @@ public class JPanelNewContract extends JPanel {
 		if (vertraege != null) {
 			Iterator it = vertraege.iterator();
 			while (it.hasNext()) {
-				Vertrag testVertrag = (Vertrag) it.next();
+				Contract testVertrag = (Contract) it.next();
 				i++;
 			}
 		}
@@ -1354,7 +1354,7 @@ public class JPanelNewContract extends JPanel {
 		if (atrechnungen != null) {
 			Iterator it = atrechnungen.iterator();
 			while (it.hasNext()) {
-				Auftragsrechnung testAtr = (Auftragsrechnung) it.next();
+				ContractAccount testAtr = (ContractAccount) it.next();
 				j++;
 			}
 		}
@@ -1362,17 +1362,17 @@ public class JPanelNewContract extends JPanel {
 		//liefert listItem des selektierten Eintrags aus der ComboBox vom Kunden
 		String listItem1 = String.valueOf(jComboBoxKunde.getSelectedIndex());
 		//sucht das ausgewählte KundenObjekt in Hashtabelle kundeObjekt
-		Kunde auswahlKunde = (Kunde) kundeObjekt.get(listItem1);
+		Customer auswahlKunde = (Customer) kundeObjekt.get(listItem1);
 		int kdId = auswahlKunde.getId();
 
-		//liefert listItem des selektierten Eintrags aus der ComboBox vom Artikel
+		//liefert listItem des selektierten Eintrags aus der ComboBox vom Article
 		String listItem2 = String.valueOf(jComboBoxArtikel.getSelectedIndex());
 		//sucht das ausgewählte Artikelobjekt in Hashtabelle artikelObjekt
-		Artikel auswahlArtikel = (Artikel) artikelObjekt.get(listItem2);
+		Article auswahlArtikel = (Article) artikelObjekt.get(listItem2);
 		int artId = auswahlArtikel.getNr();
 		boolean zleingang = false;
 
-		Auftragsrechnung atr = new Auftragsrechnung();
+		ContractAccount atr = new ContractAccount();
 		// Auftragsrechnungsdaten vorbereiten
 		atr.setNr(j + 1);
 		try {
@@ -1392,7 +1392,7 @@ public class JPanelNewContract extends JPanel {
 			wiSimLogger.log("speicherVertrag()", e);
 		}
 
-		Vertrag vertrag = new Vertrag();
+		Contract vertrag = new Contract();
 		// Vertragsdaten vorbereiten
 		vertrag.setVertragsId(i + 1);
 		vertrag.setKundenId(kdId);
@@ -1411,7 +1411,7 @@ public class JPanelNewContract extends JPanel {
 			wiSimLogger.log("speicherVertrag()", e);
 		}
 
-		AuftragsPosition atp = new AuftragsPosition();
+		OrderItem atp = new OrderItem();
 		//AuftragsPositionsdaten vorbereiten
 		atp.setAtNr(i + 1);
 		atp.setArtNr(artId);

@@ -407,7 +407,7 @@ public class JPanelNewCustomer extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "Das folgende Feld muss ausgefüllt werden: "
                 + check.toString().substring(1,check.toString().length()-1), "Fehler beim Anlegen des neuen Kunden", JOptionPane.ERROR_MESSAGE);
         } else {
-            Kunde kunde = new Kunde();
+            Customer kunde = new Customer();
             kunde.setNachname(jTextFieldNeuerKundeNachname.getText());
             kunde.setVorname(jTextFieldNeuerKundeVorname.getText());
             kunde.setFirma(jTextFieldNeuerKundeFirma.getText());
@@ -419,7 +419,7 @@ public class JPanelNewCustomer extends javax.swing.JPanel {
             kunde.setOrt(jTextFieldNeuerKundeOrt.getText());
             kunde.setKundentyp(jComboBoxNeuerKundeKundentyp.getSelectedItem().toString());
             
-            Ort ort = new Ort();
+            City ort = new City();
             ort.setName(kunde.getOrt());
             ort.setPlz(kunde.getPlz());
             
@@ -431,7 +431,7 @@ public class JPanelNewCustomer extends javax.swing.JPanel {
                 
                 if (!jTextAreaNeuerKundeNotiz.getText().equals("")) {
                     // Notiz wird erzeugt mit der Id des Kunden als Fremdschlüssel
-                    Notiz notiz = new Notiz();
+                    Memo notiz = new Memo();
                     notiz.setText(jTextAreaNeuerKundeNotiz.getText());
                     notiz.setDate(new java.sql.Date(wiSimMainController.getActDate().getTime()));
                     notiz.setKundenNr(kunde.getId());

@@ -35,9 +35,9 @@ import java.util.logging.Level;
 import net.sourceforge.wisim.dao.WiSimDAO;
 import net.sourceforge.wisim.dao.WiSimDAOException;
 import net.sourceforge.wisim.dao.WiSimDAOWriteException;
-import net.sourceforge.wisim.model.Arbeitsplatz;
-import net.sourceforge.wisim.model.ArbeitsplatzLager;
-import net.sourceforge.wisim.model.Lagerplatz;
+import net.sourceforge.wisim.model.WorkPlace;
+import net.sourceforge.wisim.model.WorkPlaceStore;
+import net.sourceforge.wisim.model.WarehouseLocation;
 
 /** Stellt Funktionen für die Produktion zur Verfügung
  * @author Kay Patzwald
@@ -88,7 +88,7 @@ public class ProductionController
    * @param anzahl Anzahl der verbrauchten Einzelteile
    */
 	public synchronized void einzelteilVerbrauch(
-		ArbeitsplatzLager apLager,
+		WorkPlaceStore apLager,
 		int time,
 		int anzahl,
 		ProductionSimulationThread thread)
@@ -114,8 +114,8 @@ public class ProductionController
 				// nur einen Lagerplatz pro Einzelteil gibt.
 
 				Iterator it = lagerplaetze.iterator();
-				Lagerplatz lp = new Lagerplatz();
-				lp = (Lagerplatz) it.next();
+				WarehouseLocation lp = new WarehouseLocation();
+				lp = (WarehouseLocation) it.next();
 				int realMenge = 0;
 
 				while ((realMenge = dao
@@ -197,10 +197,10 @@ public class ProductionController
 
 	/** Holt Hubs von den Vorgänger-Arbeitsplätzen
    * @param thread Der aktuelle Thread
-   * @param ap Arbeitsplatz
+   * @param ap WorkPlace
    */
 	public synchronized void holeHubs(
-		Arbeitsplatz ap,
+		WorkPlace ap,
 		ProductionSimulationThread thread)
 	{
 		Collection apLagerVorgaenger = (Collection) new Vector();
@@ -224,7 +224,7 @@ public class ProductionController
 		Iterator it = apLagerVorgaenger.iterator();
 		while (it.hasNext())
 		{
-			ArbeitsplatzLager apLager = (ArbeitsplatzLager) it.next();
+			WorkPlaceStore apLager = (WorkPlaceStore) it.next();
 			if (apLager.getBestand() == 0)
 			{
 				isLeer = true;
@@ -270,7 +270,7 @@ public class ProductionController
 			it = apLagerVorgaenger.iterator();
 			while (it.hasNext())
 			{
-				ArbeitsplatzLager apLager = (ArbeitsplatzLager) it.next();
+				WorkPlaceStore apLager = (WorkPlaceStore) it.next();
 				if (apLager.getBestand() == 0)
 				{
 					isLeer = true;
@@ -281,12 +281,12 @@ public class ProductionController
 		// Vorgänger fertig
 		it = null;
 		it = apLagerVorgaenger.iterator();
-		ArbeitsplatzLager apl = (ArbeitsplatzLager) it.next();
+		WorkPlaceStore apl = (WorkPlaceStore) it.next();
 		int minBestand = apl.getBestand();
 
 		while (it.hasNext())
 		{
-			apl = (ArbeitsplatzLager) it.next();
+			apl = (WorkPlaceStore) it.next();
 			if (apl.getBestand() < minBestand)
 			{
 				minBestand = apl.getBestand();
@@ -341,13 +341,13 @@ public class ProductionController
 
 	/** Testet, ob das Ausgangslager leer ist.
    * @param thread Der aktuelle Thread
-   * @param ap Arbeitsplatz
+   * @param ap WorkPlace
    */
 	public synchronized void hubAbgeholt(
-		Arbeitsplatz ap,
+		WorkPlace ap,
 		ProductionSimulationThread thread)
 	{
-		ArbeitsplatzLager apLager = null;
+		WorkPlaceStore apLager = null;
 		try
 		{
 			apLager = dao.getArbeitsplatzLager(ap.getNr(), HUB, "Ausgang");
@@ -392,20 +392,20 @@ public class ProductionController
 
 	/** Simuliert, wie fertige Teilhubs in den Ausgang gelegt werden
    * @param thread Der aktuelle Thread
-   * @param ap Arbeitsplatz
+   * @param ap WorkPlace
    * @param time Die aktuelle Zeit
    */
 	public synchronized void hubFertig(
-		Arbeitsplatz ap,
+		WorkPlace ap,
 		int time,
 		ProductionSimulationThread thread)
 	{
 		try
 		{
 
-			ArbeitsplatzLager aplAusgang =
+			WorkPlaceStore aplAusgang =
 				dao.getArbeitsplatzLager(ap.getNr(), HUB, "Ausgang");
-			ArbeitsplatzLager aplEingang =
+			WorkPlaceStore aplEingang =
 				dao.getArbeitsplatzLager(ap.getNr(), HUB, "Eingang");
 
 			int kapazitaetAusgang =
@@ -439,7 +439,7 @@ public class ProductionController
 				while (it.hasNext())
 				{
 					this.einzelteilVerbrauch(
-						(ArbeitsplatzLager) it.next(),
+						(WorkPlaceStore) it.next(),
 						time,
 						anzahlHubs,
 						thread);
@@ -475,7 +475,7 @@ public class ProductionController
 				while (it.hasNext())
 				{
 					this.einzelteilVerbrauch(
-						(ArbeitsplatzLager) it.next(),
+						(WorkPlaceStore) it.next(),
 						time,
 						anzahlHubsOhneVorgaenger,
 						thread);
@@ -501,15 +501,15 @@ public class ProductionController
 
 	/** Simuliert wie fertige Hubs ins Lager gelegt werden
    * @param name Name des Thread
-   * @param ap Arbeitsplatz
+   * @param ap WorkPlace
    */
-	public synchronized void hubKomplett(String name, Arbeitsplatz ap)
+	public synchronized void hubKomplett(String name, WorkPlace ap)
 	{
 		try
 		{
 			try
 			{
-				ArbeitsplatzLager apl =
+				WorkPlaceStore apl =
 					dao.getArbeitsplatzLager(ap.getNr(), HUB, "Ausgang");
 
 				boolean status =
@@ -537,15 +537,15 @@ public class ProductionController
 
   /** Füllt das Eingangslager auf, wenn das Ausgangslager voll ist.
    * @param name Der Name des Thread
-   * @param ap Arbeitsplatz
+   * @param ap WorkPlace
    */  
 	public synchronized void fuelleEingangslagerAuf(
 		String name,
-		Arbeitsplatz ap)
+		WorkPlace ap)
 	{
 		try
 		{
-			ArbeitsplatzLager eingangsLager =
+			WorkPlaceStore eingangsLager =
 				dao.getArbeitsplatzLager(ap.getNr(), HUB, "Eingang");
 			if (eingangsLager.getBestand() < eingangsLager.getMaxBestand())
 			{
@@ -562,7 +562,7 @@ public class ProductionController
 				Iterator it = apLagerVorgaenger.iterator();
 				while (it.hasNext())
 				{
-					ArbeitsplatzLager apLager = (ArbeitsplatzLager) it.next();
+					WorkPlaceStore apLager = (WorkPlaceStore) it.next();
 					if (apLager.getBestand() == 0)
 					{
 						isLeer = true;
@@ -572,12 +572,12 @@ public class ProductionController
 				{
 					it = null;
 					it = apLagerVorgaenger.iterator();
-					ArbeitsplatzLager apl = (ArbeitsplatzLager) it.next();
+					WorkPlaceStore apl = (WorkPlaceStore) it.next();
 					int minBestand = apl.getBestand();
 
 					while (it.hasNext())
 					{
-						apl = (ArbeitsplatzLager) it.next();
+						apl = (WorkPlaceStore) it.next();
 						if (apl.getBestand() < minBestand)
 						{
 							minBestand = apl.getBestand();

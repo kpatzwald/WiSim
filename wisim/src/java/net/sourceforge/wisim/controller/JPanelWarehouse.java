@@ -38,7 +38,7 @@ import java.awt.image.*;
 import javax.swing.*;
 
 /** Gibt eine Übersicht des Lager aus. Bestände und Kapazitäten werden ebenfalls
- * ausgegeben. Jeder Lagerplatz kann einzelnd eingesehen werden.
+ * ausgegeben. Jeder WarehouseLocation kann einzelnd eingesehen werden.
  * @author Benjamin Pasero
  */
 public class JPanelWarehouse extends javax.swing.JPanel {
@@ -204,7 +204,7 @@ public class JPanelWarehouse extends javax.swing.JPanel {
 
         jLabelArtikel.setFont(new java.awt.Font("Dialog", 1, 14));
         jLabelArtikel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabelArtikel.setText("Artikel");
+        jLabelArtikel.setText("Article");
         jPanelLagerplatzAnsicht.add(jLabelArtikel);
         jLabelArtikel.setBounds(30, 70, 60, 20);
 
@@ -437,7 +437,7 @@ public class JPanelWarehouse extends javax.swing.JPanel {
         
         Iterator art_it = artikelListe.iterator();
         while (art_it.hasNext()) {
-            EinzelteilLagerElement artikel = (EinzelteilLagerElement) art_it.next();
+            ComponentWarehouseItem artikel = (ComponentWarehouseItem) art_it.next();
             jTableGesamtliste.setValueAt(artikel.getEinzelteilName(), i, 0);
             jTableGesamtliste.setValueAt(String.valueOf(artikel.getBestand()), i, 1);
             jTableGesamtliste.setValueAt(String.valueOf(artikel.getMinBestand()), i, 2);
@@ -475,7 +475,7 @@ public class JPanelWarehouse extends javax.swing.JPanel {
         
         Iterator et_it = einzelteileListe.iterator();
         while (et_it.hasNext()) {
-            EinzelteilLagerElement einzelteil = (EinzelteilLagerElement) et_it.next();
+            ComponentWarehouseItem einzelteil = (ComponentWarehouseItem) et_it.next();
             jTableGesamtliste.setValueAt(einzelteil.getEinzelteilName(), i, 0);
             jTableGesamtliste.setValueAt(String.valueOf(einzelteil.getBestand()), i, 1);
             jTableGesamtliste.setValueAt(String.valueOf(einzelteil.getMinBestand()), i, 2);
@@ -616,11 +616,11 @@ public class JPanelWarehouse extends javax.swing.JPanel {
         jLabelKapazErschöpft.setToolTipText("Es gibt keinen Lagerplatz mehr für dieses Einzelteil!");
     }
     
-    /** Zeigt die Artikel an die in dem selektierten Lagerplatz liegen */
+    /** Zeigt die Article an die in dem selektierten WarehouseLocation liegen */
     public void getArtikelImLagerplatz() {
         if (jComboBoxArtikelImLager.getSelectedItem() != null) {
             if (!jComboBoxArtikelImLager.getSelectedItem().toString().equals("leer")) {
-                EinzelteilLagerElement selectedElem = (EinzelteilLagerElement) etElems.get(jComboBoxArtikelImLager.getSelectedIndex());
+                ComponentWarehouseItem selectedElem = (ComponentWarehouseItem) etElems.get(jComboBoxArtikelImLager.getSelectedIndex());
                 jTextFieldMindestbestand.setText(String.valueOf(selectedElem.getMinBestand()));
                 jTextFieldBestand.setText(String.valueOf(selectedElem.getBestand()));
                 jTextFieldBelegung.setText(String.valueOf(selectedElem.getBestand()*100/selectedElem.getMaxBestand()));
@@ -639,7 +639,7 @@ public class JPanelWarehouse extends javax.swing.JPanel {
         }
     }
     
-    /** Zeigt Infos zu dem Artikel auf dem selektierten Lagerplatz an */
+    /** Zeigt Infos zu dem Article auf dem selektierten WarehouseLocation an */
     public void getArtikelImLagerplatzInfo() {
         
         if (!jComboBoxLagerplatz.getSelectedItem().toString().equals("Select:") && !jComboBoxLagerplatz.getSelectedItem().toString().equals(actLgPlatz)) {
@@ -661,8 +661,8 @@ public class JPanelWarehouse extends javax.swing.JPanel {
             int i = 0;
             
             while (artElems_it.hasNext()) {
-                EinzelteilLagerElement etElem = (EinzelteilLagerElement) artElems_it.next();
-                Artikel art = new Artikel();
+                ComponentWarehouseItem etElem = (ComponentWarehouseItem) artElems_it.next();
+                Article art = new Article();
                 try {
                     art = dao.getArtikel(etElem.getId());
                 } catch (WiSimDAOException e ) {
@@ -678,8 +678,8 @@ public class JPanelWarehouse extends javax.swing.JPanel {
             }
             
             while (etElems_it.hasNext()) {
-                EinzelteilLagerElement etElem = (EinzelteilLagerElement) etElems_it.next();
-                Einzelteil et = new Einzelteil();
+                ComponentWarehouseItem etElem = (ComponentWarehouseItem) etElems_it.next();
+                WiSimComponent et = new WiSimComponent();
                 try {
                     et = dao.getEinzelteil(etElem.getId());
                 } catch (WiSimDAOException e ) {
@@ -723,7 +723,7 @@ public class JPanelWarehouse extends javax.swing.JPanel {
         
         Iterator lgPlatz_it = lagerplaetze.iterator();
         while (lgPlatz_it.hasNext()) {
-            Lagerplatz lgplatz = (Lagerplatz) lgPlatz_it.next();
+            WarehouseLocation lgplatz = (WarehouseLocation) lgPlatz_it.next();
             jComboBoxLagerplatz.addItem(lgplatz.getStellplatzNr());
         }
     }
@@ -749,8 +749,8 @@ public class JPanelWarehouse extends javax.swing.JPanel {
             int i = 0;
             
             while (artElems_it.hasNext()) {
-                EinzelteilLagerElement etElem = (EinzelteilLagerElement) artElems_it.next();
-                Artikel art = new Artikel();
+                ComponentWarehouseItem etElem = (ComponentWarehouseItem) artElems_it.next();
+                Article art = new Article();
                 try {
                     art = dao.getArtikel(etElem.getId());
                 } catch (WiSimDAOException e ) {
@@ -765,8 +765,8 @@ public class JPanelWarehouse extends javax.swing.JPanel {
             }
             
             while (etElems_it.hasNext()) {
-                EinzelteilLagerElement etElem = (EinzelteilLagerElement) etElems_it.next();
-                Einzelteil et = new Einzelteil();
+                ComponentWarehouseItem etElem = (ComponentWarehouseItem) etElems_it.next();
+                WiSimComponent et = new WiSimComponent();
                 try {
                     et = dao.getEinzelteil(etElem.getId());
                 } catch (WiSimDAOException e ) {
@@ -778,7 +778,7 @@ public class JPanelWarehouse extends javax.swing.JPanel {
                 etElems.add(etElem);
             }
             
-            EinzelteilLagerElement selectedElem = (EinzelteilLagerElement) etElems.get(jComboBoxArtikelImLager.getSelectedIndex());
+            ComponentWarehouseItem selectedElem = (ComponentWarehouseItem) etElems.get(jComboBoxArtikelImLager.getSelectedIndex());
             
             //Aktualisiere nur wenn sich der Bestand geändert hat!
             if (selectedElem.getBestand() != Integer.parseInt(jTextFieldBestand.getText())) {
@@ -801,7 +801,7 @@ public class JPanelWarehouse extends javax.swing.JPanel {
         
         Iterator art_it = artikelListe.iterator();
         while (art_it.hasNext()) {
-            EinzelteilLagerElement artikel = (EinzelteilLagerElement) art_it.next();
+            ComponentWarehouseItem artikel = (ComponentWarehouseItem) art_it.next();
             
             //Aktualisiere nur wenn sich der Bestand geändert hat!
             if (artikel.getBestand() != Integer.parseInt((String) jTableGesamtliste.getValueAt(i, 1))) {
@@ -828,7 +828,7 @@ public class JPanelWarehouse extends javax.swing.JPanel {
         
         Iterator et_it = einzelteileListe.iterator();
         while (et_it.hasNext()) {
-            EinzelteilLagerElement einzelteil = (EinzelteilLagerElement) et_it.next();
+            ComponentWarehouseItem einzelteil = (ComponentWarehouseItem) et_it.next();
             
             if (einzelteil.getBestand() != Integer.parseInt((String) jTableGesamtliste.getValueAt(i, 1))) {
                 jTableGesamtliste.setValueAt(String.valueOf(einzelteil.getBestand()), i, 1);

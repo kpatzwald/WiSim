@@ -21,95 +21,94 @@
 **   This copyright notice MUST APPEAR in all copies of the file!           **
 **   ********************************************************************   */
 
+/*
+ * Notiz.java
+ *
+ * Created on 26. Februar 2003, 22:22
+ */
+
 package net.sourceforge.wisim.model;
 
-/*
- * Kunde.java
- *
- * Created on 19. Januar 2003, 11:56
+/** Klasse Memo
+ * @author Benjamin Pasero
  */
-
-/**
- *
- * @author  Kay Patzwald
- */
-public class Kunde extends Person{
-
-    private String kundentyp;
-    private String zahlungsmoral;
-    private String anspruch;
-    //private String notiz;
+public class Memo {
     
-    /** Creates a new instance of Kunde
-     * @param id
-     * @param vorname
-     * @param nachname
-     * @param firma
-     * @param strasse
-     * @param telefon
-     * @param fax
-     * @param email
-     * @param anspruch
-     * @param zahlungsmoral
-     * @param plz
-     * @param plzId
-     * @param ort
-     * @param kundentyp
+    int id;
+    int KundenNr;
+    String text;
+    java.sql.Date date;
+    
+    /** Creates a new instance of Memo
+     * @param id ID
+     * @param KundenNr Kundennummer
+     * @param text Text
+     * @param date Datum
      */
-    public Kunde(int id, String vorname, String nachname, String firma, String strasse, String telefon,
-    String fax, String email, String anspruch, String zahlungsmoral,
-    String plz, int plzId, String ort, String kundentyp) {
-
-        super(id, vorname, nachname, firma, strasse, telefon, fax, email, plz, plzId, ort);
-        this.zahlungsmoral = zahlungsmoral;
-        this.anspruch = anspruch;
-        this.kundentyp = kundentyp;
-        
+    public Memo(int id, int KundenNr, String text, java.sql.Date date) {
+        this.id = id;
+        this.KundenNr = KundenNr;
+        this.text = text;
+        this.date = date;
     }
     
-    /** Creates a new instance of Kunde */
-    public Kunde(){
+    /** Erstellt eine neue Memo */    
+    public Memo () {
     }
     
-    /**
-     * @param zahlungsmoral
+    /** Setzt die ID
+     * @param id ID
      */    
-    public void setZahlungsmoral(String zahlungsmoral) {
-        this.zahlungsmoral = zahlungsmoral;
+    public void setId(int id) {
+        this.id = id;
     }
     
-    /**
-     * @param anspruch
-     */     
-    public void setAnspruch(String anspruch) {
-        this.anspruch = anspruch;
-    }
-    
-    /**
-     * @param kundentyp
+    /** Setzt die Kundennummer
+     * @param KundenNr Kundennummer
      */    
-    public void setKundentyp(String kundentyp) {
-        this.kundentyp = kundentyp;
+    public void setKundenNr(int KundenNr) {
+        this.KundenNr = KundenNr;
     }
     
-    /**
-     * @return Zahlungsmoral
+    /** Setzt den Text
+     * @param text Text
      */    
-    public String getZahlungsmoral() {
-        return zahlungsmoral;
-    }
-
-    /** Anspruch
-     * @return Anspruch
-     */     
-    public String getAnspruch() {
-        return anspruch;
+    public void setText(String text) {
+        this.text = text;
     }
     
-    /** Kundentyp
-     * @return Kundentyp
+    /** Setzt das Datum
+     * @param date Datum
      */    
-    public String getKundentyp() {
-        return kundentyp;
+    public void setDate(java.sql.Date date) {
+        this.date = date;
     }
+    
+    /** Liefert die ID
+     * @return int
+     */    
+    public int getId() {
+        return id;
+    }
+    
+    /** Liefert die Kundennummer
+     * @return int
+     */    
+    public int getKundenNr() {
+        return KundenNr;
+    }
+    
+    /** Liefert den Text
+     * @return String
+     */    
+    public String getText() {
+        return text;
+    }
+    
+    /** Liefert das Datum
+     * @return java.sql.Date
+     */    
+    public java.sql.Date getDate() {
+        return date;
+    }  
 }

@@ -29,8 +29,8 @@
 
 package net.sourceforge.wisim.controller;
 
-/** Solange dieser Thread läuft aktualisiert er die Lagerplatz-Listen. Dazu gehört
- * das JPane Lager und Arbeitsplatz. Es wird außerdem die Einzelteilauftrags-Übersicht
+/** Solange dieser Thread läuft aktualisiert er die WarehouseLocation-Listen. Dazu gehört
+ * das JPane Lager und WorkPlace. Es wird außerdem die Einzelteilauftrags-Übersicht
  * aktualisiert.
  * @author benjamin.pasero
  */

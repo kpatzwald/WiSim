@@ -22,107 +22,66 @@
 **   ********************************************************************   */
 
 /*
- * Lagerplatz.java
+ * Article.java
  *
- * Created on 15. März 2003, 18:45
+ * Created on 4. März 2003, 23:12
  */
 
 package net.sourceforge.wisim.model;
 
 /**
  *
- * @author  Ben
+ * @author  Denise Freitag
  */
-public class Lagerplatz {
+
+public class Article {
     
-    private String stellplatzNr;
-    private int einzelteilNr;
-    private int bestand;
-    private int maxBestand;
+    private int nr;
+    private String name;
+    private float stueckpreis;
+    private int mindestbestand;
     
-    /** Creates a new instance of Lagerplatz
-     * @param stellplatzNr
-     */
-    public Lagerplatz(String stellplatzNr) {
-        this.stellplatzNr = stellplatzNr;
-    }
-		
-		/** Creates a new instance of Lagerplatz*/
-    public Lagerplatz()
-    {
+    /** Creates a new instance of Article */
+    public Article() {
     }
     
-		/** Creates a new instance of Lagerplatz*/
-		public Lagerplatz(String stellplatzNr, int einzelteilNr, int bestand, int maxBestand)
-		{
-			this.stellplatzNr = stellplatzNr;
-			this.einzelteilNr = einzelteilNr;
-			this.bestand = bestand;
-			this.maxBestand = maxBestand;
-		}
+    /** Creates a new instance of Einzelteile */
+    public Article(int nr, String name, float stueckpreis, int mindestbestand){
+        this.nr = nr;
+        this.name = name;
+        this.stueckpreis = stueckpreis;
+        this.mindestbestand = mindestbestand;    
+    }
+    
+  public int getNr(){
+    return nr;
+  }
   
-    /**
-     * @param stellplatzNr
-     */    
-    public void setStellplatzNr(String stellplatzNr) {
-        this.stellplatzNr = stellplatzNr;
-    }
+  public String getName(){
+    return name;
+  }
+  
+  public float getStueckpreis(){
+    return stueckpreis;
+  }
+  
+  public int getMindestbestand(){
+    return mindestbestand;
+  }
+  
+  public void setNr(int nr){
+    this.nr = nr;
+  }
     
-    /**
-     * @return Stellplatz
-     */    
-    public String getStellplatzNr() {
-        return stellplatzNr;
-    } 
-	/**
-	 * @return int
-	 */
-	public int getBestand()
-	{
-		return bestand;
-	}
-
-	/**
-	 * @return int
-	 */
-	public int getEinzelteilNr()
-	{
-		return einzelteilNr;
-	}
-
-	/**
-	 * @return int
-	 */
-	public int getMaxBestand()
-	{
-		return maxBestand;
-	}
-
-	/**
-	 * Sets the bestand.
-	 * @param bestand The bestand to set
-	 */
-	public void setBestand(int bestand)
-	{
-		this.bestand = bestand;
-	}
-
-	/**
-	 * Sets the einzelteilNr.
-	 * @param einzelteilNr The einzelteilNr to set
-	 */
-	public void setEinzelteilNr(int einzelteilNr)
-	{
-		this.einzelteilNr = einzelteilNr;
-	}
-
-	/**
-	 * Sets the maxBestand.
-	 * @param maxBestand The maxBestand to set
-	 */
-	public void setMaxBestand(int maxBestand)
-	{
-		this.maxBestand = maxBestand;
-	}
-
+  public void setName(String name){
+    this.name = name;
+  }
+  
+  public void setStueckpreis(float stueckpreis){
+      this.stueckpreis = stueckpreis;
+  }
+    
+  public void setMindestbestand(int mindestbestand){
+    this.mindestbestand = mindestbestand;
+  }
 }

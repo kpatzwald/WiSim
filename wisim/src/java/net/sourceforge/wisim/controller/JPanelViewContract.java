@@ -225,8 +225,8 @@ public class JPanelViewContract extends javax.swing.JPanel {
         jPanelVertraegeEinsehenDetails.setBorder(new javax.swing.border.TitledBorder("Details zum ausgew\u00e4hlten Vertrag"));
         jPanel2.setLayout(null);
 
-        jPanel2.setBorder(new javax.swing.border.TitledBorder(null, "Angaben zum Artikel", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 10)));
-        jLabelArtikel.setText("Artikel :");
+        jPanel2.setBorder(new javax.swing.border.TitledBorder(null, "Angaben zum Article", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 10)));
+        jLabelArtikel.setText("Article :");
         jPanel2.add(jLabelArtikel);
         jLabelArtikel.setBounds(10, 30, 50, 16);
 
@@ -591,8 +591,8 @@ public class JPanelViewContract extends javax.swing.JPanel {
 
 	/**
 	 * Method pruefeAuftragsdatum. Auftragsdatum == Vertragsdatum.
-	 * Prüft, ob für das ausgewählte Auftragsdatum ein Vertrag besteht.
-	 * Vertrag == Auftrag.
+	 * Prüft, ob für das ausgewählte Auftragsdatum ein Contract besteht.
+	 * Contract == Auftrag.
 	 */
 	public void pruefeAuftragsdatum() {
 
@@ -636,7 +636,7 @@ public class JPanelViewContract extends javax.swing.JPanel {
 			if (vertraege != null) {
 				Iterator it = vertraege.iterator();
 				while (it.hasNext()) {
-					Vertrag vertrag = (Vertrag) it.next();
+					Contract vertrag = (Contract) it.next();
 					//Schreibt die Objekte von Vertrag in eine Hashtable, die aDatum entsprechen
 					if (vertrag.getVertragsdatum().equals(auftragDateSQL)) {
 						rows++;
@@ -681,7 +681,7 @@ public class JPanelViewContract extends javax.swing.JPanel {
 			Iterator it = vertragList.iterator();
 
 			while (it.hasNext()) {
-				Vertrag vertrag = (Vertrag) it.next();
+				Contract vertrag = (Contract) it.next();
 
 				if (vertrag.getVertragsdatum().equals(auftragDateSQL)) {
 					rows++;
@@ -691,14 +691,14 @@ public class JPanelViewContract extends javax.swing.JPanel {
 
 			if (rows > 0) {
 
-				Kunde kunde = null;
+				Customer kunde = null;
 				int j = 0;
 				setVertragsTabelle1();
 
 				for (int n = 1; n <= rows; n++) {
 
-					Vertrag auftrag1 =
-						(Vertrag) auftragObjekt1.get((String.valueOf(n)));
+					Contract auftrag1 =
+						(Contract) auftragObjekt1.get((String.valueOf(n)));
 
 					if (auftrag1 != null) {
 
@@ -820,7 +820,7 @@ public class JPanelViewContract extends javax.swing.JPanel {
 					jComboBoxVertraegeEinsehenKunde.getSelectedIndex());
 
 			//sucht das ausgewählte KundenObjekt in Hashtabelle kundeObjekt
-			Kunde auswahlKunde = (Kunde) kundeObjekt.get(listItem);
+			Customer auswahlKunde = (Customer) kundeObjekt.get(listItem);
 
 			if (auswahlKunde != null) {
 				kdId = auswahlKunde.getId();
@@ -838,7 +838,7 @@ public class JPanelViewContract extends javax.swing.JPanel {
 				Iterator it = vertragList.iterator();
 
 				while (it.hasNext()) {
-					Vertrag vertrag = (Vertrag) it.next();
+					Contract vertrag = (Contract) it.next();
 
 					if (vertrag.getKundenId() == kdId) {
 						rows++;
@@ -848,14 +848,14 @@ public class JPanelViewContract extends javax.swing.JPanel {
 
 				if (rows > 0) {
 
-					Vertrag auftrag = null;
+					Contract auftrag = null;
 					setVertragsTabelle2();
 					int j = 0;
 
 					for (int n = 1; n <= rows; n++) {
 
-						Vertrag auftrag2 =
-							(Vertrag) auftragObjekt2.get(String.valueOf(n));
+						Contract auftrag2 =
+							(Contract) auftragObjekt2.get(String.valueOf(n));
 
 						if (auftrag2 != null) {
 							jTableVertraegeEinsehenVertraege.setValueAt(
@@ -1025,7 +1025,7 @@ public class JPanelViewContract extends javax.swing.JPanel {
 		if (kunden != null) {
 			Iterator it = kunden.iterator();
 			while (it.hasNext()) {
-				Kunde kunde = (Kunde) it.next();
+				Customer kunde = (Customer) it.next();
 				//Merken des Nachnamen und Vornamen, um diese in die ComboBox einzutragen
 				String merkeName =
 					String.valueOf(kunde.getVorname()).concat(" ");
@@ -1040,7 +1040,7 @@ public class JPanelViewContract extends javax.swing.JPanel {
 	}
 
 	/**
-	 * Method getVertragsdaten. Lädt die Daten für einen ausgewählten Vertrag aus der Datenbank.
+	 * Method getVertragsdaten. Lädt die Daten für einen ausgewählten Contract aus der Datenbank.
 	 * Zwischensummen werden berechnet.
 	 */
 	public void getVertragsdaten() {
@@ -1051,13 +1051,13 @@ public class JPanelViewContract extends javax.swing.JPanel {
 		if (selectedAuftrag1 == 1) {
 			selectedAuftrag2 = 0;
 			leereFelder();
-			Vertrag auftrag1 =
-				(Vertrag) auftragObjekt1.get(String.valueOf(merkeNr + 1));
-			Kunde kunde = null;
-			Artikel artikel = null;
+			Contract auftrag1 =
+				(Contract) auftragObjekt1.get(String.valueOf(merkeNr + 1));
+			Customer kunde = null;
+			Article artikel = null;
 			Collection vertragList = null;
-			AuftragsPosition atp = null;
-			Auftragsrechnung atr = null;
+			OrderItem atp = null;
+			ContractAccount atr = null;
 			int i = 0;
 
 			try {
@@ -1075,7 +1075,7 @@ public class JPanelViewContract extends javax.swing.JPanel {
 			if (vertragList != null) {
 				Iterator it = vertragList.iterator();
 				while (it.hasNext()) {
-					Vertrag vertrag = (Vertrag) it.next();
+					Contract vertrag = (Contract) it.next();
 
 					if (vertrag.getKundenId() == auftrag1.getKundenId()) {
 						i++;
@@ -1166,13 +1166,13 @@ public class JPanelViewContract extends javax.swing.JPanel {
 		if (selectedAuftrag2 == 1) {
 			selectedAuftrag1 = 0;
 			leereFelder();
-			Vertrag auftrag2 =
-				(Vertrag) auftragObjekt2.get(String.valueOf(merkeNr + 1));
-			Kunde kunde = null;
-			Artikel artikel = null;
+			Contract auftrag2 =
+				(Contract) auftragObjekt2.get(String.valueOf(merkeNr + 1));
+			Customer kunde = null;
+			Article artikel = null;
 			Collection vertragList = null;
-			AuftragsPosition atp = null;
-			Auftragsrechnung atr = null;
+			OrderItem atp = null;
+			ContractAccount atr = null;
 			int i = 0;
 
 			try {
@@ -1190,7 +1190,7 @@ public class JPanelViewContract extends javax.swing.JPanel {
 			if (vertragList != null) {
 				Iterator it = vertragList.iterator();
 				while (it.hasNext()) {
-					Vertrag vertrag = (Vertrag) it.next();
+					Contract vertrag = (Contract) it.next();
 
 					if (vertrag.getKundenId() == auftrag2.getKundenId()) {
 						i++;

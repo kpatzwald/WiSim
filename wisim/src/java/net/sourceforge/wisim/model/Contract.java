@@ -35,7 +35,7 @@ import java.util.Collection;
  *
  * @author  Denise Freitag
  */
-public class Vertrag {
+public class Contract {
     
     private int nr; //Vertrags ID
     java.sql.Date lieferdatum;
@@ -47,11 +47,11 @@ public class Vertrag {
     private int atr_nr;//Auftrags-Rechnungs-ID
     Collection AuftragPositionen;
     
-    /** Creates a new instance of Vertrag */
-    public Vertrag() {
+    /** Creates a new instance of Contract */
+    public Contract() {
     }
     
-    /** Creates a new instance of Vertrag 
+    /** Creates a new instance of Contract 
      * @param AuftragPositionen
      * @param Nr ID
      * @param KundenNr Referenz auf den Kunden
@@ -62,7 +62,7 @@ public class Vertrag {
      * @param Auftragsdatum
      * @param Skonto 
      */
-    public Vertrag(int nr, java.sql.Date lieferdatum, double skonto, long skontofrist, double rabatt, java.sql.Date vertragsdatum, int kd_nr, int atr_nr, Collection AuftragPositionen){
+    public Contract(int nr, java.sql.Date lieferdatum, double skonto, long skontofrist, double rabatt, java.sql.Date vertragsdatum, int kd_nr, int atr_nr, Collection AuftragPositionen){
         this.nr = nr;
         this.lieferdatum = lieferdatum;
         this.skonto = skonto;
@@ -131,7 +131,7 @@ public class Vertrag {
     }
     
     /** Liste der einzelnen Positionen aus dem Auftrag
-     * @return Collection mit Objekten des Typs AuftragsPosition
+     * @return Collection mit Objekten des Typs OrderItem
      */
     public Collection getAuftragPositionen() {
         return AuftragPositionen;

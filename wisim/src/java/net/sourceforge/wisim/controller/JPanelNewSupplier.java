@@ -35,7 +35,7 @@ import javax.swing.*;
 
 import java.util.*;
 
-/** Das Panel Neuer Lieferant
+/** Das Panel Neuer Supplier
  * @author Kay Patzwald
  */
 public class JPanelNewSupplier extends javax.swing.JPanel {
@@ -119,7 +119,7 @@ public class JPanelNewSupplier extends javax.swing.JPanel {
 
         jLabelUeberschriftArtikelBearbeiten.setFont(new java.awt.Font("Dialog", 1, 16));
         jLabelUeberschriftArtikelBearbeiten.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabelUeberschriftArtikelBearbeiten.setText("Artikel bearbeiten");
+        jLabelUeberschriftArtikelBearbeiten.setText("Article bearbeiten");
         add(jLabelUeberschriftArtikelBearbeiten);
         jLabelUeberschriftArtikelBearbeiten.setBounds(0, 260, 800, 21);
 
@@ -138,7 +138,7 @@ public class JPanelNewSupplier extends javax.swing.JPanel {
         jLabelNeuerLieferantArtikel.setFont(new java.awt.Font("Dialog", 1, 14));
         jLabelNeuerLieferantArtikel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabelNeuerLieferantArtikel.setLabelFor(jComboBoxNeuerLieferantArtikel);
-        jLabelNeuerLieferantArtikel.setText("Artikel");
+        jLabelNeuerLieferantArtikel.setText("Article");
         add(jLabelNeuerLieferantArtikel);
         jLabelNeuerLieferantArtikel.setBounds(20, 300, 120, 20);
 
@@ -552,7 +552,7 @@ public class JPanelNewSupplier extends javax.swing.JPanel {
     String zuverlaessigkeit = jComboBoxNeuerLieferantZuverlaessigkeit.getSelectedItem().toString();
     String lieferqualitaet = jComboBoxNeuerLieferantLieferqualitaet.getSelectedItem().toString();
     
-    Lieferant lieferant = new Lieferant(1, firma, name, vorname, telefon, fax, strasse, ort, plz, 0, eMail, zuverlaessigkeit, lieferqualitaet);
+    Supplier lieferant = new Supplier(1, firma, name, vorname, telefon, fax, strasse, ort, plz, 0, eMail, zuverlaessigkeit, lieferqualitaet);
     int lieferantenID = 0;
     try {
       try {
@@ -569,7 +569,7 @@ public class JPanelNewSupplier extends javax.swing.JPanel {
     {
       for (int i = 0; i < model.getSize(); i++)
       {
-        Einzelteil teil = null;
+        WiSimComponent teil = null;
         try
         {
           teil = dao.getEinzelteil(Integer.parseInt(einzelteileTabelle.get(model.getElementAt(i).toString()).toString()));
@@ -579,7 +579,7 @@ public class JPanelNewSupplier extends javax.swing.JPanel {
         }
         
         String[] eingabe = (String[]) artikel.get(model.getElementAt(i).toString());
-        Lieferliste liste = new Lieferliste();
+        SupplyList liste = new SupplyList();
         liste.setLieferantenID(lieferantenID);
         liste.setEinzelteilID(teil.getNr());
         liste.setPreis(Double.parseDouble(eingabe[0]));
@@ -677,7 +677,7 @@ public class JPanelNewSupplier extends javax.swing.JPanel {
     if (teile != null) {
       Iterator it = teile.iterator();
       while (it.hasNext()) {
-        Einzelteil teil = (Einzelteil) it.next();
+        WiSimComponent teil = (WiSimComponent) it.next();
         if (teil.getNr() != HUB)
         	model.addElement(teil.getName());
         einzelteileTabelle.put(teil.getName(), String.valueOf(teil.getNr()));
@@ -686,7 +686,7 @@ public class JPanelNewSupplier extends javax.swing.JPanel {
     }
   }
   
-  /* Nimmt einen Artikel in die Liste auf
+  /* Nimmt einen Article in die Liste auf
    * @author Kay Patzwald
    */
   private void artikelHinzufuegen() {
@@ -698,7 +698,7 @@ public class JPanelNewSupplier extends javax.swing.JPanel {
     if (artikel.containsKey(jComboBoxNeuerLieferantArtikel.getSelectedItem().toString())) {
       JOptionPane errorPane = new JOptionPane();
       errorPane.setMessageType(JOptionPane.WARNING_MESSAGE);
-      int i = JOptionPane.showConfirmDialog(this, "Dieser Artikel ist bereits in der Liste. Wollen Sie ihn überschreiben?", "Fehler beim Hinzufügen des Artikels", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+      int i = JOptionPane.showConfirmDialog(this, "Dieser Article ist bereits in der Liste. Wollen Sie ihn überschreiben?", "Fehler beim Hinzufügen des Artikels", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
       
       if (i == 0) {
         ueberschreiben = true;
@@ -722,7 +722,7 @@ public class JPanelNewSupplier extends javax.swing.JPanel {
     }
   }
   
-  /* Löscht die ausgewählten Artikel
+  /* Löscht die ausgewählten Article
    * @author Kay Patzwald
    */
   private void loescheArtikel() {
@@ -735,7 +735,7 @@ public class JPanelNewSupplier extends javax.swing.JPanel {
     jListNeuerLieferantArtikel.setModel(model);
   }
   
-  /* Lädt den ausgewählten Artikel ins Formular. Wenn mehrere ausgewählt worden sind
+  /* Lädt den ausgewählten Article ins Formular. Wenn mehrere ausgewählt worden sind
    * wird der erste ins Formular geladen.
    * @author Kay Patzwald
    */

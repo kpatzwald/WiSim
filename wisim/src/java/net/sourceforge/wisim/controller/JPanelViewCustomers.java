@@ -362,7 +362,7 @@ public class JPanelViewCustomers extends javax.swing.JPanel {
                     }
                 }
                 
-                Kunde liste = (Kunde) it_kunden.next();
+                Customer liste = (Customer) it_kunden.next();
                 kundenObjekte.put((String.valueOf(positionen)),liste);
                 kundenAuswahl.put((String.valueOf(positionen)),String.valueOf(liste.getId()));
                 jTableKunden.setValueAt(liste.getNachname(), positionen, 0);
@@ -378,7 +378,7 @@ public class JPanelViewCustomers extends javax.swing.JPanel {
         
         //liefert listItem des selektierten Eintrags
         String listItem = String.valueOf(jTableKunden.getSelectedRow());
-        Kunde lkunde = (Kunde)kundenObjekte.get(listItem);
+        Customer lkunde = (Customer)kundenObjekte.get(listItem);
         
         jTextFieldKundenUebersichtNachname.setText(lkunde.getNachname());
         jTextFieldKundenUebersichtVorname.setText(lkunde.getVorname());
@@ -459,9 +459,9 @@ public class JPanelViewCustomers extends javax.swing.JPanel {
             verlauf.clear();
             verlauf = (Vector)dao.getNotizen(KdNr);
             Iterator it = verlauf.iterator();
-            Notiz einzelnotiz = new Notiz();
+            Memo einzelnotiz = new Memo();
             while (it.hasNext()) {
-                einzelnotiz = (Notiz)it.next();
+                einzelnotiz = (Memo)it.next();
                 mymodel.addElement(einzelnotiz.getDate()+": "+einzelnotiz.getText());
             }
             //Eintragen der Bemerkungen in Verlauf Tab
@@ -478,7 +478,7 @@ public class JPanelViewCustomers extends javax.swing.JPanel {
      */
     private void ladeNotizen(int noteNr){
         try {
-            Notiz n = dao.getNotiz(noteNr);
+            Memo n = dao.getNotiz(noteNr);
             if (n != null){
                 jTextAreaKundenUebersichtBemerkung.setText(n.getDate()+": "+n.getText());
             }else{
@@ -494,8 +494,8 @@ public class JPanelViewCustomers extends javax.swing.JPanel {
      */
     private void showNotiz(int noteNr){
         if (verlauf.size() > 0) {
-            Notiz aktuell = new Notiz();
-            aktuell = (Notiz)verlauf.elementAt(noteNr);
+            Memo aktuell = new Memo();
+            aktuell = (Memo)verlauf.elementAt(noteNr);
             jTextAreaKundenUebersichtBemerkung.setText(aktuell.getDate() + ": " + aktuell.getText());
         } else {
             jTextAreaKundenUebersichtBemerkung.setText("");

@@ -29,7 +29,7 @@
 
 package net.sourceforge.wisim.model;
 
-/** Person: Erben sind Kunde und Lieferant
+/** Person: Erben sind Customer und Supplier
  * @author Benjamin Pasero
  */
 public class Person {
@@ -74,7 +74,7 @@ public class Person {
         this.ort = ort;
     }
     
-    /** Creates a new instance of Kunde */
+    /** Creates a new instance of Customer */
     public Person(){
     }
     
@@ -212,7 +212,7 @@ public class Person {
     }
     
     /**
-     * @return Ort
+     * @return City
      */    
     public String getOrt() {
         return ort;

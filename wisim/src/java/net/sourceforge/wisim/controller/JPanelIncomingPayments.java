@@ -423,10 +423,10 @@ public class JPanelIncomingPayments extends javax.swing.JPanel {
         setTabelle();
         
         while (it_Vertrag.hasNext()) {
-            Vertrag vertragsliste = (Vertrag) it_Vertrag.next();
-            Auftragsrechnung Auftrag = new Auftragsrechnung();
+            Contract vertragsliste = (Contract) it_Vertrag.next();
+            ContractAccount Auftrag = new ContractAccount();
             Auftrag = dao.getAuftragsrechnung(vertragsliste.getAuftragsrechnungsId());
-            Kunde Kunde = new Kunde();
+            Customer Kunde = new Customer();
             Kunde = dao.getKunde(vertragsliste.getKundenId());
            
             jTableRechnungListe.setValueAt(String.valueOf(Auftrag.getAuftragNr()), i, 0);
@@ -486,9 +486,9 @@ public class JPanelIncomingPayments extends javax.swing.JPanel {
       
      //liefert listItem des selektierten Eintrags
     String listItem = String.valueOf(jTableRechnungListe.getSelectedRow());
-    Vertrag auswahlVertrag = (Vertrag)vertragObjekte.get(listItem);
-    Auftragsrechnung auswahlRechnung = (Auftragsrechnung)rechnungObjekte.get(listItem);
-    Kunde auswahlKunde = (Kunde)kundeObjekte.get(listItem);
+    Contract auswahlVertrag = (Contract)vertragObjekte.get(listItem);
+    ContractAccount auswahlRechnung = (ContractAccount)rechnungObjekte.get(listItem);
+    Customer auswahlKunde = (Customer)kundeObjekte.get(listItem);
     
     if (auswahlVertrag != null){   
         jTextFieldKunde.setText(auswahlKunde.getNachname()+ ", "+ auswahlKunde.getVorname());
@@ -632,7 +632,7 @@ public class JPanelIncomingPayments extends javax.swing.JPanel {
     //liefert listItem des selektierten Eintrags
     String listItem = String.valueOf(jTableRechnungListe.getSelectedRow());   
     //sucht das aktive KundenObjekt in Hashtabelle kundenObjekte
-    Vertrag auswahl = (Vertrag)vertragObjekte.get(listItem);
+    Contract auswahl = (Contract)vertragObjekte.get(listItem);
         if (auswahl != null){ 
             return auswahl.getAuftragsrechnungsId();
         }else return 0;
@@ -667,7 +667,7 @@ public class JPanelIncomingPayments extends javax.swing.JPanel {
                 Iterator it_Vertrag = Vertraege.iterator();
                 
                 while (it_Vertrag.hasNext()) {
-                    Vertrag vertragsliste = (Vertrag) it_Vertrag.next();
+                    Contract vertragsliste = (Contract) it_Vertrag.next();
                                                             
                     if (vergleicheDatum(wiSimMainController.getActDate(),vertragsliste.getLieferdatum()) <= 0){ 
                         Image imageIconGreen = new BufferedImage(28, 30, 2);

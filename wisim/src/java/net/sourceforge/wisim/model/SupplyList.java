@@ -22,9 +22,9 @@
 **   ********************************************************************   */
 
 /*
- * Lieferant.java
+ * Lieferliste.java
  *
- * Created on 26. Februar 2003, 20:04
+ * Created on 2. März 2003, 00:39
  */
 
 package net.sourceforge.wisim.model;
@@ -33,37 +33,62 @@ package net.sourceforge.wisim.model;
  *
  * @author  Kay Patzwald
  */
-public class Lieferant  extends Person {
-  private String lieferqualitaet;
-  private String zuverlaessigkeit;
+public class SupplyList {
   
-  /** Creates a new instance of Lieferant */
-  public Lieferant() {
-    super();
+  private int lieferantenID;
+  private int einzelteilID;
+  private double preis;
+  private long mindestBestellMenge;
+  
+  /** Creates a new instance of SupplyList */
+  public SupplyList() {
   }
   
-  /** Creates a new instance of Lieferant */
-  public Lieferant(int id, String firma, String name, String vorname, String telefon, String fax, 
-      String strasse, String ort, String plz, int plzId, String eMail, String zuverlaessigkeit, String lieferqualitaet) {
-    super(id, vorname, name, firma, strasse, telefon, fax, eMail, plz, plzId, ort);
-    this.lieferqualitaet = lieferqualitaet;
-    this.zuverlaessigkeit = zuverlaessigkeit;
+  /** Creates a new instance of SupplyList */
+  public SupplyList(int lieferantenID, int einzelteilID, double preis, long mindestBestellMenge) {
+    this.lieferantenID = lieferantenID;
+    this.einzelteilID = einzelteilID;
+    this.preis = preis;
+    this.mindestBestellMenge = mindestBestellMenge;
   }
   
-  public String getLieferqualitaet() {
-    return lieferqualitaet;
+  public void setLieferantenID(int id)
+  {
+    this.lieferantenID = id;
   }
   
-  public void setLieferqualitaet(String lieferqualitaet) {
-    this.lieferqualitaet = lieferqualitaet;
+  public void setEinzelteilID(int id)
+  {
+    this.einzelteilID = id;
   }
-
-  public String getZuverlaessigkeit() {
-    return zuverlaessigkeit;
-  } 
   
-  public void setZuverlaessigkeit(String zuverlaessigkeit) {
-    this.zuverlaessigkeit = zuverlaessigkeit;
+  public void setPreis(double preis)
+  {
+    this.preis = preis;
   }
-
+  
+  public void setMindestBestellMenge(long mindestBestellMenge)
+  {
+    this.mindestBestellMenge = mindestBestellMenge;
+  }
+  
+  public int getLieferantenID()
+  {
+    return lieferantenID;
+  }
+  
+  public int getEinzelteilID()
+  {
+    return einzelteilID;
+  }
+  
+  public double getPreis()
+  {
+    return preis;
+  }
+  
+  public long getMindestBestellMenge()
+  {
+    return mindestBestellMenge;
+  }
 }

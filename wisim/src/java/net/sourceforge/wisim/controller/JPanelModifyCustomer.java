@@ -32,7 +32,7 @@ import net.sourceforge.wisim.dao.*;
 import net.sourceforge.wisim.model.*;
 import javax.swing.*;
 import java.util.*;
-/** Das Panel Kunde Bearbeiten
+/** Das Panel Customer Bearbeiten
  */
 public class JPanelModifyCustomer extends javax.swing.JPanel {
     
@@ -621,7 +621,7 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
             Iterator it = kundenliste.iterator();
             while (it.hasNext()) {
                 indexcounter++;
-                Kunde listenkunde = (Kunde) it.next();
+                Customer listenkunde = (Customer) it.next();
                 //Eintragen der Kundennamen (Nachname, Vorname) in die ComboBox
                 String listItem = String.valueOf(listenkunde.getNachname()).concat(", ");
                 listItem = listItem.concat(String.valueOf(listenkunde.getVorname()));
@@ -640,20 +640,20 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
         //liefert listItem des selektierten Eintrags
         String listItem = String.valueOf(jComboBoxKundenBearbeiten.getSelectedIndex());
         //sucht das aktive KundenObjekt in Hashtabelle kundenObjekte
-        Kunde auswahlKunde = (Kunde)kundenObjekte.get(listItem);
+        Customer auswahlKunde = (Customer)kundenObjekte.get(listItem);
         if (auswahlKunde != null){
             return auswahlKunde.getId();
         }else return 0;
     }
     
-    /** Ermittelt die Aktuelle Notiz
+    /** Ermittelt die Aktuelle Memo
      * @return Kundenobjekt
-     * @param noteNr Nummer der Notiz
+     * @param noteNr Nummer der Memo
      *
      */
-    private Notiz setSelectedNotiz(int noteNr){
-        Notiz selNotiz = new Notiz();
-        selNotiz = (Notiz)verlauf.elementAt(noteNr);
+    private Memo setSelectedNotiz(int noteNr){
+        Memo selNotiz = new Memo();
+        selNotiz = (Memo)verlauf.elementAt(noteNr);
         return selNotiz;
     }
     
@@ -662,7 +662,7 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
      */
     private void ladeKunde(int KdID) {
         if (KdID != 0){
-            Kunde lkunde = new Kunde();
+            Customer lkunde = new Customer();
             try {
                 lkunde = dao.getKunde(KdID);
             }catch (WiSimDAOException e) {
@@ -698,9 +698,9 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
             verlauf.clear();
             verlauf = (Vector)dao.getNotizen(KdNr);
             Iterator it = verlauf.iterator();
-            Notiz einzelnotiz = new Notiz();
+            Memo einzelnotiz = new Memo();
             while (it.hasNext()) {
-                einzelnotiz = (Notiz)it.next();
+                einzelnotiz = (Memo)it.next();
                 mymodel.addElement(einzelnotiz.getDate()+": "+einzelnotiz.getText());
             }
             //Eintragen der Bemerkungen in Verlauf Tab
@@ -718,7 +718,7 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
      */
     private void ladeNotizen(int noteNr){
         try {
-            Notiz n = dao.getNotiz(noteNr);
+            Memo n = dao.getNotiz(noteNr);
             if (n != null){
                 jTextAreaKundeBearbeitenBemerkung.setText(n.getDate()+": "+n.getText());
             }else{
@@ -734,8 +734,8 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
      */
     private void showNotiz(int noteNr){
         if (verlauf.size() > 0) {
-            Notiz aktuell = new Notiz();
-            aktuell = (Notiz)verlauf.elementAt(noteNr);
+            Memo aktuell = new Memo();
+            aktuell = (Memo)verlauf.elementAt(noteNr);
             jTextAreaKundeBearbeitenBemerkung.setText(aktuell.getDate()+": "+ aktuell.getText());
         } else {
             jTextAreaKundeBearbeitenBemerkung.setText("");
@@ -764,7 +764,7 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
 					Date dateNow = new Date();
 					java.sql.Date sqlDateNow =
 						new java.sql.Date(dateNow.getTime());
-					Notiz dieneu = new Notiz();
+					Memo dieneu = new Memo();
 					try
 					{
 						dieneu.setText(neu);
@@ -791,11 +791,11 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
      * @param listenId Nummer der Bemerkung
      */
     private void loescheNotiz(int listenId){
-        Notiz lNotiz = new Notiz();
+        Memo lNotiz = new Memo();
         int submit = JOptionPane.showConfirmDialog(this, "Wollen Sie die Notiz aus dem Bemerkungsverlauf entfernen?", "Notiz entfernen", JOptionPane.YES_NO_OPTION);
         if (submit == 0){
             if (!verlauf.isEmpty()){
-                lNotiz = (Notiz)verlauf.elementAt(listenId);
+                lNotiz = (Memo)verlauf.elementAt(listenId);
                 try {
                     int okay = dao.delNotiz(lNotiz.getId());
                 } catch (WiSimDAOWriteException e) {
@@ -879,10 +879,10 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
         //liefert listItem des selektierten Eintrags
         String selectedItem = String.valueOf(jComboBoxKundenBearbeiten.getSelectedIndex());
         //sucht das aktive KundenObjekt in Hashtabelle kundenAuswahl
-        Kunde changedKunde = (Kunde)kundenObjekte.get(selectedItem);
+        Customer changedKunde = (Customer)kundenObjekte.get(selectedItem);
         int kdID = changedKunde.getId();
         
-        Kunde kunde = new Kunde();
+        Customer kunde = new Customer();
         kunde.setId(kdID);
         kunde.setNachname(jTextFieldKundeBearbeitenNachname.getText());
         kunde.setVorname(jTextFieldKundeBearbeitenVorname.getText());
@@ -899,7 +899,7 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
         
         try {
             
-            Ort ort = new Ort();
+            City ort = new City();
             ort.setName(kunde.getOrt());
             ort.setPlz(kunde.getPlz());
             kunde.setPlzId(dao.neuerOrt(ort));

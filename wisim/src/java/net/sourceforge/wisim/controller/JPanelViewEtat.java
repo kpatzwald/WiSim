@@ -217,7 +217,7 @@ public class JPanelViewEtat extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Artikel", "Menge", "Preis"
+                "Article", "Menge", "Preis"
             }
         ));
         jScrollPaneEtatPos.setViewportView(jTableEtatPos);
@@ -524,7 +524,7 @@ public class JPanelViewEtat extends javax.swing.JPanel {
 		DefaultTableModel defTable =
 			new DefaultTableModel(
 				tableInit,
-				new String[] { "Artikel", "Menge", "Preis" }) {
+				new String[] { "Article", "Menge", "Preis" }) {
 			boolean[] canEdit = new boolean[] { false, false, false };
 			public boolean isCellEditable(int rowIndex, int columnIndex) {
 				return canEdit[columnIndex];
@@ -570,8 +570,8 @@ public class JPanelViewEtat extends javax.swing.JPanel {
 
 	/** Zeigt die Positionen des selektierten Einzelteilauftrages */
 	public void getEtatInfo() {
-		Einzelteilauftrag etat =
-			(Einzelteilauftrag) etatListe.get(jTableEtatListe.getSelectedRow());
+		ComponentContract etat =
+			(ComponentContract) etatListe.get(jTableEtatListe.getSelectedRow());
 
 		jTextFieldLieferrabatt.setText(String.valueOf(etat.getLieferrabatt()));
 		jTextFieldSkonto.setText(String.valueOf(etat.getSkonto()));		
@@ -588,7 +588,7 @@ public class JPanelViewEtat extends javax.swing.JPanel {
                 
 		try {
 			etatPos = dao.getEinzelteilAuftragsPositionen(etat.getNr());
-			Einzelteilauftragsrechnung etatr =
+			ComponentContractAccount etatr =
 				dao.getEinzelteilauftragsrechnung(etat.getNr());
 			jTextLTSumme.setText(String.valueOf(etatr.getBetrag()));
 			summe = etatr.getBetrag();
@@ -602,17 +602,17 @@ public class JPanelViewEtat extends javax.swing.JPanel {
 
 		Iterator etatPos_it = etatPos.iterator();
 		while (etatPos_it.hasNext()) {
-			EinzelteilauftragPosition etatPosItem =
-				(EinzelteilauftragPosition) etatPos_it.next();
+			ComponentContractItem etatPosItem =
+				(ComponentContractItem) etatPos_it.next();
 
 			try {
-				Einzelteil et = dao.getEinzelteil(etatPosItem.getEtNr());
+				WiSimComponent et = dao.getEinzelteil(etatPosItem.getEtNr());
 				jTableEtatPos.setValueAt(et.getName(), i, 0);
 				jTableEtatPos.setValueAt(
 					String.valueOf(etatPosItem.getBestellmenge()),
 					i,
 					1);
-				Lieferliste lieferliste =
+				SupplyList lieferliste =
 					dao.getLieferliste(
 						etat.getLieferantNr(),
 						etatPosItem.getEtNr());
@@ -630,7 +630,7 @@ public class JPanelViewEtat extends javax.swing.JPanel {
 		}
 
 		try {
-			Lieferant lt = dao.getLieferant(etat.getLieferantNr());
+			Supplier lt = dao.getLieferant(etat.getLieferantNr());
 			jTextLTFirma.setText(lt.getFirma());
 			jTextFieldAnsprechperson.setText(
 				lt.getVorname() + " " + lt.getNachname());
@@ -661,7 +661,7 @@ public class JPanelViewEtat extends javax.swing.JPanel {
 		Iterator etatListe_it = etatListe.iterator();
 
 		while (etatListe_it.hasNext()) {
-			Einzelteilauftrag etat = (Einzelteilauftrag) etatListe_it.next();
+			ComponentContract etat = (ComponentContract) etatListe_it.next();
 
 			jTableEtatListe.setValueAt(
 				formatDate(etat.getAuftragsdatum()),
@@ -719,7 +719,7 @@ public class JPanelViewEtat extends javax.swing.JPanel {
 		Iterator etatListe_it = etatListe.iterator();
 
 		while (etatListe_it.hasNext()) {
-			Einzelteilauftrag etat = (Einzelteilauftrag) etatListe_it.next();
+			ComponentContract etat = (ComponentContract) etatListe_it.next();
 
 			//Status Icon
 			Image image = new BufferedImage(28, 30, 2);

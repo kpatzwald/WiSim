@@ -320,7 +320,7 @@ private void ladeLieferanten() {
                 }
             }
             
-            Lieferant liste = (Lieferant) it_lieferanten.next();
+            Supplier liste = (Supplier) it_lieferanten.next();
             lieferantenObjekte.put((String.valueOf(positionen)),liste);
             lieferantenAuswahl.put((String.valueOf(positionen)),String.valueOf(liste.getId()));
             jTableLieferanten.setValueAt(liste.getFirma(), positionen, 0);
@@ -336,7 +336,7 @@ private void ladeLieferanten() {
       
      //liefert listItem des selektierten Eintrags 
     String listItem = String.valueOf(jTableLieferanten.getSelectedRow());
-    Lieferant auswahlLieferant = (Lieferant)lieferantenObjekte.get(listItem); 
+    Supplier auswahlLieferant = (Supplier)lieferantenObjekte.get(listItem); 
 
     position = 0;
     boolean Deleted = true;
@@ -365,12 +365,12 @@ private void ladeZugehoerigeEinzelteile(int id){
   
     try {
         Collection lieferliste = null;
-        Einzelteil einzelteil = null;
+        WiSimComponent einzelteil = null;
         lieferliste = dao.getLieferliste(id);
         Iterator it_lieferlisten = lieferliste.iterator();
       
         while (it_lieferlisten.hasNext()) {
-            Lieferliste liste = (Lieferliste) it_lieferlisten.next();
+            SupplyList liste = (SupplyList) it_lieferlisten.next();
             einzelteil = dao.getEinzelteil(liste.getEinzelteilID());
                     
           //gesamter Tabelleninhalt wird Zwischengespeichert
@@ -427,7 +427,7 @@ public void updatePositionsTable(boolean Deleted) {
     DefaultTableModel defTable = new DefaultTableModel(
         tableInit,
         new String [] {
-            "Artikel", "MinAbnahme", "Preis/Stk"
+            "Article", "MinAbnahme", "Preis/Stk"
         }
     ) 
     {
@@ -446,7 +446,7 @@ public void updatePositionsTable(boolean Deleted) {
         for (int i = 0; i < 3; i++) {
             column = jTable1.getColumnModel().getColumn(i);
             switch (i) {
-                    //Artikel
+                    //Article
                 case 0:
                     column.setPreferredWidth(120);
                     break;

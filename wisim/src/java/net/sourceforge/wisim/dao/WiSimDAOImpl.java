@@ -51,23 +51,23 @@ import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
-import net.sourceforge.wisim.model.Arbeitsplatz;
-import net.sourceforge.wisim.model.ArbeitsplatzLager;
-import net.sourceforge.wisim.model.Artikel;
-import net.sourceforge.wisim.model.AuftragsPosition;
-import net.sourceforge.wisim.model.Auftragsrechnung;
-import net.sourceforge.wisim.model.Einzelteil;
-import net.sourceforge.wisim.model.EinzelteilLagerElement;
-import net.sourceforge.wisim.model.Einzelteilauftrag;
-import net.sourceforge.wisim.model.EinzelteilauftragPosition;
-import net.sourceforge.wisim.model.Einzelteilauftragsrechnung;
-import net.sourceforge.wisim.model.Kunde;
-import net.sourceforge.wisim.model.Lagerplatz;
-import net.sourceforge.wisim.model.Lieferant;
-import net.sourceforge.wisim.model.Lieferliste;
-import net.sourceforge.wisim.model.Notiz;
-import net.sourceforge.wisim.model.Ort;
-import net.sourceforge.wisim.model.Vertrag;
+import net.sourceforge.wisim.model.WorkPlace;
+import net.sourceforge.wisim.model.WorkPlaceStore;
+import net.sourceforge.wisim.model.Article;
+import net.sourceforge.wisim.model.OrderItem;
+import net.sourceforge.wisim.model.ContractAccount;
+import net.sourceforge.wisim.model.WiSimComponent;
+import net.sourceforge.wisim.model.ComponentWarehouseItem;
+import net.sourceforge.wisim.model.ComponentContract;
+import net.sourceforge.wisim.model.ComponentContractItem;
+import net.sourceforge.wisim.model.ComponentContractAccount;
+import net.sourceforge.wisim.model.Customer;
+import net.sourceforge.wisim.model.WarehouseLocation;
+import net.sourceforge.wisim.model.Supplier;
+import net.sourceforge.wisim.model.SupplyList;
+import net.sourceforge.wisim.model.Memo;
+import net.sourceforge.wisim.model.City;
+import net.sourceforge.wisim.model.Contract;
 
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
@@ -373,7 +373,7 @@ public class WiSimDAOImpl implements WiSimDAO {
      * @throws WiSimDAOWriteException if a database problem occurs or the connection was never initialized
      * @return KundenNr
      */
-    public int neuerKunde(Kunde kunde) throws WiSimDAOException, WiSimDAOWriteException {
+    public int neuerKunde(Customer kunde) throws WiSimDAOException, WiSimDAOWriteException {
         // Serverlog
         logger.finest(
         "com.pixelpark.wisim.dao.WiSimDAOImpl.createContract(Contract) Action: start");
@@ -439,10 +439,10 @@ public class WiSimDAOImpl implements WiSimDAO {
             // Create a Statement
             Statement stmt = conn.createStatement();
             ResultSet rset = stmt.executeQuery(sql);
-            Ort ort = new Ort();
+            City ort = new City();
             
             while (rset.next()) {
-                    Kunde kundendaten = new Kunde();
+                    Customer kundendaten = new Customer();
                     kundendaten.setId(rset.getInt("kd_Nr"));
                     kundendaten.setKundentyp(rset.getString("kd_Typ"));
                     kundendaten.setAnspruch(rset.getString("kd_Anspruch"));
@@ -469,7 +469,7 @@ public class WiSimDAOImpl implements WiSimDAO {
     } 
     
     /** gibt alle Auftragsrechnungen aus
-   * @return Collection von Auftragsrechnung
+   * @return Collection von ContractAccount
    * @throws WiSimDAOException if a database problem occurs or the connection was never initialized
    */
   public Collection getAuftragsrechnungen() throws WiSimDAOException {
@@ -479,10 +479,10 @@ public class WiSimDAOImpl implements WiSimDAO {
             // Create a Statement
             Statement stmt = conn.createStatement();
             ResultSet rset = stmt.executeQuery(sql);
-            Ort ort = new Ort();
+            City ort = new City();
             
             while (rset.next()) {
-                    Auftragsrechnung atr = new Auftragsrechnung();
+                    ContractAccount atr = new ContractAccount();
                     atr.setNr(rset.getInt("atr_Nr"));
                     atr.setBetrag(rset.getDouble("atr_Betrag"));
                     atr.setAuftragNr(rset.getInt("f_at_Nr"));
@@ -500,18 +500,18 @@ public class WiSimDAOImpl implements WiSimDAO {
     
     
    /** Holt einen Kunden aus der Datenbank
-    * @return Object Kunde
+    * @return Object Customer
     * @param kdNr Kundennummer
     * @throws WiSimDAOException Fehler beim Abfragen der DB
     */
-    public Kunde getKunde(int kdNr) throws WiSimDAOException {
+    public Customer getKunde(int kdNr) throws WiSimDAOException {
         String sql = "SELECT * FROM kd WHERE kd_Nr = "+ kdNr + "";
         try {
             // Create a Statement
             Statement stmt = conn.createStatement();
             ResultSet rset = stmt.executeQuery(sql);
-            Ort ort = new Ort();
-            Kunde kundendaten = new Kunde();
+            City ort = new City();
+            Customer kundendaten = new Customer();
             while (rset.next()) {
                     kundendaten.setId(rset.getInt("kd_Nr"));
                     kundendaten.setKundentyp(rset.getString("kd_Typ"));
@@ -543,16 +543,16 @@ public class WiSimDAOImpl implements WiSimDAO {
      * @throws com.pixelpark.wisim.dao.WiSimDAOWriteException if there was a db constaint violation
      * @return Boolean
      */
-    public int aendereKunden(Kunde kunde) throws WiSimDAOException, WiSimDAOWriteException {
+    public int aendereKunden(Customer kunde) throws WiSimDAOException, WiSimDAOWriteException {
         // Serverlog
         logger.finest(
         "com.pixelpark.wisim.dao.WiSimDAOImpl.createContract(Contract) Action: start");
         
-        Ort ort = getOrt(kunde.getPlzId());
+        City ort = getOrt(kunde.getPlzId());
         int plz = kunde.getPlzId();
         
         if (ort == null) {
-            ort = new Ort(kunde.getPlzId(), kunde.getPlz(),kunde.getOrt());
+            ort = new City(kunde.getPlzId(), kunde.getPlz(),kunde.getOrt());
             plz = this.neuerOrt(ort);
         }
         
@@ -595,21 +595,21 @@ public class WiSimDAOImpl implements WiSimDAO {
     
     
     /** Diese Funktion speichert einen neuen Lieferanten in der Datenbank. Wenn der
-     * angegebene Ort noch nicht vorhanden ist, wird er angelegt.
-     * @return int Lieferantennummer des neuen Lieferant oder 0 wenn ein Fehler aufgetreten ist.
-     * @param lieferant Lieferant
+     * angegebene City noch nicht vorhanden ist, wird er angelegt.
+     * @return int Lieferantennummer des neuen Supplier oder 0 wenn ein Fehler aufgetreten ist.
+     * @param lieferant Supplier
      * @throws com.pixelpark.wisim.dao.WiSimDAOException if a database problem occurs or the connection was never initialized
      * @throws com.pixelpark.wisim.dao.WiSimDAOWriteException if there was a db constaint violation
      */
-    public int neuerLieferant(Lieferant lieferant) throws WiSimDAOException, WiSimDAOWriteException {
+    public int neuerLieferant(Supplier lieferant) throws WiSimDAOException, WiSimDAOWriteException {
       /* Fügt den Ort des neuen Lieferanten in die DB ein, wenn dieser noch
        * nicht in der DB vorhanden ist
        */
-        Ort ort = getOrt(lieferant.getPlzId());
+        City ort = getOrt(lieferant.getPlzId());
         int plz = lieferant.getPlzId();
         
         if (ort == null) {
-            ort = new Ort(lieferant.getPlzId(), lieferant.getPlz(),lieferant.getOrt());
+            ort = new City(lieferant.getPlzId(), lieferant.getPlz(),lieferant.getOrt());
             plz = this.neuerOrt(ort);
         }
         
@@ -655,15 +655,15 @@ public class WiSimDAOImpl implements WiSimDAO {
     }
     
     /** Liest einen Lieferanten aus der DB aus
-     * @return com.pixelpark.wisim.model.Lieferant oder null wenn kein Lieferant mit der übergebenen Nummer existiert.
+     * @return com.pixelpark.wisim.model.Supplier oder null wenn kein Supplier mit der übergebenen Nummer existiert.
      * @param lieferantenId LieferantNr
      * @throws com.pixelpark.wisim.dao.WiSimDAOException if a database problem occurs or the connection was never initialized
      */
-    public Lieferant getLieferant(int lieferantenId) throws WiSimDAOException {
+    public Supplier getLieferant(int lieferantenId) throws WiSimDAOException {
       /* Fügt den Ort des neuen Lieferanten in die DB ein, wenn dieser noch
        * nicht in der DB vorhanden ist
        */
-        Lieferant lieferant = null;
+        Supplier lieferant = null;
         String sql = "SELECT lt_Nr, lt_Name, lt_Vorname, lt_Strasse, lt_Firma,"
         + " lt_Email, lt_Telefon, lt_Fax, lt_deleted, f_ort_Nr, lt_Qualitaet,"
         + "lt_Zuverlaessigkeit FROM lt WHERE lt_Nr = "
@@ -674,7 +674,7 @@ public class WiSimDAOImpl implements WiSimDAO {
             ResultSet res = stmt.executeQuery(sql);
             
             while(res.next()) {
-                lieferant = new Lieferant();
+                lieferant = new Supplier();
                 lieferant.setId(res.getInt(1));
                 lieferant.setNachname(res.getString(2));
                 lieferant.setVorname(res.getString(3));
@@ -713,16 +713,16 @@ public class WiSimDAOImpl implements WiSimDAO {
      * @throws com.pixelpark.wisim.dao.WiSimDAOWriteException if there was a db constaint violation
      * @return Boolean
      */
-    public int aendereLieferant(Lieferant lieferant) throws WiSimDAOException, WiSimDAOWriteException {
+    public int aendereLieferant(Supplier lieferant) throws WiSimDAOException, WiSimDAOWriteException {
         // Serverlog
         logger.finest(
         "com.pixelpark.wisim.dao.WiSimDAOImpl.createContract(Contract) Action: start");
         
-        Ort ort = getOrt(lieferant.getPlzId());
+        City ort = getOrt(lieferant.getPlzId());
         int plz = lieferant.getPlzId();
         
         if (ort == null) {
-            ort = new Ort(lieferant.getPlzId(), lieferant.getPlz(),lieferant.getOrt());
+            ort = new City(lieferant.getPlzId(), lieferant.getPlz(),lieferant.getOrt());
             plz = this.neuerOrt(ort);
         }
         
@@ -763,7 +763,7 @@ public class WiSimDAOImpl implements WiSimDAO {
     }
     
     
-    /** Aendert Auftragsrechnung
+    /** Aendert ContractAccount
      * @return Boolean
      * @param Nr Auftragsrechnungsnummer
      * @param status Status der Rechnung
@@ -855,9 +855,9 @@ public class WiSimDAOImpl implements WiSimDAO {
             Statement stmt = conn.createStatement();
             sql = "SELECT * FROM note WHERE f_kd_Nr = "+KdNr+"";
             ResultSet rset = stmt.executeQuery(sql);
-            Notiz kundennotiz;
+            Memo kundennotiz;
             while (rset.next()) {
-                kundennotiz = new Notiz();
+                kundennotiz = new Memo();
                 kundennotiz.setId(rset.getInt(1));
                 kundennotiz.setText(rset.getString(2));
                 kundennotiz.setDate(rset.getDate(3));
@@ -872,12 +872,12 @@ public class WiSimDAOImpl implements WiSimDAO {
     }      
     
     
-    /** Laden einer Notiz
-     * @return Object Notiz
+    /** Laden einer Memo
+     * @return Object Memo
      * @param noteNr Notiznummer
      * @throws WiSimDAOException if a database problem occurs or the connection was never initialized
      */  
-    public Notiz getNotiz(int noteNr) throws WiSimDAOException{
+    public Memo getNotiz(int noteNr) throws WiSimDAOException{
         // Serverlog
         logger.finest("com.pixelpark.wisim.dao.WiSimDAOImpl.createContract(Contract) Action: start");
         //Erzeugen eines neuen NotizObjektes
@@ -887,7 +887,7 @@ public class WiSimDAOImpl implements WiSimDAO {
             sql = "SELECT * FROM note WHERE note_Nr = '" + noteNr + "'";
             ResultSet rset = stmt.executeQuery(sql);
             //Es existieren keine Notizen fuer diesen Kunden
-            Notiz kundennotiz = new Notiz();
+            Memo kundennotiz = new Memo();
             while (rset.next()) {
                 kundennotiz.setId(rset.getInt(1));
                 kundennotiz.setText(rset.getString(2));
@@ -902,7 +902,7 @@ public class WiSimDAOImpl implements WiSimDAO {
     } 
 
 
-    /** Loeschen einer Notiz
+    /** Loeschen einer Memo
      * @return int
      * @param noteNr Notiznummer
      * @throws WiSimDAOWriteException Wenn ein Fehler während des Schreibens in die DB auftritt
@@ -923,12 +923,12 @@ public class WiSimDAOImpl implements WiSimDAO {
     }     
     
     
-  /** Erstellung einer neuen Notiz
-   * @param notiz Objekt: Notiz
+  /** Erstellung einer neuen Memo
+   * @param notiz Objekt: Memo
    * @throws WiSimDAOException if a database problem occurs or the connection was never initialized
    * @throws WiSimDAOWriteException if a database problem occurs or the connection was never initialized
    */
-    public void neueNotiz(Notiz notiz) throws WiSimDAOException, WiSimDAOWriteException {
+    public void neueNotiz(Memo notiz) throws WiSimDAOException, WiSimDAOWriteException {
         // Serverlog
         logger.finest(
         "com.pixelpark.wisim.dao.WiSimDAOImpl.createContract(Contract) Action: start");
@@ -959,12 +959,12 @@ public class WiSimDAOImpl implements WiSimDAO {
     }
     
     
-    /** Gibt das Objekt Ort zurück das zu der Postleitzahl gehört
-     * @return Ort der zu der PLZ gehört
+    /** Gibt das Objekt City zurück das zu der Postleitzahl gehört
+     * @return City der zu der PLZ gehört
      * @param Nr Id des Ortes
      * @throws WiSimDAOException ToDo
      */
-    public Ort getOrt(int Nr) throws WiSimDAOException {
+    public City getOrt(int Nr) throws WiSimDAOException {
         // Serverlog
         logger.finest(
         "com.pixelpark.wisim.dao.WiSimDAOImpl.createContract(Contract) Action: start");
@@ -979,7 +979,7 @@ public class WiSimDAOImpl implements WiSimDAO {
             //Der Ort ist noch nicht in der Tabelle
             
             while (rset.next()) {
-                Ort ort = new Ort();
+                City ort = new City();
                 ort.setNr(rset.getInt(1));
                 ort.setPlz(rset.getString(2));
                 ort.setName(rset.getString(3));
@@ -993,12 +993,12 @@ public class WiSimDAOImpl implements WiSimDAO {
         }
     }
     
-    /** Erstellt einen neuen Ort in der DB
+    /** Erstellt einen neuen City in der DB
      * @return Die ID des neuen Ortes
-     * @param ort Ort
+     * @param ort City
      * @throws WiSimDAOException ToDo
      */  
-    public int neuerOrt(Ort ort) throws WiSimDAOException {
+    public int neuerOrt(City ort) throws WiSimDAOException {
         // Serverlog
         String sql = "";
         logger.finest(
@@ -1036,7 +1036,7 @@ public class WiSimDAOImpl implements WiSimDAO {
     
     /** Collection mit allen Lieferanten
      * @throws WiSimDAOException Fehler beim Abfragen der DB
-     * @return Collection mit Objekten vom Typ Lieferant
+     * @return Collection mit Objekten vom Typ Supplier
      */    
     public Collection getLieferanten() throws WiSimDAOException {
         // Serverlog
@@ -1052,9 +1052,9 @@ public class WiSimDAOImpl implements WiSimDAO {
             
             while (resLieferanten.next()) {
                 
-                Ort ort = getOrt(resLieferanten.getInt("f_ort_Nr"));
+                City ort = getOrt(resLieferanten.getInt("f_ort_Nr"));
                 
-                Lieferant lieferant = new Lieferant(resLieferanten.getInt("lt_Nr"), resLieferanten.getString("lt_Firma"),
+                Supplier lieferant = new Supplier(resLieferanten.getInt("lt_Nr"), resLieferanten.getString("lt_Firma"),
                 resLieferanten.getString("lt_Name"), resLieferanten.getString("lt_Vorname"),
                 resLieferanten.getString("lt_Telefon"), resLieferanten.getString("lt_Fax"),
                 resLieferanten.getString("lt_Strasse"), ort.getName(), ort.getPlz(),
@@ -1084,7 +1084,7 @@ public class WiSimDAOImpl implements WiSimDAO {
             ResultSet rset = stmt.executeQuery(sql);
             
             while (rset.next()) {
-                Einzelteil einzelteil = new Einzelteil();
+                WiSimComponent einzelteil = new WiSimComponent();
                 einzelteil.setNr(rset.getInt(1));
                 einzelteil.setName(rset.getString(2));
                 einzelteil.setMindestbestand(rset.getInt(3));
@@ -1096,16 +1096,16 @@ public class WiSimDAOImpl implements WiSimDAO {
         return einzelteile;
     }
     
-    /** Holt ein Einzelteil aus der Datenbank
-     * @return Einzelteil
+    /** Holt ein WiSimComponent aus der Datenbank
+     * @return WiSimComponent
      * @param id EinzelteilNr
      * @throws WiSimDAOException Fehler beim Abfragen der DB
      */
-    public Einzelteil getEinzelteil(int id) throws WiSimDAOException {
+    public WiSimComponent getEinzelteil(int id) throws WiSimDAOException {
         String sql = "SELECT * FROM et WHERE et_Nr = "
         + id;
         
-        Einzelteil einzelteil = new Einzelteil();
+        WiSimComponent einzelteil = new WiSimComponent();
         try {
             // Create a Statement
             Statement stmt = conn.createStatement();
@@ -1122,12 +1122,12 @@ public class WiSimDAOImpl implements WiSimDAO {
         return einzelteil;
     }
     
-    /** Erstellt eine Lieferliste
-     * @param liste Lieferliste
+    /** Erstellt eine SupplyList
+     * @param liste SupplyList
      * @throws WiSimDAOWriteException Fehler beim Schreiben in die DB
      * @throws WiSimDAOException Fehler beim Lesen von der DB
      */
-    public void setLieferliste(Lieferliste liste) throws WiSimDAOException, WiSimDAOWriteException {
+    public void setLieferliste(SupplyList liste) throws WiSimDAOException, WiSimDAOWriteException {
         String sql = "INSERT INTO rel_lt_et (f_et_Nr, f_lt_Nr, rel_lt_et_Stueckpreis, rel_lt_et_Mindestbestellmenge)"
         + "VALUES ( "
         + liste.getEinzelteilID()
@@ -1139,7 +1139,7 @@ public class WiSimDAOImpl implements WiSimDAO {
         + liste.getMindestBestellMenge()
         + ");";
         
-        Einzelteil einzelteil = new Einzelteil();
+        WiSimComponent einzelteil = new WiSimComponent();
         try {
             // Create a Statement
             Statement stmt = conn.createStatement();
@@ -1151,25 +1151,25 @@ public class WiSimDAOImpl implements WiSimDAO {
     }
     
     /** Holt einen Lieferlisten-Eintrag aus der Datenbank
-     * @return Lieferliste
+     * @return SupplyList
      * @param lieferantenID ID des Lieferanten
      * @param einzelteilID ID des Einzelteils
      * @throws WiSimDAOException Fehler beim Lesen von der DB
      */
-    public Lieferliste getLieferliste(int lieferantenID, int einzelteilID) throws WiSimDAOException {
+    public SupplyList getLieferliste(int lieferantenID, int einzelteilID) throws WiSimDAOException {
         String sql = "SELECT * FROM rel_lt_et WHERE f_et_Nr = "
         + einzelteilID
         + " AND f_lt_Nr = "
         + lieferantenID;
         
-        Lieferliste lieferliste = null;
+        SupplyList lieferliste = null;
         try {
             // Create a Statement
             Statement stmt = conn.createStatement();
             ResultSet rset = stmt.executeQuery(sql);
             
             while (rset.next()) {
-                lieferliste = new Lieferliste();
+                lieferliste = new SupplyList();
                 lieferliste.setEinzelteilID(rset.getInt(1));
                 lieferliste.setLieferantenID(rset.getInt(2));
                 lieferliste.setPreis(rset.getDouble(3));
@@ -1185,13 +1185,13 @@ public class WiSimDAOImpl implements WiSimDAO {
     /** Collection mit allen Lieferlisten des Lieferanten
      * @param lieferantenID LieferantNr
      * @throws WiSimDAOException Fehler beim Ablesen aus der DB
-     * @return Collection mit Objekten vom Typ Lieferliste
+     * @return Collection mit Objekten vom Typ SupplyList
      */    
     public Collection getLieferliste(int lieferantenID) throws WiSimDAOException {
         Collection lieferlisten = new Vector();
         String sql = "";
         
-        Lieferliste lieferliste = null;
+        SupplyList lieferliste = null;
         try {
             // Create a Statement
             Statement stmt = conn.createStatement();
@@ -1200,7 +1200,7 @@ public class WiSimDAOImpl implements WiSimDAO {
             ResultSet rset = stmt.executeQuery(sql);
             
             while (rset.next()) {
-                lieferliste = new Lieferliste();
+                lieferliste = new SupplyList();
                 lieferliste.setEinzelteilID(rset.getInt(1));
                 lieferliste.setLieferantenID(rset.getInt(2));
                 lieferliste.setPreis(rset.getDouble(3));
@@ -1218,7 +1218,7 @@ public class WiSimDAOImpl implements WiSimDAO {
 	/* (non-Javadoc)
 	 * @see com.pixelpark.wisim.dao.WiSimDAO#setEinzelteilArbeitsplatzBestand(int, int, java.lang.String)
 	 */
-    /** Ändert den Bestand an Einzelteilen an einem Arbeitsplatz
+    /** Ändert den Bestand an Einzelteilen an einem WorkPlace
      * @param arbeitsplatzNr Arbeitsplatznummer
      * @param einzelteilNr Einzelteilnummer
      * @param lagerTyp Typ des Lagers
@@ -1308,7 +1308,7 @@ public class WiSimDAOImpl implements WiSimDAO {
 	/* (non-Javadoc)
 	 * @see com.pixelpark.wisim.dao.WiSimDAO#setEinzelteilArbeitsplatzBestand(int, int, int, java.lang.String)
 	 */
-  /** Ändert den Bestand an Einzelteilen an einem Arbeitsplatz
+  /** Ändert den Bestand an Einzelteilen an einem WorkPlace
    * @param arbeitsplatzNr Arbeitsplatznummer
    * @param einzelteilNr Einzelteilnummer
    * @param anzahl Anzahl der Einzelteile
@@ -1373,12 +1373,12 @@ public class WiSimDAOImpl implements WiSimDAO {
 			return anzahl;
     }
     
-	/** Liefert die Dauer eines Arbeitsschrittes an einem bestimmten Arbeitsplatz
+	/** Liefert die Dauer eines Arbeitsschrittes an einem bestimmten WorkPlace
 	 * @param arbeitsplatzNr Nr. des Arbeitsplatzes, für dem die Dauer zurückgegeben werden soll.
 	 * @throws WiSimDAOException Wenn ein Fehler beim Zugriff auf die DB auftritt.
 	 * @return Dauer des Prozesses
 	 */
-	public synchronized Arbeitsplatz getArbeitsplatz(int arbeitsplatzNr)
+	public synchronized WorkPlace getArbeitsplatz(int arbeitsplatzNr)
 		throws WiSimDAOException
 	{
 		String sql = "SELECT * FROM ap WHERE ap_Nr = " + arbeitsplatzNr + ";";
@@ -1389,8 +1389,8 @@ public class WiSimDAOImpl implements WiSimDAO {
 			ResultSet res = stmt.executeQuery(sql);
 			while (res.next())
 			{
-				Arbeitsplatz arbeitsplatz =
-					new Arbeitsplatz(
+				WorkPlace arbeitsplatz =
+					new WorkPlace(
 						res.getInt(1),
 						res.getString(2),
 						res.getInt(3),
@@ -1443,8 +1443,8 @@ public class WiSimDAOImpl implements WiSimDAO {
 		return null;
 	}
 
-  /** Liefert alle Einzelteile an einem Arbeitsplatz zurück.
-   * @param arbeitsplatzNr Nummer des Arbeitsplatz
+  /** Liefert alle Einzelteile an einem WorkPlace zurück.
+   * @param arbeitsplatzNr Nummer des WorkPlace
    * @throws WiSimDAOException Wenn ein Fehler beim Zugriff auf die DB auftritt.
    * @return Liste mit Einzelteilen
    */  
@@ -1461,8 +1461,8 @@ public class WiSimDAOImpl implements WiSimDAO {
 			ResultSet res = stmt.executeQuery(sql);
 			while (res.next())
 			{
-				ArbeitsplatzLager apl =
-					new ArbeitsplatzLager(
+				WorkPlaceStore apl =
+					new WorkPlaceStore(
 						res.getInt(1),
 						res.getInt(2),
 						res.getString(3),
@@ -1483,11 +1483,11 @@ public class WiSimDAOImpl implements WiSimDAO {
         
         /** Erstellt einen neuen Einzelteileauftrag
          * @return EinzelteilauftragsNrID des Einzelteilauftrags
-         * @param etat Einzelteilauftrag
+         * @param etat ComponentContract
          * @throws WiSimDAOException if a database problem occurs or the connection was never initialized
          * @throws WiSimDAOWriteException if a database problem occurs or the connection was never initialized
          */    
-        public int setEinzelteilauftrag(Einzelteilauftrag etat) throws WiSimDAOException, WiSimDAOWriteException {
+        public int setEinzelteilauftrag(ComponentContract etat) throws WiSimDAOException, WiSimDAOWriteException {
             String sql = "INSERT INTO etat (etat_Lieferrabatt, etat_Skontofrist, etat_Lieferdatum, etat_Datum, etat_Skonto, f_lt_Nr, f_etatr_Nr)"
             + "VALUES ( "
             + etat.getLieferrabatt()
@@ -1528,7 +1528,7 @@ public class WiSimDAOImpl implements WiSimDAO {
                 //EinzelteilAuftragsPositionen werden geschrieben
                 Iterator etatPos_it = etat.getEinzelteilauftragPositionen().iterator();
                 while (etatPos_it.hasNext()) {
-                    EinzelteilauftragPosition etatPos = (EinzelteilauftragPosition) etatPos_it.next();
+                    ComponentContractItem etatPos = (ComponentContractItem) etatPos_it.next();
                     sql = "Insert into rel_etat_et (f_et_Nr, f_etat_Nr, rel_etat_et_Bestellmenge, rel_etat_et_Stueckpreis) values ("
                     + etatPos.getEtNr()
                     + ", "
@@ -1553,7 +1553,7 @@ public class WiSimDAOImpl implements WiSimDAO {
          * @throws WiSimDAOException if a database problem occurs or the connection was never initialized
          * @throws WiSimDAOWriteException if a database problem occurs or the connection was never initialized
          */      
-        public int setEinzelteilauftragsrechnung(Einzelteilauftragsrechnung etatr) throws WiSimDAOException, WiSimDAOWriteException {
+        public int setEinzelteilauftragsrechnung(ComponentContractAccount etatr) throws WiSimDAOException, WiSimDAOWriteException {
             String sql = "insert into etatr (etatr_Nr, etatr_Betrag, f_etat_Nr, f_mwst_Satz) "
             + "VALUES ( "
             + etatr.getNr()
@@ -1586,7 +1586,7 @@ public class WiSimDAOImpl implements WiSimDAO {
          * @throws WiSimDAOException if a database problem occurs or the connection was never initialized
          * @throws WiSimDAOWriteException if a database problem occurs or the connection was never initialized
          */      
-        public int setAuftragsrechnung(Auftragsrechnung atr) throws WiSimDAOException, WiSimDAOWriteException {
+        public int setAuftragsrechnung(ContractAccount atr) throws WiSimDAOException, WiSimDAOWriteException {
             
             String dbZlEingang = null;
             
@@ -1659,7 +1659,7 @@ public class WiSimDAOImpl implements WiSimDAO {
             ResultSet rset = stmt.executeQuery(sql);
             
             while (rset.next()) {
-                Artikel artikel = new Artikel();
+                Article artikel = new Article();
                 artikel.setNr(rset.getInt(1));
                 artikel.setName(rset.getString(2));
                 artikel.setStueckpreis(rset.getFloat(3));
@@ -1672,16 +1672,16 @@ public class WiSimDAOImpl implements WiSimDAO {
         return alleartikel;
     }
     
-    /** Holt ein Artikel aus der Datenbank
-     * @return Artikel
+    /** Holt ein Article aus der Datenbank
+     * @return Article
      * @param id ID des Artikels
      * @throws WiSimDAOException Fehler beim Lesen von der DB
      */
-    public Artikel getArtikel(int id) throws WiSimDAOException {
+    public Article getArtikel(int id) throws WiSimDAOException {
         String sql = "SELECT * FROM art WHERE art_Nr = "
         + id;
         
-        Artikel artikel = new Artikel();
+        Article artikel = new Article();
         try {
             // Create a Statement
             Statement stmt = conn.createStatement();
@@ -1713,7 +1713,7 @@ public class WiSimDAOImpl implements WiSimDAO {
             ResultSet rset = stmt.executeQuery(sql);
             
             while (rset.next()) {
-                Vertrag vertrag = new Vertrag();
+                Contract vertrag = new Contract();
                 vertrag.setVertragsId(rset.getInt("at_Nr"));
                 vertrag.setLieferdatum(rset.getDate("at_Lieferdatum"));
                 vertrag.setSkonto(rset.getDouble("at_Skonto"));
@@ -1730,16 +1730,16 @@ public class WiSimDAOImpl implements WiSimDAO {
         return vertraege;
     }
     
-    /** Holt einen Vertrag aus der Datenbank
-     * @return Vertrag
+    /** Holt einen Contract aus der Datenbank
+     * @return Contract
      * @param id ID des Vertrages
      * @throws WiSimDAOException Fehler beim Lesen von der DB
      */
-    public Vertrag getVertrag(int id) throws WiSimDAOException {
+    public Contract getVertrag(int id) throws WiSimDAOException {
         String sql = "SELECT * FROM at WHERE at_Nr = "
         + id;
         
-        Vertrag vertrag = new Vertrag();
+        Contract vertrag = new Contract();
         try {
             // Create a Statement
             Statement stmt = conn.createStatement();
@@ -1761,13 +1761,13 @@ public class WiSimDAOImpl implements WiSimDAO {
         return vertrag;
     }
     
-    /** Legt einen neuen Vertrag an
-     * @param vertrag Vertrag
+    /** Legt einen neuen Contract an
+     * @param vertrag Contract
      * @throws WiSimDAOException if a database problem occurs or the connection was never initialized
      * @throws WiSimDAOWriteException if a database problem occurs or the connection was never initialized
      * @return int
      */
-     public int setNeuenVertrag(Vertrag vertrag) throws WiSimDAOException, WiSimDAOWriteException{
+     public int setNeuenVertrag(Contract vertrag) throws WiSimDAOException, WiSimDAOWriteException{
         // Serverlog
         logger.finest(
         "com.pixelpark.wisim.dao.WiSimDAOImpl.createContract(Contract) Action: start");
@@ -1834,7 +1834,7 @@ public class WiSimDAOImpl implements WiSimDAO {
              Statement stmt = conn.createStatement();
              ResultSet rset = stmt.executeQuery(sql);
              while (rset.next()) {
-                Einzelteilauftrag etat = new Einzelteilauftrag();
+                ComponentContract etat = new ComponentContract();
                 etat.setNr(rset.getInt(1));
                 etat.setLieferrabatt(rset.getFloat(2));
                 etat.setSkontofrist(rset.getInt(3));
@@ -1870,7 +1870,7 @@ public class WiSimDAOImpl implements WiSimDAO {
              ResultSet rset = stmt.executeQuery(sql);
              
              while (rset.next()) {
-                 EinzelteilauftragPosition etatPos = new EinzelteilauftragPosition();
+                 ComponentContractItem etatPos = new ComponentContractItem();
                  etatPos.setEtNr(rset.getInt(1));
                  etatPos.setEtatNr(rset.getInt(2));
                  etatPos.setBestellmenge(rset.getInt(3));
@@ -1902,7 +1902,7 @@ public class WiSimDAOImpl implements WiSimDAO {
              ResultSet rset = stmt.executeQuery(sql);
              
              while (rset.next()) {
-                 AuftragsPosition atPos = new AuftragsPosition();
+                 OrderItem atPos = new OrderItem();
                  atPos.setArtNr(rset.getInt(1));
                  atPos.setAtNr(rset.getInt(2));
                  atPos.setBestellmenge(rset.getLong(3));
@@ -1921,12 +1921,12 @@ public class WiSimDAOImpl implements WiSimDAO {
      * @throws WiSimDAOException if a database problem occurs or the connection was never initialized
      * @return Auftragsposition
      */    
-     public AuftragsPosition getAuftragsPosition(int atNr) throws WiSimDAOException {
+     public OrderItem getAuftragsPosition(int atNr) throws WiSimDAOException {
          // Serverlog
          logger.finest(
          "com.pixelpark.wisim.dao.WiSimDAOImpl.getVertrag Action: start");
          String sql = "";
-         AuftragsPosition atp = new AuftragsPosition();
+         OrderItem atp = new OrderItem();
          try {
              sql = "SELECT f_art_Nr, f_at_Nr, rel_at_art_Bestellmenge FROM rel_at_art WHERE " +
              "f_at_Nr = " + atNr + "";
@@ -1934,7 +1934,7 @@ public class WiSimDAOImpl implements WiSimDAO {
              ResultSet rset = stmt.executeQuery(sql);
              
              while (rset.next()) {
-                 AuftragsPosition atPos = new AuftragsPosition();
+                 OrderItem atPos = new OrderItem();
                  atp.setArtNr(rset.getInt(1));
                  atp.setAtNr(rset.getInt(2));
                  atp.setBestellmenge(rset.getLong(3));
@@ -1946,17 +1946,17 @@ public class WiSimDAOImpl implements WiSimDAO {
          return atp;
      }
      
-     /** Gibt eine Auftragsrechnung eines Auftrages zurück.
+     /** Gibt eine ContractAccount eines Auftrages zurück.
      * @param atrNr Auftragrechnungs Nummer
      * @throws WiSimDAOException if a database problem occurs or the connection was never initialized
-     * @return Auftragsrechnung
+     * @return ContractAccount
      */    
-			public Auftragsrechnung getAuftragsrechnung(int atrNr) throws WiSimDAOException {
+			public ContractAccount getAuftragsrechnung(int atrNr) throws WiSimDAOException {
          // Serverlog
          logger.finest(
          "com.pixelpark.wisim.dao.WiSimDAOImpl.getVertrag Action: start");
          String sql = "";
-         Auftragsrechnung atr = new Auftragsrechnung();
+         ContractAccount atr = new ContractAccount();
          try {
              sql = "SELECT atr_Nr, atr_Betrag, f_at_Nr, f_mwst_Satz, atr_zleingang FROM atr WHERE " +
              "atr_Nr = " + atrNr + "";
@@ -1964,7 +1964,7 @@ public class WiSimDAOImpl implements WiSimDAO {
              ResultSet rset = stmt.executeQuery(sql);
              
              while (rset.next()) {
-                 AuftragsPosition atPos = new AuftragsPosition();
+                 OrderItem atPos = new OrderItem();
                  atr.setNr(rset.getInt(1));
                  atr.setBetrag(rset.getDouble(2));
                  atr.setAuftragNr(rset.getInt(3));
@@ -1978,18 +1978,18 @@ public class WiSimDAOImpl implements WiSimDAO {
          return atr;
      }
      
-    /** Gibt die Einzelteilauftragsrechnung zurück die zu dem entsprechenden
-     * Einzelteilauftrag gehört.
+    /** Gibt die ComponentContractAccount zurück die zu dem entsprechenden
+     * ComponentContract gehört.
      * @param etatrNr Einzelteilauftrags Nummer
      * @throws WiSimDAOException if a database problem occurs or the connection was never initialized
-     * @return Die Einzelteilauftragsrechnung.
+     * @return Die ComponentContractAccount.
      */     
-     public Einzelteilauftragsrechnung getEinzelteilauftragsrechnung(int etatrNr) throws WiSimDAOException {
+     public ComponentContractAccount getEinzelteilauftragsrechnung(int etatrNr) throws WiSimDAOException {
          // Serverlog
          logger.finest(
          "com.pixelpark.wisim.dao.WiSimDAOImpl.getEtat Action: start");
          String sql = "";
-         Einzelteilauftragsrechnung etatr = new Einzelteilauftragsrechnung();
+         ComponentContractAccount etatr = new ComponentContractAccount();
          try {
              sql = "SELECT etatr_Betrag, f_mwst_Satz FROM etatr WHERE etatr_Nr = " + etatrNr;
              Statement stmt = conn.createStatement();
@@ -2080,7 +2080,7 @@ public class WiSimDAOImpl implements WiSimDAO {
              ResultSet rset = stmt.executeQuery(sql);
              
              while (rset.next()) {
-                 Lagerplatz lgplatz = new Lagerplatz(rset.getString(1));
+                 WarehouseLocation lgplatz = new WarehouseLocation(rset.getString(1));
                  lagerplaetze.add(lgplatz);
              }
                  
@@ -2090,9 +2090,9 @@ public class WiSimDAOImpl implements WiSimDAO {
          return lagerplaetze;
      }    
      
-    /** Liefert alle Lagerplätze zurück, die einen bestimmten Artikel enthalten
-     * @return Collection mit den Lagerplätzen wo das Einzelteil liegt.
-     * @param etNr Einzelteil Nummer
+    /** Liefert alle Lagerplätze zurück, die einen bestimmten Article enthalten
+     * @return Collection mit den Lagerplätzen wo das WiSimComponent liegt.
+     * @param etNr WiSimComponent Nummer
      * @throws WiSimDAOException if a database problem occurs or the connection was never initialized
      */  
      public Collection getLagerplaetze(int etNr) throws WiSimDAOException {
@@ -2106,7 +2106,7 @@ public class WiSimDAOImpl implements WiSimDAO {
              lager = (Collection) new Vector();
              while (res.next()) 
              {
-             		Lagerplatz lgp = new Lagerplatz();
+             		WarehouseLocation lgp = new WarehouseLocation();
              		lgp.setStellplatzNr(res.getString(1));
              		lgp.setEinzelteilNr(etNr);
              		lgp.setBestand(res.getInt(3));
@@ -2121,9 +2121,9 @@ public class WiSimDAOImpl implements WiSimDAO {
      }
 
     /** Gibt eine Liste aller Einzelteile die sich im Lager befinden zurück.
-     * Jeder Eintrag hat neben den Informationen Einzelteil-Name auch die Zahlen für
+     * Jeder Eintrag hat neben den Informationen WiSimComponent-Name auch die Zahlen für
      * Bestand, Mindestbestand und MaxBestand.
-     * Jedes Einzelteil kommt nur einmal vor. Befindt sich ein Einzelteil auf mehrern
+     * Jedes WiSimComponent kommt nur einmal vor. Befindt sich ein WiSimComponent auf mehrern
      * Lagerplätzen, so werden die Bestände entsprechend summiert.
      * @throws WiSimDAOException if a database problem occurs or the connection was never initialized
      * @return Vector mit allen Einzelteilen die sich im Lager befinden.
@@ -2140,9 +2140,9 @@ public class WiSimDAOImpl implements WiSimDAO {
              ResultSet rset = stmt.executeQuery(sql);
              int i=0;
              while (rset.next()) {
-                 Einzelteil et = getEinzelteil(rset.getInt(1));
+                 WiSimComponent et = getEinzelteil(rset.getInt(1));
                  Collection lagerplaetze = new Vector();
-                 EinzelteilLagerElement etElem = new EinzelteilLagerElement();
+                 ComponentWarehouseItem etElem = new ComponentWarehouseItem();
                  etElem.setEinzelteilName(et.getName());
                  etElem.setId(et.getNr());
                  etElem.setBestand(rset.getInt(2));
@@ -2154,7 +2154,7 @@ public class WiSimDAOImpl implements WiSimDAO {
              
              int a = einzelteillagerelemente.size() - 1;
              while (a >= 0) {
-                 EinzelteilLagerElement etElem = (EinzelteilLagerElement) einzelteillagerelemente.get(a);
+                 ComponentWarehouseItem etElem = (ComponentWarehouseItem) einzelteillagerelemente.get(a);
                  Collection lagerplaetze = new Vector();
                  sql = "SELECT f_lg_StellplatzNr FROM rel_et_lg WHERE f_et_Nr = " + etElem.getId();
                  stmt = conn.createStatement();
@@ -2173,10 +2173,10 @@ public class WiSimDAOImpl implements WiSimDAO {
          return einzelteillagerelemente;
      }    
      
-    /** Gibt eine Liste aller Einzelteile die sich auf dem angegebenen Lagerplatz befinden zurück.
-     * Jeder Eintrag hat neben den Informationen Einzelteil-Name auch die Zahlen für
+    /** Gibt eine Liste aller Einzelteile die sich auf dem angegebenen WarehouseLocation befinden zurück.
+     * Jeder Eintrag hat neben den Informationen WiSimComponent-Name auch die Zahlen für
      * Bestand, Mindestbestand und MaxBestand.
-     * @param lagerplatz Der Lagerplatz
+     * @param lagerplatz Der WarehouseLocation
      * @throws WiSimDAOException if a database problem occurs or the connection was never initialized
      * @return Collection mit allen Einzelteilen des Lagerplatzes
      */       
@@ -2192,7 +2192,7 @@ public class WiSimDAOImpl implements WiSimDAO {
              Statement stmt = conn.createStatement();
              ResultSet rset = stmt.executeQuery(sql);
              while (rset.next()) {
-                 EinzelteilLagerElement etElem = new EinzelteilLagerElement();
+                 ComponentWarehouseItem etElem = new ComponentWarehouseItem();
                  etElem.setId(rset.getInt(1));
                  etElem.setBestand(rset.getInt(2));
                  etElem.setMaxBestand(rset.getInt(3));
@@ -2204,10 +2204,10 @@ public class WiSimDAOImpl implements WiSimDAO {
          return einzelteillagerelemente;
      }  
      
-     /** Gibt eine Liste aller Artikel die sich im Lager befinden zurück.
-     * Jeder Eintrag hat neben den Informationen Artikel-Name auch die Zahlen für
+     /** Gibt eine Liste aller Article die sich im Lager befinden zurück.
+     * Jeder Eintrag hat neben den Informationen Article-Name auch die Zahlen für
      * Bestand, Mindestbestand und MaxBestand.
-     * Jeder Artikel kommt nur einmal vor. Befindt sich ein Artikel auf mehrern
+     * Jeder Article kommt nur einmal vor. Befindt sich ein Article auf mehrern
      * Lagerplätzen, so werden die Bestände entsprechend summiert.
      * @throws WiSimDAOException if a database problem occurs or the connection was never initialized
      * @return Vector mit allen Artikeln die im Lager sind.
@@ -2224,9 +2224,9 @@ public class WiSimDAOImpl implements WiSimDAO {
              ResultSet rset = stmt.executeQuery(sql);
              int i=0;
              while (rset.next()) {
-                 Artikel art = getArtikel(rset.getInt(1));
+                 Article art = getArtikel(rset.getInt(1));
                  Collection lagerplaetze = new Vector();
-                 EinzelteilLagerElement etElem = new EinzelteilLagerElement();
+                 ComponentWarehouseItem etElem = new ComponentWarehouseItem();
                  etElem.setEinzelteilName(art.getName());
                  etElem.setId(art.getNr());
                  etElem.setBestand(rset.getInt(2));
@@ -2238,7 +2238,7 @@ public class WiSimDAOImpl implements WiSimDAO {
              
              int a = artikellagerelemente.size() - 1;
              while (a >= 0) {
-                 EinzelteilLagerElement etElem = (EinzelteilLagerElement) artikellagerelemente.get(a);
+                 ComponentWarehouseItem etElem = (ComponentWarehouseItem) artikellagerelemente.get(a);
                  Collection lagerplaetze = new Vector();
                  sql = "SELECT f_lg_StellplatzNr FROM rel_art_lg WHERE f_art_Nr = " + etElem.getId();
                  stmt = conn.createStatement();
@@ -2257,12 +2257,12 @@ public class WiSimDAOImpl implements WiSimDAO {
          return artikellagerelemente;
      }
      
-     /** Gibt eine Liste aller Artikel die sich auf dem angegebenen Lagerplatz befinden zurück.
-      * Jeder Eintrag hat neben den Informationen Artikel-Name auch die Zahlen für
+     /** Gibt eine Liste aller Article die sich auf dem angegebenen WarehouseLocation befinden zurück.
+      * Jeder Eintrag hat neben den Informationen Article-Name auch die Zahlen für
       * Bestand, Mindestbestand und MaxBestand.
-      * @param lagerplatz Der Lagerplatz
+      * @param lagerplatz Der WarehouseLocation
       * @throws WiSimDAOException if a database problem occurs or the connection was never initialized
-      * @return Collection mit allen Artikeln die auf dem Lagerplatz liegen
+      * @return Collection mit allen Artikeln die auf dem WarehouseLocation liegen
       */
      public Collection getArtikelLagerElement(String lagerplatz) throws WiSimDAOException {
          // Serverlog
@@ -2276,7 +2276,7 @@ public class WiSimDAOImpl implements WiSimDAO {
              Statement stmt = conn.createStatement();
              ResultSet rset = stmt.executeQuery(sql);
              while (rset.next()) {
-                 EinzelteilLagerElement etElem = new EinzelteilLagerElement();
+                 ComponentWarehouseItem etElem = new ComponentWarehouseItem();
                  etElem.setId(rset.getInt(1));
                  etElem.setBestand(rset.getInt(2));
                  etElem.setMaxBestand(rset.getInt(3));
@@ -2289,7 +2289,7 @@ public class WiSimDAOImpl implements WiSimDAO {
      }
 	
 	/** Erhöht / Erniedrigt den Bestand eines Einzelteils im Lager.
-	 * @param etNr Einzelteil Nummer
+	 * @param etNr WiSimComponent Nummer
 	 * @param menge neue Menge = aktuelleMenge + menge
 	 * Das heißt, wenn eine negative Menge angegeben wird, so erniedrigt man den Bestand.
 	 * @throws WiSimDAOWriteException if a database problem occurs or the connection was never initialized
@@ -2351,7 +2351,7 @@ public class WiSimDAOImpl implements WiSimDAO {
 			throw new WiSimDAOWriteException(sqlE.getMessage());
 		}
 	}/** Erhöht / Erniedrigt den Bestand eines Artikels im Lager.
-      * @param artNr Artikel Nummer
+      * @param artNr Article Nummer
       * @param menge neue Menge = aktuelleMenge + menge
       * Das heißt, wenn eine negative Menge angegeben wird, so erniedrigt man den Bestand.
       * @throws WiSimDAOWriteException if a database problem occurs or the connection was never initialized
@@ -2416,11 +2416,11 @@ public synchronized Vector getArbeitsplaetze() throws WiSimDAOException
 	{
 		Statement stmt = conn.createStatement();
 		ResultSet res = stmt.executeQuery(sql);
-		Arbeitsplatz arbeitsplatz = null;
+		WorkPlace arbeitsplatz = null;
 		while (res.next())
 		{
 			arbeitsplatz =
-				new Arbeitsplatz(
+				new WorkPlace(
 					res.getInt(1),
 					res.getString(2),
 					res.getInt(3),
@@ -2432,7 +2432,7 @@ public synchronized Vector getArbeitsplaetze() throws WiSimDAOException
 		arbeitsplaetze = new Vector();
 		while (it.hasNext())
 		{
-			Arbeitsplatz ap = (Arbeitsplatz) it.next();
+			WorkPlace ap = (WorkPlace) it.next();
 			sql = "SELECT nf_nachfolger FROM nf WHERE f_ap_nr = " + ap.getNr();
 			ResultSet res2 = stmt.executeQuery(sql);
 
@@ -2507,9 +2507,9 @@ public synchronized Collection getArbeitsplatzLager(
 			ResultSet res = stmt.executeQuery(sql);
 			while (res.next())
 			{
-				ArbeitsplatzLager apl = new ArbeitsplatzLager();
+				WorkPlaceStore apl = new WorkPlaceStore();
 				apl =
-					new ArbeitsplatzLager(
+					new WorkPlaceStore(
 						res.getInt(1),
 						res.getInt(2),
 						res.getString(3),
@@ -2534,7 +2534,7 @@ public synchronized Collection getArbeitsplatzLager(
  * @throws WiSimDAOException Fehler beim Lesen aus der DB
  * @return Arbeitsplatzlager
  */
-	public synchronized ArbeitsplatzLager getArbeitsplatzLager(
+	public synchronized WorkPlaceStore getArbeitsplatzLager(
 		int arbeitsplatzNr,
 		int einzelteilNr,
 		String typ)
@@ -2549,7 +2549,7 @@ public synchronized Collection getArbeitsplatzLager(
 				+ "' AND f_et_Nr = "
 				+ einzelteilNr;
 
-		ArbeitsplatzLager apLager = new ArbeitsplatzLager();
+		WorkPlaceStore apLager = new WorkPlaceStore();
 
 		try
 		{
@@ -2558,7 +2558,7 @@ public synchronized Collection getArbeitsplatzLager(
 			while (res.next())
 			{
 				apLager =
-					new ArbeitsplatzLager(
+					new WorkPlaceStore(
 						res.getInt(1),
 						res.getInt(2),
 						res.getString(3),
@@ -2574,10 +2574,10 @@ public synchronized Collection getArbeitsplatzLager(
                 return apLager;
         }
         
-        /** Gibt Stueckliste für einen bestimmten Artikel zurück. Der Key der Hashtable ist
-         * die Einzelteil-Nummer, der Value ist die erforderliche Menge um 1 Stück von
-         * diesem Artikel zu produzieren.
-         * @param artNr Artikel Nummer
+        /** Gibt Stueckliste für einen bestimmten Article zurück. Der Key der Hashtable ist
+         * die WiSimComponent-Nummer, der Value ist die erforderliche Menge um 1 Stück von
+         * diesem Article zu produzieren.
+         * @param artNr Article Nummer
          * @throws WiSimDAOException if an database error occurs
          * @return Hashtable (Stückliste)
          */   
@@ -2600,16 +2600,16 @@ public synchronized Collection getArbeitsplatzLager(
         /** Gibt die Auftragsposition zurück die zu dem entsprechenden
      	* Auftrag gehört.
      	* @param atNr Auftrags Nummer
-     	* @param artNr Artikel Nummer
+     	* @param artNr Article Nummer
      	* @throws WiSimDAOException if a database problem occurs or the connection was never initialized
      	* @return Die Auftragsposition.
      	*/     
-     	public AuftragsPosition getAuftragsPosition(int atNr, int artNr) throws WiSimDAOException {
+     	public OrderItem getAuftragsPosition(int atNr, int artNr) throws WiSimDAOException {
          // Serverlog
          logger.finest(
          "com.pixelpark.wisim.dao.WiSimDAOImpl.getAuftrag Action: start");
          String sql = "";
-         AuftragsPosition atp = new AuftragsPosition();
+         OrderItem atp = new OrderItem();
          try {
              sql = "SELECT f_art_Nr, f_at_Nr, rel_at_art_Bestellmenge FROM rel_at_art WHERE f_at_Nr = " + atNr + " AND f_art_Nr = " + artNr;
              Statement stmt = conn.createStatement();
@@ -2627,9 +2627,9 @@ public synchronized Collection getArbeitsplatzLager(
          return atp;
      }
         
-        /** Gibt die Bestellmenge eines bestimmten Artikels in einem Vertrag zurück.
+        /** Gibt die Bestellmenge eines bestimmten Artikels in einem Contract zurück.
          * @param atNr Auftrags Nr.
-         * @param artNr Artikel Nr.
+         * @param artNr Article Nr.
          * @throws WiSimDAOException if an database error occurs
          * @return Bestellmenge
          */        
@@ -2648,12 +2648,12 @@ public synchronized Collection getArbeitsplatzLager(
             return menge;
         }
         
-        /** Setzt die Position eines bestimmten Auftrags in einem Vertrag.
+        /** Setzt die Position eines bestimmten Auftrags in einem Contract.
          * @return int
          * @param atp Auftragspositions
          * @throws WiSimDAOWriteException Fehler beim Schreiben in die DB
          */  
-        public int setAuftragsPosition(AuftragsPosition atp) throws WiSimDAOWriteException{
+        public int setAuftragsPosition(OrderItem atp) throws WiSimDAOWriteException{
         	String sql = "insert into rel_at_art (f_art_Nr, f_at_Nr, rel_at_art_Bestellmenge) "
             + "VALUES ( "
             + atp.getArtNr()
@@ -2674,8 +2674,8 @@ public synchronized Collection getArbeitsplatzLager(
             return -1;
         }
         
-        /** Setzt die Zahl der Arbeiter für einen Arbeitsplatz
-         * @param apNr Arbeitsplatz Nummer
+        /** Setzt die Zahl der Arbeiter für einen WorkPlace
+         * @param apNr WorkPlace Nummer
          * @param anzahl Anzahl der Mitarbeiter
          * @throws WiSimDAOWriteException If an error occurs
          */   

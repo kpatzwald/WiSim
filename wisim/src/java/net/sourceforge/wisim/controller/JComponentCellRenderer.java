@@ -39,7 +39,7 @@ public class JComponentCellRenderer implements TableCellRenderer {
      * @param hasFocus
      * @param row
      * @param column
-     * @return Component
+     * @return WiSimComponent
      */
     public Component getTableCellRendererComponent(JTable table, Object value,
     boolean isSelected, boolean hasFocus, int row, int column) {

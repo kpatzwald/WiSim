@@ -27,10 +27,10 @@
  */
 package net.sourceforge.wisim.model;
 
-/** Arbeitsplatz
+/** WorkPlace
  * @author Kay Patzwald
  */
-public class Arbeitsplatz
+public class WorkPlace
 {
 	private int nr;
 	private String beschreibung;
@@ -39,33 +39,33 @@ public class Arbeitsplatz
 	private int[] nachfolger;
 	private int anzahlArbeiter;
 
-	/** Creates a new instance of Arbeitsplatz
+	/** Creates a new instance of WorkPlace
 	 * 
 	 */
-	public Arbeitsplatz()
+	public WorkPlace()
 	{
 	}
 
-	/** Creates a new instance of Arbeitsplatz
+	/** Creates a new instance of WorkPlace
    * @param nr Nummer
    * @param beschreibung Beschreibung
    * @param dauer Dauer
    */
-	public Arbeitsplatz(int nr, String beschreibung, int dauer)
+	public WorkPlace(int nr, String beschreibung, int dauer)
 	{
 		this.nr = nr;
 		this.beschreibung = beschreibung;
 		this.dauer = dauer;
 	}
 
-	/** Creates a new instance of Arbeitsplatz
+	/** Creates a new instance of WorkPlace
    * @param nr Nr
    * @param beschreibung Beschreibung
    * @param dauer Dauer
    * @param vorgaenger Vorgänger
    * @param nachfolger Nachfolger
    */
-	public Arbeitsplatz(
+	public WorkPlace(
 		int nr,
 		String beschreibung,
 		int dauer,
@@ -79,7 +79,7 @@ public class Arbeitsplatz
 		this.nachfolger = nachfolger;
 	}
 
-	/** Creates a new instance of Arbeitsplatz
+	/** Creates a new instance of WorkPlace
    * @param nr Nr
    * @param beschreibung Beschreibung
    * @param dauer Dauer
@@ -87,7 +87,7 @@ public class Arbeitsplatz
    * @param nachfolger Nachfolger
    * @param anzahlArbeiter Anzahl der Arbeiter
    */
-	public Arbeitsplatz(
+	public WorkPlace(
 		int nr,
 		String beschreibung,
 		int dauer,
@@ -103,13 +103,13 @@ public class Arbeitsplatz
 		this.anzahlArbeiter = anzahlArbeiter;
 	}
 
-	/** Creates a new instance of Arbeitsplatz
+	/** Creates a new instance of WorkPlace
    * @param nr Nr
    * @param beschreibung Beschreibung
    * @param dauer Dauer
    * @param anzahlArbeiter Anzahl der Arbeiter
    */
-	public Arbeitsplatz(
+	public WorkPlace(
 		int nr,
 		String beschreibung,
 		int dauer,

@@ -33,7 +33,7 @@ package net.sourceforge.wisim.model;
  *
  * @author  Denise freitag
  */
-public class AuftragsPosition {
+public class OrderItem {
     
     int atNr;
     int artNr;
@@ -41,15 +41,15 @@ public class AuftragsPosition {
     
     
     /** Creates a new instance of AuftragPositionen */
-    public AuftragsPosition() {
+    public OrderItem() {
     }
     
     /**
      * @param atNr Referenz auf den Auftrag
-     * @param artNr Referenz auf Artikel
+     * @param artNr Referenz auf Article
      * @param Bestellmenge Menge eines Artikels
      */    
-    public AuftragsPosition(int atNr, int artNr, long Bestellmenge) {
+    public OrderItem(int atNr, int artNr, long Bestellmenge) {
         this.atNr = atNr;
         this.artNr = artNr;
         this.Bestellmenge = Bestellmenge;

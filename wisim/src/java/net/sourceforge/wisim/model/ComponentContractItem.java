@@ -22,61 +22,94 @@
 **   ********************************************************************   */
 
 /*
- * Einzelteile.java
+ * EinzelteilauftragPositionen.java
  *
- * Created on 1. März 2003, 11:38
+ * Created on 8. März 2003, 15:46
  */
 
 package net.sourceforge.wisim.model;
 
 /**
  *
- * @author  Kay Patzwald
+ * @author  benjamin.pasero
  */
-public class Einzelteil {
-  
-  private int nr;
-  private String name;
-  private int mindestbestand;
-  
-  /** Creates a new instance of Einzelteile */
-  public Einzelteil() {
-  }
-  
-  /** Creates a new instance of Einzelteile */
-  public Einzelteil(int nr, String name, int mindestbestand) {
-    this.nr = nr;
-    this.name = name;
-    this.mindestbestand = mindestbestand;
-  }
-  
-  public int getNr()
-  {
-    return nr;
-  }
-  
-  public int getMindestbestand()
-  {
-    return mindestbestand;
-  }
-  
-  public String getName()
-  {
-    return name;
-  }
-  
-  public void setNr(int nr)
-  {
-    this.nr = nr;
-  }
+public class ComponentContractItem {
     
-  public void setName(String name)
-  {
-    this.name = name;
-  }
+    int etNr;
+    int etatNr;
+    int Bestellmenge;
+    double preis;
     
-  public void setMindestbestand(int mindestbestand)
-  {
-    this.mindestbestand = mindestbestand;
-  }
+    /** Creates a new instance of EinzelteilauftragPositionen */
+    public ComponentContractItem() {
+    }
+    
+    /**
+     * @param Preis
+     * @param etNr
+     * @param etatNr
+     * @param Bestellmenge
+     */    
+    public ComponentContractItem(int etNr, int etatNr, int Bestellmenge, double Preis) {
+        this.etNr = etNr;
+        this.etatNr = etatNr;
+        this.Bestellmenge = Bestellmenge;
+        this.preis = Preis;
+    }
+    
+    /**
+     * @return Einzelteilenummer
+     */    
+    public int getEtNr(){
+        return etNr;
+    }
+    
+    /**
+     * @return Einzelteilauftragsnummer
+     */    
+    public int getEtatNr() {
+        return etatNr;
+    }
+    
+    /**
+     * @return Bestellmenge
+     */    
+    public int getBestellmenge() {
+        return Bestellmenge;
+    }
+    
+    /**
+     * @return Preis
+     */    
+    public double getPreis() {
+        return preis;
+    }
+    
+    /**
+     * @param etNr
+     */    
+    public void setEtNr(int etNr){
+        this.etNr = etNr;
+    }
+    
+    /**
+     * @param etatNr
+     */    
+    public void setEtatNr(int etatNr) {
+        this.etatNr = etatNr;
+    }
+    
+    /**
+     * @param Bestellmenge
+     */    
+    public void setBestellmenge(int Bestellmenge) {
+        this.Bestellmenge = Bestellmenge;
+    }   
+    
+    /**
+     * @param Preis
+     */    
+    public void setPreis(double Preis) {
+        this.preis = Preis;
+    }
 }
