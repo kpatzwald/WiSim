@@ -49,6 +49,20 @@ public class DesktopMenu extends JMenu implements ActionListener {
 	private Collection buttons;
 
 	/**
+	 * @return
+	 */
+	public boolean isTileMode() {
+		return tileMode;
+	}
+
+	/**
+	 * @param tileMode
+	 */
+	public void setTileMode(boolean tileMode) {
+		this.tileMode = tileMode;
+	}
+
+	/**
 	 * creates the DesktopMenu object
 	 *
 	 * @param desktopMediator a reference to the DesktopMediator object

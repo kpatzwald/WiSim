@@ -45,7 +45,6 @@ public class DesktopMediator implements DesktopConstants {
 	private DesktopResizableToolBar desktopResizableToolbar;
 	private DesktopListener dListener;
 	private DesktopMenu dMenu;
-	private JInternalFrame lastSelectedFrame;
 
 	/**
 	 * creates the DesktopMediator object.
@@ -183,10 +182,6 @@ public class DesktopMediator implements DesktopConstants {
 	  * @param f the internal frame to set as selected
 	  */
 	public void setSelectedFrame(JInternalFrame f) {
-		if(!f.equals(getSelectedFrame()))
-		{
-			lastSelectedFrame = getSelectedFrame();
-		}
 		desktopScrollpane.setSelectedFrame(f);
 	}
 	/** 
@@ -216,11 +211,6 @@ public class DesktopMediator implements DesktopConstants {
 	  * @param f the internal frame to center the view about
 	  */
 	public void centerView(BaseInternalFrame f) {
-		if(!f.equals(getSelectedFrame()))
-		{
-			lastSelectedFrame = getSelectedFrame();
-		}
-		
 		desktopScrollpane.centerView(f);
 	}
 	/** 

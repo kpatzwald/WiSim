@@ -54,6 +54,20 @@ public class BaseInternalFrame extends JInternalFrame {
 	private int initialWidth;
 	private int initialHeight;
 
+	/**
+	 * @return
+	 */
+	public boolean isClosable() {
+		return isClosable;
+	}
+
+	/**
+	 * @param isClosable
+	 */
+	public void setClosable(boolean isClosable) {
+		this.isClosable = isClosable;
+	}
+
 	/** 
 	  *  creates the BaseInternalFrame
 	  *
