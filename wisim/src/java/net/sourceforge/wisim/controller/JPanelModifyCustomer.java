@@ -440,9 +440,9 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
 	} //GEN-LAST:event_jTextFieldKundeBearbeitenEMailFocusGained
 
 	private void jButtonKundeLoeschenActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jButtonKundeLoeschenActionPerformed
-		int auswahl = getSelKundeID();
+		int auswahl = getSelectedCustomerID();
 		if (auswahl != 0) {
-			loescheKunde(getSelKundeID());
+			deleteCostumer(getSelectedCustomerID());
 		} else {
 			JOptionPane.showMessageDialog(this, "Sie müssen erst einen Kunden auswählen.", "Fehler beim Löschen eines Kunden", JOptionPane.ERROR_MESSAGE);
 		}
@@ -489,7 +489,7 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
 	} //GEN-LAST:event_jTextFieldKundeBearbeitenPLZFocusLost
 
 	private void jButtonKundeBearbeitenActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jButtonKundeBearbeitenActionPerformed
-		int auswahl = getSelKundeID();
+		int auswahl = getSelectedCustomerID();
 		if (auswahl == 0) {
 			JOptionPane.showMessageDialog(this, "Sie müssen erst einen Kunden auswählen.", "Fehler beim Speichern eines Kunden", JOptionPane.ERROR_MESSAGE);
 		} else {
@@ -517,7 +517,7 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
 			} else {
 				int submit = JOptionPane.showConfirmDialog(this, "Änderungen an diesem Kunden Speichern?", "Kunden Speichern", JOptionPane.YES_NO_OPTION);
 				if (submit == 0) {
-					kundenSpeichern();
+					saveNewCustomer();
 				}
 			}
 		}
@@ -526,7 +526,7 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
 	private void jButtonNotizEntfernenActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jButtonNotizEntfernenActionPerformed
 		if (jListTextFieldKundeBearbeitenVerlauf.isShowing()) {
 			if (!jListTextFieldKundeBearbeitenVerlauf.isSelectionEmpty()) {
-				loescheNotiz(jListTextFieldKundeBearbeitenVerlauf.getAnchorSelectionIndex());
+				deleteMemo(jListTextFieldKundeBearbeitenVerlauf.getAnchorSelectionIndex());
 			} else {
 				JOptionPane.showMessageDialog(this, "Sie müssen im Verlauf eine Bemerkung markieren um sie zu löschen.", "Hinweis", JOptionPane.INFORMATION_MESSAGE);
 			}
@@ -537,21 +537,21 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
 
 	private void jButtonNotizHinzufuegenActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jButtonNotizHinzufuegenActionPerformed
 		jTextAreaKundeBearbeitenBemerkung.removeAll();
-		neueNotiz();
+		newMemo();
 	} //GEN-LAST:event_jButtonNotizHinzufuegenActionPerformed
 
 	private void jListTextFieldKundeBearbeitenVerlaufValueChanged(javax.swing.event.ListSelectionEvent evt) { //GEN-FIRST:event_jListTextFieldKundeBearbeitenVerlaufValueChanged
 		if (!jListTextFieldKundeBearbeitenVerlauf.isSelectionEmpty()) {
-			showNotiz(jListTextFieldKundeBearbeitenVerlauf.getMaxSelectionIndex());
+			showMemo(jListTextFieldKundeBearbeitenVerlauf.getMaxSelectionIndex());
 		}
 	} //GEN-LAST:event_jListTextFieldKundeBearbeitenVerlaufValueChanged
 
 	private void jComboBoxKundenBearbeitenActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jComboBoxKundenBearbeitenActionPerformed
-		ladeKunde(getSelKundeID());
+		loadCustomer(getSelectedCustomerID());
 	} //GEN-LAST:event_jComboBoxKundenBearbeitenActionPerformed
 
 	private void jComboBoxKundenBearbeitenAncestorAdded(javax.swing.event.AncestorEvent evt) { //GEN-FIRST:event_jComboBoxKundenBearbeitenAncestorAdded
-		ladeKunden();
+		loadCustomers();
 	} //GEN-LAST:event_jComboBoxKundenBearbeitenAncestorAdded
 
 	/** Löscht die Eingabemasken
@@ -584,7 +584,7 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
 	}
 
 	/** Füllt die ComboBox Kundenliste mit den in der DB vorhandenen Kunden */
-	private void ladeKunden() {
+	private void loadCustomers() {
 		clearScreen();
 		Collection kundenliste = null;
 		try {
@@ -617,7 +617,7 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
 	/** Liefert die KD_Nr des aktiven Kunden
 	 * @return int
 	 */
-	private int getSelKundeID() {
+	private int getSelectedCustomerID() {
 		//liefert listItem des selektierten Eintrags
 		String listItem = String.valueOf(jComboBoxKundenBearbeiten.getSelectedIndex());
 		//sucht das aktive KundenObjekt in Hashtabelle kundenObjekte
@@ -631,7 +631,7 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
 	/** Lädt einen Kunden zum Bearbeiten aus der Datenbank
 	 * @param KdID Kunden ID
 	 */
-	private void ladeKunde(int kdID) {
+	private void loadCustomer(int kdID) {
 		if (kdID != 0) {
 			Customer lkunde = new Customer();
 			try {
@@ -648,10 +648,10 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
 			jTextFieldKundeBearbeitenEMail.setText(lkunde.getEmail());
 			jTextFieldKundeBearbeitenPLZ.setText(lkunde.getPlz());
 			jTextFieldKundeBearbeitenOrt.setText(lkunde.getOrt());
-			ladeVerlauf(lkunde.getId());
-			setTypSelection(lkunde.getKundentyp());
-			setAnspruchSelection(lkunde.getAnspruch());
-			setZMorelSelection(lkunde.getZahlungsmoral());
+			loadMemoHistory(lkunde.getId());
+			setTypeSelection(lkunde.getKundentyp());
+			setClaimSelection(lkunde.getAnspruch());
+			setMorelSelection(lkunde.getZahlungsmoral());
 			jTabbedPaneKundeBearbeitenNotizen.setSelectedComponent(jScrollPaneKundeBearbeitenBemerkung);
 		} else {
 			clearScreen();
@@ -661,7 +661,7 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
 	/** Lädt Kundenverlauf zum Bearbeiten aus der Datenbank
 	 * @param KdNr Kunden ID
 	 */
-	private void ladeVerlauf(int kdNr) {
+	private void loadMemoHistory(int kdNr) {
 		DefaultListModel mymodel = (DefaultListModel) jListTextFieldKundeBearbeitenVerlauf.getModel();
 		mymodel.removeAllElements();
 		try {
@@ -675,7 +675,7 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
 			}
 			//Eintragen der Bemerkungen in Verlauf Tab
 			jListTextFieldKundeBearbeitenVerlauf.setModel(mymodel);
-			showNotiz(verlauf.lastIndexOf(einzelnotiz));
+			showMemo(verlauf.lastIndexOf(einzelnotiz));
 
 		} catch (WiSimDAOException wde) {
 			logger.log("ladeVerlauf(int)", wde);
@@ -686,7 +686,7 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
 	/** Gibt Notizobjekt in aktuell TAB aus
 	 * @param noteNr Nummer der Bemerkung
 	 */
-	private void showNotiz(int noteNr) {
+	private void showMemo(int noteNr) {
 		if (verlauf.size() > 0) {
 			Memo aktuell = new Memo();
 			aktuell = (Memo) verlauf.elementAt(noteNr);
@@ -697,14 +697,14 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
 	}
 
 	/** Gibt Notizobjekt in aktuell TAB aus */
-	private void neueNotiz() {
+	private void newMemo() {
 		String neu = "";
 		if (jComboBoxKundenBearbeiten.getSelectedItem().toString().equalsIgnoreCase("Bitte wählen")) {
 			JOptionPane.showMessageDialog(null, "Sie haben keinen Kunden ausgewählt!", "Warunung", JOptionPane.WARNING_MESSAGE);
 		} else {
 			neu = JOptionPane.showInputDialog("Neue Notiz eingeben:", neu);
 			if (neu != null && neu.length() > 1) {
-				int kdNr = getSelKundeID();
+				int kdNr = getSelectedCustomerID();
 				if (kdNr != 0) {
 					Memo dieneu = new Memo();
 					try {
@@ -712,7 +712,7 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
 						dieneu.setDate(new java.sql.Date(wiSimMainController.getActDate().getTime()));
 						dieneu.setKundenNr(kdNr);
 						dao.neueNotiz(dieneu);
-						ladeVerlauf(kdNr);
+						loadMemoHistory(kdNr);
 					} catch (WiSimDAOException e) {
 						logger.log("neueNotiz()", e);
 					} catch (WiSimDAOWriteException e) {
@@ -725,7 +725,7 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
 	/** Loescht ein Notizobjekt
 	 * @param listenId Nummer der Bemerkung
 	 */
-	private void loescheNotiz(int listenId) {
+	private void deleteMemo(int listenId) {
 		Memo lNotiz = new Memo();
 		int submit = JOptionPane.showConfirmDialog(this, "Wollen Sie die Notiz aus dem Bemerkungsverlauf entfernen?", "Notiz entfernen", JOptionPane.YES_NO_OPTION);
 		if (submit == 0) {
@@ -737,31 +737,32 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
 					logger.log("loescheNotiz(int)", e);
 				}
 			}
-			ladeVerlauf(lNotiz.getKundenNr());
+			loadMemoHistory(lNotiz.getKundenNr());
 		}
 	}
 
 	/** Loescht einen Kunden
 	 * @param KdId ID des Kunden
 	 */
-	private void loescheKunde(int kdId) {
+	private void deleteCostumer(int kdId) {
 		int submit = JOptionPane.showConfirmDialog(this, "Wollen Sie den Kunden aus der Kundenliste löschen?", "Kunden löschen", JOptionPane.YES_NO_OPTION);
 		if (submit == 0) {
 			try {
 				dao.setKundenLoeschStatus(kdId, true);
-				ladeKunden();
+				loadCustomers();
 			} catch (WiSimDAOException e) {
 				logger.log("loescheKunde(int)", e);
 			} catch (WiSimDAOWriteException e) {
 				logger.log("loescheKunde(int)", e);
 			}
 		}
+		JOptionPane.showMessageDialog(this,"Der Kunde wurde erfolgreich gelöscht.", "Kunde", JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	/** Selectiert den Kundentyp entsprechend der Datenbankeintraege
 	 * @param selectitem Der ausgewähle Wert
 	 */
-	private void setTypSelection(String selectitem) {
+	private void setTypeSelection(String selectitem) {
 		DefaultComboBoxModel typmodel = (DefaultComboBoxModel) jComboBoxKundeBearbeitenKundentyp.getModel();
 		int size = typmodel.getSize();
 		String item = "";
@@ -777,7 +778,7 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
 	/** Selectiert den KundenAnspruch entsprechend der Datenbankeintraege
 	 * @param selectitem Der ausgewählte Wert
 	 */
-	private void setAnspruchSelection(String selectitem) {
+	private void setClaimSelection(String selectitem) {
 		DefaultComboBoxModel anmodel = (DefaultComboBoxModel) jComboBoxKundeBearbeitenAnspruch.getModel();
 		int size = anmodel.getSize();
 		if (selectitem.equals("")) {
@@ -796,7 +797,7 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
 	/** Selectiert den KundenAnspruch entsprechend der Datenbankeintraege
 	 * @param selectitem Der ausgewählte Wert
 	 */
-	private void setZMorelSelection(String selectitem) {
+	private void setMorelSelection(String selectitem) {
 		DefaultComboBoxModel zmodel = (DefaultComboBoxModel) jComboBoxKundeBearbeitenZahlungsmoral.getModel();
 		int size = zmodel.getSize();
 		String item = "";
@@ -810,7 +811,7 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
 	}
 
 	/** Speichert Kundendaten */
-	private void kundenSpeichern() {
+	private void saveNewCustomer() {
 		//liefert listItem des selektierten Eintrags
 		String selectedItem = String.valueOf(jComboBoxKundenBearbeiten.getSelectedIndex());
 		//sucht das aktive KundenObjekt in Hashtabelle kundenAuswahl
@@ -847,12 +848,13 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
 
 		try {
 			dao.aendereKunden(kunde);
-			ladeKunden();
+			loadCustomers();
 		} catch (WiSimDAOWriteException e) {
 			logger.log("kundenSpeichern()", e);
 		} catch (WiSimDAOException e) {
 			logger.log("kundenSpeichern()", e);
 		}
+		JOptionPane.showMessageDialog(this,"Der Kunde wurde erfolgreich gespeichert.", "Kunde", JOptionPane.INFORMATION_MESSAGE);
 	}
 	// Variables declaration - do not modify//GEN-BEGIN:variables
 	private javax.swing.JButton jButtonKundeBearbeiten;

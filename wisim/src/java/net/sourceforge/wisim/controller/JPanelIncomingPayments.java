@@ -32,6 +32,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.text.DecimalFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Hashtable;
@@ -66,6 +67,7 @@ public class JPanelIncomingPayments extends javax.swing.JPanel implements Simula
 	private boolean isBuilt;
 	private WiSimMainController wiSimMainController;
 	private WiSimLogger logger;
+	private DecimalFormat format;
 
 	/** Creates new form JPanelZahlungseingang
 	 * @param wiSimMainController Der WiSimMainController
@@ -80,6 +82,7 @@ public class JPanelIncomingPayments extends javax.swing.JPanel implements Simula
 		anzahl = 0;
 		isBuilt = false;
 		initComponents();
+		format = new DecimalFormat("###,##0.00");
 	}
 
 	private void initDAO(WiSimMainController wiSimMainController) {
@@ -487,9 +490,9 @@ public class JPanelIncomingPayments extends javax.swing.JPanel implements Simula
 		if (auswahlVertrag != null) {
 			jTextFieldKunde.setText(auswahlKunde.getNachname() + ", " + auswahlKunde.getVorname());
 			jTextFieldFirma.setText(auswahlKunde.getFirma());
-			jTextFieldRabatt.setText(String.valueOf(auswahlVertrag.getRabatt()));
-			jTextFieldSkonto.setText(String.valueOf(auswahlVertrag.getSkonto()));
-			jTextFieldPreis.setText(String.valueOf(auswahlRechnung.getBetrag()));
+			jTextFieldRabatt.setText(format.format(auswahlVertrag.getRabatt()));
+			jTextFieldSkonto.setText(format.format(auswahlVertrag.getSkonto()));
+			jTextFieldPreis.setText(format.format(auswahlRechnung.getBetrag()));
 			jTextFieldAuftragsdatum.setText(String.valueOf(formatDate(auswahlVertrag.getVertragsdatum())));
 			jTextFieldLieferdatum.setText(String.valueOf(formatDate(auswahlVertrag.getLieferdatum())));
 			jTextFieldNr.setText(String.valueOf(auswahlRechnung.getNr()));
@@ -526,7 +529,7 @@ public class JPanelIncomingPayments extends javax.swing.JPanel implements Simula
 	 * @param dateToFormat Das zu formatierende Datum.
 	 * @return Das formatierte Datum.
 	 */
-	public String formatDate(java.sql.Date dateToFormat) {
+	private String formatDate(java.sql.Date dateToFormat) {
 		String date = String.valueOf(dateToFormat);
 		String year = date.substring(0, 4);
 		String month = date.substring(5, 7);
@@ -540,7 +543,7 @@ public class JPanelIncomingPayments extends javax.swing.JPanel implements Simula
 	 * @param two dynamisches Datum
 	 * @return int
 	 */
-	public int vergleicheDatum(Date one, Date two) {
+	private int vergleicheDatum(Date one, Date two) {
 		//umwandeln in UtilDate
 		one = new java.util.Date(one.getTime());
 		two = new java.util.Date(two.getTime());
@@ -566,7 +569,7 @@ public class JPanelIncomingPayments extends javax.swing.JPanel implements Simula
 	}
 
 	/** Erstellt die Tabelle. */
-	public void setTabelle() {
+	private void setTabelle() {
 
 		Object[][] tableInit = new Object[anzahl][4];
 		DefaultTableModel defTable = new DefaultTableModel(tableInit, new String[] { "Nr", "Name, Vorname", "Lieferung", "Zahlung" }) {

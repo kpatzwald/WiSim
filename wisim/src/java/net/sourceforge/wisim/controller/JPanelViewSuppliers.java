@@ -33,6 +33,7 @@ import net.sourceforge.wisim.dao.*;
 import net.sourceforge.wisim.model.*;
 
 import java.awt.Dimension;
+import java.text.DecimalFormat;
 import java.util.*;
 import javax.swing.table.DefaultTableModel;
 
@@ -51,6 +52,8 @@ public class JPanelViewSuppliers extends javax.swing.JPanel {
 	
 	//	Logger
 	private WiSimLogger wiSimLogger;
+	
+	private DecimalFormat format;
 
 	/** Creates new form JPanelLieferantenliste
 	   * @param wiSimMainController Der Maincontroller
@@ -65,6 +68,7 @@ public class JPanelViewSuppliers extends javax.swing.JPanel {
 		listeArtikel = new Vector();
 		listeArtikel.add("Bitte wählen");
 		this.setPreferredSize(new Dimension(800,600));
+		format = new DecimalFormat("###,##0.00");
 	}
 
 	private void initDAO(WiSimMainController wiSimMainController) {
@@ -359,7 +363,7 @@ public class JPanelViewSuppliers extends javax.swing.JPanel {
 				int row = 0;
 
 				while (row < position) {
-					tableTempRow.add(jTable1.getValueAt(row, 0) + "," + jTable1.getValueAt(row, 1) + "," + jTable1.getValueAt(row, 2));
+					tableTempRow.add(jTable1.getValueAt(row, 0) + ";" + jTable1.getValueAt(row, 1) + ";" + jTable1.getValueAt(row, 2));
 					row++;
 				}
 
@@ -372,7 +376,7 @@ public class JPanelViewSuppliers extends javax.swing.JPanel {
 					row = 0;
 					while (it_tableTempRow.hasNext()) {
 						String complete = (String) it_tableTempRow.next();
-						String[] chunks = complete.split(",");
+						String[] chunks = complete.split(";");
 						jTable1.setValueAt(chunks[0], row, 0);
 						jTable1.setValueAt(chunks[1], row, 1);
 						jTable1.setValueAt(chunks[2], row, 2);
@@ -383,7 +387,8 @@ public class JPanelViewSuppliers extends javax.swing.JPanel {
 				zubehoerTabelle.put(einzelteil.getName(), String.valueOf(einzelteil.getNr()));
 				jTable1.setValueAt(einzelteil.getName(), position, 0);
 				jTable1.setValueAt(String.valueOf(liste.getMindestBestellMenge()), position, 1);
-				jTable1.setValueAt(String.valueOf(liste.getPreis()), position, 2);
+				double price = liste.getPreis();
+				jTable1.setValueAt(format.format(price), position, 2);
 				position++;
 			}
 		} catch (WiSimDAOException e) {
@@ -394,7 +399,7 @@ public class JPanelViewSuppliers extends javax.swing.JPanel {
 	/** Schreibt die Positions-Tabelle neu
 	 * @param Deleted boolean
 	 */
-	public void updatePositionsTable(boolean deleted) {
+	private void updatePositionsTable(boolean deleted) {
 		int rows;
 
 		if (deleted) {
@@ -437,7 +442,7 @@ public class JPanelViewSuppliers extends javax.swing.JPanel {
 	/** Schreibt die Lieferanten-Tabelle neu
 	 * @param Delete boolean
 	 */
-	public void updateLieferantenTable(boolean delete) {
+	private void updateLieferantenTable(boolean delete) {
 		int rows;
 
 		if (delete) {
