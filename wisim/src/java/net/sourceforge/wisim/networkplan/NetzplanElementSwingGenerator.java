@@ -24,6 +24,7 @@
 package net.sourceforge.wisim.networkplan;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
@@ -38,7 +39,7 @@ import javax.swing.border.LineBorder;
 /**
  * [DoItBen] Kommentar Klasse NetworkplanElementSwingGenerator
  * @author benjamin.pasero
- * @version 0.4a
+ * @version 0.5a
  */
 public class NetzplanElementSwingGenerator {
 
@@ -63,7 +64,6 @@ public class NetzplanElementSwingGenerator {
 
 	/**
 	 * [DoItBen] Kommentar Konstruktor NetzplanElementSwingGenerator()
-	 * 
 	 */
 	public NetzplanElementSwingGenerator() {
 		npElementContainer = new JPanel();
@@ -113,15 +113,15 @@ public class NetzplanElementSwingGenerator {
 		/** Container that holds all swing-elements */
 		npElementContainer.setLayout(null);
 
-		Color c = new java.awt.Color(255, 255, 255, 100);
+		Color c = new Color(255, 255, 255, 100);
 
 		npElementContainer.setBackground(c);
-		npElementContainer.setPreferredSize(new java.awt.Dimension(350, 280));
+		npElementContainer.setPreferredSize(new Dimension(350, 280));
 
 		/** Rectangle of the network plan element */
 		npElementRect.setLayout(null);
 
-		npElementRect.setBackground(new java.awt.Color(255, 255, 255));
+		npElementRect.setBackground(new Color(255, 255, 255));
 
 		Color lineColor = new Color(0, 0, 0);
 		if (np.isCriticalPath()) {
@@ -131,7 +131,7 @@ public class NetzplanElementSwingGenerator {
 
 		npElementRect.setBorder(new LineBorder(lineColor));
 
-		npElementRect.setPreferredSize(new java.awt.Dimension(300, 150));
+		npElementRect.setPreferredSize(new Dimension(300, 150));
 
 		/** Connection-line between two elements on top */
 		if (!np.isStartElem()) {
@@ -371,7 +371,7 @@ public class NetzplanElementSwingGenerator {
 		npElementContainer.add(jLabelSEZ);
 		jLabelSEZ.setBounds(290, 217, 40, 20);
 
-		npElementContainer.setBounds(60, 290, 360, 275);
+		//npElementContainer.setBounds(60, 290, 360, 275);
 		return npElementContainer;
 	}
 

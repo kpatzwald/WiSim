@@ -37,7 +37,7 @@ import javax.swing.SwingConstants;
 /**
  * [DoItBen] Kommentar Klasse NetzplanGrafikSwingGenerator
  * @author benjamin.pasero
- * @version 0.4a
+ * @version 0.5a
  */
 public class NetzplanSwingGenerator {
 
@@ -53,8 +53,6 @@ public class NetzplanSwingGenerator {
 	private int maxWidthPos;
 	private int maxHeightPos;
 
-	private int countSwingElements;
-
 	private JPanel jPanelNetworkplanContainer;
 
 	/**
@@ -63,10 +61,13 @@ public class NetzplanSwingGenerator {
 	 */
 	public NetzplanSwingGenerator(Vector npElemente) {
 
+		/** [DoItBen] Tupel-Array muss dynamische Größe haben */
 		tupel = new Vector[100];
-		countSwingElements = 0;
 
-		/** Matrix for positioning of the elements */
+		/** 
+		 * Matrix for positioning of the elements 
+		 * [DoItBen] Positions-Array muss dynamische Größe haben
+		 */
 		position = new int[20][20];
 		for (int a = 0; a < 20; a++)
 			for (int b = 0; b < 20; b++)
@@ -76,12 +77,11 @@ public class NetzplanSwingGenerator {
 		npCalc = new NetzplanCalculator(npElemente);
 		npElemente = npCalc.getNpElemente();
 
-		//showCriticalPath(); <- Some Bugs. Fixes in next versions!
+		/** [DoItBen] Korrekte Anzeige des kritischen Pfades */
+		//showCriticalPath(); <- Some Bugs. Fixes in future versions!
 
 		maxWidth = npCalc.getMaxWidthOfNetzplan();
 		calculatePositions();
-
-		System.out.println("Row with most elements: " + getMostWidthRow());
 
 		/** Max. size of image: Width */
 		maxWidthPos = 0;
@@ -104,7 +104,7 @@ public class NetzplanSwingGenerator {
 		}
 
 		jPanelNetworkplanContainer = new JPanel();
-		jPanelNetworkplanContainer.setBounds(30, 30, 500 * maxWidthPos, 260 * maxHeightPos);
+		//jPanelNetworkplanContainer.setBounds(30, 30, 430 * maxWidthPos, 260 * maxHeightPos);
 		jPanelNetworkplanContainer.setLayout(null);
 		jPanelNetworkplanContainer.setAutoscrolls(true);
 
@@ -140,7 +140,9 @@ public class NetzplanSwingGenerator {
 		/** Paint the middle of the tree with the most elements */
 		int middlePos = getMostWidthRow() - 1;
 		int middlePosElements = tupel[middlePos].size();
-		int stomachSize = 430 * middlePosElements; //korrekt
+
+		/** Width of the middle */
+		int stomachSize = 430 * middlePosElements;
 
 		Vector middleElements = tupel[middlePos];
 
@@ -158,26 +160,14 @@ public class NetzplanSwingGenerator {
 
 			NetzplanElement np = (NetzplanElement) npElemente.get(currentElementNumber - 1);
 
-			if (checkIfLine < 0) {
-
-				JSeparator jSeparatorVerticalCon = new JSeparator();
-				jSeparatorVerticalCon.setOrientation(SwingConstants.VERTICAL);
-				jSeparatorVerticalCon.setBounds(210 + x * 430 + freeWidth, 30 + middlePos * 280, 1, 280);
-				jSeparatorVerticalCon.setForeground(Color.BLACK);
-
-				if (np.isCriticalPath())
-					jSeparatorVerticalCon.setForeground(Color.RED);
-
-				jPanelNetworkplanContainer.add(jSeparatorVerticalCon);
-
-			} else {
+			/** This element is not a vertical connection line */
+			if (checkIfLine > 0) {
 				npElemPanel = npGen[i].generateNetzplanelement(np);
-
 				jPanelNetworkplanContainer.add(npElemPanel);
 				npElemPanel.setBounds(30 + x * 430, 30 + middlePos * 280, 360, 280);
 			}
 
-			/** Save the position of this element */
+			/** Save the position of this element (Set the anchor points) */
 			np.setAnchorTopXPos(30 + x * 430 + 180);
 			np.setAnchorTopYPos(30 + middlePos * 280);
 			np.setAnchorBottomXPos(30 + x * 430 + 180);
@@ -205,8 +195,6 @@ public class NetzplanSwingGenerator {
 
 				NetzplanElement np = (NetzplanElement) npElemente.get(currentElementNumber - 1);
 				childCount += np.getNachfolger().length;
-
-				/** [DoItBen] Was is wenn das Nachfolgeelement nur eine Wartelinie ist!? */
 			}
 
 			int topElementsCount = tupel[topPos].size();
@@ -235,27 +223,14 @@ public class NetzplanSwingGenerator {
 
 				occupied = freeWidth * 2;
 
-				if (checkIfLine < 0) {
-
-					JSeparator jSeparatorVerticalCon = new JSeparator();
-					jSeparatorVerticalCon.setOrientation(SwingConstants.VERTICAL);
-					jSeparatorVerticalCon.setBounds(210 + x * 430 + freeWidth, 30 + middlePos * 280, 1, 280);
-					jSeparatorVerticalCon.setForeground(Color.BLACK);
-
-					if (np.isCriticalPath())
-						jSeparatorVerticalCon.setForeground(Color.RED);
-
-					jPanelNetworkplanContainer.add(jSeparatorVerticalCon);
-
-				} else {
-
+				/** This element is not a vertical connection line */
+				if (checkIfLine > 0) {
 					npElemPanel = npGen[i].generateNetzplanelement(np);
-
 					jPanelNetworkplanContainer.add(npElemPanel);
 					npElemPanel.setBounds(30 + y * 430 + freeWidth, 30 + topPos * 280, 360, 280);
 				}
 
-				/** Save the position of this element */
+				/** Save the position of this element (Set the anchor points) */
 				np.setAnchorTopXPos(30 + y * 430 + freeWidth + 180);
 				np.setAnchorTopYPos(30 + topPos * 280);
 				np.setAnchorBottomXPos(30 + y * 430 + freeWidth + 180);
@@ -271,10 +246,9 @@ public class NetzplanSwingGenerator {
 		/** Paint the elements in the bottom of the middle */
 		int bottomPos = middlePos + 1;
 
-		while (tupel[bottomPos] != null && bottomPos < tupel.length) {
+		while (tupel[bottomPos] != null) {
 
 			int y = 0;
-
 			Vector bottomElements = tupel[bottomPos];
 
 			int bottomElementsCount = tupel[bottomPos].size();
@@ -302,26 +276,15 @@ public class NetzplanSwingGenerator {
 				if (freeWidth < 0)
 					freeWidth = 0;
 
-				if (checkIfLine < 0) {
-
-					JSeparator jSeparatorVerticalCon = new JSeparator();
-					jSeparatorVerticalCon.setOrientation(SwingConstants.VERTICAL);
-					jSeparatorVerticalCon.setBounds(210 + y * 430 + freeWidth, 30 + bottomPos * 280, 1, 280);
-					jSeparatorVerticalCon.setForeground(Color.BLACK);
-
-					if (np.isCriticalPath())
-						jSeparatorVerticalCon.setForeground(Color.RED);
-
-					jPanelNetworkplanContainer.add(jSeparatorVerticalCon);
-
-				} else {
+				/** This element is not a vertical connection line */
+				if (checkIfLine > 0) {
 					npElemPanel = npGen[i].generateNetzplanelement(np);
 
 					jPanelNetworkplanContainer.add(npElemPanel);
 					npElemPanel.setBounds(30 + y * 430 + freeWidth, 30 + bottomPos * 280, 360, 280);
 				}
 
-				/** Save the position of this element */
+				/** Save the position of this element (Set the anchor points) */
 				np.setAnchorTopXPos(30 + y * 430 + freeWidth + 180);
 				np.setAnchorTopYPos(30 + bottomPos * 280);
 				np.setAnchorBottomXPos(30 + y * 430 + freeWidth + 180);
@@ -333,7 +296,7 @@ public class NetzplanSwingGenerator {
 			bottomPos++;
 		}
 
-		/** Paint the horizontal connection lines */
+		/** Paint the horizontal and vertical connection lines */
 		Iterator npElemIt = npElemente.iterator();
 		while (npElemIt.hasNext()) {
 			NetzplanElement np = (NetzplanElement) npElemIt.next();
@@ -368,7 +331,7 @@ public class NetzplanSwingGenerator {
 
 				int r = 1;
 				int width = 0;
-				int xPosStartMin = 999999;
+				int xPosStartMin = (int) ((NetzplanElement) npElemente.get(vorgaenger[0] - 1)).getAnchorBottomXPos();
 				int xPosStartMax = 0;
 
 				int yPosStart = 0;
@@ -380,10 +343,14 @@ public class NetzplanSwingGenerator {
 				 * back an unsorted list of elements!! Perhaps i'll fix this in future versions
 				 */
 				while (u < vorgaenger.length) {
-					if ((int) ((NetzplanElement) npElemente.get(vorgaenger[u] - 1)).getAnchorBottomXPos() < xPosStartMin)
-						xPosStartMin = (int) ((NetzplanElement) npElemente.get(vorgaenger[u] - 1)).getAnchorBottomXPos();
-					if ((int) ((NetzplanElement) npElemente.get(vorgaenger[u] - 1)).getAnchorBottomXPos() > xPosStartMax)
-						xPosStartMax = (int) ((NetzplanElement) npElemente.get(vorgaenger[u] - 1)).getAnchorBottomXPos();
+					if ((int) ((NetzplanElement) npElemente.get(vorgaenger[u] - 1)).getAnchorBottomXPos()
+						< xPosStartMin)
+						xPosStartMin =
+							(int) ((NetzplanElement) npElemente.get(vorgaenger[u] - 1)).getAnchorBottomXPos();
+					if ((int) ((NetzplanElement) npElemente.get(vorgaenger[u] - 1)).getAnchorBottomXPos()
+						> xPosStartMax)
+						xPosStartMax =
+							(int) ((NetzplanElement) npElemente.get(vorgaenger[u] - 1)).getAnchorBottomXPos();
 
 					if (yPosStart < (int) ((NetzplanElement) npElemente.get(vorgaenger[u] - 1)).getAnchorBottomYPos())
 						yPosStart = (int) ((NetzplanElement) npElemente.get(vorgaenger[u] - 1)).getAnchorBottomYPos();
@@ -400,6 +367,34 @@ public class NetzplanSwingGenerator {
 
 				jPanelNetworkplanContainer.add(jSeparatorHorizontalCon);
 			}
+		}
+
+		/** Paint the vertical connection lines. */
+		int z = 0;
+		while (tupel[z] != null) {
+			Vector temp = tupel[z];
+
+			int g = 0;
+			while (g < temp.size()) {
+
+				if (((Integer) temp.get(g)).intValue() < 0) {
+					int currentNumber = ((Integer) temp.get(g)).intValue();
+
+					NetzplanElement np = (NetzplanElement) npElemente.get(currentNumber * (-1) - 1);
+
+					JSeparator jSeparatorVerticalCon = new JSeparator();
+					jSeparatorVerticalCon.setOrientation(SwingConstants.VERTICAL);
+					jSeparatorVerticalCon.setBounds((int) np.getAnchorTopXPos(), 30 + z * 280, 1, 280);
+					jSeparatorVerticalCon.setForeground(Color.BLACK);
+
+					if (np.isCriticalPath())
+						jSeparatorVerticalCon.setForeground(Color.RED);
+
+					jPanelNetworkplanContainer.add(jSeparatorVerticalCon);
+				}
+				g++;
+			}
+			z++;
 		}
 	}
 
@@ -490,7 +485,10 @@ public class NetzplanSwingGenerator {
 							 * this child dont exist 
 							 */
 						} else {
-							tupel[i + 1].add(new Integer(((NetzplanElement) npElemente.get(currentElem - 1)).getNummer() * (-1)));
+							tupel[i
+								+ 1].add(
+									new Integer(
+										((NetzplanElement) npElemente.get(currentElem - 1)).getNummer() * (-1)));
 						}
 					}
 					b++;

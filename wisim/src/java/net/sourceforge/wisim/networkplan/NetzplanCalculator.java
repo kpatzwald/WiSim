@@ -27,9 +27,9 @@ import java.util.Iterator;
 import java.util.Vector;
 
 /**
- * Class for calculation a network plan element.
+ * Class for calculating a network plan element.
  * @author Benjamin Pasero
- * @version 0.4a
+ * @version 0.5a
  */
 public class NetzplanCalculator {
 
@@ -51,11 +51,12 @@ public class NetzplanCalculator {
 		calculateFazFez();
 		calculateSazSez();
 		calculatePuffer();
-
-		System.out.println("Counted Branches (including start / end): " + getMaxWidthOfNetzplan());
 	}
 
-	/** Determination of the parent network elements */
+	/** 
+	 * Determination of the parent network elements 
+	 * [DoItBen] Array mit Vorgaengern sind leider nicht korrekt sortiert!
+	 * */
 	public void setVorgaenger() {
 		npElemIt = npElemente.iterator();
 		while (npElemIt.hasNext()) {
@@ -124,8 +125,8 @@ public class NetzplanCalculator {
 				npElem.setSaz(npElem.getFaz());
 				npElem.setSez(npElem.getFez());
 			} else {
-				int i = 0;
-				double minSaz = 9999999;
+				int i = 1;
+				double minSaz = ((NetzplanElement) npElemente.get(nachfolger[0] - 1)).getSaz();
 				while (i < nachfolger.length) {
 					NetzplanElement npElemNachfolger = (NetzplanElement) npElemente.get(nachfolger[i] - 1);
 					if (minSaz > npElemNachfolger.getSaz())
@@ -155,8 +156,8 @@ public class NetzplanCalculator {
 
 			int nachfolger[] = npElem.getNachfolger();
 			if (nachfolger[0] != 0) {
-				int i = 0;
-				double minFaz = 9999999;
+				int i = 1;
+				double minFaz = ((NetzplanElement) npElemente.get(nachfolger[0] - 1)).getFaz();;
 				while (i < nachfolger.length) {
 					NetzplanElement npElemVorgaenger = (NetzplanElement) npElemente.get(nachfolger[i] - 1);
 					if (minFaz > npElemVorgaenger.getFaz())

@@ -35,7 +35,7 @@ import javax.swing.JScrollPane;
 /**
  * [DoItBen] Kommentar Klasse ShowNetzplanSwing
  * @author benjamin.pasero
- * @version 0.4a
+ * @version 0.5a
  */
 public class NetzplanShow extends JFrame {
 
@@ -77,6 +77,7 @@ public class NetzplanShow extends JFrame {
 		getContentPane().add(holdAll);
 	}
 
+	/** [DoItBen] Exception Handling / Error Message wenn Netzplan falsch ist */
 	public static void main(String[] args) {
 		new NetzplanShow().show();
 	}
@@ -89,9 +90,10 @@ public class NetzplanShow extends JFrame {
 
 		Vector filled = new Vector();
 
-		int show = 2;
+		/** Selected network plan */
+		int show = 4;
 		
-		/** Elements of the network plan */
+		/** Some network plans to choose */
 		switch (show) {
 		
 			case 0:
@@ -149,7 +151,6 @@ public class NetzplanShow extends JFrame {
 			filled.add(new NetzplanElement(8, 2, new int[] { 0 }, "Aushub Versorgungsleitung"));
 			break;
 		}			
-
 		return filled;
 	}
 

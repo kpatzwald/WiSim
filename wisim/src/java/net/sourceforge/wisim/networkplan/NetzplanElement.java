@@ -30,7 +30,7 @@ import java.util.Iterator;
 /**
  * Class for generating one network plan element
  * @author Benjamin Pasero
- * @version 0.2a
+ * @version 0.5a
  */
 public class NetzplanElement {
 
@@ -53,10 +53,10 @@ public class NetzplanElement {
 
 	private boolean selected;
 
-	private double anchorTopXPos;
-	private double anchorBottomXPos;
-	private double anchorTopYPos;
-	private double anchorBottomYPos;
+	private double anchorTopXPos = 0;
+	private double anchorBottomXPos = 0;
+	private double anchorTopYPos = 0;
+	private double anchorBottomYPos = 0;
 
 	/**
 	 * [DoItBen] Kommentar Konstruktor NetzplanElement()
