@@ -1,7 +1,34 @@
+/*   ********************************************************************   **
+**   Copyright notice                                                       **
+**                                                                          **
+**   (c) 2003 WiSim Development Team					                              **
+**   http://wisim.sourceforge.net/   			                                  **
+**                                                                          **
+**   All rights reserved                                                    **
+**                                                                          **
+**   This script is part of the WiSim Business Game project. The WiSim      **
+**   project is free software; you can redistribute it and/or modify        **
+**   it under the terms of the GNU General Public License as published by   **
+**   the Free Software Foundation; either version 2 of the License, or      **
+**   (at your option) any later version.                                    **
+**                                                                          **
+**   The GNU General Public License can be found at                         **
+**   http://www.gnu.org/copyleft/gpl.html.                                  **
+**   A copy is found in the textfile GPL.txt and important notices to the   **
+**   license from the team is found in the textfile LICENSE.txt distributed **
+**   in these package.                                                      **
+**                                                                          **
+**   This copyright notice MUST APPEAR in all copies of the file!           **
+**   ********************************************************************   */
+
 package net.sourceforge.wisim.mdi;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+
+import javax.swing.ImageIcon;
+import javax.swing.JInternalFrame;
+import javax.swing.JMenuBar;
+import javax.swing.JPanel;
 
 /**
  * The main scrollable desktop class.
@@ -70,224 +97,207 @@ import java.awt.*;
  * @version 1.0  12-Aug-2001
  */
 
+public class JScrollableDesktopPane extends JPanel implements DesktopConstants {
 
-public class JScrollableDesktopPane extends JPanel 
-            implements DesktopConstants {
+	private static int count; // count used solely to name untitled frames
 
-      private static int count; // count used solely to name untitled frames
+	private DesktopMediator desktopMediator;
+	private ImageIcon defaultFrameIcon;
 
-      private DesktopMediator desktopMediator;
-      private ImageIcon defaultFrameIcon;
+	/**
+	 * creates the JScrollableDesktopPane object, registers a menubar, and assigns
+	 *      a default internal frame icon. 
+	 *
+	 * @param mb the menubar with which to register the scrollable desktop
+	 * @param defaultFrameIcon the default icon to use within the title bar of
+	 *      internal frames.
+	 */
+	public JScrollableDesktopPane(JMenuBar mb, ImageIcon defaultFrameIcon) {
+		this();
+		registerMenuBar(mb);
+		this.defaultFrameIcon = defaultFrameIcon;
+	}
 
+	/**
+	 * creates the JScrollableDesktopPane object and registers a menubar.
+	 *
+	 * @param mb the menubar with which to register the scrollable desktop
+	 */
+	public JScrollableDesktopPane(JMenuBar mb) {
+		this();
+		registerMenuBar(mb);
+	}
 
-    /**
-     * creates the JScrollableDesktopPane object, registers a menubar, and assigns
-     *      a default internal frame icon. 
-     *
-     * @param mb the menubar with which to register the scrollable desktop
-     * @param defaultFrameIcon the default icon to use within the title bar of
-     *      internal frames.
-     */
-      public JScrollableDesktopPane(JMenuBar mb, ImageIcon defaultFrameIcon) {
-            this();
-            registerMenuBar(mb);
-            this.defaultFrameIcon = defaultFrameIcon;
-      }
+	/**
+	 * creates the JScrollableDesktopPane object. 
+	 */
+	public JScrollableDesktopPane() {
+		setLayout(new BorderLayout());
+		desktopMediator = new DesktopMediator(this);
+	}
 
-    /**
-     * creates the JScrollableDesktopPane object and registers a menubar.
-     *
-     * @param mb the menubar with which to register the scrollable desktop
-     */
-      public JScrollableDesktopPane(JMenuBar mb) {
-            this();
-            registerMenuBar(mb);
-      }
+	/** 
+	  * adds an internal frame to the scrollable desktop
+	  *
+	  * @param frameContents the contents of the internal frame
+	  *
+	  * @return the JInternalFrame that was created
+	  */
+	public JInternalFrame add(JPanel frameContents) {
+		return add("Untitled " + count++, defaultFrameIcon, frameContents, true, -1, -1);
+	}
 
-    /**
-     * creates the JScrollableDesktopPane object. 
-     */
-      public JScrollableDesktopPane() {
-            setLayout(new BorderLayout());
-            desktopMediator = new DesktopMediator(this);
-      }
+	/** 
+	  * adds an internal frame to the scrollable desktop
+	  *
+	  * @param title the title displayed in the title bar of the internal frame
+	  * @param frameContents the contents of the internal frame
+	  *
+	  * @return the JInternalFrame that was created
+	  */
+	public JInternalFrame add(String title, JPanel frameContents) {
+		return add(title, defaultFrameIcon, frameContents, true, -1, -1);
+	}
 
+	/** 
+	  * adds an internal frame to the scrollable desktop
+	  *
+	  * @param title the title displayed in the title bar of the internal frame
+	  * @param frameContents the contents of the internal frame
+	  * @param isClosable <code>boolean</code> indicating whether internal frame
+	  *          is closable
+	  *
+	  * @return the JInternalFrame that was created
+	  */
+	public JInternalFrame add(String title, JPanel frameContents, boolean isClosable) {
+		return add(title, defaultFrameIcon, frameContents, isClosable, -1, -1);
+	}
 
-     /** 
-       * adds an internal frame to the scrollable desktop
-       *
-       * @param frameContents the contents of the internal frame
-       *
-       * @return the JInternalFrame that was created
-       */
-      public JInternalFrame add(JPanel frameContents) {
-            return add("Untitled " + count++, 
-                  defaultFrameIcon, frameContents, true, -1, -1);
-      }
+	/** 
+	  * adds an internal frame to the scrollable desktop
+	  *
+	  * @param title the title displayed in the title bar of the internal frame
+	  * @param icon the icon displayed in the title bar of the internal frame
+	  * @param frameContents the contents of the internal frame
+	  * @param isClosable <code>boolean</code> indicating whether internal frame
+	  *          is closable
+	  *
+	  * @return the JInternalFrame that was created
+	  */
+	public JInternalFrame add(String title, ImageIcon icon, JPanel frameContents, boolean isClosable) {
+		return add(title, icon, frameContents, isClosable, -1, -1);
+	}
 
-     /** 
-       * adds an internal frame to the scrollable desktop
-       *
-       * @param title the title displayed in the title bar of the internal frame
-       * @param frameContents the contents of the internal frame
-       *
-       * @return the JInternalFrame that was created
-       */
-      public JInternalFrame add(String title, JPanel frameContents) {
-            return add(title, 
-                  defaultFrameIcon, frameContents, true, -1, -1);
-      }
+	/** 
+	  * adds an internal frame to the scrollable desktop.
+	  * <BR><BR>
+	  * Propogates the call to DesktopMediator.
+	  *
+	  * @param title the title displayed in the title bar of the internal frame
+	  * @param icon the icon displayed in the title bar of the internal frame
+	  * @param frameContents the contents of the internal frame
+	  * @param isClosable <code>boolean</code> indicating whether internal frame
+	  *          is closable
+	  * @param x x coordinates of internal frame within the scrollable desktop. 
+	  * @param y y coordinates of internal frame within the scrollable desktop
+	  *
+	  * @return the JInternalFrame that was created
+	  */
+	public JInternalFrame add(String title, ImageIcon icon, JPanel frameContents, boolean isClosable, int x, int y) {
 
-     /** 
-       * adds an internal frame to the scrollable desktop
-       *
-       * @param title the title displayed in the title bar of the internal frame
-       * @param frameContents the contents of the internal frame
-       * @param isClosable <code>boolean</code> indicating whether internal frame
-       *          is closable
-       *
-       * @return the JInternalFrame that was created
-       */
-      public JInternalFrame add(String title, JPanel frameContents, 
-                        boolean isClosable) {
-            return add(title, 
-                  defaultFrameIcon, frameContents, isClosable, -1, -1);
-      }
+		return desktopMediator.add(title, icon, frameContents, isClosable, x, y);
 
-     /** 
-       * adds an internal frame to the scrollable desktop
-       *
-       * @param title the title displayed in the title bar of the internal frame
-       * @param icon the icon displayed in the title bar of the internal frame
-       * @param frameContents the contents of the internal frame
-       * @param isClosable <code>boolean</code> indicating whether internal frame
-       *          is closable
-       *
-       * @return the JInternalFrame that was created
-       */
-      public JInternalFrame add(String title, ImageIcon icon, 
-                        JPanel frameContents, boolean isClosable) {
-            return add(title, icon, frameContents, isClosable, -1, -1);
-      }
+	}
 
+	/** 
+	  * adds an internal frame to the scrollable desktop.
+	  *
+	  * @param f the internal frame of class BaseInternalFrame to add
+	  */
+	public void add(JInternalFrame f) {
+		add(f, -1, -1);
+	}
+	/** 
+	  * adds an internal frame to the scrollable desktop.
+	  * <BR><BR>
+	  * Propogates the call to DesktopMediator.
+	  *
+	  * @param f the internal frame of class BaseInternalFrame to add
+	  * @param x x coordinates of internal frame within the scrollable desktop. 
+	  * @param y y coordinates of internal frame within the scrollable desktop
+	  */
+	public void add(JInternalFrame f, int x, int y) {
+		desktopMediator.add(f, x, y);
+	}
 
-     /** 
-       * adds an internal frame to the scrollable desktop.
-       * <BR><BR>
-       * Propogates the call to DesktopMediator.
-       *
-       * @param title the title displayed in the title bar of the internal frame
-       * @param icon the icon displayed in the title bar of the internal frame
-       * @param frameContents the contents of the internal frame
-       * @param isClosable <code>boolean</code> indicating whether internal frame
-       *          is closable
-       * @param x x coordinates of internal frame within the scrollable desktop. 
-       * @param y y coordinates of internal frame within the scrollable desktop
-       *
-       * @return the JInternalFrame that was created
-       */
-      public JInternalFrame add(String title, ImageIcon icon, 
-                        JPanel frameContents, 
-                        boolean isClosable, int x, int y) {
+	/** 
+	  * removes the specified internal frame from the scrollable desktop
+	  *
+	  * @param f the internal frame to remove
+	  */
+	public void remove(JInternalFrame f) {
+		f.dispose();
+	}
 
-            return desktopMediator.add(
-                  title, icon, frameContents, isClosable, x, y);
+	/** 
+	  * registers a menubar to which the "Window" menu may be applied. 
+	  * <BR><BR>
+	  * Propogates the call to DesktopMediator.
+	  *
+	  * @param mb the menubar to register
+	  */
+	public void registerMenuBar(JMenuBar mb) {
+		desktopMediator.registerMenuBar(mb);
+	}
 
-      }
+	/** 
+	  * registers a default icon for display in the title bars of 
+	  *    internal frames
+	  *
+	  * @param defaultFrameIcon the default icon 
+	  */
+	public void registerDefaultFrameIcon(ImageIcon defaultFrameIcon) {
+		this.defaultFrameIcon = defaultFrameIcon;
+	}
 
-     /** 
-       * adds an internal frame to the scrollable desktop.
-       *
-       * @param f the internal frame of class BaseInternalFrame to add
-       */
-      public void add(JInternalFrame f) {
-            add(f,-1,-1);
-      }
-     /** 
-       * adds an internal frame to the scrollable desktop.
-       * <BR><BR>
-       * Propogates the call to DesktopMediator.
-       *
-       * @param f the internal frame of class BaseInternalFrame to add
-       * @param x x coordinates of internal frame within the scrollable desktop. 
-       * @param y y coordinates of internal frame within the scrollable desktop
-       */
-      public void add(JInternalFrame f, int x, int y) {
-            desktopMediator.add(f,x,y);
-      }
+	/**
+	  * returns the internal frame currently selected upon the 
+	  * virtual desktop.
+	  * <BR><BR>
+	  * Propogates the call to DesktopMediator.
+	  *
+	  * @return a reference to the active JInternalFrame 
+	  */
+	public JInternalFrame getSelectedFrame() {
+		return desktopMediator.getSelectedFrame();
+	}
 
+	/**
+	 * selects the specified internal frame upon the virtual desktop.
+	 * <BR><BR>
+	 * Propogates the call to DesktopMediator.
+	 *
+	 * @param f the internal frame to select
+	 */
+	public void setSelectedFrame(JInternalFrame f) {
+		desktopMediator.setSelectedFrame(f);
+	}
 
-     /** 
-       * removes the specified internal frame from the scrollable desktop
-       *
-       * @param f the internal frame to remove
-       */
-      public void remove(JInternalFrame f) {
-            f.dispose();
-      }
+	/**
+	 *  flags the specified internal frame as "contents changed." Used to 
+	 * notify the user when the contents of an inactive internal frame 
+	 * have changed. 
+	 * <BR><BR>
+	 * Propogates the call to DesktopMediator.
+	 *
+	 * @param f the internal frame to flag as "contents changed"
+	 */
+	public void flagContentsChanged(JInternalFrame f) {
+		desktopMediator.flagContentsChanged(f);
+	}
 
-
-     /** 
-       * registers a menubar to which the "Window" menu may be applied. 
-       * <BR><BR>
-       * Propogates the call to DesktopMediator.
-       *
-       * @param mb the menubar to register
-       */
-      public void registerMenuBar(JMenuBar mb) {
-            desktopMediator.registerMenuBar(mb);
-      }
-
-     /** 
-       * registers a default icon for display in the title bars of 
-       *    internal frames
-       *
-       * @param defaultFrameIcon the default icon 
-       */
-      public void registerDefaultFrameIcon(ImageIcon defaultFrameIcon) {
-            this.defaultFrameIcon = defaultFrameIcon;
-      }
-
-
-     /**
-       * returns the internal frame currently selected upon the 
-       * virtual desktop.
-       * <BR><BR>
-       * Propogates the call to DesktopMediator.
-       *
-       * @return a reference to the active JInternalFrame 
-       */
-      public JInternalFrame getSelectedFrame() {
-            return desktopMediator.getSelectedFrame();
-      }
-
-      /**
-       * selects the specified internal frame upon the virtual desktop.
-       * <BR><BR>
-       * Propogates the call to DesktopMediator.
-       *
-       * @param f the internal frame to select
-       */
-      public void setSelectedFrame(JInternalFrame f) {
-            desktopMediator.setSelectedFrame(f);
-      }
-
-      /**
-       *  flags the specified internal frame as "contents changed." Used to 
-       * notify the user when the contents of an inactive internal frame 
-       * have changed. 
-       * <BR><BR>
-       * Propogates the call to DesktopMediator.
-       *
-       * @param f the internal frame to flag as "contents changed"
-       */
-      public void flagContentsChanged(JInternalFrame f) {
-            desktopMediator.flagContentsChanged(f);
-      }
-
-			public JInternalFrame[] getAllFrames()
-			{
-				return desktopMediator.getAllFrames();
-			}
+	public JInternalFrame[] getAllFrames() {
+		return desktopMediator.getAllFrames();
+	}
 
 }
