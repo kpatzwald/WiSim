@@ -2355,7 +2355,7 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 	 */
 	public Hashtable getStueckliste(int artNr) throws WiSimDAOException {
 		Hashtable stueckliste = new Hashtable();
-		String sql = "SELECT f_et_Nr, rel_art_et_EinzelteileMenge FROM rel_art_Et WHERE f_art_Nr = " + artNr;
+		String sql = "SELECT f_et_Nr, rel_art_et_EinzelteileMenge FROM rel_art_et WHERE f_art_Nr = " + artNr;
 
 		try {
 			Statement stmt = conn.createStatement();
@@ -2720,7 +2720,7 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 			fw.write(values);
 			fw.close();
 		} catch (IOException e) {
-			//KTODO
+			//KTodo
 		}
 	}
 

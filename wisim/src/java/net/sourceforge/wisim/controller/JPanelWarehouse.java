@@ -37,7 +37,7 @@ import java.awt.*;
 import java.awt.image.*;
 import javax.swing.*;
 
-/** Gibt eine Übersicht des Lager aus. Bestände und Kapazitäten werden ebenfalls
+/** Gibt eine ï¿½bersicht des Lager aus. Bestï¿½nde und Kapazitï¿½ten werden ebenfalls
  * ausgegeben. Jeder WarehouseLocation kann einzelnd eingesehen werden.
  * @author Benjamin Pasero
  */
@@ -112,9 +112,9 @@ public class JPanelWarehouse extends javax.swing.JPanel implements Refreshable {
 		jLabelGruen = new javax.swing.JLabel();
 		jLabelOrange = new javax.swing.JLabel();
 		jLabelRot = new javax.swing.JLabel();
-		jLabelKapazBaldErschöpft = new javax.swing.JLabel();
+		jLabelKapazBaldErschoepft = new javax.swing.JLabel();
 		jLabelKapazAusreichend = new javax.swing.JLabel();
-		jLabelKapazErschöpft = new javax.swing.JLabel();
+		jLabelKapazErschoepft = new javax.swing.JLabel();
 
 		setLayout(null);
 
@@ -140,7 +140,7 @@ public class JPanelWarehouse extends javax.swing.JPanel implements Refreshable {
 
 		jPanelGesamtliste.setBorder(new javax.swing.border.TitledBorder("Gesamtliste"));
 		jTableGesamtliste.setModel(new javax.swing.table.DefaultTableModel(new Object[][] {
-		}, new String[] { "Artikelname", "aktueller Bestand", "Min. Bestand", "Max. Bestand", "Lagerplätze", "Belegung" }) {
+		}, new String[] { "Artikelname", "aktueller Bestand", "Min. Bestand", "Max. Bestand", "Lagerplï¿½tze", "Belegung" }) {
 			boolean[] canEdit = new boolean[] { false, false, false, false, false, false };
 
 			public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -282,17 +282,17 @@ public class JPanelWarehouse extends javax.swing.JPanel implements Refreshable {
 		jPanelLegende.add(jLabelRot);
 		jLabelRot.setBounds(540, 20, 270, 16);
 
-		jLabelKapazBaldErschöpft.setText("Kapazit\u00e4ten bald ersch\u00f6pft");
-		jPanelLegende.add(jLabelKapazBaldErschöpft);
-		jLabelKapazBaldErschöpft.setBounds(270, 40, 240, 16);
+		jLabelKapazBaldErschoepft.setText("Kapazit\u00e4ten bald ersch\u00f6pft");
+		jPanelLegende.add(jLabelKapazBaldErschoepft);
+		jLabelKapazBaldErschoepft.setBounds(270, 40, 240, 16);
 
 		jLabelKapazAusreichend.setText("Kapazit\u00e4ten ausreichend");
 		jPanelLegende.add(jLabelKapazAusreichend);
 		jLabelKapazAusreichend.setBounds(10, 40, 240, 16);
 
-		jLabelKapazErschöpft.setText("Kapazit\u00e4ten ersch\u00f6pft");
-		jPanelLegende.add(jLabelKapazErschöpft);
-		jLabelKapazErschöpft.setBounds(540, 40, 230, 16);
+		jLabelKapazErschoepft.setText("Kapazit\u00e4ten ersch\u00f6pft");
+		jPanelLegende.add(jLabelKapazErschoepft);
+		jLabelKapazErschoepft.setBounds(540, 40, 230, 16);
 
 		add(jPanelLegende);
 		jPanelLegende.setBounds(10, 350, 770, 70);
@@ -334,8 +334,8 @@ public class JPanelWarehouse extends javax.swing.JPanel implements Refreshable {
 	private javax.swing.JLabel jLabelFrei;
 	private javax.swing.JLabel jLabelGruen;
 	private javax.swing.JLabel jLabelKapazAusreichend;
-	private javax.swing.JLabel jLabelKapazBaldErschöpft;
-	private javax.swing.JLabel jLabelKapazErschöpft;
+	private javax.swing.JLabel jLabelKapazBaldErschoepft;
+	private javax.swing.JLabel jLabelKapazErschoepft;
 	private javax.swing.JLabel jLabelLagerProzent;
 	private javax.swing.JLabel jLabelLagerplatz;
 	private javax.swing.JLabel jLabelMindestbestand;
@@ -358,7 +358,7 @@ public class JPanelWarehouse extends javax.swing.JPanel implements Refreshable {
 	private void setMainTable() {
 		//DefaultTableModel mit Variablen Zeilen, 3 TableHeads und nicht editierbaren Zellen
 		Object[][] tableInit = new Object[etAnzahl][6];
-		DefaultTableModel defTable = new DefaultTableModel(tableInit, new String[] { "Artikelname", "aktueller Bestand", "Min. Bestand", "Max. Bestand", "Lagerplätze", "Belegung" }) {
+		DefaultTableModel defTable = new DefaultTableModel(tableInit, new String[] { "Artikelname", "aktueller Bestand", "Min. Bestand", "Max. Bestand", "Lagerplï¿½tze", "Belegung" }) {
 			boolean[] canEdit = new boolean[] { false, false, false, false, false, false };
 			public boolean isCellEditable(int rowIndex, int columnIndex) {
 				return canEdit[columnIndex];
@@ -394,7 +394,7 @@ public class JPanelWarehouse extends javax.swing.JPanel implements Refreshable {
 				case 3 :
 					column.setPreferredWidth(50);
 					break;
-					//Lagerplätze
+					//Lagerplï¿½tze
 				case 4 :
 					column.setPreferredWidth(100);
 					break;
@@ -406,7 +406,7 @@ public class JPanelWarehouse extends javax.swing.JPanel implements Refreshable {
 		}
 	}
 
-	/** Baut die Gesamtliste der Lagerübersicht auf */
+	/** Baut die Gesamtliste der Lagerï¿½bersicht auf */
 	public void buildMainTable() {
 		try {
 			einzelteileListe = dao.getEinzelteilLagerElement();
@@ -498,7 +498,7 @@ public class JPanelWarehouse extends javax.swing.JPanel implements Refreshable {
 	/** Zeigt die Legende an */
 	private void buildLegend() {
 		//Legende
-		//Grün
+		//Grï¿½n
 		Image imageIconGreen = new BufferedImage(70, 30, 2);
 		Graphics g = imageIconGreen.getGraphics();
 		g.setColor(darkgreen);
@@ -550,7 +550,7 @@ public class JPanelWarehouse extends javax.swing.JPanel implements Refreshable {
 		jLabelRot.setIcon(ic);
 		jLabelRot.setToolTipText("Der Bestand dieses Einzelteils hat den Mindestbestand unterschritten!");
 
-		//Kapazitäten ausreichend
+		//Kapazitï¿½ten ausreichend
 		Image imageIconKapazAusreichend = new BufferedImage(70, 30, 2);
 		g = imageIconKapazAusreichend.getGraphics();
 		g.setColor(Color.black);
@@ -567,11 +567,11 @@ public class JPanelWarehouse extends javax.swing.JPanel implements Refreshable {
 		g.fillRect(58, 11, 9, 9);
 		ic = new ImageIcon(imageIconKapazAusreichend);
 		jLabelKapazAusreichend.setIcon(ic);
-		jLabelKapazAusreichend.setToolTipText("Es gibt ausreichend Lagerplatz für dieses Einzelteil!");
+		jLabelKapazAusreichend.setToolTipText("Es gibt ausreichend Lagerplatz fï¿½r dieses Einzelteil!");
 
-		//Kapazitäten bald erschöpft
-		Image imageIconKapazBaldErschöpft = new BufferedImage(70, 30, 2);
-		g = imageIconKapazBaldErschöpft.getGraphics();
+		//Kapazitï¿½ten bald erschï¿½pft
+		Image imageIconKapazBaldErschoepft = new BufferedImage(70, 30, 2);
+		g = imageIconKapazBaldErschoepft.getGraphics();
 		g.setColor(Color.black);
 		g.fillRect(10, 11, 10, 10);
 		g.fillRect(22, 11, 10, 10);
@@ -581,22 +581,22 @@ public class JPanelWarehouse extends javax.swing.JPanel implements Refreshable {
 		g.drawRect(58, 11, 9, 9);
 		g.setColor(blackDither);
 		g.fillRect(58, 11, 9, 9);
-		ic = new ImageIcon(imageIconKapazBaldErschöpft);
-		jLabelKapazBaldErschöpft.setIcon(ic);
-		jLabelKapazBaldErschöpft.setToolTipText("Es gibt kaum noch Lagerplatz für dieses Einzelteil!");
+		ic = new ImageIcon(imageIconKapazBaldErschoepft);
+		jLabelKapazBaldErschoepft.setIcon(ic);
+		jLabelKapazBaldErschoepft.setToolTipText("Es gibt kaum noch Lagerplatz fï¿½r dieses Einzelteil!");
 
-		//Kapazitäten erschöpft
-		Image imageIconKapazErschöpft = new BufferedImage(70, 30, 2);
-		g = imageIconKapazErschöpft.getGraphics();
+		//Kapazitï¿½ten erschï¿½pft
+		Image imageIconKapazErschoepft = new BufferedImage(70, 30, 2);
+		g = imageIconKapazErschoepft.getGraphics();
 		g.setColor(Color.black);
 		g.fillRect(10, 11, 10, 10);
 		g.fillRect(22, 11, 10, 10);
 		g.fillRect(34, 11, 10, 10);
 		g.fillRect(46, 11, 10, 10);
 		g.fillRect(58, 11, 10, 10);
-		ic = new ImageIcon(imageIconKapazErschöpft);
-		jLabelKapazErschöpft.setIcon(ic);
-		jLabelKapazErschöpft.setToolTipText("Es gibt keinen Lagerplatz mehr für dieses Einzelteil!");
+		ic = new ImageIcon(imageIconKapazErschoepft);
+		jLabelKapazErschoepft.setIcon(ic);
+		jLabelKapazErschoepft.setToolTipText("Es gibt keinen Lagerplatz mehr fï¿½r dieses Einzelteil!");
 	}
 
 	/** Zeigt die Article an die in dem selektierten WarehouseLocation liegen */
@@ -766,7 +766,7 @@ public class JPanelWarehouse extends javax.swing.JPanel implements Refreshable {
 
 			ComponentWarehouseItem selectedElem = (ComponentWarehouseItem) etElems.get(jComboBoxArtikelImLager.getSelectedIndex());
 
-			//Aktualisiere nur wenn sich der Bestand geändert hat!
+			//Aktualisiere nur wenn sich der Bestand geï¿½ndert hat!
 			if (selectedElem.getBestand() != Integer.parseInt(jTextFieldBestand.getText())) {
 				jTextFieldMindestbestand.setText(String.valueOf(selectedElem.getMinBestand()));
 				jTextFieldBestand.setText(String.valueOf(selectedElem.getBestand()));
@@ -789,7 +789,7 @@ public class JPanelWarehouse extends javax.swing.JPanel implements Refreshable {
 		while (art_it.hasNext()) {
 			ComponentWarehouseItem artikel = (ComponentWarehouseItem) art_it.next();
 
-			//Aktualisiere nur wenn sich der Bestand geändert hat!
+			//Aktualisiere nur wenn sich der Bestand geï¿½ndert hat!
 			if (artikel.getBestand() != Integer.parseInt((String) jTableGesamtliste.getValueAt(i, 1))) {
 				jTableGesamtliste.setValueAt(String.valueOf(artikel.getBestand()), i, 1);
 
@@ -847,8 +847,8 @@ public class JPanelWarehouse extends javax.swing.JPanel implements Refreshable {
 	}
 
 	/** Wurde das Pane schon einmal aufgebaut, so ist "isBuilt" = TRUE.
-	 *  Wichtig ist diese Variable für die Simulation: Wurde das Pane
-	 *  schon einmal aufgebaut, so müssen die Simulationsthread das Pane
+	 *  Wichtig ist diese Variable fï¿½r die Simulation: Wurde das Pane
+	 *  schon einmal aufgebaut, so mï¿½ssen die Simulationsthread das Pane
 	 *  nicht noch einmal initialisieren!
 	 * @return boolean isBuilt
 	 */

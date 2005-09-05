@@ -40,7 +40,7 @@ import java.util.logging.Level;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
-/** Masken für die WiSimComponent-Bestellung
+/** Masken fï¿½r die WiSimComponent-Bestellung
  * @author benjamin.pasero
  */
 public class JPanelNewOrder extends javax.swing.JPanel {
@@ -147,7 +147,7 @@ public class JPanelNewOrder extends javax.swing.JPanel {
 		jLabelEuro2 = new javax.swing.JLabel();
 		jLabelEuro = new javax.swing.JLabel();
 		jLabelStk = new javax.swing.JLabel();
-		jButtonLöschen = new javax.swing.JButton();
+		jButtonLoeschen = new javax.swing.JButton();
 		jPanelGesamt = new javax.swing.JPanel();
 		jLabelAbzLieferrabatt = new javax.swing.JLabel();
 		jLabelAbzSkonto = new javax.swing.JLabel();
@@ -519,16 +519,16 @@ public class JPanelNewOrder extends javax.swing.JPanel {
 		add(jPanelEinzelteilPositionen);
 		jPanelEinzelteilPositionen.setBounds(20, 140, 750, 230);
 
-		jButtonLöschen.setFont(new java.awt.Font("Dialog", 1, 18));
-		jButtonLöschen.setText("L\u00f6schen");
-		jButtonLöschen.addActionListener(new java.awt.event.ActionListener() {
+		jButtonLoeschen.setFont(new java.awt.Font("Dialog", 1, 18));
+		jButtonLoeschen.setText("L\u00f6schen");
+		jButtonLoeschen.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				jButtonLöschenActionPerformed(evt);
+				jButtonLoeschenActionPerformed(evt);
 			}
 		});
 
-		add(jButtonLöschen);
-		jButtonLöschen.setBounds(390, 510, 150, 30);
+		add(jButtonLoeschen);
+		jButtonLoeschen.setBounds(390, 510, 150, 30);
 
 		jPanelGesamt.setLayout(null);
 
@@ -592,9 +592,9 @@ public class JPanelNewOrder extends javax.swing.JPanel {
 		clearFields();
 	} //GEN-LAST:event_formAncestorAdded
 
-	private void jButtonLöschenActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jButtonLöschenActionPerformed
+	private void jButtonLoeschenActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jButtonLï¿½schenActionPerformed
 		clearFields();
-	} //GEN-LAST:event_jButtonLöschenActionPerformed
+	} //GEN-LAST:event_jButtonLï¿½schenActionPerformed
 
 	private void jTextFieldLieferrabattFocusLost(java.awt.event.FocusEvent evt) { //GEN-FIRST:event_jTextFieldLieferrabattFocusLost
 		validateSupplierDiscount();
@@ -658,7 +658,7 @@ public class JPanelNewOrder extends javax.swing.JPanel {
 	// Variables declaration - do not modify//GEN-BEGIN:variables
 	private javax.swing.JButton jButtonAddPosition;
 	private javax.swing.JButton jButtonBestellungAbschicken;
-	private javax.swing.JButton jButtonLöschen;
+	private javax.swing.JButton jButtonLoeschen;
 	private javax.swing.JButton jButtonRemovePosition;
 	private javax.swing.JComboBox jComboBoxArtikel;
 	private javax.swing.JComboBox jComboBoxLieferanten;
@@ -733,11 +733,11 @@ public class JPanelNewOrder extends javax.swing.JPanel {
 		jTextFieldSumme.setText(format.format(summe));
 	}
 
-	/** Überprüft alle Pflichtfelder auf Inhalt. Gibt eine Fehlemeldung
+	/** ï¿½berprï¿½ft alle Pflichtfelder auf Inhalt. Gibt eine Fehlemeldung
 	 * an den Benutzer, falls ein oder mehrere Felder leer gelassen
 	 * wurden.
-	 * @return false: Es wurden nicht alle Felder gefüllt.
-	 * true: Alle Pflichtfelder sind gefüllt.
+	 * @return false: Es wurden nicht alle Felder gefï¿½llt.
+	 * true: Alle Pflichtfelder sind gefï¿½llt.
 	 */
 	private boolean checkAllFields() {
 		Collection pflichtfelder = new Vector();
@@ -761,22 +761,22 @@ public class JPanelNewOrder extends javax.swing.JPanel {
 			pflichtfelder.add("Article");
 		}
 
-		/*Wurde ein oder mehrere Pflichtfelder nicht ausgefüllt erscheint ein JOptionPane, dass dem
+		/*Wurde ein oder mehrere Pflichtfelder nicht ausgefï¿½llt erscheint ein JOptionPane, dass dem
 		 *Benutzer die fehlenden noch leeren Felder anzeigt*/
 		if (!pflichtfelder.isEmpty()) {
 			if (pflichtfelder.size() > 1)
-				JOptionPane.showMessageDialog(this, "Folgende Felder müssen ausgefüllt werden: " + pflichtfelder.toString().substring(1, pflichtfelder.toString().length() - 1), "Fehler beim Anlegen des neuen Kunden", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this, "Folgende Felder mï¿½ssen ausgefï¿½llt werden: " + pflichtfelder.toString().substring(1, pflichtfelder.toString().length() - 1), "Fehler beim Anlegen des neuen Kunden", JOptionPane.ERROR_MESSAGE);
 			else
-				JOptionPane.showMessageDialog(this, "Das folgende Feld muss ausgefüllt werden: " + pflichtfelder.toString().substring(1, pflichtfelder.toString().length() - 1), "Fehler beim Anlegen des neuen Kunden", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this, "Das folgende Feld muss ausgefï¿½llt werden: " + pflichtfelder.toString().substring(1, pflichtfelder.toString().length() - 1), "Fehler beim Anlegen des neuen Kunden", JOptionPane.ERROR_MESSAGE);
 
 			return false;
 		}
 		return true;
 	}
 
-	/** Überprüft das eingegebene Datum
-	 * @return Gibt das Lieferdatum als GregorianDate zurück. Oder NULL, wenn das
-	 * Datum ungültig ist.
+	/** ï¿½berprï¿½ft das eingegebene Datum
+	 * @return Gibt das Lieferdatum als GregorianDate zurï¿½ck. Oder NULL, wenn das
+	 * Datum ungï¿½ltig ist.
 	 */
 	private GregorianCalendar checkDate() {
 		int lieferTag = Integer.parseInt(jTextFieldLieferdatumTag.getText());
@@ -786,7 +786,7 @@ public class JPanelNewOrder extends javax.swing.JPanel {
 		GregorianCalendar lieferDatum = new GregorianCalendar(lieferJahr, lieferMonat, lieferTag);
 
 		if (lieferTag != lieferDatum.get(Calendar.DATE)) {
-			JOptionPane.showMessageDialog(this, "Ungültiges Lieferdatum!", "Fehler", 0);
+			JOptionPane.showMessageDialog(this, "Ungï¿½ltiges Lieferdatum!", "Fehler", 0);
 			return null;
 		}
 
@@ -799,8 +799,8 @@ public class JPanelNewOrder extends javax.swing.JPanel {
 	}
 
 	/** Schreibt die Positions-Tabelle neu.
-	 * @param Deleted true: Eine Zeile muss gelöscht werden.
-	 * false: Eine Zeile muss hinzugefügt werden.
+	 * @param Deleted true: Eine Zeile muss gelï¿½scht werden.
+	 * false: Eine Zeile muss hinzugefï¿½gt werden.
 	 */
 	private void updatePositionsTable(boolean Deleted) {
 		int rows;
@@ -824,7 +824,7 @@ public class JPanelNewOrder extends javax.swing.JPanel {
 
 	}
 
-	/** Löscht alle Felder. */
+	/** Lï¿½scht alle Felder. */
 	private void clearFields() {
 		jTextFieldSkonto.setText("");
 		jTextFieldSkontofrist.setText("");
@@ -874,7 +874,7 @@ public class JPanelNewOrder extends javax.swing.JPanel {
 				 getrennt durch einen Punkt*/
 				if (!validate.checkPercent(lieferrabatt)) {
 					jOptionPaneConfirm.setWantsInput(true);
-					lieferrabatt = JOptionPane.showInputDialog(this, "Ungültiger Lieferrabatt (Format: xx.xx)! Bitte neu eingeben:", lieferrabatt);
+					lieferrabatt = JOptionPane.showInputDialog(this, "Ungï¿½ltiger Lieferrabatt (Format: xx.xx)! Bitte neu eingeben:", lieferrabatt);
 
 				} else {
 					lieferrabattOk = true;
@@ -989,7 +989,7 @@ public class JPanelNewOrder extends javax.swing.JPanel {
 				/*Erlaubt sind nur Eingaben von 4-stelligen Zahlen die nicht mit 0 beginnen*/
 				if (!validate.checkYear(lieferdatum)) {
 					jOptionPaneConfirm.setWantsInput(true);
-					lieferdatum = JOptionPane.showInputDialog(this, "Ungültiger Jahr! Bitte neu eingeben:", lieferdatum);
+					lieferdatum = JOptionPane.showInputDialog(this, "Ungï¿½ltiger Jahr! Bitte neu eingeben:", lieferdatum);
 				} else {
 					lieferdatumOk = true;
 				}
@@ -1009,10 +1009,10 @@ public class JPanelNewOrder extends javax.swing.JPanel {
 		if (!lieferdatum.equals("") && lieferdatum != null) {
 			//So lange der User keine richtige Eingabe gemacht hat und nicht auf Abbrechen geklickt hat
 			while (!lieferdatumOk && lieferdatum != null) {
-				//Erlaubt sind nur Eingaben von 1- oder 2-stellige Zahlen || Monatsangabe darf nicht größer 12 sein
+				//Erlaubt sind nur Eingaben von 1- oder 2-stellige Zahlen || Monatsangabe darf nicht grï¿½ï¿½er 12 sein
 				if (!validate.checkTwoDigits(lieferdatum) || Integer.parseInt(lieferdatum) > 12) {
 					jOptionPaneConfirm.setWantsInput(true);
-					lieferdatum = JOptionPane.showInputDialog(this, "Ungültiger Monat! Bitte neu eingeben:", lieferdatum);
+					lieferdatum = JOptionPane.showInputDialog(this, "Ungï¿½ltiger Monat! Bitte neu eingeben:", lieferdatum);
 				} else {
 					lieferdatumOk = true;
 				}
@@ -1035,7 +1035,7 @@ public class JPanelNewOrder extends javax.swing.JPanel {
 				//Erlaubt sind nur Eingaben von 1- oder 2-stellige Zahlen
 				if (!validate.checkTwoDigits(lieferdatum) || Integer.parseInt(lieferdatum) > 31) {
 					jOptionPaneConfirm.setWantsInput(true);
-					lieferdatum = JOptionPane.showInputDialog(this, "Ungültiger Tag! Bitte neu eingeben:", lieferdatum);
+					lieferdatum = JOptionPane.showInputDialog(this, "Ungï¿½ltiger Tag! Bitte neu eingeben:", lieferdatum);
 				} else {
 					lieferdatumOk = true;
 				}
@@ -1058,7 +1058,7 @@ public class JPanelNewOrder extends javax.swing.JPanel {
 				//Erlaubt sind nur Eingaben von Zahlen
 				if (!validate.checkZahl(skontofrist)) {
 					jOptionPaneConfirm.setWantsInput(true);
-					skontofrist = JOptionPane.showInputDialog(this, "Ungültige Skontofrist! Bitte neu eingeben:", skontofrist);
+					skontofrist = JOptionPane.showInputDialog(this, "Ungï¿½ltige Skontofrist! Bitte neu eingeben:", skontofrist);
 				} else {
 					skontofristOk = true;
 				}
@@ -1097,7 +1097,7 @@ public class JPanelNewOrder extends javax.swing.JPanel {
 				 getrennt durch einen Punkt*/
 				if (!validate.checkPercent(skonto)) {
 					jOptionPaneConfirm.setWantsInput(true);
-					skonto = JOptionPane.showInputDialog(this, "Ungültiger Skonto-Wert (Format: xx.xx)! Bitte neu eingeben:", skonto);
+					skonto = JOptionPane.showInputDialog(this, "Ungï¿½ltiger Skonto-Wert (Format: xx.xx)! Bitte neu eingeben:", skonto);
 				} else {
 					skontoOk = true;
 				}
@@ -1118,7 +1118,7 @@ public class JPanelNewOrder extends javax.swing.JPanel {
 		calculateSum();
 	}
 
-	/** Löscht eine Position aus der Tabelle */
+	/** Lï¿½scht eine Position aus der Tabelle */
 	private void removePosition() {
 		int SelectedPosition = jTablePositionen.getSelectedRow();
 
@@ -1130,7 +1130,7 @@ public class JPanelNewOrder extends javax.swing.JPanel {
 			row++;
 		}
 
-		//Selektierte Zeile wird gelöscht
+		//Selektierte Zeile wird gelï¿½scht
 		if (SelectedPosition >= 0) {
 			if (jTablePositionen.getValueAt(SelectedPosition, 0) != null) {
 				jTablePositionen.setValueAt(null, SelectedPosition, 0);
@@ -1173,7 +1173,7 @@ public class JPanelNewOrder extends javax.swing.JPanel {
 		calculateSum();
 	}
 
-	/** Fügt eine Position in die Tabelle ein */
+	/** Fï¿½gt eine Position in die Tabelle ein */
 	private void addPosition() {
 		String artikel = jComboBoxArtikel.getSelectedItem().toString();
 
@@ -1197,7 +1197,7 @@ public class JPanelNewOrder extends javax.swing.JPanel {
 
 			if (!positionen.contains(colArtikel.get(jComboBoxArtikel.getSelectedIndex()))) {
 
-				//Position hinzufügen:
+				//Position hinzufï¿½gen:
 				ComponentContractItem etatPos = new ComponentContractItem();
 				etatPos.setBestellmenge(Integer.parseInt(menge));
 				SupplyList art = (SupplyList) colArtikel.get(jComboBoxArtikel.getSelectedIndex());
@@ -1240,7 +1240,7 @@ public class JPanelNewOrder extends javax.swing.JPanel {
 		calculateSum();
 	}
 
-	/** Holt Infos über den selektierten Article aus der DB */
+	/** Holt Infos ï¿½ber den selektierten Article aus der DB */
 	private void getArticleInfo() {
 		/** [DoItBen] change action! */
 		if (jComboBoxArtikel.getSelectedItem() != null) {
@@ -1299,7 +1299,7 @@ public class JPanelNewOrder extends javax.swing.JPanel {
 		position = 0;
 		setSumme();
 
-		//Positionen löschen
+		//Positionen lï¿½schen
 		positionen.removeAllElements();
 		einzelteile.removeAllElements();
 		colArtikel.removeAllElements();
