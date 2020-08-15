@@ -95,7 +95,7 @@ CREATE TABLE ap (
   ap_Dauer int(10) unsigned NOT NULL default '0',
   ap_AnzArbeiter int(10) unsigned NOT NULL default '1',
   PRIMARY KEY  (ap_Nr)
-) TYPE=MyISAM COMMENT='Entity: Arbeitsplatz';
+) ENGINE = MyISAM COMMENT='Entity: Arbeitsplatz';
 
 #
 # Daten für Tabelle `ap`
@@ -135,7 +135,7 @@ CREATE TABLE art (
   art_Stueckpreis decimal(12,2) unsigned NOT NULL default '0.00',
   art_Mindestbestand int(10) unsigned NOT NULL default '0',
   PRIMARY KEY  (art_Nr)
-) TYPE=MyISAM COMMENT='Entity: Artikel';
+) ENGINE = MyISAM COMMENT='Entity: Artikel';
 
 #
 # Daten für Tabelle `art`
@@ -150,17 +150,17 @@ INSERT INTO art VALUES (1, "Hub", 250, 500);
 
 CREATE TABLE at (
   at_Nr int(10) unsigned NOT NULL auto_increment,
-  at_Lieferdatum date NOT NULL default '0000-00-00',
+  at_Lieferdatum date NOT NULL,
   at_Skonto decimal(4,2) unsigned NOT NULL default '0.00',
   at_Skontofrist int(10) unsigned NOT NULL default '0',
   at_Rabatt decimal(4,2) unsigned NOT NULL default '0.00',
-  at_Datum date NOT NULL default '0000-00-00',
+  at_Datum date NOT NULL,
   f_kd_Nr int(10) unsigned NOT NULL default '0',
   f_atr_Nr int(10) unsigned NOT NULL default '0',
   FOREIGN KEY (f_atr_Nr) REFERENCES atr (atr_Nr),
   FOREIGN KEY (f_kd_Nr) REFERENCES kd (kd_Nr),
   PRIMARY KEY  (at_Nr)
-) TYPE=MyISAM COMMENT='Entity: Auftrag';
+) ENGINE = MyISAM COMMENT='Entity: Auftrag';
 
 #
 # Daten für Tabelle `at`
@@ -185,7 +185,7 @@ CREATE TABLE atr (
   FOREIGN KEY (f_at_Nr) REFERENCES at (at_Nr),
   FOREIGN KEY (f_mwst_Satz) REFERENCES mwst (mwst_Satz),
   PRIMARY KEY  (atr_Nr)
-) TYPE=MyISAM COMMENT='Entity: AuftragsRechnung';
+) ENGINE = MyISAM COMMENT='Entity: AuftragsRechnung';
 
 #
 # Daten für Tabelle `atr`
@@ -206,7 +206,7 @@ CREATE TABLE et (
   et_Name varchar(50) NOT NULL default '',
   et_Mindestbestand int(11) NOT NULL default '0',
   PRIMARY KEY  (et_Nr)
-) TYPE=MyISAM COMMENT='Entity: Einzelteil';
+) ENGINE = MyISAM COMMENT='Entity: Einzelteil';
 
 #
 # Daten für Tabelle `et`
@@ -251,15 +251,15 @@ CREATE TABLE etat (
   etat_Nr int(10) unsigned NOT NULL auto_increment,
   etat_Lieferrabatt decimal(4,2) unsigned NOT NULL default '0.00',
   etat_Skontofrist int(10) unsigned NOT NULL default '0',
-  etat_Lieferdatum date NOT NULL default '0000-00-00',
-  etat_Datum date NOT NULL default '0000-00-00',
+  etat_Lieferdatum date NOT NULL,
+  etat_Datum date NOT NULL,
   etat_Skonto decimal(4,2) unsigned NOT NULL default '0.00',
   f_lt_Nr int(10) unsigned NOT NULL default '0',
   f_etatr_Nr int(10) unsigned NOT NULL,
   FOREIGN KEY (f_etatr_Nr) REFERENCES etatr (etatr_Nr),
   FOREIGN KEY (f_lt_Nr) REFERENCES lt (lt_Nr),
   PRIMARY KEY  (etat_Nr)
-) TYPE=MyISAM COMMENT='EinzelTeilAuftrag';
+) ENGINE = MyISAM COMMENT='EinzelTeilAuftrag';
 
 #
 # Daten für Tabelle `etat`
@@ -283,7 +283,7 @@ CREATE TABLE etatr (
   FOREIGN KEY (f_etat_Nr) REFERENCES etat (etat_Nr),
   FOREIGN KEY (f_mwst_Satz) REFERENCES mwst (mwst_Satz),
   PRIMARY KEY  (etatr_Nr)
-) TYPE=MyISAM COMMENT='Entity: EinzelteilAuftragsRechnung';
+) ENGINE = MyISAM COMMENT='Entity: EinzelteilAuftragsRechnung';
 
 #
 # Daten für Tabelle `etatr`
@@ -314,7 +314,7 @@ CREATE TABLE kd (
   kd_deleted enum('TRUE','FALSE') NOT NULL default 'FALSE',
   f_ort_Nr int(5) unsigned NOT NULL default '0',
   PRIMARY KEY  (kd_Nr)
-) TYPE=MyISAM COMMENT='Entity: Kunde';
+) ENGINE = MyISAM COMMENT='Entity: Kunde';
 
 #
 # Daten für Tabelle `kd`
@@ -334,7 +334,7 @@ INSERT INTO kd VALUES (5, 'B', '', '3', 'ABC AG', 'Anderson', 'Kay', 'Rotherstr.
 CREATE TABLE lg (
   lg_StellplatzNr varchar(50) NOT NULL default '',
   PRIMARY KEY  (lg_StellplatzNr)
-) TYPE=MyISAM COMMENT='Entity: Lager';
+) ENGINE = MyISAM COMMENT='Entity: Lager';
 
 #
 # Daten für Tabelle `lg`
@@ -391,7 +391,7 @@ CREATE TABLE lt (
   lt_Qualitaet enum('1','2','3','4','5','6') NOT NULL default '3',
   lt_Zuverlaessigkeit enum('1','2','3','4','5','6') NOT NULL default '3',
   PRIMARY KEY  (lt_Nr)
-) TYPE=MyISAM COMMENT='Entity: Lieferant';
+) ENGINE = MyISAM COMMENT='Entity: Lieferant';
 
 #
 # Daten für Tabelle `lt`
@@ -409,7 +409,7 @@ INSERT INTO lt VALUES (3, 'Strolch', 'Martin', 'Zubehoerstr. 9', 'Zubehoer Meist
 CREATE TABLE mwst (
   mwst_satz decimal(4,2) unsigned NOT NULL default '0.00',
   PRIMARY KEY  (mwst_satz)
-) TYPE=MyISAM;
+) ENGINE = MyISAM;
 
 #
 # Daten für Tabelle `mwst`
@@ -426,11 +426,11 @@ INSERT INTO mwst VALUES ('16.00');
 CREATE TABLE note (
   note_Nr int(10) unsigned NOT NULL auto_increment,
   note_txt text,
-  note_Date date NOT NULL default '0000-00-00',
+  note_Date date NOT NULL,
   f_kd_Nr int(10) unsigned NOT NULL default '0',
   FOREIGN KEY (f_kd_Nr) REFERENCES kd (kd_Nr),
   PRIMARY KEY  (note_Nr)
-) TYPE=MyISAM;
+) ENGINE = MyISAM;
 
 #
 # Daten für Tabelle `note`
@@ -452,7 +452,7 @@ CREATE TABLE ort (
   ort_PLZ varchar(5) NOT NULL default '',
   ort_Name varchar(50) NOT NULL default '',
   PRIMARY KEY  (ort_Nr)
-) TYPE=MyISAM;
+) ENGINE = MyISAM;
 
 #
 # Daten für Tabelle `ort`
@@ -469,7 +469,7 @@ CREATE TABLE nf (
   f_ap_nr int(10) NOT NULL default '0',
   nf_nachfolger int(10) NOT NULL default '0',
   PRIMARY KEY  (f_ap_nr,nf_nachfolger)
-) TYPE=MyISAM COMMENT='Nachfolger';
+) ENGINE = MyISAM COMMENT='Nachfolger';
 
 #
 # Daten für Tabelle `nf`
@@ -508,7 +508,7 @@ CREATE TABLE vg (
   f_ap_nr int(10) NOT NULL default '0',
   vg_vorgaenger int(10) NOT NULL default '0',
   PRIMARY KEY  (f_ap_nr,vg_vorgaenger)
-) TYPE=MyISAM COMMENT='Vorgaenger';
+) ENGINE = MyISAM COMMENT='Vorgaenger';
 
 #
 # Daten für Tabelle `vg`
@@ -553,7 +553,7 @@ CREATE TABLE rel_art_et (
   FOREIGN KEY (f_art_Nr) REFERENCES art (art_Nr),
   FOREIGN KEY (f_et_Nr) REFERENCES et (et_Nr),
   PRIMARY KEY  (f_et_Nr,f_art_Nr)
-) TYPE=MyISAM COMMENT='Relationship: Artikel_Einzelteil (Stueckliste)';
+) ENGINE = MyISAM COMMENT='Relationship: Artikel_Einzelteil (Stueckliste)';
 
 #
 # Daten für Tabelle `rel_art_et`
@@ -600,7 +600,7 @@ CREATE TABLE rel_art_lg (
   FOREIGN KEY (f_art_Nr) REFERENCES art (art_Nr),
   FOREIGN KEY (f_lg_StellplatzNr) REFERENCES lg (lg_StellplatzNr),
   PRIMARY KEY  (f_lg_StellplatzNr,f_art_Nr)
-) TYPE=MyISAM COMMENT='Relationship: Artikel_Lager (Artikellagerplatz)';
+) ENGINE = MyISAM COMMENT='Relationship: Artikel_Lager (Artikellagerplatz)';
 
 #
 # Daten für Tabelle `rel_art_lg`
@@ -620,7 +620,7 @@ CREATE TABLE rel_at_art (
   FOREIGN KEY (f_art_Nr) REFERENCES art (art_Nr),
   FOREIGN KEY (f_at_Nr) REFERENCES at (at_Nr),
   PRIMARY KEY  (f_art_Nr,f_at_Nr)
-) TYPE=MyISAM COMMENT='Relationship: Auftrag_Artikel (Auftragsposition)';
+) ENGINE = MyISAM COMMENT='Relationship: Auftrag_Artikel (Auftragsposition)';
 
 #
 # Daten für Tabelle `rel_at_art`
@@ -644,7 +644,7 @@ CREATE TABLE rel_et_ap (
   rel_et_ap_MaxBestand int(10) unsigned NOT NULL default '0',
   rel_et_ap_Benoetigt int(10) unsigned NOT NULL default '0',
   PRIMARY KEY  (f_ap_Nr,f_et_Nr,rel_et_ap_Lagertyp)
-) TYPE=MyISAM COMMENT='Relationship: Einzelteil_Arbeitsplatz (ArbeitsplatzEinzeltei';
+) ENGINE = MyISAM COMMENT='Relationship: Einzelteil_Arbeitsplatz (ArbeitsplatzEinzeltei';
 
 #
 # Daten für Tabelle `rel_et_ap`
@@ -736,7 +736,7 @@ CREATE TABLE rel_et_lg (
   FOREIGN KEY (f_et_Nr) REFERENCES et (et_Nr),
   FOREIGN KEY (f_lg_StellplatzNr) REFERENCES lg (lg_StellplatzNr),
   PRIMARY KEY  (f_lg_StellplatzNr,f_et_Nr)
-) TYPE=MyISAM COMMENT='Relationship: Einzeilteil_Lager (EinzelteilLagerplatz)';
+) ENGINE = MyISAM COMMENT='Relationship: Einzeilteil_Lager (EinzelteilLagerplatz)';
 
 #
 # Daten für Tabelle `rel_et_lg`
@@ -783,7 +783,7 @@ CREATE TABLE rel_etat_et (
   FOREIGN KEY (f_et_Nr) REFERENCES et (et_Nr),
   FOREIGN KEY (f_etat_Nr) REFERENCES etat (etat_Nr),
   PRIMARY KEY  (f_et_Nr,f_etat_Nr)
-) TYPE=MyISAM COMMENT='Relationship: Einzelteilauftrag_Einzelteil (EinzelteilAuftra';
+) ENGINE = MyISAM COMMENT='Relationship: Einzelteilauftrag_Einzelteil (EinzelteilAuftra';
 
 #
 # Daten für Tabelle `rel_etat_et`
@@ -815,7 +815,7 @@ CREATE TABLE rel_lt_et (
   FOREIGN KEY (f_et_Nr) REFERENCES et (et_Nr),
   FOREIGN KEY (f_lt_Nr) REFERENCES lt (lt_Nr),
   PRIMARY KEY  (f_et_Nr,f_lt_Nr)
-) TYPE=MyISAM COMMENT='Relationship: Lieferant_Einzelteil (Lieferliste)';
+) ENGINE = MyISAM COMMENT='Relationship: Lieferant_Einzelteil (Lieferliste)';
 
 #
 # Daten für Tabelle `rel_lt_et`

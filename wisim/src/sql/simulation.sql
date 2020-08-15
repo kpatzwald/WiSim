@@ -53,7 +53,7 @@ CREATE TABLE rel_art_lg (
   FOREIGN KEY (f_art_Nr) REFERENCES art (art_Nr),
   FOREIGN KEY (f_lg_StellplatzNr) REFERENCES lg (lg_StellplatzNr),
   PRIMARY KEY  (f_lg_StellplatzNr,f_art_Nr)
-) TYPE=MyISAM COMMENT='Relationship: Artikel_Lager (Artikellagerplatz)';
+) ENGINE=MyISAM COMMENT='Relationship: Artikel_Lager (Artikellagerplatz)';
 
 #
 # Daten für Tabelle `rel_art_lg`
@@ -74,7 +74,7 @@ CREATE TABLE rel_et_ap (
   rel_et_ap_MaxBestand int(10) unsigned NOT NULL default '0',
   rel_et_ap_Benoetigt int(10) unsigned NOT NULL default '0',
   PRIMARY KEY  (f_ap_Nr,f_et_Nr,rel_et_ap_Lagertyp)
-) TYPE=MyISAM COMMENT='Relationship: Einzelteil_Arbeitsplatz (ArbeitsplatzEinzeltei';
+) ENGINE=MyISAM COMMENT='Relationship: Einzelteil_Arbeitsplatz (ArbeitsplatzEinzeltei';
 
 #
 # Daten für Tabelle `rel_et_ap`
@@ -166,7 +166,7 @@ CREATE TABLE rel_et_lg (
   FOREIGN KEY (f_et_Nr) REFERENCES et (et_Nr),
   FOREIGN KEY (f_lg_StellplatzNr) REFERENCES lg (lg_StellplatzNr),
   PRIMARY KEY  (f_lg_StellplatzNr,f_et_Nr)
-) TYPE=MyISAM COMMENT='Relationship: Einzeilteil_Lager (EinzelteilLagerplatz)';
+) ENGINE=MyISAM COMMENT='Relationship: Einzeilteil_Lager (EinzelteilLagerplatz)';
 
 #
 # Daten für Tabelle `rel_et_lg`
