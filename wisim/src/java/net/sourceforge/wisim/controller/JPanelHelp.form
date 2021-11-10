@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.0" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
+<Form version="1.2" maxVersion="1.2" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
   <NonVisualComponents>
     <Component class="javax.swing.JOptionPane" name="jOptionPaneVerInfo">
       <Properties>
@@ -14,6 +14,14 @@
     </Property>
   </Properties>
   <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
     <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,4,-108,0,0,3,-125"/>
   </AuxValues>
 
@@ -34,7 +42,7 @@
           <Properties>
             <Property name="editable" type="boolean" value="false"/>
             <Property name="lineWrap" type="boolean" value="true"/>
-            <Property name="text" type="java.lang.String" value="Welcome to WiSim, a business game.&#xa;&#xa;&#xa;Visit us at&#xa;     http://wisim.sourceforge.net.&#xa;&#x9;&#xa;Visit our forum for bugreports, feature requests, development or general dicussion.&#xa;&#xa;The following topics were implemented in version 1.0: &#xa;    - Single-User-Application &#xa;    - simulation of production &#xa;    - simulation of purchase &#xa;    - simulation of sale &#xa;    - analysis of the production / purchase / sale &#xa;    - simulation of the store house &#xa;    - customer and supplier administration&#xa;&#xa;In Deutsch:&#xa;Dieses Programm ist ein Unternehmensplanspiel.&#xa;Folgende Funktionen sind implementiert:&#xa;&#xa;    - Kundenverwaltung (Anlegen, Editieren, Löschen, Übersicht)&#xa;    - Lieferantenverwaltung (Anlegen, Editieren, Löschen, Übersicht)&#xa;    - Auftragsverwaltung (Anlegen, Übersicht)&#xa;    - Arbeitsplatz- und Lagerübersicht mit Statusbalken&#xa;    - Zahlungseingang verwalten&#xa;    - Simulation der Produktion mit Auswertung&#xa;&#xa;&#xa;Copyright notice                                                       &#x9;&#x9;&#x9;&#xa;&#xa;(c) 2003 WiSim Development Team&#xa;http://wisim.sourceforge.net/   &#x9;&#x9;&#x9;                       &#xa;All rights reserved     &#xa;                                  &#xa;This script is part of the WiSim Business Game project. The WiSim    &#xa;project is free software; you can redistribute it and/or modify        &#xa;it under the terms of the GNU General Public License as published by   &#xa;the Free Software Foundation; either version 2 of the License, or      &#xa;(at your option) any later version.                                    &#xa;                                                                       &#xa;The GNU General Public License can be found at                         &#xa;http://www.gnu.org/copyleft/gpl.html.                                  &#xa;A copy is found in the textfile GPL.txt and important notices to the  &#xa;license from the team is found in the textfile LICENSE.txt distributed &#xa;in these package.                                                      &#xa;&#xa;STAFF:&#xa;------&#xa;&#xa;- Benjamin Pasero - Administrator and Developer&#xa;- Kay Patzwald - Administrator and Developer&#xa;"/>
+            <Property name="text" type="java.lang.String" value="Welcome to WiSim, a business game.&#xa;&#xa;&#xa;Visit us at&#xa;     http://wisim.sourceforge.net.&#xa;&#x9;&#xa;Visit our forum for bugreports, feature requests, development or general dicussion.&#xa;&#xa;The following topics were implemented in version 1.0: &#xa;    - Single-User-Application &#xa;    - simulation of production &#xa;    - simulation of purchase &#xa;    - simulation of sale &#xa;    - analysis of the production / purchase / sale &#xa;    - simulation of the store house &#xa;    - customer and supplier administration&#xa;&#xa;In Deutsch:&#xa;Dieses Programm ist ein Unternehmensplanspiel.&#xa;Folgende Funktionen sind implementiert:&#xa;&#xa;    - Kundenverwaltung (Anlegen, Editieren, L&#xf6;schen, &#xdc;bersicht)&#xa;    - Lieferantenverwaltung (Anlegen, Editieren, L&#xf6;schen, &#xdc;bersicht)&#xa;    - Auftragsverwaltung (Anlegen, &#xdc;bersicht)&#xa;    - Arbeitsplatz- und Lager&#xfc;bersicht mit Statusbalken&#xa;    - Zahlungseingang verwalten&#xa;    - Simulation der Produktion mit Auswertung&#xa;&#xa;&#xa;Copyright notice                                                       &#x9;&#x9;&#x9;&#xa;&#xa;(c) 2003-2021 WiSim Development Team&#xa;http://wisim.sourceforge.net/   &#x9;&#x9;&#x9;                       &#xa;All rights reserved     &#xa;                                  &#xa;This script is part of the WiSim Business Game project. The WiSim    &#xa;project is free software; you can redistribute it and/or modify        &#xa;it under the terms of the GNU General Public License as published by   &#xa;the Free Software Foundation; either version 2 of the License, or      &#xa;(at your option) any later version.                                    &#xa;                                                                       &#xa;The GNU General Public License can be found at                         &#xa;http://www.gnu.org/copyleft/gpl.html.                                  &#xa;A copy is found in the textfile GPL.txt and important notices to the  &#xa;license from the team is found in the textfile LICENSE.txt distributed &#xa;in these package.                                                      &#xa;&#xa;STAFF:&#xa;------&#xa;&#xa;- Benjamin Pasero - Administrator and Developer&#xa;- Kay Patzwald - Administrator and Developer&#xa;"/>
           </Properties>
         </Component>
       </SubComponents>
@@ -55,7 +63,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButtonURL">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Projekt-Homepage öffnen"/>
+        <Property name="text" type="java.lang.String" value="Projekt-Homepage &#xf6;ffnen"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonURLActionPerformed"/>
