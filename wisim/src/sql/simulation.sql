@@ -1,7 +1,7 @@
 ##/*   ********************************************************************   **
 ##**   Copyright notice                                                       **
 ##**                                                                          **
-##**   (c) 2003 WiSim Development Team					                              **
+##**   (c) 2003-2020 WiSim Development Team					                              **
 ##**   http://wisim.sourceforge.net/   			                                  **
 ##**                                                                          **
 ##**   All rights reserved                                                    **
@@ -42,7 +42,7 @@ DROP TABLE IF EXISTS rel_art_lg;
 
 
 #
-# Tabellenstruktur für Tabelle `rel_art_lg`
+# Tabellenstruktur fï¿½r Tabelle `rel_art_lg`
 #
 
 CREATE TABLE rel_art_lg (
@@ -53,17 +53,17 @@ CREATE TABLE rel_art_lg (
   FOREIGN KEY (f_art_Nr) REFERENCES art (art_Nr),
   FOREIGN KEY (f_lg_StellplatzNr) REFERENCES lg (lg_StellplatzNr),
   PRIMARY KEY  (f_lg_StellplatzNr,f_art_Nr)
-) ENGINE=MyISAM COMMENT='Relationship: Artikel_Lager (Artikellagerplatz)';
+) ENGINE = MyISAM COMMENT='Relationship: Artikel_Lager (Artikellagerplatz)';
 
 #
-# Daten für Tabelle `rel_art_lg`
+# Daten fï¿½r Tabelle `rel_art_lg`
 #
 
 INSERT INTO rel_art_lg VALUES ("C16", 1, 600, 1000);
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `rel_et_ap`
+# Tabellenstruktur fï¿½r Tabelle `rel_et_ap`
 #
 
 CREATE TABLE rel_et_ap (
@@ -74,10 +74,10 @@ CREATE TABLE rel_et_ap (
   rel_et_ap_MaxBestand int(10) unsigned NOT NULL default '0',
   rel_et_ap_Benoetigt int(10) unsigned NOT NULL default '0',
   PRIMARY KEY  (f_ap_Nr,f_et_Nr,rel_et_ap_Lagertyp)
-) ENGINE=MyISAM COMMENT='Relationship: Einzelteil_Arbeitsplatz (ArbeitsplatzEinzeltei';
+) ENGINE = MyISAM COMMENT='Relationship: Einzelteil_Arbeitsplatz (ArbeitsplatzEinzeltei';
 
 #
-# Daten für Tabelle `rel_et_ap`
+# Daten fï¿½r Tabelle `rel_et_ap`
 #
 
 INSERT INTO rel_et_ap (f_ap_Nr, f_et_Nr, rel_et_ap_Lagertyp, rel_et_ap_Bestand, rel_et_ap_MaxBestand, rel_et_ap_Benoetigt) VALUES (1, 8, 'Einzelteil', 50, 50, 1);
@@ -155,7 +155,7 @@ INSERT INTO rel_et_ap (f_ap_Nr, f_et_Nr, rel_et_ap_Lagertyp, rel_et_ap_Bestand, 
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `rel_et_lg`
+# Tabellenstruktur fï¿½r Tabelle `rel_et_lg`
 #
 
 CREATE TABLE rel_et_lg (
@@ -166,10 +166,10 @@ CREATE TABLE rel_et_lg (
   FOREIGN KEY (f_et_Nr) REFERENCES et (et_Nr),
   FOREIGN KEY (f_lg_StellplatzNr) REFERENCES lg (lg_StellplatzNr),
   PRIMARY KEY  (f_lg_StellplatzNr,f_et_Nr)
-) ENGINE=MyISAM COMMENT='Relationship: Einzeilteil_Lager (EinzelteilLagerplatz)';
+) ENGINE = MyISAM COMMENT='Relationship: Einzeilteil_Lager (EinzelteilLagerplatz)';
 
 #
-# Daten für Tabelle `rel_et_lg`
+# Daten fï¿½r Tabelle `rel_et_lg`
 #
 
 INSERT INTO rel_et_lg (f_lg_StellplatzNr, f_et_Nr, rel_et_lg_Bestand, rel_et_lg_MaxBestand) VALUES ('A10', 1, 1350, 1500);

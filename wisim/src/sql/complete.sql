@@ -1,7 +1,7 @@
 ##/*   ********************************************************************   **
 ##**   Copyright notice                                                       **
 ##**                                                                          **
-##**   (c) 2003 WiSim Development Team					                              **
+##**   (c) 2003-2020 WiSim Development Team					                              **
 ##**   http://wisim.sourceforge.net/   			                                  **
 ##**                                                                          **
 ##**   All rights reserved                                                    **
@@ -86,7 +86,7 @@ DROP TABLE IF EXISTS vg;
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `ap`
+# Tabellenstruktur fÃ¼r Tabelle `ap`
 #
 
 CREATE TABLE ap (
@@ -98,35 +98,35 @@ CREATE TABLE ap (
 ) ENGINE = MyISAM COMMENT='Entity: Arbeitsplatz';
 
 #
-# Daten für Tabelle `ap`
+# Daten fÃ¼r Tabelle `ap`
 #
 
 INSERT INTO ap (ap_Nr, ap_Beschreibung, ap_Dauer, ap_AnzArbeiter) VALUES (1, 'Funktionstest der Platine', 5, 1);
-INSERT INTO ap (ap_Nr, ap_Beschreibung, ap_Dauer, ap_AnzArbeiter) VALUES (2, 'LEDs auf Platine löten', 10, 1);
-INSERT INTO ap (ap_Nr, ap_Beschreibung, ap_Dauer, ap_AnzArbeiter) VALUES (3, 'Ports auf die Platine löten', 10, 1);
-INSERT INTO ap (ap_Nr, ap_Beschreibung, ap_Dauer, ap_AnzArbeiter) VALUES (4, 'Uplink-Schalter auf die Platine löten', 5, 1);
+INSERT INTO ap (ap_Nr, ap_Beschreibung, ap_Dauer, ap_AnzArbeiter) VALUES (2, 'LEDs auf Platine lÃ¶ten', 10, 1);
+INSERT INTO ap (ap_Nr, ap_Beschreibung, ap_Dauer, ap_AnzArbeiter) VALUES (3, 'Ports auf die Platine lÃ¶ten', 10, 1);
+INSERT INTO ap (ap_Nr, ap_Beschreibung, ap_Dauer, ap_AnzArbeiter) VALUES (4, 'Uplink-Schalter auf die Platine lÃ¶ten', 5, 1);
 INSERT INTO ap (ap_Nr, ap_Beschreibung, ap_Dauer, ap_AnzArbeiter) VALUES (5, 'Netz-Schalter anbringen', 2, 1);
-INSERT INTO ap (ap_Nr, ap_Beschreibung, ap_Dauer, ap_AnzArbeiter) VALUES (6, 'Gehäuse-Unterteil mit Abstandshalter bestücken', 4, 1);
+INSERT INTO ap (ap_Nr, ap_Beschreibung, ap_Dauer, ap_AnzArbeiter) VALUES (6, 'GehÃ¤use-Unterteil mit Abstandshalter bestÃ¼cken', 4, 1);
 INSERT INTO ap (ap_Nr, ap_Beschreibung, ap_Dauer, ap_AnzArbeiter) VALUES (7, 'Platine auf Abstandshalter setzen und verschrauben', 5, 1);
-INSERT INTO ap (ap_Nr, ap_Beschreibung, ap_Dauer, ap_AnzArbeiter) VALUES (8, '2 Lüfter ins Gehäuse einbauen', 5, 1);
-INSERT INTO ap (ap_Nr, ap_Beschreibung, ap_Dauer, ap_AnzArbeiter) VALUES (9, 'Schutzgitter für die Lüfter anbringen', 2, 1);
+INSERT INTO ap (ap_Nr, ap_Beschreibung, ap_Dauer, ap_AnzArbeiter) VALUES (8, '2 LÃ¼fter ins GehÃ¤use einbauen', 5, 1);
+INSERT INTO ap (ap_Nr, ap_Beschreibung, ap_Dauer, ap_AnzArbeiter) VALUES (9, 'Schutzgitter fÃ¼r die LÃ¼fter anbringen', 2, 1);
 INSERT INTO ap (ap_Nr, ap_Beschreibung, ap_Dauer, ap_AnzArbeiter) VALUES (10, 'Netzteil anschrauben', 2, 1);
 INSERT INTO ap (ap_Nr, ap_Beschreibung, ap_Dauer, ap_AnzArbeiter) VALUES (11, 'Kabel auf Platine stecken', 2, 1);
 INSERT INTO ap (ap_Nr, ap_Beschreibung, ap_Dauer, ap_AnzArbeiter) VALUES (12, 'Sicherungshalterung und Sicherung montieren', 5, 1);
 INSERT INTO ap (ap_Nr, ap_Beschreibung, ap_Dauer, ap_AnzArbeiter) VALUES (13, 'Folie auf Frontfolie kleben', 1, 1);
 INSERT INTO ap (ap_Nr, ap_Beschreibung, ap_Dauer, ap_AnzArbeiter) VALUES (14, 'Funktionstest', 10, 1);
-INSERT INTO ap (ap_Nr, ap_Beschreibung, ap_Dauer, ap_AnzArbeiter) VALUES (15, 'Gehäuse schließen und verschrauben', 1, 1);
+INSERT INTO ap (ap_Nr, ap_Beschreibung, ap_Dauer, ap_AnzArbeiter) VALUES (15, 'GehÃ¤use schlieÃŸen und verschrauben', 1, 1);
 INSERT INTO ap (ap_Nr, ap_Beschreibung, ap_Dauer, ap_AnzArbeiter) VALUES (16, 'Endtest', 10, 1);
-INSERT INTO ap (ap_Nr, ap_Beschreibung, ap_Dauer, ap_AnzArbeiter) VALUES (17, 'Prüfprotokoll erstellen', 5, 1);
+INSERT INTO ap (ap_Nr, ap_Beschreibung, ap_Dauer, ap_AnzArbeiter) VALUES (17, 'PrÃ¼fprotokoll erstellen', 5, 1);
 INSERT INTO ap (ap_Nr, ap_Beschreibung, ap_Dauer, ap_AnzArbeiter) VALUES (18, 'Garantiesiegel, Etikett mit Seriennummer aufkleben', 1, 1);
-INSERT INTO ap (ap_Nr, ap_Beschreibung, ap_Dauer, ap_AnzArbeiter) VALUES (19, 'Gummifüße anbringen', 1, 1);
+INSERT INTO ap (ap_Nr, ap_Beschreibung, ap_Dauer, ap_AnzArbeiter) VALUES (19, 'GummifÃ¼ÃŸe anbringen', 1, 1);
 INSERT INTO ap (ap_Nr, ap_Beschreibung, ap_Dauer, ap_AnzArbeiter) VALUES (20, 'Karton falten', 2, 1);
-INSERT INTO ap (ap_Nr, ap_Beschreibung, ap_Dauer, ap_AnzArbeiter) VALUES (21, 'Karton mit Verpackungspopcorn füllen', 1, 1);
+INSERT INTO ap (ap_Nr, ap_Beschreibung, ap_Dauer, ap_AnzArbeiter) VALUES (21, 'Karton mit Verpackungspopcorn fÃ¼llen', 1, 1);
 INSERT INTO ap (ap_Nr, ap_Beschreibung, ap_Dauer, ap_AnzArbeiter) VALUES (22, 'Hub verpacken mit Handbuch und CD', 2, 1);
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `art`
+# Tabellenstruktur fÃ¼r Tabelle `art`
 #
 
 CREATE TABLE art (
@@ -138,14 +138,14 @@ CREATE TABLE art (
 ) ENGINE = MyISAM COMMENT='Entity: Artikel';
 
 #
-# Daten für Tabelle `art`
+# Daten fÃ¼r Tabelle `art`
 #
 
 INSERT INTO art VALUES (1, "Hub", 250, 500);
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `at`
+# Tabellenstruktur fÃ¼r Tabelle `at`
 #
 
 CREATE TABLE at (
@@ -163,7 +163,7 @@ CREATE TABLE at (
 ) ENGINE = MyISAM COMMENT='Entity: Auftrag';
 
 #
-# Daten für Tabelle `at`
+# Daten fÃ¼r Tabelle `at`
 #
 
 INSERT INTO at VALUES (1, '2003-09-2', '3.00', 0, '5.00', '2003-08-28', 1, 1);
@@ -173,7 +173,7 @@ INSERT INTO at VALUES (3, '2003-09-4', '3.00', 0, '5.00', '2003-08-30', 3, 3);
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `atr`
+# Tabellenstruktur fÃ¼r Tabelle `atr`
 #
 
 CREATE TABLE atr (
@@ -188,7 +188,7 @@ CREATE TABLE atr (
 ) ENGINE = MyISAM COMMENT='Entity: AuftragsRechnung';
 
 #
-# Daten für Tabelle `atr`
+# Daten fÃ¼r Tabelle `atr`
 #
 
 INSERT INTO atr VALUES (1, '2700.00', 1, '16.00','FALSE');
@@ -198,7 +198,7 @@ INSERT INTO atr VALUES (3, '8100.00', 3, '16.00','FALSE');
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `et`
+# Tabellenstruktur fÃ¼r Tabelle `et`
 #
 
 CREATE TABLE et (
@@ -209,33 +209,33 @@ CREATE TABLE et (
 ) ENGINE = MyISAM COMMENT='Entity: Einzelteil';
 
 #
-# Daten für Tabelle `et`
-# Mindestbestände reichen aus für 500 HUBs
+# Daten fÃ¼r Tabelle `et`
+# MindestbestÃ¤nde reichen aus fÃ¼r 500 HUBs
 
-INSERT INTO et (et_Nr, et_Name, et_Mindestbestand) VALUES (1, 'Gehäuse Unterteil', 500);
-INSERT INTO et (et_Nr, et_Name, et_Mindestbestand) VALUES (2, 'Gehäuse Oberteil', 500);
+INSERT INTO et (et_Nr, et_Name, et_Mindestbestand) VALUES (1, 'GehÃ¤use Unterteil', 500);
+INSERT INTO et (et_Nr, et_Name, et_Mindestbestand) VALUES (2, 'GehÃ¤use Oberteil', 500);
 INSERT INTO et (et_Nr, et_Name, et_Mindestbestand) VALUES (3, 'Netzteil', 500);
 INSERT INTO et (et_Nr, et_Name, et_Mindestbestand) VALUES (4, 'LED (gelb)', 12000);
-INSERT INTO et (et_Nr, et_Name, et_Mindestbestand) VALUES (5, 'LED (grün)', 24000);
+INSERT INTO et (et_Nr, et_Name, et_Mindestbestand) VALUES (5, 'LED (grÃ¼n)', 24000);
 INSERT INTO et (et_Nr, et_Name, et_Mindestbestand) VALUES (6, 'LED (rot)', 500);
 INSERT INTO et (et_Nr, et_Name, et_Mindestbestand) VALUES (7, 'Abstandshalter', 2500);
 INSERT INTO et (et_Nr, et_Name, et_Mindestbestand) VALUES (8, 'Platine', 500);
 INSERT INTO et (et_Nr, et_Name, et_Mindestbestand) VALUES (9, 'Stromkabel', 500);
 INSERT INTO et (et_Nr, et_Name, et_Mindestbestand) VALUES (10, 'Handbuch', 500);
 INSERT INTO et (et_Nr, et_Name, et_Mindestbestand) VALUES (11, 'CD', 500);
-INSERT INTO et (et_Nr, et_Name, et_Mindestbestand) VALUES (12, 'Schrauben für Platine', 2500);
+INSERT INTO et (et_Nr, et_Name, et_Mindestbestand) VALUES (12, 'Schrauben fÃ¼r Platine', 2500);
 INSERT INTO et (et_Nr, et_Name, et_Mindestbestand) VALUES (13, 'RJ45-Buchsen', 12000);
 INSERT INTO et (et_Nr, et_Name, et_Mindestbestand) VALUES (14, 'Sicherung', 500);
-INSERT INTO et (et_Nr, et_Name, et_Mindestbestand) VALUES (15, 'Lüfter', 1000);
+INSERT INTO et (et_Nr, et_Name, et_Mindestbestand) VALUES (15, 'LÃ¼fter', 1000);
 INSERT INTO et (et_Nr, et_Name, et_Mindestbestand) VALUES (16, 'Uplink-Schalter', 500);
 INSERT INTO et (et_Nr, et_Name, et_Mindestbestand) VALUES (17, 'Netzschalter', 500);
 INSERT INTO et (et_Nr, et_Name, et_Mindestbestand) VALUES (18, 'Etikett mit Seriennummer', 500);
 INSERT INTO et (et_Nr, et_Name, et_Mindestbestand) VALUES (19, 'Frontfolie', 500);
 INSERT INTO et (et_Nr, et_Name, et_Mindestbestand) VALUES (20, 'Verpackungsfolie', 500);
-INSERT INTO et (et_Nr, et_Name, et_Mindestbestand) VALUES (21, 'Gummifuß', 2000);
-INSERT INTO et (et_Nr, et_Name, et_Mindestbestand) VALUES (22, 'Gehäuseschrauben', 2000);
-INSERT INTO et (et_Nr, et_Name, et_Mindestbestand) VALUES (23, 'Netzteil- und Lüfterschrauben', 6000);
-INSERT INTO et (et_Nr, et_Name, et_Mindestbestand) VALUES (24, 'Schutzgitter für Lifter', 1000);
+INSERT INTO et (et_Nr, et_Name, et_Mindestbestand) VALUES (21, 'GummifuÃŸ', 2000);
+INSERT INTO et (et_Nr, et_Name, et_Mindestbestand) VALUES (22, 'GehÃ¤useschrauben', 2000);
+INSERT INTO et (et_Nr, et_Name, et_Mindestbestand) VALUES (23, 'Netzteil- und LÃ¼fterschrauben', 6000);
+INSERT INTO et (et_Nr, et_Name, et_Mindestbestand) VALUES (24, 'Schutzgitter fÃ¼r Lifter', 1000);
 INSERT INTO et (et_Nr, et_Name, et_Mindestbestand) VALUES (25, 'Garantiesiegel', 500);
 INSERT INTO et (et_Nr, et_Name, et_Mindestbestand) VALUES (26, 'Unfertiges Hub', 0);
 INSERT INTO et (et_Nr, et_Name, et_Mindestbestand) VALUES (27, 'Verpackungskarton', 500);
@@ -244,7 +244,7 @@ INSERT INTO et (et_Nr, et_Name, et_Mindestbestand) VALUES (28, 'Verpackungspopco
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `etat`
+# Tabellenstruktur fÃ¼r Tabelle `etat`
 #
 
 CREATE TABLE etat (
@@ -262,7 +262,7 @@ CREATE TABLE etat (
 ) ENGINE = MyISAM COMMENT='EinzelTeilAuftrag';
 
 #
-# Daten für Tabelle `etat`
+# Daten fÃ¼r Tabelle `etat`
 #
 
 INSERT INTO etat VALUES (3, '3.50', 4, '2003-09-04', '2003-08-27', '1.50', 3, 6);
@@ -272,7 +272,7 @@ INSERT INTO etat VALUES (1, '5.00', 5, '2003-09-02', '2003-08-29', '3.00', 1, 4)
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `etatr`
+# Tabellenstruktur fÃ¼r Tabelle `etatr`
 #
 
 CREATE TABLE etatr (
@@ -286,7 +286,7 @@ CREATE TABLE etatr (
 ) ENGINE = MyISAM COMMENT='Entity: EinzelteilAuftragsRechnung';
 
 #
-# Daten für Tabelle `etatr`
+# Daten fÃ¼r Tabelle `etatr`
 #
 
 INSERT INTO etatr VALUES (3, '1500.00', 4, '16.00');
@@ -296,13 +296,13 @@ INSERT INTO etatr VALUES (1, '3350.00', 6, '16.00');
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `kd`
+# Tabellenstruktur fÃ¼r Tabelle `kd`
 #
 
 CREATE TABLE kd (
   kd_Nr int(10) unsigned NOT NULL auto_increment,
   kd_Typ enum('A','B','C') NOT NULL default 'B',
-  kd_Anspruch enum('','Preisfeilscher','Service-Fan','Termin-Fan','Qualitäts-Fan','Atmosphäre-Typ') NOT NULL default '',
+  kd_Anspruch enum('','Preisfeilscher','Service-Fan','Termin-Fan','QualitÃ¤ts-Fan','AtmosphÃ¤re-Typ') NOT NULL default '',
   kd_Zahlungsmoral enum('1','2','3','4','5','6') NOT NULL default '3',
   kd_Firma varchar(50) NOT NULL default '',
   kd_Name varchar(50) NOT NULL default '',
@@ -317,7 +317,7 @@ CREATE TABLE kd (
 ) ENGINE = MyISAM COMMENT='Entity: Kunde';
 
 #
-# Daten für Tabelle `kd`
+# Daten fÃ¼r Tabelle `kd`
 #
 
 INSERT INTO kd VALUES (1, 'B', '', '3', 'ABC AG', 'Peters', 'Benjamin', 'Rotherstr. 9', 'peters@abc.com', '030-123455', '030-123456', 'FALSE', 1);
@@ -328,7 +328,7 @@ INSERT INTO kd VALUES (5, 'B', '', '3', 'ABC AG', 'Anderson', 'Kay', 'Rotherstr.
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `lg`
+# Tabellenstruktur fÃ¼r Tabelle `lg`
 #
 
 CREATE TABLE lg (
@@ -337,7 +337,7 @@ CREATE TABLE lg (
 ) ENGINE = MyISAM COMMENT='Entity: Lager';
 
 #
-# Daten für Tabelle `lg`
+# Daten fÃ¼r Tabelle `lg`
 #
 
 INSERT INTO lg VALUES ('A10');
@@ -374,7 +374,7 @@ INSERT INTO lg VALUES ('C19');
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `lt`
+# Tabellenstruktur fÃ¼r Tabelle `lt`
 #
 
 CREATE TABLE lt (
@@ -394,16 +394,16 @@ CREATE TABLE lt (
 ) ENGINE = MyISAM COMMENT='Entity: Lieferant';
 
 #
-# Daten für Tabelle `lt`
+# Daten fÃ¼r Tabelle `lt`
 #
 
 INSERT INTO lt VALUES (1, 'Mustermann', 'Peter', 'Ledstr. 9', 'Led Meister', 'peter.mustermann@ledmeister.de', '030-123455', '030-123456', 'FALSE', 1, '3', '3');
-INSERT INTO lt VALUES (2, 'Musterfrau', 'Petra', 'Gehäusestr. 9', 'Gehäuse Meister', 'petra.mustermann@gehaeusemeister.de', '030-123455', '030-123456', 'FALSE', 1, '3', '3');
+INSERT INTO lt VALUES (2, 'Musterfrau', 'Petra', 'GehÃ¤usestr. 9', 'GehÃ¤use Meister', 'petra.mustermann@gehaeusemeister.de', '030-123455', '030-123456', 'FALSE', 1, '3', '3');
 INSERT INTO lt VALUES (3, 'Strolch', 'Martin', 'Zubehoerstr. 9', 'Zubehoer Meister', 'peter.strolch@zubehoermeister.de', '030-123455', '030-123456', 'FALSE', 1, '3', '3');
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `mwst`
+# Tabellenstruktur fÃ¼r Tabelle `mwst`
 #
 
 CREATE TABLE mwst (
@@ -412,7 +412,7 @@ CREATE TABLE mwst (
 ) ENGINE = MyISAM;
 
 #
-# Daten für Tabelle `mwst`
+# Daten fÃ¼r Tabelle `mwst`
 #
 INSERT INTO mwst VALUES ('16.00');
 
@@ -420,7 +420,7 @@ INSERT INTO mwst VALUES ('16.00');
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `note`
+# Tabellenstruktur fÃ¼r Tabelle `note`
 #
 
 CREATE TABLE note (
@@ -433,7 +433,7 @@ CREATE TABLE note (
 ) ENGINE = MyISAM;
 
 #
-# Daten für Tabelle `note`
+# Daten fÃ¼r Tabelle `note`
 #
 
 INSERT INTO note VALUES (1, 'Dies ist der Kunde Benjamin Peters.', '2003-03-03', 1);
@@ -444,7 +444,7 @@ INSERT INTO note VALUES (5, 'Dies ist der Kunde Kay Anderson.', '2003-03-04', 5)
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `ort`
+# Tabellenstruktur fÃ¼r Tabelle `ort`
 #
 
 CREATE TABLE ort (
@@ -455,14 +455,14 @@ CREATE TABLE ort (
 ) ENGINE = MyISAM;
 
 #
-# Daten für Tabelle `ort`
+# Daten fÃ¼r Tabelle `ort`
 #
 
 INSERT INTO ort VALUES (1, '10711', 'Berlin');
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `nf`
+# Tabellenstruktur fÃ¼r Tabelle `nf`
 #
 
 CREATE TABLE nf (
@@ -472,7 +472,7 @@ CREATE TABLE nf (
 ) ENGINE = MyISAM COMMENT='Nachfolger';
 
 #
-# Daten für Tabelle `nf`
+# Daten fÃ¼r Tabelle `nf`
 #
 
 INSERT INTO nf (f_ap_nr, nf_nachfolger) VALUES (1, 2);
@@ -501,7 +501,7 @@ INSERT INTO nf (f_ap_nr, nf_nachfolger) VALUES (22, 0);
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `vg`
+# Tabellenstruktur fÃ¼r Tabelle `vg`
 #
 
 CREATE TABLE vg (
@@ -511,7 +511,7 @@ CREATE TABLE vg (
 ) ENGINE = MyISAM COMMENT='Vorgaenger';
 
 #
-# Daten für Tabelle `vg`
+# Daten fÃ¼r Tabelle `vg`
 #
 
 INSERT INTO vg (f_ap_nr, vg_vorgaenger) VALUES (1, 0);
@@ -543,7 +543,7 @@ INSERT INTO vg (f_ap_nr, vg_vorgaenger) VALUES (22, 21);
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `rel_art_et`
+# Tabellenstruktur fÃ¼r Tabelle `rel_art_et`
 #
 
 CREATE TABLE rel_art_et (
@@ -556,7 +556,7 @@ CREATE TABLE rel_art_et (
 ) ENGINE = MyISAM COMMENT='Relationship: Artikel_Einzelteil (Stueckliste)';
 
 #
-# Daten für Tabelle `rel_art_et`
+# Daten fÃ¼r Tabelle `rel_art_et`
 #
 
 INSERT INTO rel_art_et (f_et_Nr, f_art_Nr, rel_art_et_EinzelteileMenge) VALUES (1, 1, 1);
@@ -589,7 +589,7 @@ INSERT INTO rel_art_et (f_et_Nr, f_art_Nr, rel_art_et_EinzelteileMenge) VALUES (
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `rel_art_lg`
+# Tabellenstruktur fÃ¼r Tabelle `rel_art_lg`
 #
 
 CREATE TABLE rel_art_lg (
@@ -603,14 +603,14 @@ CREATE TABLE rel_art_lg (
 ) ENGINE = MyISAM COMMENT='Relationship: Artikel_Lager (Artikellagerplatz)';
 
 #
-# Daten für Tabelle `rel_art_lg`
+# Daten fÃ¼r Tabelle `rel_art_lg`
 #
 
 INSERT INTO rel_art_lg VALUES ("C16", 1, 600, 1000);
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `rel_at_art`
+# Tabellenstruktur fÃ¼r Tabelle `rel_at_art`
 #
 
 CREATE TABLE rel_at_art (
@@ -623,7 +623,7 @@ CREATE TABLE rel_at_art (
 ) ENGINE = MyISAM COMMENT='Relationship: Auftrag_Artikel (Auftragsposition)';
 
 #
-# Daten für Tabelle `rel_at_art`
+# Daten fÃ¼r Tabelle `rel_at_art`
 #
 
 INSERT INTO rel_at_art VALUES (1, 1, 10);
@@ -633,7 +633,7 @@ INSERT INTO rel_at_art VALUES (1, 3, 30);
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `rel_et_ap`
+# Tabellenstruktur fÃ¼r Tabelle `rel_et_ap`
 #
 
 CREATE TABLE rel_et_ap (
@@ -647,7 +647,7 @@ CREATE TABLE rel_et_ap (
 ) ENGINE = MyISAM COMMENT='Relationship: Einzelteil_Arbeitsplatz (ArbeitsplatzEinzeltei';
 
 #
-# Daten für Tabelle `rel_et_ap`
+# Daten fÃ¼r Tabelle `rel_et_ap`
 #
 
 INSERT INTO rel_et_ap (f_ap_Nr, f_et_Nr, rel_et_ap_Lagertyp, rel_et_ap_Bestand, rel_et_ap_MaxBestand, rel_et_ap_Benoetigt) VALUES (1, 8, 'Einzelteil', 50, 50, 1);
@@ -725,7 +725,7 @@ INSERT INTO rel_et_ap (f_ap_Nr, f_et_Nr, rel_et_ap_Lagertyp, rel_et_ap_Bestand, 
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `rel_et_lg`
+# Tabellenstruktur fÃ¼r Tabelle `rel_et_lg`
 #
 
 CREATE TABLE rel_et_lg (
@@ -739,7 +739,7 @@ CREATE TABLE rel_et_lg (
 ) ENGINE = MyISAM COMMENT='Relationship: Einzeilteil_Lager (EinzelteilLagerplatz)';
 
 #
-# Daten für Tabelle `rel_et_lg`
+# Daten fÃ¼r Tabelle `rel_et_lg`
 #
 
 INSERT INTO rel_et_lg (f_lg_StellplatzNr, f_et_Nr, rel_et_lg_Bestand, rel_et_lg_MaxBestand) VALUES ('A10', 1, 1350, 1500);
@@ -754,7 +754,7 @@ INSERT INTO rel_et_lg (f_lg_StellplatzNr, f_et_Nr, rel_et_lg_Bestand, rel_et_lg_
 INSERT INTO rel_et_lg (f_lg_StellplatzNr, f_et_Nr, rel_et_lg_Bestand, rel_et_lg_MaxBestand) VALUES ('A19', 10, 7000, 10000);
 INSERT INTO rel_et_lg (f_lg_StellplatzNr, f_et_Nr, rel_et_lg_Bestand, rel_et_lg_MaxBestand) VALUES ('B10', 11, 20000, 30000);
 INSERT INTO rel_et_lg (f_lg_StellplatzNr, f_et_Nr, rel_et_lg_Bestand, rel_et_lg_MaxBestand) VALUES ('B11', 12, 15000, 20000);
-INSERT INTO rel_et_lg (f_lg_StellplatzNr, f_et_Nr, rel_et_lg_Bestand, rel_et_lg_MaxBestand) VALUES ('B12', 13, 200, 16000);
+INSERT INTO rel_et_lg (f_lg_StellplatzNr, f_et_Nr, rel_et_lg_Bestand, rel_et_lg_MaxBestand) VALUES ('B12', 13, 2000, 16000);
 INSERT INTO rel_et_lg (f_lg_StellplatzNr, f_et_Nr, rel_et_lg_Bestand, rel_et_lg_MaxBestand) VALUES ('B13', 14, 1000, 1000);
 INSERT INTO rel_et_lg (f_lg_StellplatzNr, f_et_Nr, rel_et_lg_Bestand, rel_et_lg_MaxBestand) VALUES ('B14', 15, 1800, 2000);
 INSERT INTO rel_et_lg (f_lg_StellplatzNr, f_et_Nr, rel_et_lg_Bestand, rel_et_lg_MaxBestand) VALUES ('B15', 16, 8000, 10000);
@@ -772,7 +772,7 @@ INSERT INTO rel_et_lg (f_lg_StellplatzNr, f_et_Nr, rel_et_lg_Bestand, rel_et_lg_
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `rel_etat_et`
+# Tabellenstruktur fÃ¼r Tabelle `rel_etat_et`
 #
 
 CREATE TABLE rel_etat_et (
@@ -786,7 +786,7 @@ CREATE TABLE rel_etat_et (
 ) ENGINE = MyISAM COMMENT='Relationship: Einzelteilauftrag_Einzelteil (EinzelteilAuftra';
 
 #
-# Daten für Tabelle `rel_etat_et`
+# Daten fÃ¼r Tabelle `rel_etat_et`
 #
 
 INSERT INTO rel_etat_et VALUES (4, 1, 10000, '0.05');
@@ -804,7 +804,7 @@ INSERT INTO rel_etat_et VALUES (25, 3, 10000, '0.01');
 # --------------------------------------------------------
 
 #
-# Tabellenstruktur für Tabelle `rel_lt_et`
+# Tabellenstruktur fÃ¼r Tabelle `rel_lt_et`
 #
 
 CREATE TABLE rel_lt_et (
@@ -818,7 +818,7 @@ CREATE TABLE rel_lt_et (
 ) ENGINE = MyISAM COMMENT='Relationship: Lieferant_Einzelteil (Lieferliste)';
 
 #
-# Daten für Tabelle `rel_lt_et`
+# Daten fÃ¼r Tabelle `rel_lt_et`
 #
 
 INSERT INTO rel_lt_et VALUES (4, 1, '0.05', 10000);
