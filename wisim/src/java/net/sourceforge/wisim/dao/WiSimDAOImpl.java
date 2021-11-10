@@ -175,7 +175,7 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 			// syntax as <host>:<port>:<sid>.
 
 			//Zun�chst wird �berpr�ft ob eine Datenbank mit dem Namen "wisim" vorhanden ist
-			conn = DriverManager.getConnection("jdbc:mysql://" + hostName + ":" + port + "/", user, password);
+			conn = DriverManager.getConnection("jdbc:mysql://" + hostName + ":" + port + "/?useUnicode=true&characterEncoding=utf-8", user, password);
 			conn.setAutoCommit(false);
 
 			boolean wisimExists = false;
@@ -286,7 +286,7 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 							// You must put a database name after the @ sign in the connection URL.
 							// You can use either the fully specified SQL*net syntax or a short cut
 							// syntax as <host>:<port>:<sid>.
-							conn = DriverManager.getConnection("jdbc:mysql://" + hostName + ":" + port + "/" + dbName, user, password);
+							conn = DriverManager.getConnection("jdbc:mysql://" + hostName + ":" + port + "/" + dbName + "?useUnicode=true&characterEncoding=utf-8", user, password);
 							conn.setAutoCommit(false);
 
 							try {
@@ -313,7 +313,7 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 				}
 			}
 
-			conn = DriverManager.getConnection("jdbc:mysql://" + hostName + ":" + port + "/" + dbName, user, password);
+			conn = DriverManager.getConnection("jdbc:mysql://" + hostName + ":" + port + "/" + dbName + "?useUnicode=true&characterEncoding=utf-8", user, password);
 			conn.setAutoCommit(false);
 		}
 
