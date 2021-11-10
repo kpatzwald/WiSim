@@ -41,6 +41,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Base64;
+import java.util.Base64.Encoder;
 import java.util.Collection;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -69,8 +71,6 @@ import net.sourceforge.wisim.model.WiSimComponent;
 import net.sourceforge.wisim.model.WorkPlace;
 import net.sourceforge.wisim.model.WorkPlaceStore;
 import net.sourceforge.wisim.networkplan.NetworkplanElement;
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
 
 /** Implements the interface <code>CWiSimDAO</code> to work with an mySQL database.
  *
@@ -100,7 +100,7 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 	 */
 	protected void initialize() throws WiSimDAOException {
 
-		//PLAF wird für die JOptionPanes gesetzt
+		//PLAF wird fï¿½r die JOptionPanes gesetzt
 		com.incors.plaf.kunststoff.KunststoffLookAndFeel plaf = new com.incors.plaf.kunststoff.KunststoffLookAndFeel();
 
 		try {
@@ -126,8 +126,8 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 				FileInputStream file = new FileInputStream("config.dat");
 				DataInputStream in = new DataInputStream(file);
 
-				BASE64Decoder decoder = new BASE64Decoder();
-				byte[] b = decoder.decodeBuffer(in);
+				Base64.Decoder decoder = Base64.getDecoder();
+				byte[] b = decoder.decode(in.readAllBytes());
 				in.close();
 				result = new String(b);
 			}
@@ -136,8 +136,8 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 			catch (IOException e) {
 				try {
 					String defaultValues = "localhost\n3306\nroot";
-					BASE64Encoder encoder = new BASE64Encoder();
-					defaultValues = encoder.encode(defaultValues.getBytes());
+					Encoder encoder = Base64.getEncoder();
+					defaultValues = encoder.encodeToString(defaultValues.getBytes());
 					File file = new File("config.dat");
 					FileWriter fw = new FileWriter(file);
 					fw.write(defaultValues);
@@ -174,7 +174,7 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 			// You can use either the fully specified SQL*net syntax or a short cut
 			// syntax as <host>:<port>:<sid>.
 
-			//Zunächst wird überprüft ob eine Datenbank mit dem Namen "wisim" vorhanden ist
+			//Zunï¿½chst wird ï¿½berprï¿½ft ob eine Datenbank mit dem Namen "wisim" vorhanden ist
 			conn = DriverManager.getConnection("jdbc:mysql://" + hostName + ":" + port + "/", user, password);
 			conn.setAutoCommit(false);
 
@@ -308,7 +308,7 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 					}
 					JOptionPane.showMessageDialog(null, "Die Datenbank wurde erfolgreich aufgesetzt!");
 				} else {
-					JOptionPane.showMessageDialog(null, "Ohne Datenbank läuft diese Applikation nicht!", "Fehler", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Ohne Datenbank lï¿½uft diese Applikation nicht!", "Fehler", JOptionPane.ERROR_MESSAGE);
 					System.exit(1);
 				}
 			}
@@ -318,14 +318,14 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 		}
 
 		//Bei der Verbindung tritt ein Problem auf und der Benutzer wird gebeten die
-		//DB-Einstellungen zu überprüfen (mit JOptionPanes)
+		//DB-Einstellungen zu ï¿½berprï¿½fen (mit JOptionPanes)
 		catch (SQLException sqlE) {
 			JOptionPane.showMessageDialog(null, "MySQL meldet:\n" + sqlE.getMessage(), "Fehler beim Verbinden mit Datenbank", JOptionPane.ERROR_MESSAGE);
 
-			String nachricht = "Verbindung zu der Datenbank konnte nicht hergestellt werden!\n" + "Bitte überprüfen Sie die vorhandenen Zugangsdaten.\n" + "(Zum Beenden bitte auf \"Abbrechen\" klicken)\n\n";
+			String nachricht = "Verbindung zu der Datenbank konnte nicht hergestellt werden!\n" + "Bitte ï¿½berprï¿½fen Sie die vorhandenen Zugangsdaten.\n" + "(Zum Beenden bitte auf \"Abbrechen\" klicken)\n\n";
 
-			//IP muss evtl. geändert werden
-			hostName = JOptionPane.showInputDialog(nachricht + "Schritt 1) IP überprüfen: ", hostName);
+			//IP muss evtl. geï¿½ndert werden
+			hostName = JOptionPane.showInputDialog(nachricht + "Schritt 1) IP ï¿½berprï¿½fen: ", hostName);
 			if (hostName == null) {
 				System.exit(1);
 			}
@@ -333,8 +333,8 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 				hostName = "localhost";
 			}
 
-			//Port muss evtl. geändert werden
-			port = JOptionPane.showInputDialog(nachricht + "Schritt 2) Port überprüfen (Standard: 3306): ", port);
+			//Port muss evtl. geï¿½ndert werden
+			port = JOptionPane.showInputDialog(nachricht + "Schritt 2) Port ï¿½berprï¿½fen (Standard: 3306): ", port);
 			if (port == null) {
 				System.exit(1);
 			}
@@ -342,8 +342,8 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 				port = "3306";
 			}
 
-			//Username muss evtl. geändert werden
-			user = JOptionPane.showInputDialog(nachricht + "Schritt 3) Benutzername überprüfen: ", user);
+			//Username muss evtl. geï¿½ndert werden
+			user = JOptionPane.showInputDialog(nachricht + "Schritt 3) Benutzername ï¿½berprï¿½fen: ", user);
 			if (user == null) {
 				System.exit(1);
 			}
@@ -351,8 +351,8 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 				user = "root";
 			}
 
-			//PW muss evtl. geändert werden
-			password = JOptionPane.showInputDialog(nachricht + "Schritt 4) Passwort überprüfen (wird nicht angezeigt!): ");
+			//PW muss evtl. geï¿½ndert werden
+			password = JOptionPane.showInputDialog(nachricht + "Schritt 4) Passwort ï¿½berprï¿½fen (wird nicht angezeigt!): ");
 			if (password == null) {
 				System.exit(1);
 			}
@@ -361,8 +361,8 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 
 			String values = hostName + "\n" + port + "\n" + user + "\n" + password;
 			byte[] b = values.getBytes();
-			BASE64Encoder encoder = new BASE64Encoder();
-			values = encoder.encode(b);
+			Encoder encoder = Base64.getEncoder();
+			values = encoder.encodeToString(b);
 
 			try {
 				File file = new File("config.dat");
@@ -628,7 +628,7 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 	 * @throws com.pixelpark.wisim.dao.WiSimDAOWriteException if there was a db constaint violation
 	 */
 	public int neuerLieferant(Supplier lieferant) throws WiSimDAOException, WiSimDAOWriteException {
-		/* Fügt den Ort des neuen Lieferanten in die DB ein, wenn dieser noch
+		/* Fï¿½gt den Ort des neuen Lieferanten in die DB ein, wenn dieser noch
 		 * nicht in der DB vorhanden ist
 		 */
 		City ort = getOrt(lieferant.getPlzId());
@@ -672,9 +672,9 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 			while (lastKey.next()) {
 				return lastKey.getInt(1);
 			}
-			//conn.commit(); //Wird in MySQL 3.x nicht unterstützt
+			//conn.commit(); //Wird in MySQL 3.x nicht unterstï¿½tzt
 		} catch (SQLException e) {
-			//conn.rollback(); //Wird in MySQL 3.x nicht unterstützt
+			//conn.rollback(); //Wird in MySQL 3.x nicht unterstï¿½tzt
 			throw new WiSimDAOWriteException(e.getMessage());
 		}
 
@@ -682,12 +682,12 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 	}
 
 	/** Liest einen Lieferanten aus der DB aus
-	 * @return com.pixelpark.wisim.model.Supplier oder null wenn kein Supplier mit der übergebenen Nummer existiert.
+	 * @return com.pixelpark.wisim.model.Supplier oder null wenn kein Supplier mit der ï¿½bergebenen Nummer existiert.
 	 * @param lieferantenId LieferantNr
 	 * @throws com.pixelpark.wisim.dao.WiSimDAOException if a database problem occurs or the connection was never initialized
 	 */
 	public Supplier getLieferant(int lieferantenId) throws WiSimDAOException {
-		/* Fügt den Ort des neuen Lieferanten in die DB ein, wenn dieser noch
+		/* Fï¿½gt den Ort des neuen Lieferanten in die DB ein, wenn dieser noch
 		 * nicht in der DB vorhanden ist
 		 */
 		Supplier lieferant = null;
@@ -720,9 +720,9 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 				lieferant.setOrt(res.getString(1));
 				return lieferant;
 			}
-			//conn.commit(); //Wird in MySQL 3.x nicht unterstützt
+			//conn.commit(); //Wird in MySQL 3.x nicht unterstï¿½tzt
 		} catch (SQLException e) {
-			//conn.rollback(); //Wird in MySQL 3.x nicht unterstützt
+			//conn.rollback(); //Wird in MySQL 3.x nicht unterstï¿½tzt
 			throw new WiSimDAOException(e.getMessage());
 		}
 
@@ -870,7 +870,7 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 		return key;
 	}
 
-	/** Gibt eine Collection aller Notizen zurück
+	/** Gibt eine Collection aller Notizen zurï¿½ck
 	 * @return Collection mit allen Notizen
 	 * @param KdNr Kundennummer
 	 * @throws WiSimDAOException if a database problem occurs or the connection was never initialized
@@ -932,7 +932,7 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 	/** Loeschen einer Memo
 	 * @return int
 	 * @param noteNr Notiznummer
-	 * @throws WiSimDAOWriteException Wenn ein Fehler während des Schreibens in die DB auftritt
+	 * @throws WiSimDAOWriteException Wenn ein Fehler wï¿½hrend des Schreibens in die DB auftritt
 	 */
 	public int delNotiz(int noteNr) throws WiSimDAOWriteException {
 		// Serverlog
@@ -974,8 +974,8 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 		}
 	}
 
-	/** Gibt das Objekt City zurück das zu der Postleitzahl gehört
-	 * @return City der zu der PLZ gehört
+	/** Gibt das Objekt City zurï¿½ck das zu der Postleitzahl gehï¿½rt
+	 * @return City der zu der PLZ gehï¿½rt
 	 * @param Nr Id des Ortes
 	 * @throws WiSimDAOException ToDo
 	 */
@@ -999,7 +999,7 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 				ort.setName(rset.getString(3));
 				return ort;
 			}
-			// conn.commit(); //Wird in MySQL 3.x nicht unterstützt
+			// conn.commit(); //Wird in MySQL 3.x nicht unterstï¿½tzt
 			return null;
 		} catch (SQLException sqlE) {
 			throw new WiSimDAOException(sqlE.getMessage());
@@ -1021,7 +1021,7 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 			sql = "select ort_Nr, ort_PLZ, ort_Name from ort where ort_PLZ = " + ort.getPlz() + " AND ort_Name = '" + ort.getName() + "'";
 			java.sql.ResultSet checkPlz = stmt.executeQuery(sql);
 
-			//Der Ort ist noch nicht in der Tabelle und wird eingefügt
+			//Der Ort ist noch nicht in der Tabelle und wird eingefï¿½gt
 			if (!checkPlz.next()) {
 				sql = "insert into ort (ort_PLZ, ort_Name) values (" + ort.getPlz() + ", '" + ort.getName() + "')";
 				stmt.executeUpdate(sql);
@@ -1034,7 +1034,7 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 				return checkPlz.getInt(1);
 			}
 
-			// conn.commit(); //Wird in MySQL 3.x nicht unterstützt
+			// conn.commit(); //Wird in MySQL 3.x nicht unterstï¿½tzt
 		} catch (SQLException sqlE) {
 			throw new WiSimDAOException(sqlE.getMessage());
 		}
@@ -1214,7 +1214,7 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 	/* (non-Javadoc)
 	 * @see com.pixelpark.wisim.dao.WiSimDAO#setEinzelteilArbeitsplatzBestand(int, int, java.lang.String)
 	 */
-	/** Ändert den Bestand an Einzelteilen an einem WorkPlace
+	/** ï¿½ndert den Bestand an Einzelteilen an einem WorkPlace
 	 * @param arbeitsplatzNr Arbeitsplatznummer
 	 * @param einzelteilNr Einzelteilnummer
 	 * @param lagerTyp Typ des Lagers
@@ -1278,7 +1278,7 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 	/* (non-Javadoc)
 	 * @see com.pixelpark.wisim.dao.WiSimDAO#setEinzelteilArbeitsplatzBestand(int, int, int, java.lang.String)
 	 */
-	/** Ändert den Bestand an Einzelteilen an einem WorkPlace
+	/** ï¿½ndert den Bestand an Einzelteilen an einem WorkPlace
 	 * @param arbeitsplatzNr Arbeitsplatznummer
 	 * @param einzelteilNr Einzelteilnummer
 	 * @param anzahl Anzahl der Einzelteile
@@ -1323,7 +1323,7 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 	}
 
 	/** Liefert die Dauer eines Arbeitsschrittes an einem bestimmten WorkPlace
-	 * @param arbeitsplatzNr Nr. des Arbeitsplatzes, für dem die Dauer zurückgegeben werden soll.
+	 * @param arbeitsplatzNr Nr. des Arbeitsplatzes, fï¿½r dem die Dauer zurï¿½ckgegeben werden soll.
 	 * @throws WiSimDAOException Wenn ein Fehler beim Zugriff auf die DB auftritt.
 	 * @return Dauer des Prozesses
 	 */
@@ -1373,7 +1373,7 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 		return null;
 	}
 
-	/** Liefert alle Einzelteile an einem WorkPlace zurück.
+	/** Liefert alle Einzelteile an einem WorkPlace zurï¿½ck.
 	 * @param arbeitsplatzNr Nummer des WorkPlace
 	 * @throws WiSimDAOException Wenn ein Fehler beim Zugriff auf die DB auftritt.
 	 * @return Liste mit Einzelteilen
@@ -1436,7 +1436,7 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 			}
 
 			/*Key wird in f_etatr_Nr eingesetzt, da zwischen etat und etatr eine 1:1 Beziehung
-			  besteht. Das bedeutet jeder neuer Einzelteilauftrag führt zu einer neuen Einzel-
+			  besteht. Das bedeutet jeder neuer Einzelteilauftrag fï¿½hrt zu einer neuen Einzel-
 			  teilAuftragsRechnung mit der selben ID.
 			 */
 			sql = "update etat set f_etatr_Nr = " + etatNr + " where etat_Nr = " + etatNr;
@@ -1513,7 +1513,7 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 		return -1;
 	}
 
-	/** Gibt den MwSt-Satz aus der Datenbank zurück.
+	/** Gibt den MwSt-Satz aus der Datenbank zurï¿½ck.
 	 * @throws WiSimDAOException if a database problem occurs or the connection was never initialized
 	 * @return Mehrwertsteuer-Satz
 	 */
@@ -1586,7 +1586,7 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 		return artikel;
 	}
 
-	/** Holt alle Verträge aus der Datenbank
+	/** Holt alle Vertrï¿½ge aus der Datenbank
 	 * @return Collection
 	 * @throws WiSimDAOException Fehler beim Lesen von der DB
 	 */
@@ -1701,9 +1701,9 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 		return key;
 	}
 
-	/** Gibt eine Liste aller Einzelteilaufträge zurück.
+	/** Gibt eine Liste aller Einzelteilauftrï¿½ge zurï¿½ck.
 	 * @throws WiSimDAOException if a database problem occurs or the connection was never initialized
-	 * @return Vector mit allen Einzelteilaufträgen
+	 * @return Vector mit allen Einzelteilauftrï¿½gen
 	 */
 	public Vector getEinzelteilauftraege() throws WiSimDAOException {
 		// Serverlog
@@ -1733,7 +1733,7 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 		return etatListe;
 	}
 
-	/** Gibt alle Positionen eines Einzelteilauftrages zurück.
+	/** Gibt alle Positionen eines Einzelteilauftrages zurï¿½ck.
 	 * @param etatNr Einzelteilauftrags Nummer
 	 * @throws WiSimDAOException if a database problem occurs or the connection was never initialized
 	 * @return Collection mit allen Einzelteilauftragspositionen
@@ -1763,7 +1763,7 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 		return etatPositionen;
 	}
 
-	/** Gibt alle Positionen eines Auftrages zurück.
+	/** Gibt alle Positionen eines Auftrages zurï¿½ck.
 	* @param atNr Auftrags Nummer
 	* @throws WiSimDAOException if a database problem occurs or the connection was never initialized
 	* @return Collection mit allen Auftragspositionen
@@ -1793,7 +1793,7 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 		return atPositionen;
 	}
 
-	/** Gibt eine Position eines Auftrages zurück.
+	/** Gibt eine Position eines Auftrages zurï¿½ck.
 	* @param atNr Auftrags Nummer
 	* @throws WiSimDAOException if a database problem occurs or the connection was never initialized
 	* @return Auftragsposition
@@ -1820,7 +1820,7 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 		return atp;
 	}
 
-	/** Gibt eine ContractAccount eines Auftrages zurück.
+	/** Gibt eine ContractAccount eines Auftrages zurï¿½ck.
 	* @param atrNr Auftragrechnungs Nummer
 	* @throws WiSimDAOException if a database problem occurs or the connection was never initialized
 	* @return ContractAccount
@@ -1849,8 +1849,8 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 		return atr;
 	}
 
-	/** Gibt die ComponentContractAccount zurück die zu dem entsprechenden
-	 * ComponentContract gehört.
+	/** Gibt die ComponentContractAccount zurï¿½ck die zu dem entsprechenden
+	 * ComponentContract gehï¿½rt.
 	 * @param etatrNr Einzelteilauftrags Nummer
 	 * @throws WiSimDAOException if a database problem occurs or the connection was never initialized
 	 * @return Die ComponentContractAccount.
@@ -1879,7 +1879,7 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 	/** Markiert einen Kunden als geloescht bzw sichtbar
 	 * @return int
 	 * @param KdNr Kundennummer
-	 * @param status Löschstatus
+	 * @param status Lï¿½schstatus
 	 * @throws com.pixelpark.wisim.dao.WiSimDAOException if a database problem occurs or the connection was never initialized
 	 * @throws com.pixelpark.wisim.dao.WiSimDAOWriteException if there was a db constaint violation
 	 */
@@ -1909,7 +1909,7 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 		return key;
 	}
 
-	/** Löscht einen Lieferlisten-Eintrag aus der Datenbank
+	/** Lï¿½scht einen Lieferlisten-Eintrag aus der Datenbank
 	 * @return int
 	 * @param ltId Lieferanten-ID
 	 * @param etNr Einzelteilnummer
@@ -1927,9 +1927,9 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 		}
 	}
 
-	/** Gibt alle Lagerplätz des Lagers aus
+	/** Gibt alle Lagerplï¿½tz des Lagers aus
 	 * @throws WiSimDAOException if a database problem occurs or the connection was never initialized
-	 * @return Collection aller Lagerplätze
+	 * @return Collection aller Lagerplï¿½tze
 	 */
 	public Collection getLagerplaetze() throws WiSimDAOException {
 		// Serverlog
@@ -1952,8 +1952,8 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 		return lagerplaetze;
 	}
 
-	/** Liefert alle Lagerplätze zurück, die einen bestimmten Article enthalten
-	 * @return Collection mit den Lagerplätzen wo das WiSimComponent liegt.
+	/** Liefert alle Lagerplï¿½tze zurï¿½ck, die einen bestimmten Article enthalten
+	 * @return Collection mit den Lagerplï¿½tzen wo das WiSimComponent liegt.
 	 * @param etNr WiSimComponent Nummer
 	 * @throws WiSimDAOException if a database problem occurs or the connection was never initialized
 	 */
@@ -1979,11 +1979,11 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 		return lager;
 	}
 
-	/** Gibt eine Liste aller Einzelteile die sich im Lager befinden zurück.
-	 * Jeder Eintrag hat neben den Informationen WiSimComponent-Name auch die Zahlen für
+	/** Gibt eine Liste aller Einzelteile die sich im Lager befinden zurï¿½ck.
+	 * Jeder Eintrag hat neben den Informationen WiSimComponent-Name auch die Zahlen fï¿½r
 	 * Bestand, Mindestbestand und MaxBestand.
 	 * Jedes WiSimComponent kommt nur einmal vor. Befindt sich ein WiSimComponent auf mehrern
-	 * Lagerplätzen, so werden die Bestände entsprechend summiert.
+	 * Lagerplï¿½tzen, so werden die Bestï¿½nde entsprechend summiert.
 	 * @throws WiSimDAOException if a database problem occurs or the connection was never initialized
 	 * @return Vector mit allen Einzelteilen die sich im Lager befinden.
 	 */
@@ -2030,8 +2030,8 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 		return einzelteillagerelemente;
 	}
 
-	/** Gibt eine Liste aller Einzelteile die sich auf dem angegebenen WarehouseLocation befinden zurück.
-	 * Jeder Eintrag hat neben den Informationen WiSimComponent-Name auch die Zahlen für
+	/** Gibt eine Liste aller Einzelteile die sich auf dem angegebenen WarehouseLocation befinden zurï¿½ck.
+	 * Jeder Eintrag hat neben den Informationen WiSimComponent-Name auch die Zahlen fï¿½r
 	 * Bestand, Mindestbestand und MaxBestand.
 	 * @param lagerplatz Der WarehouseLocation
 	 * @throws WiSimDAOException if a database problem occurs or the connection was never initialized
@@ -2060,11 +2060,11 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 		return einzelteillagerelemente;
 	}
 
-	/** Gibt eine Liste aller Article die sich im Lager befinden zurück.
-	* Jeder Eintrag hat neben den Informationen Article-Name auch die Zahlen für
+	/** Gibt eine Liste aller Article die sich im Lager befinden zurï¿½ck.
+	* Jeder Eintrag hat neben den Informationen Article-Name auch die Zahlen fï¿½r
 	* Bestand, Mindestbestand und MaxBestand.
 	* Jeder Article kommt nur einmal vor. Befindt sich ein Article auf mehrern
-	* Lagerplätzen, so werden die Bestände entsprechend summiert.
+	* Lagerplï¿½tzen, so werden die Bestï¿½nde entsprechend summiert.
 	* @throws WiSimDAOException if a database problem occurs or the connection was never initialized
 	* @return Vector mit allen Artikeln die im Lager sind.
 	*/
@@ -2111,8 +2111,8 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 		return artikellagerelemente;
 	}
 
-	/** Gibt eine Liste aller Article die sich auf dem angegebenen WarehouseLocation befinden zurück.
-	 * Jeder Eintrag hat neben den Informationen Article-Name auch die Zahlen für
+	/** Gibt eine Liste aller Article die sich auf dem angegebenen WarehouseLocation befinden zurï¿½ck.
+	 * Jeder Eintrag hat neben den Informationen Article-Name auch die Zahlen fï¿½r
 	 * Bestand, Mindestbestand und MaxBestand.
 	 * @param lagerplatz Der WarehouseLocation
 	 * @throws WiSimDAOException if a database problem occurs or the connection was never initialized
@@ -2141,12 +2141,12 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 		return artikellagerelemente;
 	}
 
-	/** Erhöht / Erniedrigt den Bestand eines Einzelteils im Lager.
+	/** Erhï¿½ht / Erniedrigt den Bestand eines Einzelteils im Lager.
 	 * @param etNr WiSimComponent Nummer
 	 * @param menge neue Menge = aktuelleMenge + menge
-	 * Das heißt, wenn eine negative Menge angegeben wird, so erniedrigt man den Bestand.
+	 * Das heiï¿½t, wenn eine negative Menge angegeben wird, so erniedrigt man den Bestand.
 	 * @throws WiSimDAOWriteException if a database problem occurs or the connection was never initialized
-	 * @return int Anzahl der tatsächlich in die DB eingetragenen Einzelteile
+	 * @return int Anzahl der tatsï¿½chlich in die DB eingetragenen Einzelteile
 	 */
 	public int setEinzelteilLagerBestand(int etNr, int menge) throws WiSimDAOWriteException {
 		// Serverlog
@@ -2186,14 +2186,14 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 		} catch (SQLException sqlE) {
 			throw new WiSimDAOWriteException(sqlE.getMessage());
 		}
-	} /** Erhöht / Erniedrigt den Bestand eines Artikels im Lager.
+	} /** Erhï¿½ht / Erniedrigt den Bestand eines Artikels im Lager.
 														     * @param artNr Article Nummer
 														     * @param menge neue Menge = aktuelleMenge + menge
-														     * Das heißt, wenn eine negative Menge angegeben wird, so erniedrigt man den Bestand.
+														     * Das heiï¿½t, wenn eine negative Menge angegeben wird, so erniedrigt man den Bestand.
 														     * @throws WiSimDAOWriteException if a database problem occurs or the connection was never initialized
-														     * @return True: Bestand wurde erhöht / erniedrigt.
+														     * @return True: Bestand wurde erhï¿½ht / erniedrigt.
 														     * False:
-														     * Bei Erhöhung: Gelieferte Menege übertrifft den Maximal Bestand. Der neue Bestand
+														     * Bei Erhï¿½hung: Gelieferte Menege ï¿½bertrifft den Maximal Bestand. Der neue Bestand
 														     * ist jetzt der Maximal Bestand, der Rest der Lieferung wird ignoriert.
 														     * Bei Erniedrigung:
 														     * Der Bestand dieses Artikels ist schon auf 0.
@@ -2317,6 +2317,7 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 			}
 		} catch (SQLException e) {
 			throw new WiSimDAOException(e.getMessage());
+                        //FIXME ab und zu kommt es zu einem Datenbankfehler (fehlende Tabelle rel_et_ap), hï¿½ngt wahrscheinlich mit den Threads zusammen, die wï¿½hrend des Resets noch auf die DB zugreifen
 		}
 
 		return apLager;
@@ -2346,12 +2347,12 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 		return apLager;
 	}
 
-	/** Gibt Stueckliste für einen bestimmten Article zurück. Der Key der Hashtable ist
-	 * die WiSimComponent-Nummer, der Value ist die erforderliche Menge um 1 Stück von
+	/** Gibt Stueckliste fï¿½r einen bestimmten Article zurï¿½ck. Der Key der Hashtable ist
+	 * die WiSimComponent-Nummer, der Value ist die erforderliche Menge um 1 Stï¿½ck von
 	 * diesem Article zu produzieren.
 	 * @param artNr Article Nummer
 	 * @throws WiSimDAOException if an database error occurs
-	 * @return Hashtable (Stückliste)
+	 * @return Hashtable (Stï¿½ckliste)
 	 */
 	public Hashtable getStueckliste(int artNr) throws WiSimDAOException {
 		Hashtable stueckliste = new Hashtable();
@@ -2369,8 +2370,8 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 		return stueckliste;
 	}
 
-	/** Gibt die Auftragsposition zurück die zu dem entsprechenden
-		* Auftrag gehört.
+	/** Gibt die Auftragsposition zurï¿½ck die zu dem entsprechenden
+		* Auftrag gehï¿½rt.
 		* @param atNr Auftrags Nummer
 		* @param artNr Article Nummer
 		* @throws WiSimDAOException if a database problem occurs or the connection was never initialized
@@ -2398,7 +2399,7 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 		return atp;
 	}
 
-	/** Gibt die Bestellmenge eines bestimmten Artikels in einem Contract zurück.
+	/** Gibt die Bestellmenge eines bestimmten Artikels in einem Contract zurï¿½ck.
 	 * @param atNr Auftrags Nr.
 	 * @param artNr Article Nr.
 	 * @throws WiSimDAOException if an database error occurs
@@ -2438,7 +2439,7 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 		return -1;
 	}
 
-	/** Setzt die Zahl der Arbeiter für einen WorkPlace
+	/** Setzt die Zahl der Arbeiter fï¿½r einen WorkPlace
 	 * @param apNr WorkPlace Nummer
 	 * @param anzahl Anzahl der Mitarbeiter
 	 * @throws WiSimDAOWriteException If an error occurs
@@ -2453,7 +2454,7 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 		}
 	}
 
-	/** Gibt die Anzahl der Arbeitsplätze im Lager zurück
+	/** Gibt die Anzahl der Arbeitsplï¿½tze im Lager zurï¿½ck
 	 * @throws WiSimDAOException Fehler beim Lesen aus der DB
 	 * @return int
 	 */
@@ -2711,8 +2712,8 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 
 		String values = hostname + "\n" + port + "\n" + user + "\n" + password;
 		byte[] b = values.getBytes();
-		BASE64Encoder encoder = new BASE64Encoder();
-		values = encoder.encode(b);
+		Encoder encoder = Base64.getEncoder();
+		values = encoder.encodeToString(b);
 
 		try {
 			File file = new File("config.dat");
