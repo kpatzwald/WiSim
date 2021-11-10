@@ -1,8 +1,8 @@
 /*   ********************************************************************   **
 **   Copyright notice                                                       **
 **                                                                          **
-**   (c) 2003 WiSim Development Team					                              **
-**   http://wisim.sourceforge.net/   			                                  **
+**   (c) 2003-2020 WiSim Development Team	                            **
+**   http://wisim.sourceforge.net/   	                                    **
 **                                                                          **
 **   All rights reserved                                                    **
 **                                                                          **
@@ -45,24 +45,24 @@ public class Contract {
     private java.sql.Date vertragsdatum;
     private int kd_nr;
     private int atr_nr;//Auftrags-Rechnungs-ID
-    private Collection auftragPositionen;
+    private Collection <OrderItem> auftragPositionen;
     
     /** Creates a new instance of Contract */
     public Contract() {
     }
     
     /** Creates a new instance of Contract 
-     * @param AuftragPositionen
-     * @param Nr ID
-     * @param KundenNr Referenz auf den Kunden
-     * @param AuftragsRechnungNr Referenz auf die AuftragsRechnung
-     * @param Rabatt
-     * @param Skontofrist
-     * @param Lieferdatum
-     * @param Auftragsdatum
-     * @param Skonto 
+     * @param auftragPositionen
+     * @param nr ID
+     * @param rabatt
+     * @param skontofrist
+     * @param lieferdatum
+     * @param vertragsdatum
+     * @param kd_nr
+     * @param atr_nr
+     * @param skonto 
      */
-    public Contract(int nr, java.sql.Date lieferdatum, double skonto, long skontofrist, double rabatt, java.sql.Date vertragsdatum, int kd_nr, int atr_nr, Collection auftragPositionen){
+    public Contract(int nr, java.sql.Date lieferdatum, double skonto, long skontofrist, double rabatt, java.sql.Date vertragsdatum, int kd_nr, int atr_nr, Collection <OrderItem> auftragPositionen){
         this.nr = nr;
         this.lieferdatum = lieferdatum;
         this.skonto = skonto;
@@ -133,7 +133,7 @@ public class Contract {
     /** Liste der einzelnen Positionen aus dem Auftrag
      * @return Collection mit Objekten des Typs OrderItem
      */
-    public Collection getAuftragPositionen() {
+    public Collection <OrderItem> getAuftragPositionen() {
         return auftragPositionen;
     }
     
@@ -204,7 +204,7 @@ public class Contract {
     /**
      * @param col Collection mit Objekten vom Typ AuftragPosition
      */
-    public void setAuftragPositionen(Collection col) {
+    public void setAuftragPositionen(Collection <OrderItem> col) {
         this.auftragPositionen = col;
     }
     
