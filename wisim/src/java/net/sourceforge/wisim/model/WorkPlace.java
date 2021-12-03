@@ -2,7 +2,7 @@
 **   Copyright notice                                                       **
 **                                                                          **
 **   (c) 2003 WiSim Development Team					                              **
-**   http://wisim.sourceforge.net/   			                                  **
+**   https://github.com/kpatzwald/WiSim   			                                  **
 **                                                                          **
 **   All rights reserved                                                    **
 **                                                                          **
@@ -62,7 +62,7 @@ public class WorkPlace
    * @param nr Nr
    * @param beschreibung Beschreibung
    * @param dauer Dauer
-   * @param vorgaenger Vorg‰nger
+   * @param vorgaenger Vorg√§nger
    * @param nachfolger Nachfolger
    */
 	public WorkPlace(
@@ -83,7 +83,7 @@ public class WorkPlace
    * @param nr Nr
    * @param beschreibung Beschreibung
    * @param dauer Dauer
-   * @param vorgaenger Vorg‰nger
+   * @param vorgaenger Vorg√§nger
    * @param nachfolger Nachfolger
    * @param anzahlArbeiter Anzahl der Arbeiter
    */
@@ -121,7 +121,7 @@ public class WorkPlace
 		this.anzahlArbeiter = anzahlArbeiter;
 	}
 
-	/** Liefert die Beschreibung zur¸ck
+	/** Liefert die Beschreibung zur√ºck
    * @return String
    */
 	public String getBeschreibung()
@@ -180,7 +180,7 @@ public class WorkPlace
 		return nachfolger;
 	}
 
-	/** Liefert eine Liste der Vorg‰nger
+	/** Liefert eine Liste der Vorg√§nger
    * @return int[]
    */
 	public int[] getVorgaenger()

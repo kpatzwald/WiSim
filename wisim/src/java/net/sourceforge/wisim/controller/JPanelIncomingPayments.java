@@ -2,7 +2,7 @@
 **   Copyright notice                                                       **
 **                                                                          **
 **   (c) 2003 WiSim Development Team					                              **
-**   http://wisim.sourceforge.net/   			                                  **
+**   https://github.com/kpatzwald/WiSim   			                                  **
 **                                                                          **
 **   All rights reserved                                                    **
 **                                                                          **
@@ -24,7 +24,7 @@
 /*
  * JPanelZahlungseingang.java
  *
- * Created on 10. März 2003, 21:33
+ * Created on 10. MÃ¤rz 2003, 21:33
  */
 
 package net.sourceforge.wisim.controller;
@@ -52,7 +52,7 @@ import net.sourceforge.wisim.model.Refreshable;
 import net.sourceforge.wisim.model.WiSimLogger;
 
 /**
- * JPanelZahlungseingang ermöglicht Übersicht und Bearbeitung aller Zahlungseingänge.
+ * JPanelZahlungseingang ermÃ¶glicht Ãœbersicht und Bearbeitung aller ZahlungseingÃ¤nge.
  */
 
 public class JPanelIncomingPayments extends javax.swing.JPanel implements Refreshable {
@@ -403,7 +403,7 @@ public class JPanelIncomingPayments extends javax.swing.JPanel implements Refres
 	private javax.swing.JTextField jTextFieldSkonto;
 	// End of variables declaration//GEN-END:variables
 
-	/** Füllt die Tabelle mit den in der DB vorhadenen Rechnungen */
+	/** FÃ¼llt die Tabelle mit den in der DB vorhadenen Rechnungen */
 	public void loadInvoices() {
 		try {
 			Collection vertraege = null;
@@ -470,7 +470,7 @@ public class JPanelIncomingPayments extends javax.swing.JPanel implements Refres
 		}
 	}
 
-	//Lädt einen Kunden zum Bearbeiten aus der Datenbank
+	//LÃ¤dt einen Kunden zum Bearbeiten aus der Datenbank
 	private void loadCustomer() {
 
 		//liefert listItem des selektierten Eintrags
@@ -620,7 +620,7 @@ public class JPanelIncomingPayments extends javax.swing.JPanel implements Refres
 			return 0;
 	}
 
-	// Setzt nach dem Speichern und Löschen eines Lieferanten die Werte auf Standard^   
+	// Setzt nach dem Speichern und LÃ¶schen eines Lieferanten die Werte auf Standard^   
 	private void setStandard() {
 		jTextFieldKunde.setText("");
 		jTextFieldFirma.setText("");
@@ -683,8 +683,8 @@ public class JPanelIncomingPayments extends javax.swing.JPanel implements Refres
 	}
 
 	/** Wurde das Pane schon einmal aufgebaut, so ist "isBuilt" = TRUE.
-	     *  Wichtig ist diese Variable für die Simulation: Wurde das Pane
-	     *  schon einmal aufgebaut, so müssen die Simulationsthread das Pane
+	     *  Wichtig ist diese Variable fÃ¼r die Simulation: Wurde das Pane
+	     *  schon einmal aufgebaut, so mÃ¼ssen die Simulationsthread das Pane
 	     *  nicht noch einmal initialisieren!
 	     * @return boolean
 	     */

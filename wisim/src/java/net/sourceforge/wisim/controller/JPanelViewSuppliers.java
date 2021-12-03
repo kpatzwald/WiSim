@@ -2,7 +2,7 @@
 **   Copyright notice                                                       **
 **                                                                          **
 **   (c) 2003 WiSim Development Team					                              **
-**   http://wisim.sourceforge.net/   			                                  **
+**   https://github.com/kpatzwald/WiSim   			                                  **
 **                                                                          **
 **   All rights reserved                                                    **
 **                                                                          **
@@ -24,7 +24,7 @@
 /*
  * JPanelLieferantenliste.java
  *
- * Created on 13. März 2003, 21:06
+ * Created on 13. MÃ¤rz 2003, 21:06
  */
 
 package net.sourceforge.wisim.controller;
@@ -66,7 +66,7 @@ public class JPanelViewSuppliers extends javax.swing.JPanel {
 		lieferantenAuswahl = new Hashtable();
 		lieferantenObjekte = new Hashtable();
 		listeArtikel = new Vector();
-		listeArtikel.add("Bitte wählen");
+		listeArtikel.add("Bitte wÃ¤hlen");
 		this.setPreferredSize(new Dimension(800, 600));
 		format = new DecimalFormat("###,##0.00");
 	}
@@ -262,7 +262,7 @@ public class JPanelViewSuppliers extends javax.swing.JPanel {
 		loadSupplier();
 	} //GEN-LAST:event_jTableLieferantenAncestorAdded
 
-	//Füllt die Tabelle Lieferantenliste mit den in der DB vorhandenen Lieferanten
+	//FÃ¼llt die Tabelle Lieferantenliste mit den in der DB vorhandenen Lieferanten
 	private void loadSuppliers() {
 		try {
 			Collection lieferanten = null;
@@ -308,7 +308,7 @@ public class JPanelViewSuppliers extends javax.swing.JPanel {
 		}
 	}
 
-	//Lädt einen Kunden zum Bearbeiten aus der Datenbank
+	//LÃ¤dt einen Kunden zum Bearbeiten aus der Datenbank
 	private void loadSupplier() {
 
 		//liefert listItem des selektierten Eintrags 
@@ -454,7 +454,7 @@ public class JPanelViewSuppliers extends javax.swing.JPanel {
 		jTableLieferanten.setFocusable(false);
 	}
 
-	// Setzt nach dem Speichern und Löschen eines Lieferanten die Werte auf Standard
+	// Setzt nach dem Speichern und LÃ¶schen eines Lieferanten die Werte auf Standard
 	private void setStandard() {
 		jTextFieldLieferantVorname.setText("");
 		jTextFieldLieferantName.setText("");

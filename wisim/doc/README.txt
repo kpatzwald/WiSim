@@ -2,7 +2,7 @@
 **   Copyright notice                                                       **
 **                                                                          **
 **   (c) 2003 WiSim Development Team					                    **
-**   http://wisim.sourceforge.net/   			                            **
+**   https://github.com/kpatzwald/WiSim   			                            **
 **                                                                          **
 **   All rights reserved                                                    **
 **                                                                          **

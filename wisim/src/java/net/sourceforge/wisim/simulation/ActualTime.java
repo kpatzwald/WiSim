@@ -2,7 +2,7 @@
 **   Copyright notice                                                       **
 **                                                                          **
 **   (c) 2003 WiSim Development Team					                              **
-**   http://wisim.sourceforge.net/   			                                  **
+**   https://github.com/kpatzwald/WiSim   			                                  **
 **                                                                          **
 **   All rights reserved                                                    **
 **                                                                          **
@@ -26,11 +26,11 @@ package net.sourceforge.wisim.simulation;
 /*
  * ActualTime.java
  *
- * Created on 17. März 2003, 14:14
+ * Created on 17. MÃ¤rz 2003, 14:14
  */
 import java.util.*;
 /** Speichert die aktuelle Zeit.
- * Der CoreThread greift auf dieses Objekt zu um die Zeit zu ändern.
+ * Der CoreThread greift auf dieses Objekt zu um die Zeit zu Ã¤ndern.
  * @author benjamin.pasero
  */
 public class ActualTime {
@@ -56,7 +56,7 @@ public class ActualTime {
 		notify();
 	}
 
-	/** Gibt das aktuelle Datum zurück. Läßt den Thread der getDate() abruft solange warten, bis ein neue Minute
+	/** Gibt das aktuelle Datum zurÃ¼ck. LÃ¤ÃŸt den Thread der getDate() abruft solange warten, bis ein neue Minute
 	 * angebrochen ist (newMinute == true)
 	 * @return aktuelles Datum
 	 */

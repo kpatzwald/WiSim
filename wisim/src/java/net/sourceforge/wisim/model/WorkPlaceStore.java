@@ -2,7 +2,7 @@
 **   Copyright notice                                                       **
 **                                                                          **
 **   (c) 2003 WiSim Development Team					                              **
-**   http://wisim.sourceforge.net/   			                                  **
+**   https://github.com/kpatzwald/WiSim   			                                  **
 **                                                                          **
 **   All rights reserved                                                    **
 **                                                                          **
@@ -51,7 +51,7 @@ public class WorkPlaceStore
    * @param lagerTyp Lagertyp
    * @param bestand Bestand
    * @param maxBestand Max. Bestand
-   * @param benoetigt benötigte Teile
+   * @param benoetigt benÃ¶tigte Teile
    */
 	public WorkPlaceStore(
 		int arbeitsplatzNr,
@@ -137,7 +137,7 @@ public class WorkPlaceStore
 		this.maxBestand = maxBestand;
 	}
 
-	/** Liefert die Anzahl der benötigten Teile
+	/** Liefert die Anzahl der benÃ¶tigten Teile
    * @return int
    */
 	public int getBenoetigt()

@@ -2,7 +2,7 @@
 **   Copyright notice                                                       **
 **                                                                          **
 **   (c) 2003 WiSim Development Team					                              **
-**   http://wisim.sourceforge.net/   			                                  **
+**   https://github.com/kpatzwald/WiSim   			                                  **
 **                                                                          **
 **   All rights reserved                                                    **
 **                                                                          **
@@ -44,7 +44,7 @@ import net.sourceforge.wisim.dao.WiSimDAOException;
 import net.sourceforge.wisim.model.WiSimLogger;
 
 /**
- * JPanelOptions ermöglicht dem Benutzer Einstellungen vorzunehmen.
+ * JPanelOptions ermÃ¶glicht dem Benutzer Einstellungen vorzunehmen.
  * @author benjamin.pasero
  */
 public class JPanelOptions extends javax.swing.JPanel {
@@ -80,7 +80,7 @@ public class JPanelOptions extends javax.swing.JPanel {
 
 		DefaultMutableTreeNode elementDB = new DefaultMutableTreeNode("Datenbank");
 		elementDB.add(new DefaultMutableTreeNode("Einstellungen"));
-		elementDB.add(new DefaultMutableTreeNode("Datenbank zurücksetzen"));
+		elementDB.add(new DefaultMutableTreeNode("Datenbank zurÃ¼cksetzen"));
 		root.add(elementDB);
 
 		DefaultTreeModel treeModel = new DefaultTreeModel(root);
@@ -312,7 +312,7 @@ public class JPanelOptions extends javax.swing.JPanel {
 	/** Resets the DB
 	 */
 	private void resetDB() {
-		int choise = JOptionPane.showConfirmDialog(this, "Die Datenbank wird auf die initialen Werte der Datei \"complete.sql\" zurückgesetzt.\nAlle Benutzereingaben werden gelöscht.\nDatenbank zurücksetzen?", "Achtung!", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+		int choise = JOptionPane.showConfirmDialog(this, "Die Datenbank wird auf die initialen Werte der Datei \"complete.sql\" zurÃ¼ckgesetzt.\nAlle Benutzereingaben werden gelÃ¶scht.\nDatenbank zurÃ¼cksetzen?", "Achtung!", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 		if (choise == JOptionPane.YES_OPTION) {
 			jLabelBeschreibung1.setText("Bitte warten....");
 			WiSimDAO dao = wiSimMainController.getDAO();
@@ -320,14 +320,14 @@ public class JPanelOptions extends javax.swing.JPanel {
 				dao.dbReset();
 				jLabelBeschreibung1.setText("Fertig!");
 			} catch (WiSimDAOException e) {
-				jLabelBeschreibung1.setText("Probleme beim Zurücksetzten der DB");
+				jLabelBeschreibung1.setText("Probleme beim ZurÃ¼cksetzten der DB");
 				wiSimLogger.log(Level.WARNING, "resetDB()", e, false);
 			}
-			JOptionPane.showMessageDialog(this, "Die Datenbank wurde zurückgesetzt!");
+			JOptionPane.showMessageDialog(this, "Die Datenbank wurde zurÃ¼ckgesetzt!");
 		}
 	}
 
-	/** Füllt die Textfelder mit den Daten aus der "config.dat" */
+	/** FÃ¼llt die Textfelder mit den Daten aus der "config.dat" */
 	private void fillDBInfoFields() {
 		jTextFieldHostname.setText(authDAO.getHostName());
 		jTextFieldPort.setText(authDAO.getPort());
@@ -373,17 +373,17 @@ public class JPanelOptions extends javax.swing.JPanel {
 				jPanelLayout.setVisible(false);
 				jPanelMySQLInfo.setVisible(true);
 				jPanelMySQLAusfuehren.setVisible(false);
-				jLabelBeschreibung1.setText("Warte auf Bestätigung");
+				jLabelBeschreibung1.setText("Warte auf BestÃ¤tigung");
 			} else if (menue.equals("Layout")) {
 				jPanelLayout.setVisible(true);
 				jPanelMySQLInfo.setVisible(false);
 				jPanelMySQLAusfuehren.setVisible(false);
-				jLabelBeschreibung1.setText("Warte auf Bestätigung");
-			} else if (menue.equals("Datenbank zurücksetzen")) {
+				jLabelBeschreibung1.setText("Warte auf BestÃ¤tigung");
+			} else if (menue.equals("Datenbank zurÃ¼cksetzen")) {
 				jPanelLayout.setVisible(false);
 				jPanelMySQLInfo.setVisible(false);
 				jPanelMySQLAusfuehren.setVisible(true);
-				jLabelBeschreibung1.setText("Warte auf Bestätigung");
+				jLabelBeschreibung1.setText("Warte auf BestÃ¤tigung");
 			}
 		}
 	}

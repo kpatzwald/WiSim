@@ -2,7 +2,7 @@
 **   Copyright notice                                                       **
 **                                                                          **
 **   (c) 2003 WiSim Development Team					                              **
-**   http://wisim.sourceforge.net/   			                                  **
+**   https://github.com/kpatzwald/WiSim   			                                  **
 **                                                                          **
 **   All rights reserved                                                    **
 **                                                                          **
@@ -638,11 +638,11 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 			ort = new City(lieferant.getPlzId(), lieferant.getPlz(), lieferant.getOrt());
 			plz = this.neuerOrt(ort);
 		}
-
+          
 		String sql =
-			"INSERT INTO lt (lt_Nr, lt_Name, lt_Vorname, lt_Strasse, lt_Firma"
+			"INSERT INTO lt (lt_Name, lt_Vorname, lt_Strasse, lt_Firma"
 				+ ", lt_Email, lt_Telefon, lt_Fax, lt_deleted, f_ort_Nr, lt_Qualitaet"
-				+ ", lt_Zuverlaessigkeit) VALUES ('', '"
+				+ ", lt_Zuverlaessigkeit) VALUES ('"
 				+ lieferant.getNachname()
 				+ "', '"
 				+ lieferant.getVorname()

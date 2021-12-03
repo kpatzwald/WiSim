@@ -2,7 +2,7 @@
 **   Copyright notice                                                       **
 **                                                                          **
 **   (c) 2003 WiSim Development Team					                              **
-**   http://wisim.sourceforge.net/   			                                  **
+**   https://github.com/kpatzwald/WiSim   			                                  **
 **                                                                          **
 **   All rights reserved                                                    **
 **                                                                          **
@@ -29,7 +29,7 @@
 package net.sourceforge.wisim.model;
 import java.util.*;
 /** Die Summe der Einzelteile eines bestimmten Typs (Name, Einzelteile Nr, Bestand,
- * Mindestbestand, Maximalbestand und eine Liste mit Lagerpl‰tzen wo sich dieses
+ * Mindestbestand, Maximalbestand und eine Liste mit Lagerpl√§tzen wo sich dieses
  * WiSimComponent befindet.
  * @author benjamin.pasero
  */
@@ -49,7 +49,7 @@ public class ComponentWarehouseItem {
      * @param minBestand Mindestbestand
      * @param maxBestand Maximalbestand
      * @param bestand aktueller Bestand
-     * @param lagerplaetze Lagerpl‰tze an denen der Article oder das WiSimComponent lagert
+     * @param lagerplaetze Lagerpl√§tze an denen der Article oder das WiSimComponent lagert
      */    
     public ComponentWarehouseItem (String einzelteilName, int id, int minBestand, int maxBestand, int bestand, Collection lagerplaetze) {
         this.einzelteilName = einzelteilName;
@@ -72,7 +72,7 @@ public class ComponentWarehouseItem {
         return bestand;
     }
     
-    /** Gibt die Id zur¸ck
+    /** Gibt die Id zur√ºck
      * @return id
      */    
     public int getId() {
@@ -104,7 +104,7 @@ public class ComponentWarehouseItem {
     }
     
     /**
-     * @return Anzahl der Lagerpl‰tze
+     * @return Anzahl der Lagerpl√§tze
      */    
     public Collection getLagerplaetze() {
         return lagerplaetze;

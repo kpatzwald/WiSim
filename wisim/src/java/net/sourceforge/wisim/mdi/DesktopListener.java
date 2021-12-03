@@ -2,7 +2,7 @@
 **   Copyright notice                                                       **
 **                                                                          **
 **   (c) 2003 WiSim Development Team					                              **
-**   http://wisim.sourceforge.net/   			                                  **
+**   https://github.com/kpatzwald/WiSim   			                                  **
 **                                                                          **
 **   All rights reserved                                                    **
 **                                                                          **
@@ -111,13 +111,13 @@ public class DesktopListener implements ComponentListener, ActionListener, Inter
 
 		if (actionCmd.equals("Nebeneinander")) {
 			desktopMediator.tileInternalFrames();
-		} else if (actionCmd.equals("Überlappend")) {
+		} else if (actionCmd.equals("ï¿½berlappend")) {
 			desktopMediator.cascadeInternalFrames();
-		} else if (actionCmd.equals("Schließen")) {
+		} else if (actionCmd.equals("Schlieï¿½en")) {
 			desktopMediator.closeSelectedFrame();
 		} else if (actionCmd.equals("NebeneinanderRadio")) {
 			desktopMediator.setAutoTile(true);
-		} else if (actionCmd.equals("ÜberlappendRadio")) {
+		} else if (actionCmd.equals("ï¿½berlappendRadio")) {
 			desktopMediator.setAutoTile(false);
 		} else { // no action command? 
 			// then select the associated frame (if any)

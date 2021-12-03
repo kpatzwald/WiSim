@@ -2,7 +2,7 @@
 **   Copyright notice                                                       **
 **                                                                          **
 **   (c) 2003 WiSim Development Team					                              **
-**   http://wisim.sourceforge.net/   			                                  **
+**   https://github.com/kpatzwald/WiSim   			                                  **
 **                                                                          **
 **   All rights reserved                                                    **
 **                                                                          **
@@ -68,7 +68,7 @@ public interface WiSimDAO {
 	 */
 	public Collection getKunden() throws WiSimDAOException;
 
-	/** Gibt eine ContractAccount eines Auftrages zurück.
+	/** Gibt eine ContractAccount eines Auftrages zurÃ¼ck.
 	 * @param atrNr Auftragrechnungs Nummer
 	 * @throws WiSimDAOException if a database problem occurs or the connection was never initialized
 	 * @return ContractAccount
@@ -115,7 +115,7 @@ public interface WiSimDAO {
 	public int neuerLieferant(Supplier lieferant) throws WiSimDAOException, WiSimDAOWriteException;
 
 	/** Liest einen Lieferanten aus der DB aus
-	 * @return com.pixelpark.wisim.model.Supplier oder null wenn kein Supplier mit der übergebenen Nummer existiert.
+	 * @return com.pixelpark.wisim.model.Supplier oder null wenn kein Supplier mit der Ã¼bergebenen Nummer existiert.
 	 * @param lieferantenId LieferantenNr
 	 * @throws com.pixelpark.wisim.dao.WiSimDAOException if a database problem occurs or the connection was never initialized
 	 */
@@ -136,7 +136,7 @@ public interface WiSimDAO {
 	 */
 	public void neueNotiz(Memo notiz) throws WiSimDAOException, WiSimDAOWriteException;
 
-	/** Laden aller Notizen eines Kunden zurück
+	/** Laden aller Notizen eines Kunden zurÃ¼ck
 	 * @return Collection mit allen Notizen zu einem Kunden
 	 * @param KdNr Kunden Nummer
 	 * @throws WiSimDAOException if a database problem occurs or the connection was never initialized
@@ -157,8 +157,8 @@ public interface WiSimDAO {
 	 */
 	public int delNotiz(int noteNr) throws WiSimDAOWriteException;
 
-	/** Gibt das Objekt City zurück das zu der Postleitzahl gehört
-	 * @return City der zu der PLZ gehört
+	/** Gibt das Objekt City zurÃ¼ck das zu der Postleitzahl gehÃ¶rt
+	 * @return City der zu der PLZ gehÃ¶rt
 	 * @param plz Postleitzahl des Ortes
 	 * @throws WiSimDAOException ToDo
 	 */
@@ -207,7 +207,7 @@ public interface WiSimDAO {
 	 */
 	public void setLieferliste(SupplyList liste) throws WiSimDAOException, WiSimDAOWriteException;
 
-	/** Löscht einen Lieferlisten-Eintrag aus der Datenbank
+	/** LÃ¶scht einen Lieferlisten-Eintrag aus der Datenbank
 	 * @return int
 	 * @param ltId Lieferanten Id
 	 * @param etNr WiSimComponent ID
@@ -231,7 +231,7 @@ public interface WiSimDAO {
 	public Collection getLieferliste(int lieferantenID) throws WiSimDAOException;
 
 	/** Diese Funktion verringert den Bestand eines Einzelteils an einem
-	* bestimmten WorkPlace um die Anzahl der benötigten Teil pro Arbeitszeit.
+	* bestimmten WorkPlace um die Anzahl der benÃ¶tigten Teil pro Arbeitszeit.
 	 * @param arbeitsplatzNr
 	 * @param einzelteilNr
 	 * @param lagerTyp
@@ -244,7 +244,7 @@ public interface WiSimDAO {
 	 */
 	public boolean setEinzelteilArbeitsplatzBestand(int arbeitsplatzNr, int einzelteilNr, String lagerTyp) throws WiSimDAOException, WiSimDAOWriteException;
 
-	/** Diese Funktion verringert / erhöht den Bestand eines Einzelteils an einem
+	/** Diese Funktion verringert / erhÃ¶ht den Bestand eines Einzelteils an einem
 	* bestimmten WorkPlace.
 	 * @param arbeitsplatzNr
 	 * @param einzelteilNr
@@ -252,18 +252,18 @@ public interface WiSimDAO {
 	 * @param lagerTyp
 	 * @throws WiSimDAOWriteException
 	 * @throws WiSimDAOException
-	 * @return int Anzahl der tatsächlich in die DB geschrieben Einzelteile.
+	 * @return int Anzahl der tatsÃ¤chlich in die DB geschrieben Einzelteile.
 	 */
 	public int setEinzelteilArbeitsplatzBestand(int arbeitsplatzNr, int einzelteilNr, int anzahl, String lagerTyp) throws WiSimDAOWriteException, WiSimDAOException;
 
 	/** Liefert die Dauer eines Arbeitsschrittes an einem bestimmten WorkPlace
-	* @param arbeitsplatzNr Nr. des Arbeitsplatzes, für dem die Dauer zurückgegeben werden soll.
+	* @param arbeitsplatzNr Nr. des Arbeitsplatzes, fÃ¼r dem die Dauer zurÃ¼ckgegeben werden soll.
 	* @throws WiSimDAOException Wenn ein Fehler beim Zugriff auf die DB auftritt.
 	* @return Dauer des Prozesses
 	*/
 	public WorkPlace getArbeitsplatz(int arbeitsplatzNr) throws WiSimDAOException;
 
-	/** Liefert alle Einzelteile an einem WorkPlace zurück.
+	/** Liefert alle Einzelteile an einem WorkPlace zurÃ¼ck.
 	* @param arbeitsplatzNr Nummer des WorkPlace
 	* @throws WiSimDAOException Wenn ein Fehler beim Zugriff auf die DB auftritt.
 	* @return Liste mit Einzelteilen
@@ -315,58 +315,58 @@ public interface WiSimDAO {
 	 */
 	public int setNeuenVertrag(Contract at) throws WiSimDAOException, WiSimDAOWriteException;
 
-	/** Gibt den MwSt-Satz aus der Datenbank zurück.
+	/** Gibt den MwSt-Satz aus der Datenbank zurÃ¼ck.
 	 * @throws WiSimDAOException if a database problem occurs or the connection was never initialized
 	 * @return Mehrwertsteuer-Satz
 	 */
 	public float getMwSt() throws WiSimDAOException;
 
-	/** Gibt eine Liste aller Einzelteilaufträge zurück.
+	/** Gibt eine Liste aller EinzelteilauftrÃ¤ge zurÃ¼ck.
 	 * @throws WiSimDAOException if a database problem occurs or the connection was never initialized
-	 * @return Vector mit allen Einzelteilaufträgen
+	 * @return Vector mit allen EinzelteilauftrÃ¤gen
 	 */
 	public Vector getEinzelteilauftraege() throws WiSimDAOException;
 
-	/** Gibt alle Positionen eines Einzelteilauftrages zurück.
+	/** Gibt alle Positionen eines Einzelteilauftrages zurÃ¼ck.
 	 * @param etatNr Einzelteilauftrags Nummer
 	 * @throws WiSimDAOException if a database problem occurs or the connection was never initialized
 	 * @return Collection mit allen Einzelteilauftragspositionen
 	 */
 	public Collection getEinzelteilAuftragsPositionen(int etatNr) throws WiSimDAOException;
 
-	/** Gibt alle Positionen eines Auftrages zurück.
+	/** Gibt alle Positionen eines Auftrages zurÃ¼ck.
 	 * @param atNr Auftrags Nummer
 	 * @throws WiSimDAOException if a database problem occurs or the connection was never initialized
 	 * @return Collection mit allen Auftragspositionen
 	 */
 	public Collection getAuftragsPositionen(int atNr) throws WiSimDAOException;
 
-	/** Gibt die ComponentContractAccount zurück die zu dem entsprechenden
-	 * ComponentContract gehört.
+	/** Gibt die ComponentContractAccount zurÃ¼ck die zu dem entsprechenden
+	 * ComponentContract gehÃ¶rt.
 	 * @param etatrNr Einzelteilauftrags Nummer
 	 * @throws WiSimDAOException if a database problem occurs or the connection was never initialized
 	 * @return Die ComponentContractAccount.
 	 */
 	public ComponentContractAccount getEinzelteilauftragsrechnung(int etatrNr) throws WiSimDAOException;
 
-	/** Gibt alle Lagerplätz des Lagers aus
+	/** Gibt alle LagerplÃ¤tz des Lagers aus
 	 * @throws WiSimDAOException if a database problem occurs or the connection was never initialized
-	 * @return Collection aller Lagerplätze
+	 * @return Collection aller LagerplÃ¤tze
 	 */
 	public Collection getLagerplaetze() throws WiSimDAOException;
 
-	/** Gibt eine Liste aller Einzelteile die sich im Lager befinden zurück.
-	 * Jeder Eintrag hat neben den Informationen WiSimComponent-Name auch die Zahlen für
+	/** Gibt eine Liste aller Einzelteile die sich im Lager befinden zurÃ¼ck.
+	 * Jeder Eintrag hat neben den Informationen WiSimComponent-Name auch die Zahlen fÃ¼r
 	 * Bestand, Mindestbestand und MaxBestand.
 	 * Jedes WiSimComponent kommt nur einmal vor. Befindt sich ein WiSimComponent auf mehrern
-	 * Lagerplätzen, so werden die Bestände entsprechend summiert.
+	 * LagerplÃ¤tzen, so werden die BestÃ¤nde entsprechend summiert.
 	 * @throws WiSimDAOException if a database problem occurs or the connection was never initialized
 	 * @return Vector mit allen Einzelteilen die sich im Lager befinden.
 	 */
 	public Vector getEinzelteilLagerElement() throws WiSimDAOException;
 
-	/** Gibt eine Liste aller Einzelteile die sich auf dem angegebenen WarehouseLocation befinden zurück.
-	 * Jeder Eintrag hat neben den Informationen WiSimComponent-Name auch die Zahlen für
+	/** Gibt eine Liste aller Einzelteile die sich auf dem angegebenen WarehouseLocation befinden zurÃ¼ck.
+	 * Jeder Eintrag hat neben den Informationen WiSimComponent-Name auch die Zahlen fÃ¼r
 	 * Bestand, Mindestbestand und MaxBestand.
 	 * @param lagerplatz Der WarehouseLocation
 	 * @throws WiSimDAOException if a database problem occurs or the connection was never initialized
@@ -374,25 +374,25 @@ public interface WiSimDAO {
 	 */
 	public Collection getEinzelteilLagerElement(String lagerplatz) throws WiSimDAOException;
 
-	/** Liefert alle Lagerplätze zurück, die einen bestimmten Article enthalten
-	     * @return Collection mit den Lagerplätzen wo das WiSimComponent liegt.
+	/** Liefert alle LagerplÃ¤tze zurÃ¼ck, die einen bestimmten Article enthalten
+	     * @return Collection mit den LagerplÃ¤tzen wo das WiSimComponent liegt.
 	     * @param etNr WiSimComponent Nummer
 	     * @throws WiSimDAOException if a database problem occurs or the connection was never initialized
 	     */
 	public Collection getLagerplaetze(int etNr) throws WiSimDAOException;
 
-	/** Gibt eine Liste aller Article die sich im Lager befinden zurück.
-	 * Jeder Eintrag hat neben den Informationen Article-Name auch die Zahlen für
+	/** Gibt eine Liste aller Article die sich im Lager befinden zurÃ¼ck.
+	 * Jeder Eintrag hat neben den Informationen Article-Name auch die Zahlen fÃ¼r
 	 * Bestand, Mindestbestand und MaxBestand.
 	 * Jeder Article kommt nur einmal vor. Befindt sich ein Article auf mehrern
-	 * Lagerplätzen, so werden die Bestände entsprechend summiert.
+	 * LagerplÃ¤tzen, so werden die BestÃ¤nde entsprechend summiert.
 	 * @throws WiSimDAOException if a database problem occurs or the connection was never initialized
 	 * @return Vector mit allen Artikeln die im Lager sind.
 	 */
 	public Vector getArtikelLagerElement() throws WiSimDAOException;
 
-	/** Gibt eine Liste aller Article die sich auf dem angegebenen WarehouseLocation befinden zurück.
-	 * Jeder Eintrag hat neben den Informationen Article-Name auch die Zahlen für
+	/** Gibt eine Liste aller Article die sich auf dem angegebenen WarehouseLocation befinden zurÃ¼ck.
+	 * Jeder Eintrag hat neben den Informationen Article-Name auch die Zahlen fÃ¼r
 	 * Bestand, Mindestbestand und MaxBestand.
 	 * @param lagerplatz Der WarehouseLocation
 	 * @throws WiSimDAOException if a database problem occurs or the connection was never initialized
@@ -400,29 +400,29 @@ public interface WiSimDAO {
 	 */
 	public Collection getArtikelLagerElement(String lagerplatz) throws WiSimDAOException;
 
-	/** Erhöht / Erniedrigt den Bestand eines Einzelteils im Lager.
+	/** ErhÃ¶ht / Erniedrigt den Bestand eines Einzelteils im Lager.
 	 * @param etNr WiSimComponent Nummer
 	 * @param menge neue Menge = aktuelleMenge + menge
-	 * Das heißt, wenn eine negative Menge angegeben wird, so erniedrigt man den Bestand.
+	 * Das heiÃŸt, wenn eine negative Menge angegeben wird, so erniedrigt man den Bestand.
 	 * @throws WiSimDAOWriteException if a database problem occurs or the connection was never initialized
-	 * @return True: Bestand wurde erhöht / erniedrigt.
+	 * @return True: Bestand wurde erhÃ¶ht / erniedrigt.
 	 * False:
-	 * Bei Erhöhung: Gelieferte Menege übertrifft den Maximal Bestand. Der neue Bestand
+	 * Bei ErhÃ¶hung: Gelieferte Menege Ã¼bertrifft den Maximal Bestand. Der neue Bestand
 	 * ist jetzt der Maximal Bestand, der Rest der Lieferung wird ignoriert.
 	 * Bei Erniedrigung:
 	 * Der Bestand dieses Einzelteils ist schon auf 0.
 	 */
 	public int setEinzelteilLagerBestand(int etNr, int menge) throws WiSimDAOWriteException;
 
-	/** Erhöht / Erniedrigt den Bestand eines Artikels im Lager.
+	/** ErhÃ¶ht / Erniedrigt den Bestand eines Artikels im Lager.
 	 * @param artNr Article Nummer
 	 * @param menge neue Menge = aktuelleMenge + menge
-	 * Das heißt, wenn eine negative Menge angegeben wird, so erniedrigt man den Bestand.
+	 * Das heiÃŸt, wenn eine negative Menge angegeben wird, so erniedrigt man den Bestand.
 	 * @throws WiSimDAOException wenn ein Problem beim Lesen der DB auftritt
 	 * @throws WiSimDAOWriteException if a database problem occurs or the connection was never initialized
-	 * @return True: Bestand wurde erhöht / erniedrigt.
+	 * @return True: Bestand wurde erhÃ¶ht / erniedrigt.
 	 * False:
-	 * Bei Erhöhung: Gelieferte Menege übertrifft den Maximal Bestand. Der neue Bestand
+	 * Bei ErhÃ¶hung: Gelieferte Menege Ã¼bertrifft den Maximal Bestand. Der neue Bestand
 	 * ist jetzt der Maximal Bestand, der Rest der Lieferung wird ignoriert.
 	 * Bei Erniedrigung:
 	 * Der Bestand dieses Artikels ist schon auf 0.
@@ -452,16 +452,16 @@ public interface WiSimDAO {
 	 */
 	public Collection getArbeitsplatzLager(int arbeitsplatzNr, String lagerTyp) throws WiSimDAOException;
 
-	/** Gibt Stueckliste für einen bestimmten Article zurück. Der Key der Hashtable ist
-	 * die WiSimComponent-Nummer, der Value ist die erforderliche Menge um 1 Stück von
+	/** Gibt Stueckliste fÃ¼r einen bestimmten Article zurÃ¼ck. Der Key der Hashtable ist
+	 * die WiSimComponent-Nummer, der Value ist die erforderliche Menge um 1 StÃ¼ck von
 	 * diesem Article zu produzieren.
 	 * @param artNr Article Nummer
 	 * @throws WiSimDAOException if an database error occurs
-	 * @return Hashtable (Stückliste)
+	 * @return Hashtable (StÃ¼ckliste)
 	 */
 	public Hashtable getStueckliste(int artNr) throws WiSimDAOException;
 
-	/** Holt alle Verträge aus der Datenbank
+	/** Holt alle VertrÃ¤ge aus der Datenbank
 	 * @return Collection
 	 * @throws WiSimDAOException
 	 */
@@ -474,15 +474,15 @@ public interface WiSimDAO {
 	 */
 	public Contract getVertrag(int id) throws WiSimDAOException;
 
-	/** Gibt eine Position eines Auftrages zurück.
+	/** Gibt eine Position eines Auftrages zurÃ¼ck.
 		* @param atNr Auftrags Nummer
 		* @throws WiSimDAOException if a database problem occurs or the connection was never initialized
 		* @return Auftragsposition
 		*/
 	public OrderItem getAuftragsPosition(int atNr) throws WiSimDAOException;
 
-	/** Gibt die Auftragsposition zurück die zu dem entsprechenden
-		* Auftrag gehört.
+	/** Gibt die Auftragsposition zurÃ¼ck die zu dem entsprechenden
+		* Auftrag gehÃ¶rt.
 		* @param atNr Auftrags Nummer
 		* @param artNr Article Nummer
 		* @throws WiSimDAOException if a database problem occurs or the connection was never initialized
@@ -490,7 +490,7 @@ public interface WiSimDAO {
 		*/
 	public OrderItem getAuftragsPosition(int atNr, int artNr) throws WiSimDAOException;
 
-	/** Gibt die Bestellmenge eines bestimmten Artikels in einem Contract zurück.
+	/** Gibt die Bestellmenge eines bestimmten Artikels in einem Contract zurÃ¼ck.
 	 * @param atNr Auftrags Nr.
 	 * @param artNr Article Nr.
 	 * @throws WiSimDAOException if an database error occurs
@@ -505,7 +505,7 @@ public interface WiSimDAO {
 	 */
 	public int setAuftragsPosition(OrderItem atp) throws WiSimDAOWriteException;
 
-	/** Setzt die Zahl der Arbeiter für einen WorkPlace
+	/** Setzt die Zahl der Arbeiter fÃ¼r einen WorkPlace
 	 * @param apNr WorkPlace Nummer
 	 * @param anzahl Anzahl der Mitarbeiter
 	 * @throws WiSimDAOWriteException If an error occurs
@@ -519,7 +519,7 @@ public interface WiSimDAO {
 	 */
 	public int aendereAuftragsrechnung(int Nr, boolean status) throws WiSimDAOException, WiSimDAOWriteException;
 
-	/** Anzahl der Arbeitsplätze
+	/** Anzahl der ArbeitsplÃ¤tze
 	 * @return int Anzahl
 	 * @throws WiSimDAOException if an error occurs
 	 */

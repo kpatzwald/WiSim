@@ -2,7 +2,7 @@
 **   Copyright notice                                                       **
 **                                                                          **
 **   (c) 2003 WiSim Development Team					                              **
-**   http://wisim.sourceforge.net/   			                                  **
+**   https://github.com/kpatzwald/WiSim   			                                  **
 **                                                                          **
 **   All rights reserved                                                    **
 **                                                                          **
@@ -24,13 +24,13 @@
 /*
  * Einzelteilauftrag.java
  *
- * Created on 6. März 2003, 19:24
+ * Created on 6. MÃ¤rz 2003, 19:24
  */
 
 package net.sourceforge.wisim.model;
 import java.sql.Date;
 import java.util.*;
-/** ComponentContract für Einzelteile
+/** ComponentContract fÃ¼r Einzelteile
  * @author benjamin.pasero
  */
 public class ComponentContract {

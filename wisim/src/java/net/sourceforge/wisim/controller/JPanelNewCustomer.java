@@ -2,7 +2,7 @@
 **   Copyright notice                                                       **
 **                                                                          **
 **   (c) 2003 WiSim Development Team					                              **
-**   http://wisim.sourceforge.net/   			                                  **
+**   https://github.com/kpatzwald/WiSim   			                                  **
 **                                                                          **
 **   All rights reserved                                                    **
 **                                                                          **
@@ -35,7 +35,7 @@ import java.util.*;
 import javax.swing.*;
 
 /**
- * JPanelNeuerKunde ermöglicht das eintragen eines neuen Kunden.
+ * JPanelNeuerKunde ermÃ¶glicht das eintragen eines neuen Kunden.
  * @author Benjamin Pasero
  */
 public class JPanelNewCustomer extends javax.swing.JPanel {
@@ -330,7 +330,7 @@ public class JPanelNewCustomer extends javax.swing.JPanel {
 			while (!plzOk && plz != null) {
 				if (!validate.checkPlz(plz)) {
 					jOptionPaneEMailInvalid.setWantsInput(true);
-					plz = JOptionPane.showInputDialog("Ungültige PLZ! Bitte neu eingeben:", plz);
+					plz = JOptionPane.showInputDialog("UngÃ¼ltige PLZ! Bitte neu eingeben:", plz);
 				} else {
 					plzOk = true;
 				}
@@ -352,7 +352,7 @@ public class JPanelNewCustomer extends javax.swing.JPanel {
 			while (!emailOk && email != null) {
 				if (!validate.checkEMail(email)) {
 					jOptionPaneEMailInvalid.setWantsInput(true);
-					email = JOptionPane.showInputDialog("Ungültige EMail! Bitte neu eingeben:", email);
+					email = JOptionPane.showInputDialog("UngÃ¼ltige EMail! Bitte neu eingeben:", email);
 				} else {
 					emailOk = true;
 				}
@@ -365,7 +365,7 @@ public class JPanelNewCustomer extends javax.swing.JPanel {
 		}
 	}
 
-	/** Setzt die Eingabefelder zurück */
+	/** Setzt die Eingabefelder zurÃ¼ck */
 	private void resetFields() {
 		jTextFieldNeuerKundeNachname.setText("");
 		jTextFieldNeuerKundeVorname.setText("");
@@ -400,9 +400,9 @@ public class JPanelNewCustomer extends javax.swing.JPanel {
 
 		if (!check.isEmpty()) {
 			if (check.size() > 1)
-				JOptionPane.showMessageDialog(this, "Folgende Felder müssen ausgefüllt werden: " + check.toString().substring(1, check.toString().length() - 1), "Fehler beim Anlegen des neuen Kunden", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this, "Folgende Felder mÃ¼ssen ausgefÃ¼llt werden: " + check.toString().substring(1, check.toString().length() - 1), "Fehler beim Anlegen des neuen Kunden", JOptionPane.ERROR_MESSAGE);
 			else
-				JOptionPane.showMessageDialog(this, "Das folgende Feld muss ausgefüllt werden: " + check.toString().substring(1, check.toString().length() - 1), "Fehler beim Anlegen des neuen Kunden", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this, "Das folgende Feld muss ausgefÃ¼llt werden: " + check.toString().substring(1, check.toString().length() - 1), "Fehler beim Anlegen des neuen Kunden", JOptionPane.ERROR_MESSAGE);
 		} else {
 			Customer kunde = new Customer();
 			kunde.setNachname(jTextFieldNeuerKundeNachname.getText());
@@ -427,7 +427,7 @@ public class JPanelNewCustomer extends javax.swing.JPanel {
 				kunde.setId(id);
 
 				if (!jTextAreaNeuerKundeNotiz.getText().equals("")) {
-					// Notiz wird erzeugt mit der Id des Kunden als Fremdschlüssel
+					// Notiz wird erzeugt mit der Id des Kunden als FremdschlÃ¼ssel
 					Memo notiz = new Memo();
 					notiz.setText(jTextAreaNeuerKundeNotiz.getText());
 					notiz.setDate(new java.sql.Date(wiSimMainController.getActDate().getTime()));

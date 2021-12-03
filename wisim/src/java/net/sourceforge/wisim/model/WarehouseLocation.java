@@ -2,7 +2,7 @@
 **   Copyright notice                                                       **
 **                                                                          **
 **   (c) 2003 WiSim Development Team					                              **
-**   http://wisim.sourceforge.net/   			                                  **
+**   https://github.com/kpatzwald/WiSim   			                                  **
 **                                                                          **
 **   All rights reserved                                                    **
 **                                                                          **
@@ -24,7 +24,7 @@
 /*
  * Lagerplatz.java
  *
- * Created on 15. März 2003, 18:45
+ * Created on 15. MÃ¤rz 2003, 18:45
  */
 
 package net.sourceforge.wisim.model;

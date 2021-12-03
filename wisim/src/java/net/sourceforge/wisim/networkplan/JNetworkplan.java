@@ -2,7 +2,7 @@
 **   Copyright notice                                                       **
 **                                                                          **
 **   (c) 2003 WiSim Development Team                                        **
-**   http://wisim.sourceforge.net/   			                                  **
+**   https://github.com/kpatzwald/WiSim   			                                  **
 **                                                                          **
 **   All rights reserved                                                    **
 **                                                                          **
@@ -131,7 +131,7 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 		/** Guess the x and y spread of the network plan */
 		maxPosX = npElemente.size();
 		maxPosY = npElemente.size();
-		tupel = new Vector[maxPosY * 2]; //[DoItBen] Dynamische Tupel Größe!
+		tupel = new Vector[maxPosY * 2]; //[DoItBen] Dynamische Tupel GrÃ¶ÃŸe!
 
 		/** Matrix for positioning of the elements */
 		position = new int[maxPosX][maxPosY];
@@ -201,7 +201,7 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 		/** Guess the x and y spread of the network plan */
 		maxPosX = npElemente.size();
 		maxPosY = npElemente.size();
-		tupel = new Vector[maxPosY * 2]; //[DoItBen] Dynamische Tupel Größe!
+		tupel = new Vector[maxPosY * 2]; //[DoItBen] Dynamische Tupel GrÃ¶ÃŸe!
 
 		/** Matrix for positioning of the elements */
 		position = new int[maxPosX][maxPosY];

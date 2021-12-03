@@ -2,7 +2,7 @@
 **   Copyright notice                                                       **
 **                                                                          **
 **   (c) 2003 WiSim Development Team					                              **
-**   http://wisim.sourceforge.net/   			                                  **
+**   https://github.com/kpatzwald/WiSim   			                                  **
 **                                                                          **
 **   All rights reserved                                                    **
 **                                                                          **
@@ -24,7 +24,7 @@
 /*
  * IconGenerater.java
  *
- * Created on 17. März 2003, 10:23
+ * Created on 17. MÃ¤rz 2003, 10:23
  */
 
 package net.sourceforge.wisim.controller;
@@ -56,15 +56,15 @@ public class IconGenerater {
 
 	/** Erzeugt ein ImageIcon je nach Parameterangabe.
 	 * @param type Der Typ gibt die Fabe der Rechtecke im ImageIcon an.
-	 * 0 steht für grün, 1 für orange und 2 für rot.
-	 * @param filledRects Steht für die Anzahl der gefüllten Rechtecke.
+	 * 0 steht fÃ¼r grÃ¼n, 1 fÃ¼r orange und 2 fÃ¼r rot.
+	 * @param filledRects Steht fÃ¼r die Anzahl der gefÃ¼llten Rechtecke.
 	 * @return ImageIcon Objekt bestehend aus 5 Rechtecken.
 	 */
 	public ImageIcon generateIcon(int type, int filledRects) {
 		int i = 0;
 		switch (type) {
 
-			//Grünes Icon
+			//GrÃ¼nes Icon
 			case 0 :
 				g.setColor(darkgreen);
 				while (i < filledRects) {

@@ -2,7 +2,7 @@
 **   Copyright notice                                                       **
 **                                                                          **
 **   (c) 2003 WiSim Development Team					                              **
-**   http://wisim.sourceforge.net/   			                                  **
+**   https://github.com/kpatzwald/WiSim   			                                  **
 **                                                                          **
 **   All rights reserved                                                    **
 **                                                                          **
@@ -24,7 +24,7 @@
 /*
  * JPanelEtatEinsehen.java
  *
- * Created on 10. M‰rz 2003, 21:33
+ * Created on 10. M√§rz 2003, 21:33
  */
 
 package net.sourceforge.wisim.controller;
@@ -37,7 +37,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.image.*;
 
-/** Gibt eine ‹bersicht aller Einzelteilauftr‰ge aus.
+/** Gibt eine √úbersicht aller Einzelteilauftr√§ge aus.
  * @author benjamin.pasero
  */
 public class JPanelViewOrders extends javax.swing.JPanel implements Refreshable {
@@ -455,7 +455,7 @@ public class JPanelViewOrders extends javax.swing.JPanel implements Refreshable 
 	private javax.swing.JTextField jTextZuverlaessigkeit;
 	// End of variables declaration//GEN-END:variables
 
-	/** Erstellt die Einzelteilauftr‰ge-Tabelle. */
+	/** Erstellt die Einzelteilauftr√§ge-Tabelle. */
 	private void setEtatTable() {
 		try {
 			etatListe = dao.getEinzelteilauftraege();
@@ -606,7 +606,7 @@ public class JPanelViewOrders extends javax.swing.JPanel implements Refreshable 
 		calculateSum();
 	}
 
-	/** Holt alle Einzelteilauftr‰ge aus der Datenbank */
+	/** Holt alle Einzelteilauftr√§ge aus der Datenbank */
 	private void getEtatListe() {
 		try {
 			etatListe = dao.getEinzelteilauftraege();
@@ -704,8 +704,8 @@ public class JPanelViewOrders extends javax.swing.JPanel implements Refreshable 
 	}
 
 	/** Wurde das Pane schon einmal aufgebaut, so ist "isBuilt" = TRUE.
-	 *  Wichtig ist diese Variable f¸r die Simulation: Wurde das Pane
-	 *  schon einmal aufgebaut, so m¸ssen die Simulationsthread das Pane
+	 *  Wichtig ist diese Variable f√ºr die Simulation: Wurde das Pane
+	 *  schon einmal aufgebaut, so m√ºssen die Simulationsthread das Pane
 	 *  nicht noch einmal initialisieren!
 	 * @return boolean isBuilt
 	 */

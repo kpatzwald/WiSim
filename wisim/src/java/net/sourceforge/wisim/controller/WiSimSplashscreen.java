@@ -103,7 +103,7 @@ public class WiSimSplashscreen extends JFrame {
 						WiSimSplashscreen.statusText.setBounds(0, 0, 300, 30);
 
 						/** Label bottom right with Infos */
-						String info = "Kay Patzwald, Benjamin Pasero" + "\nVersion: 2.0 Milestone 1, 2003" + "\nhttp://wisim.sourceforge.net" + "\nPublished under terms of GPL";
+						String info = "Kay Patzwald, Benjamin Pasero" + "\nVersion: 2.0 Milestone 1, 2003" + "\nhttps://github.com/kpatzwald/WiSim" + "\nPublished under terms of GPL";
 
 						JPanel infoHold = new JPanel();
 						JTextArea infoText = new JTextArea();

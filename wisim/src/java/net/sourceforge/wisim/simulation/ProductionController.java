@@ -2,7 +2,7 @@
 **   Copyright notice                                                       **
 **                                                                          **
 **   (c) 2003 WiSim Development Team					                              **
-**   http://wisim.sourceforge.net/   			                                  **
+**   https://github.com/kpatzwald/WiSim   			                                  **
 **                                                                          **
 **   All rights reserved                                                    **
 **                                                                          **
@@ -41,7 +41,7 @@ import net.sourceforge.wisim.model.WorkPlace;
 import net.sourceforge.wisim.model.WorkPlaceStore;
 import net.sourceforge.wisim.model.WarehouseLocation;
 
-/** Stellt Funktionen für die Produktion zur Verfügung
+/** Stellt Funktionen fÃ¼r die Produktion zur VerfÃ¼gung
  * @author Kay Patzwald
  */
 public class ProductionController
@@ -195,7 +195,7 @@ public class ProductionController
 		}
 	}
 
-	/** Holt Hubs von den Vorgänger-Arbeitsplätzen
+	/** Holt Hubs von den VorgÃ¤nger-ArbeitsplÃ¤tzen
    * @param thread Der aktuelle Thread
    * @param ap WorkPlace
    */
@@ -235,7 +235,7 @@ public class ProductionController
 		{
 			try
 			{
-				// Vorgänger noch nicht fertig
+				// VorgÃ¤nger noch nicht fertig
 				wait();
 			}
 			catch (InterruptedException e)
@@ -278,7 +278,7 @@ public class ProductionController
 			}
 		}
 
-		// Vorgänger fertig
+		// VorgÃ¤nger fertig
 		it = null;
 		it = apLagerVorgaenger.iterator();
 		WorkPlaceStore apl = (WorkPlaceStore) it.next();
@@ -535,7 +535,7 @@ public class ProductionController
 		}
 	}
 
-  /** Füllt das Eingangslager auf, wenn das Ausgangslager voll ist.
+  /** FÃ¼llt das Eingangslager auf, wenn das Ausgangslager voll ist.
    * @param name Der Name des Thread
    * @param ap WorkPlace
    */  

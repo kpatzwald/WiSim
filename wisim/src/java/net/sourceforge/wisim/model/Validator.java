@@ -2,7 +2,7 @@
 **   Copyright notice                                                       **
 **                                                                          **
 **   (c) 2003 WiSim Development Team					                              **
-**   http://wisim.sourceforge.net/   			                                  **
+**   https://github.com/kpatzwald/WiSim   			                                  **
 **                                                                          **
 **   All rights reserved                                                    **
 **                                                                          **
@@ -44,7 +44,7 @@ public class Validator extends PlainDocument {
 	}
 
 	/**
-	 * Konstruktor für das Validationdokument
+	 * Konstruktor fÃ¼r das Validationdokument
 	 * @param int limit: maximale Anzahl der einzugebenen Zeichen
 	 */
 	public Validator(int newLimit) {
@@ -57,7 +57,7 @@ public class Validator extends PlainDocument {
 	}
 
 	/**
-	   * Funktion überschreibt die Methode insertString von PlaintDocument
+	   * Funktion Ã¼berschreibt die Methode insertString von PlaintDocument
 	   * @param int offset: Position
 	   * @param String str: der String
 	   * @param AttributeSet attr: Attributset
@@ -71,7 +71,7 @@ public class Validator extends PlainDocument {
 		}
 	}
 
-	/** Überprüft ob die PLZ 5 Zeichen besitzt und nur aus Ziffern besteht.
+	/** ÃœberprÃ¼ft ob die PLZ 5 Zeichen besitzt und nur aus Ziffern besteht.
 	 * @param text Die PLZ als String
 	 * @return TRUE wenn die PLZ stimmt
 	 */
@@ -83,7 +83,7 @@ public class Validator extends PlainDocument {
 		return false;
 	}
 
-	/** Überprüft die eingegebene email auf Gültigkeit.
+	/** ÃœberprÃ¼ft die eingegebene email auf GÃ¼ltigkeit.
 	 * @param text Die email als String
 	 * @return TRUE wenn die email korrekt ist
 	 */
@@ -99,9 +99,9 @@ public class Validator extends PlainDocument {
 		return false;
 	}
 
-	/** Überprüft, ob ein korrekter Preis eingegeben wurde.
+	/** ÃœberprÃ¼ft, ob ein korrekter Preis eingegeben wurde.
 	 * @return boolean
-	 * @param text Zu überprüfender Text.
+	 * @param text Zu Ã¼berprÃ¼fender Text.
 	 */
 	public boolean checkPreis(String text) {
 		String regExp = "^([.|,][0-9]{1,2})|[0-9]{1,7}([.|,][0-9]{0,2})?$";
@@ -111,10 +111,10 @@ public class Validator extends PlainDocument {
 		return false;
 	}
 
-	/** Überprüft, ob eine Zahl eingegeben wurde und das nicht mehr
+	/** ÃœberprÃ¼ft, ob eine Zahl eingegeben wurde und das nicht mehr
 	 * als 10 Ziffern eingegeben worden sind.
 	 * @return boolean
-	 * @param text Zu überprüfender Text.
+	 * @param text Zu Ã¼berprÃ¼fender Text.
 	 */
 	public boolean checkZahl(String text) {
 		String regExp = "^([0-9]{0,10})$";
@@ -127,7 +127,7 @@ public class Validator extends PlainDocument {
 	/** Erlaubt sind nur Eingaben von 1- oder 2-stellige Zahlen mit 1 Nachkommastelle
 	 * getrennt durch einen Punkt
 	 * @return boolean
-	 * @param text Zu überprüfender Text.
+	 * @param text Zu Ã¼berprÃ¼fender Text.
 	 */
 	public boolean checkPercent(String text) {
 		String regExp = "^([.|,][0-9]{1,2})|[0-9]{1,2}([.|,][0-9]{0,2})?$";
@@ -138,7 +138,7 @@ public class Validator extends PlainDocument {
 	}
 
 	/** Erlaubt sind nur Eingaben von 4-stelligen Zahlen die nicht mit 0 beginnen
-	 * @param text Zu überprüfender Text.
+	 * @param text Zu Ã¼berprÃ¼fender Text.
 	 * @return boolean
 	 */
 	public boolean checkYear(String text) {
@@ -150,7 +150,7 @@ public class Validator extends PlainDocument {
 	}
 
 	/** Erlaubt sind nur Eingaben von 1- oder 2-stellige Zahlen
-	 * @param text Zu überprüfender Text.
+	 * @param text Zu Ã¼berprÃ¼fender Text.
 	 * @return boolean
 	 */
 	public boolean checkTwoDigits(String text) {
@@ -162,7 +162,7 @@ public class Validator extends PlainDocument {
 	}
 
 	/** Erlaubt sind nur Eingaben von 1- oder 2-stellige Zahlen
-	 * @param text Zu überprüfender Text.
+	 * @param text Zu Ã¼berprÃ¼fender Text.
 	 * @return boolean
 	 */
 	public boolean checkThreeDigits(String text) {

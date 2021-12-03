@@ -2,7 +2,7 @@
 **   Copyright notice                                                       **
 **                                                                          **
 **   (c) 2003 WiSim Development Team					                              **
-**   http://wisim.sourceforge.net/   			                                  **
+**   https://github.com/kpatzwald/WiSim   			                                  **
 **                                                                          **
 **   All rights reserved                                                    **
 **                                                                          **
@@ -24,7 +24,7 @@
 /*
  * Einzelteile.java
  *
- * Created on 1. März 2003, 11:38
+ * Created on 1. MÃ¤rz 2003, 11:38
  */
 
 package net.sourceforge.wisim.model;

@@ -2,7 +2,7 @@
 **   Copyright notice                                                       **
 **                                                                          **
 **   (c) 2003 WiSim Development Team					                              **
-**   http://wisim.sourceforge.net/   			                                  **
+**   https://github.com/kpatzwald/WiSim   			                                  **
 **                                                                          **
 **   All rights reserved                                                    **
 **                                                                          **
@@ -361,14 +361,14 @@ public class JPanelNewSupplier extends javax.swing.JPanel {
 		if (!jListNeuerLieferantArtikel.isSelectionEmpty())
 			modifyArticle();
 	} //GEN-LAST:event_jListNeuerLieferantArtikelValueChanged
-	/* Der "Entfernen"-Button wurde gedrückt
+	/* Der "Entfernen"-Button wurde gedrÃ¼ckt
 	 * @author Kay Patzwald
 	 */
 	private void jButtonNeuerLieferantArtieklEntfernenActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jButtonNeuerLieferantArtieklEntfernenActionPerformed
 		if (!jListNeuerLieferantArtikel.isSelectionEmpty())
 			deleteArticle();
 	} //GEN-LAST:event_jButtonNeuerLieferantArtieklEntfernenActionPerformed
-	/* Der "Hinzufügen"-Button wurde gedrückt
+	/* Der "HinzufÃ¼gen"-Button wurde gedrÃ¼ckt
 	 * @author Kay Patzwald
 	 */
 	private void jButtonNeuerLieferantArtikelHinzufuegenActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jButtonNeuerLieferantArtikelHinzufuegenActionPerformed
@@ -402,7 +402,7 @@ public class JPanelNewSupplier extends javax.swing.JPanel {
 	private void jTextFieldNeuerLieferantPLZFocusLost(java.awt.event.FocusEvent evt) { //GEN-FIRST:event_jTextFieldNeuerLieferantPLZFocusLost
 		checkPLZ();
 	} //GEN-LAST:event_jTextFieldNeuerLieferantPLZFocusLost
-	/* Der Button "Lieferant anlegen" wurde gedrückt
+	/* Der Button "Lieferant anlegen" wurde gedrÃ¼ckt
 	 * @author Kay Patzwald
 	 */
 	private void jButtonLieferantenAnlegenActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jButtonLieferantenAnlegenActionPerformed
@@ -416,9 +416,9 @@ public class JPanelNewSupplier extends javax.swing.JPanel {
 		else {
 
 			if (check.size() > 1)
-				JOptionPane.showMessageDialog(this, "Folgende Felder müssen ausgefüllt werden: " + check.toString().substring(1, check.toString().length() - 1), "Fehler beim Hinzufügen des Artikels", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this, "Folgende Felder mÃ¼ssen ausgefÃ¼llt werden: " + check.toString().substring(1, check.toString().length() - 1), "Fehler beim HinzufÃ¼gen des Artikels", JOptionPane.ERROR_MESSAGE);
 			else
-				JOptionPane.showMessageDialog(this, "Das folgende Feld muss ausgefüllt werden: " + check.toString().substring(1, check.toString().length() - 1), "Fehler beim Hinzufügen des Artikels", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this, "Das folgende Feld muss ausgefÃ¼llt werden: " + check.toString().substring(1, check.toString().length() - 1), "Fehler beim HinzufÃ¼gen des Artikels", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -430,7 +430,7 @@ public class JPanelNewSupplier extends javax.swing.JPanel {
 		if (!email.equals("") && email != null) {
 			while (!emailOk && email != null) {
 				if (!validate.checkEMail(email)) {
-					email = JOptionPane.showInputDialog("Ungültige eMail! Bitte neu eingeben:", email);
+					email = JOptionPane.showInputDialog("UngÃ¼ltige eMail! Bitte neu eingeben:", email);
 				} else {
 					emailOk = true;
 				}
@@ -449,9 +449,9 @@ public class JPanelNewSupplier extends javax.swing.JPanel {
 			newSupplier();
 		else {
 			if (check.size() > 1)
-				JOptionPane.showMessageDialog(this, "Folgende Felder müssen ausgefüllt werden: " + check.toString().substring(1, check.toString().length() - 1), "Fehler beim Anlegen des neuen Lieferanten", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this, "Folgende Felder mÃ¼ssen ausgefÃ¼llt werden: " + check.toString().substring(1, check.toString().length() - 1), "Fehler beim Anlegen des neuen Lieferanten", JOptionPane.ERROR_MESSAGE);
 			else
-				JOptionPane.showMessageDialog(this, "Das folgende Feld muss ausgefüllt werden: " + check.toString().substring(1, check.toString().length() - 1), "Fehler beim Anlegen des neuen Lieferanten", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this, "Das folgende Feld muss ausgefÃ¼llt werden: " + check.toString().substring(1, check.toString().length() - 1), "Fehler beim Anlegen des neuen Lieferanten", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -463,7 +463,7 @@ public class JPanelNewSupplier extends javax.swing.JPanel {
 		if (!zahl.equals("")) {
 			while (!zahlOk && zahl != null) {
 				if (!validate.checkZahl(zahl)) {
-					zahl = JOptionPane.showInputDialog("Ungültige Zahl!", zahl);
+					zahl = JOptionPane.showInputDialog("UngÃ¼ltige Zahl!", zahl);
 				} else {
 					zahlOk = true;
 				}
@@ -488,7 +488,7 @@ public class JPanelNewSupplier extends javax.swing.JPanel {
 				if (!validate.checkPlz(plz)) {
 					errorPane.setWantsInput(true);
 					errorPane.setMessageType(JOptionPane.QUESTION_MESSAGE);
-					plz = JOptionPane.showInputDialog("Ungültige PLZ! Bitte neu eingeben:", plz);
+					plz = JOptionPane.showInputDialog("UngÃ¼ltige PLZ! Bitte neu eingeben:", plz);
 				} else {
 					plzOk = true;
 				}
@@ -509,9 +509,9 @@ public class JPanelNewSupplier extends javax.swing.JPanel {
 		if (!preis.equals("")) {
 			while (!preisOk && preis != null) {
 				if (!validate.checkPreis(preis)) {
-					preis = JOptionPane.showInputDialog("Ungültiger Peis! Bitte geben Sie den Preis implements Format xx.xx ein!", preis);
+					preis = JOptionPane.showInputDialog("UngÃ¼ltiger Peis! Bitte geben Sie den Preis implements Format xx.xx ein!", preis);
 
-					//Falls Zahl ohne "." eingegeben wurde wird ".0" ergänzt
+					//Falls Zahl ohne "." eingegeben wurde wird ".0" ergÃ¤nzt
 
 				} else {
 					preisOk = true;
@@ -587,7 +587,7 @@ public class JPanelNewSupplier extends javax.swing.JPanel {
 		JOptionPane.showMessageDialog(this, "Der neue Lieferant wurde erfolgreich gespeichert.", "Lieferant", JOptionPane.INFORMATION_MESSAGE);
 	}
 
-	/** Prüft, ob alle notwendigen Felder ausgefüllt sind
+	/** PrÃ¼ft, ob alle notwendigen Felder ausgefÃ¼llt sind
 	 * @author Kay Patzwald
 	 * @return Vector
 	 */
@@ -610,7 +610,7 @@ public class JPanelNewSupplier extends javax.swing.JPanel {
 		return errors;
 	}
 
-	/** Prüft, ob alle notwendigen Felder ausgefüllt sind
+	/** PrÃ¼ft, ob alle notwendigen Felder ausgefÃ¼llt sind
 	 * @author Kay Patzwald
 	 * @return Vector
 	 */
@@ -623,7 +623,7 @@ public class JPanelNewSupplier extends javax.swing.JPanel {
 		return errors;
 	}
 
-	/** Diese Funktion löscht das Formular nach Betätigung des Buttons "Lieferanten anlegen"
+	/** Diese Funktion lÃ¶scht das Formular nach BetÃ¤tigung des Buttons "Lieferanten anlegen"
 	 * @author Kay Patzwald
 	 */
 	private void clearForm() {
@@ -647,7 +647,7 @@ public class JPanelNewSupplier extends javax.swing.JPanel {
 		artikel.clear();
 	}
 
-	/** Füllt die ComboBox Einzelteile mit den in der DB vorhandenen Teilen
+	/** FÃ¼llt die ComboBox Einzelteile mit den in der DB vorhandenen Teilen
 	 * @author Kay Patzwald
 	 */
 	private void loadSpareParts() {
@@ -686,7 +686,7 @@ public class JPanelNewSupplier extends javax.swing.JPanel {
 		if (artikel.containsKey(jComboBoxNeuerLieferantArtikel.getSelectedItem().toString())) {
 			JOptionPane errorPane = new JOptionPane();
 			errorPane.setMessageType(JOptionPane.WARNING_MESSAGE);
-			int i = JOptionPane.showConfirmDialog(this, "Dieser Artikel ist bereits in der Liste. Wollen Sie ihn überschreiben?", "Fehler beim Hinzufügen des Artikels", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+			int i = JOptionPane.showConfirmDialog(this, "Dieser Artikel ist bereits in der Liste. Wollen Sie ihn Ã¼berschreiben?", "Fehler beim HinzufÃ¼gen des Artikels", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
 
 			if (i == 0) {
 				ueberschreiben = true;
@@ -709,7 +709,7 @@ public class JPanelNewSupplier extends javax.swing.JPanel {
 		}
 	}
 
-	/* Löscht die ausgewählten Article
+	/* LÃ¶scht die ausgewÃ¤hlten Article
 	 * @author Kay Patzwald
 	 */
 	private void deleteArticle() {
@@ -722,7 +722,7 @@ public class JPanelNewSupplier extends javax.swing.JPanel {
 		jListNeuerLieferantArtikel.setModel(model);
 	}
 
-	/* Lädt den ausgewählten Article ins Formular. Wenn mehrere ausgewählt worden sind
+	/* LÃ¤dt den ausgewÃ¤hlten Article ins Formular. Wenn mehrere ausgewÃ¤hlt worden sind
 	 * wird der erste ins Formular geladen.
 	 * @author Kay Patzwald
 	 */

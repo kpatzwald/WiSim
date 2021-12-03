@@ -2,7 +2,7 @@
 **   Copyright notice                                                       **
 **                                                                          **
 **   (c) 2003 WiSim Development Team					                              **
-**   http://wisim.sourceforge.net/   			                                  **
+**   https://github.com/kpatzwald/WiSim   			                                  **
 **                                                                          **
 **   All rights reserved                                                    **
 **                                                                          **
@@ -24,7 +24,7 @@
 /*
  * Lieferliste.java
  *
- * Created on 2. März 2003, 00:39
+ * Created on 2. MÃ¤rz 2003, 00:39
  */
 
 package net.sourceforge.wisim.model;

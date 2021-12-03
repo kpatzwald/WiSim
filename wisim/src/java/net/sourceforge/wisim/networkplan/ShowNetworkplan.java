@@ -2,7 +2,7 @@
 **   Copyright notice                                                       **
 **                                                                          **
 **   (c) 2003 WiSim Development Team					                    					**
-**   http://wisim.sourceforge.net/   			                            			**
+**   https://github.com/kpatzwald/WiSim   			                            			**
 **                                                                          **
 **   All rights reserved                                                    **
 **                                                                          **
@@ -154,7 +154,7 @@ public class ShowNetworkplan extends JFrame {
 			case 0 :
 				filled.add(new NetworkplanElement(1, 20, new int[] { 2, 6, 8 }, "Entwurf, Planung"));
 				filled.add(new NetworkplanElement(2, 3, new int[] { 3 }, "Erdaushub Fundamente"));
-				filled.add(new NetworkplanElement(3, 2, new int[] { 4 }, "Ausgieﬂen Fundamente"));
+				filled.add(new NetworkplanElement(3, 2, new int[] { 4 }, "Ausgie√üen Fundamente"));
 				filled.add(new NetworkplanElement(4, 5, new int[] { 5 }, "Verschalung Betonsockel"));
 				filled.add(new NetworkplanElement(5, 3, new int[] { 9 }, "Betonierung Betonsockel"));
 				filled.add(new NetworkplanElement(6, 10, new int[] { 7 }, "Bestellung und Auslieferung Betonteile"));
@@ -166,7 +166,7 @@ public class ShowNetworkplan extends JFrame {
 
 			case 1 :
 				filled.add(new NetworkplanElement(1, 3, new int[] { 2 }, "Erdaushub Fundamente"));
-				filled.add(new NetworkplanElement(2, 2, new int[] { 3, 4 }, "Ausgieﬂen Fundamente"));
+				filled.add(new NetworkplanElement(2, 2, new int[] { 3, 4 }, "Ausgie√üen Fundamente"));
 				filled.add(new NetworkplanElement(3, 5, new int[] { 5 }, "Verschalung Betonsockel"));
 				filled.add(new NetworkplanElement(4, 3, new int[] { 5 }, "Betonierung Betonsockel"));
 				filled.add(new NetworkplanElement(5, 10, new int[] { 6 }, "Bestellung Betonteile"));
@@ -174,8 +174,8 @@ public class ShowNetworkplan extends JFrame {
 				break;
 
 			case 2 :
-				filled.add(new NetworkplanElement(1, 2, new int[] { 2, 3 }, "Ausgieﬂen Fundamente"));
-				filled.add(new NetworkplanElement(2, 2, new int[] { 4, 5 }, "Ausgieﬂen Fundamente"));
+				filled.add(new NetworkplanElement(1, 2, new int[] { 2, 3 }, "Ausgie√üen Fundamente"));
+				filled.add(new NetworkplanElement(2, 2, new int[] { 4, 5 }, "Ausgie√üen Fundamente"));
 				filled.add(new NetworkplanElement(3, 5, new int[] { 6 }, "Verschalung Betonsockel"));
 				filled.add(new NetworkplanElement(4, 3, new int[] { 6 }, "Betonierung Betonsockel"));
 				filled.add(new NetworkplanElement(5, 10, new int[] { 6 }, "Bestellung Betonteile"));
@@ -185,7 +185,7 @@ public class ShowNetworkplan extends JFrame {
 			case 3 :
 				filled.add(new NetworkplanElement(1, 20, new int[] { 2, 3 }, "Entwurf, Planung"));
 				filled.add(new NetworkplanElement(2, 3, new int[] { 4, 5 }, "Erdaushub Fundamente"));
-				filled.add(new NetworkplanElement(3, 2, new int[] { 6, 7 }, "Ausgieﬂen Fundamente"));
+				filled.add(new NetworkplanElement(3, 2, new int[] { 6, 7 }, "Ausgie√üen Fundamente"));
 				filled.add(new NetworkplanElement(4, 5, new int[] { 8 }, "Verschalung Betonsockel"));
 				filled.add(new NetworkplanElement(5, 3, new int[] { 8 }, "Betonierung Betonsockel"));
 				filled.add(new NetworkplanElement(6, 10, new int[] { 9 }, "Bestellung und Auslieferung Betonteile"));
@@ -196,8 +196,8 @@ public class ShowNetworkplan extends JFrame {
 				break;
 
 			case 4 :
-				filled.add(new NetworkplanElement(1, 2, new int[] { 2, 3 }, "Ausgieﬂen Fundamente"));
-				filled.add(new NetworkplanElement(2, 2, new int[] { 4, 5 }, "Ausgieﬂen Fundamente"));
+				filled.add(new NetworkplanElement(1, 2, new int[] { 2, 3 }, "Ausgie√üen Fundamente"));
+				filled.add(new NetworkplanElement(2, 2, new int[] { 4, 5 }, "Ausgie√üen Fundamente"));
 				filled.add(new NetworkplanElement(3, 5, new int[] { 8 }, "erschalung Betonsockel"));
 				filled.add(new NetworkplanElement(4, 3, new int[] { 8 }, "Betonierung Betonsockel"));
 				filled.add(new NetworkplanElement(5, 10, new int[] { 6, 7 }, "Bestellung Betonteile"));
@@ -207,15 +207,15 @@ public class ShowNetworkplan extends JFrame {
 				break;
 
 			case 5 : //Testing a wrong networkplan element
-				filled.add(new NetworkplanElement(0, 2, new int[] { 1 }, "Ausgieﬂen Fundamente"));
-				filled.add(new NetworkplanElement(1, 2, new int[] { 0 }, "Ausgieﬂen Fundamente"));
+				filled.add(new NetworkplanElement(0, 2, new int[] { 1 }, "Ausgie√üen Fundamente"));
+				filled.add(new NetworkplanElement(1, 2, new int[] { 0 }, "Ausgie√üen Fundamente"));
 				break;
 
 			case 6 :
-				filled.add(new NetworkplanElement(1, 2, new int[] { 2, 3 }, "Ausgieﬂen Fundamente"));
-				filled.add(new NetworkplanElement(2, 5, new int[] { 4 }, "Ausgieﬂen Fundamente"));
-				filled.add(new NetworkplanElement(3, 20, new int[] { 4 }, "Ausgieﬂen Fundamente"));
-				filled.add(new NetworkplanElement(4, 2, new int[] { 0 }, "Ausgieﬂen Fundamente"));
+				filled.add(new NetworkplanElement(1, 2, new int[] { 2, 3 }, "Ausgie√üen Fundamente"));
+				filled.add(new NetworkplanElement(2, 5, new int[] { 4 }, "Ausgie√üen Fundamente"));
+				filled.add(new NetworkplanElement(3, 20, new int[] { 4 }, "Ausgie√üen Fundamente"));
+				filled.add(new NetworkplanElement(4, 2, new int[] { 0 }, "Ausgie√üen Fundamente"));
 				break;
 
 				/** Get the informations from the database */
@@ -287,8 +287,8 @@ public class ShowNetworkplan extends JFrame {
 				break;
 
 			default : // Example with setting of parent elements instead of childs
-				filled.add(new NetworkplanElement(1, 2, "Ausgieﬂen Fundamente", new int[] { 0 }));
-				filled.add(new NetworkplanElement(2, 2, "Ausgieﬂen Fundamente", new int[] { 1 }));
+				filled.add(new NetworkplanElement(1, 2, "Ausgie√üen Fundamente", new int[] { 0 }));
+				filled.add(new NetworkplanElement(2, 2, "Ausgie√üen Fundamente", new int[] { 1 }));
 				filled.add(new NetworkplanElement(3, 5, "Verschalung Betonsockel", new int[] { 2 }));
 				filled.add(new NetworkplanElement(4, 3, "Betonierung Betonsockel", new int[] { 3 }));
 				filled.add(new NetworkplanElement(5, 10, "Bestellung Betonteile", new int[] { 4 }));
@@ -303,11 +303,11 @@ public class ShowNetworkplan extends JFrame {
 				break;
 
 			case 9 : //More then one start element
-				filled.add(new NetworkplanElement(1, 2, "Ausgieﬂen Fundamente", new int[] { 0 }));
-				filled.add(new NetworkplanElement(2, 5, "Ausgieﬂen Fundamente", new int[] { 0 }));
-				filled.add(new NetworkplanElement(3, 20, "Ausgieﬂen Fundamente", new int[] { 1 }));
-				filled.add(new NetworkplanElement(4, 2, "Ausgieﬂen Fundamente", new int[] { 2, 3 }));
-				filled.add(new NetworkplanElement(5, 2, "Ausgieﬂen Fundamente", new int[] { 4 }));
+				filled.add(new NetworkplanElement(1, 2, "Ausgie√üen Fundamente", new int[] { 0 }));
+				filled.add(new NetworkplanElement(2, 5, "Ausgie√üen Fundamente", new int[] { 0 }));
+				filled.add(new NetworkplanElement(3, 20, "Ausgie√üen Fundamente", new int[] { 1 }));
+				filled.add(new NetworkplanElement(4, 2, "Ausgie√üen Fundamente", new int[] { 2, 3 }));
+				filled.add(new NetworkplanElement(5, 2, "Ausgie√üen Fundamente", new int[] { 4 }));
 				break;
 				
 			case 10 :

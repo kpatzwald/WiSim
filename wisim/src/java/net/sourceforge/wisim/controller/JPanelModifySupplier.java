@@ -2,7 +2,7 @@
 **   Copyright notice                                                       **
 **                                                                          **
 **   (c) 2003 WiSim Development Team					                              **
-**   http://wisim.sourceforge.net/   			                                  **
+**   https://github.com/kpatzwald/WiSim   			                                  **
 **                                                                          **
 **   All rights reserved                                                    **
 **                                                                          **
@@ -41,7 +41,7 @@ import java.util.logging.Level;
 import javax.swing.table.DefaultTableModel;
 
 /**
- * JPanelLieferantBearbeiten ermöglicht das bearbeiten eines Lieferanten.
+ * JPanelLieferantBearbeiten ermÃ¶glicht das bearbeiten eines Lieferanten.
  */
 public class JPanelModifySupplier extends javax.swing.JPanel {
 	private static final int HUB = 26;
@@ -71,7 +71,7 @@ public class JPanelModifySupplier extends javax.swing.JPanel {
 		lieferantenObjekte = new Hashtable();
 		alleArtikel = new Vector();
 		listeArtikel = new Vector();
-		listeArtikel.add("Bitte wählen");
+		listeArtikel.add("Bitte wÃ¤hlen");
 		format = new DecimalFormat("###,##0.00");
 	}
 
@@ -440,7 +440,7 @@ public class JPanelModifySupplier extends javax.swing.JPanel {
 	private void jComboBoxLieferantBearbeitenActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jComboBoxLieferantBearbeitenActionPerformed
 		/** [DoItBen] change action! */
 		if(jComboBoxLieferantBearbeiten.getSelectedItem() != null)  {
-			if (jComboBoxLieferantBearbeiten.getSelectedItem().equals("Bitte wählen")) {
+			if (jComboBoxLieferantBearbeiten.getSelectedItem().equals("Bitte wÃ¤hlen")) {
 				setStandard();
 			} else
 				loadSupplier();
@@ -452,7 +452,7 @@ public class JPanelModifySupplier extends javax.swing.JPanel {
 		loadSpareParts();
 	} //GEN-LAST:event_jComboBoxLieferantBearbeitenAncestorAdded
 
-	//Füllt die ComboBox Lieferantenliste mit den in der DB vorhandenen Lieferanten
+	//FÃ¼llt die ComboBox Lieferantenliste mit den in der DB vorhandenen Lieferanten
 	private void loadSuppliers() {
 		Collection lieferantenliste = null;
 		try {
@@ -462,7 +462,7 @@ public class JPanelModifySupplier extends javax.swing.JPanel {
 		}
 		DefaultComboBoxModel model = (DefaultComboBoxModel) jComboBoxLieferantBearbeiten.getModel();
 		model.removeAllElements();
-		model.addElement("Bitte wählen");
+		model.addElement("Bitte wÃ¤hlen");
 
 		// Verhindert NullPointerException bei einer leeren Liste
 		int indexcounter = 0;
@@ -482,7 +482,7 @@ public class JPanelModifySupplier extends javax.swing.JPanel {
 		}
 	}
 
-	//Lädt einen Kunden zum Bearbeiten aus der Datenbank
+	//LÃ¤dt einen Kunden zum Bearbeiten aus der Datenbank
 	private void loadSupplier() {
 
 		//liefert listItem des selektierten Eintrags        
@@ -510,7 +510,7 @@ public class JPanelModifySupplier extends javax.swing.JPanel {
 		}
 	}
 
-	//Füllt die ComboBox Einzelteile mit den in der DB vorhandenen Teilen
+	//FÃ¼llt die ComboBox Einzelteile mit den in der DB vorhandenen Teilen
 	private void loadSpareParts() {
 		Collection teile = null;
 		try {
@@ -520,7 +520,7 @@ public class JPanelModifySupplier extends javax.swing.JPanel {
 		}
 		DefaultComboBoxModel model = (DefaultComboBoxModel) jComboBoxNeuerLieferantArtikel.getModel();
 		model.removeAllElements();
-		model.addElement("Bitte wählen");
+		model.addElement("Bitte wÃ¤hlen");
 
 		// Verhindert NullPointerException bei einer leeren Liste
 		if (teile != null) {
@@ -610,9 +610,9 @@ public class JPanelModifySupplier extends javax.swing.JPanel {
 		}
 	}
 
-	//Setzt Lieferantenstatus auf gelöscht
+	//Setzt Lieferantenstatus auf gelÃ¶scht
 	private void deleteSupplier(int ltId) {
-		int submit = JOptionPane.showConfirmDialog(this, "Wollen Sie den Lieferanten wirklich löschen?", "Lieferant löschen", JOptionPane.YES_NO_OPTION);
+		int submit = JOptionPane.showConfirmDialog(this, "Wollen Sie den Lieferanten wirklich lÃ¶schen?", "Lieferant lÃ¶schen", JOptionPane.YES_NO_OPTION);
 		if (submit == 0) {
 			try {
 				dao.setLieferantLoeschStatus(ltId, true);
@@ -625,7 +625,7 @@ public class JPanelModifySupplier extends javax.swing.JPanel {
 		}
 	}
 
-	// Setzt nach dem Speichern und Löschen eines Lieferanten die Werte auf Standard
+	// Setzt nach dem Speichern und LÃ¶schen eines Lieferanten die Werte auf Standard
 	private void setStandard() {
 		jTextFieldNeuerLieferantVorname.setText("");
 		jTextFieldNeuerLieferantName.setText("");
@@ -638,7 +638,7 @@ public class JPanelModifySupplier extends javax.swing.JPanel {
 		jTextFieldNeuerLieferantFax.setText("");
 		jComboBoxNeuerLieferantLieferqualitaet.setSelectedIndex(2);
 		jComboBoxNeuerLieferantZuverlaessigkeit.setSelectedIndex(2);
-		jComboBoxNeuerLieferantArtikel.setSelectedItem("Bitte wählen");
+		jComboBoxNeuerLieferantArtikel.setSelectedItem("Bitte wÃ¤hlen");
 		jTextFieldLieferantBearbeitenArtikelPreis.setText("");
 		jTextFieldLieferantBearbeitenMindestAbnahme.setText("");
 		position = 0;
@@ -707,9 +707,9 @@ public class JPanelModifySupplier extends javax.swing.JPanel {
 		int auswahl = getSelLieferantenID();
 		if (auswahl != 0) {
 			deleteSupplier(getSelLieferantenID());
-			JOptionPane.showMessageDialog(this, "Der Lieferant wurde erfolgreich gelöscht.", "Vertrag", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(this, "Der Lieferant wurde erfolgreich gelÃ¶scht.", "Vertrag", JOptionPane.INFORMATION_MESSAGE);
 		} else {
-			JOptionPane.showMessageDialog(this, "Bitte wählen Sie erst einen Lieferanten aus.", "Fehler beim Löschen eines Kunden", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, "Bitte wÃ¤hlen Sie erst einen Lieferanten aus.", "Fehler beim LÃ¶schen eines Kunden", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -724,7 +724,7 @@ public class JPanelModifySupplier extends javax.swing.JPanel {
 			while (!plzOk && plz != null) {
 
 				if (!validate.checkPlz(plz)) {
-					plz = JOptionPane.showInputDialog("Ungültige PLZ! Bitte neu eingeben:", plz);
+					plz = JOptionPane.showInputDialog("UngÃ¼ltige PLZ! Bitte neu eingeben:", plz);
 				} else {
 					plzOk = true;
 				}
@@ -748,7 +748,7 @@ public class JPanelModifySupplier extends javax.swing.JPanel {
 			while (!emailOk && email != null) {
 
 				if (!validate.checkEMail(email)) {
-					email = JOptionPane.showInputDialog("Ungültige eMail! Bitte neu eingeben:", email);
+					email = JOptionPane.showInputDialog("UngÃ¼ltige eMail! Bitte neu eingeben:", email);
 				} else {
 					emailOk = true;
 				}
@@ -769,7 +769,7 @@ public class JPanelModifySupplier extends javax.swing.JPanel {
 		if (!zahl.equals("")) {
 			while (!zahlOk && zahl != null) {
 				if (!validate.checkZahl(zahl)) {
-					zahl = JOptionPane.showInputDialog("Ungültige Zahl!", zahl);
+					zahl = JOptionPane.showInputDialog("UngÃ¼ltige Zahl!", zahl);
 				} else {
 					zahlOk = true;
 				}
@@ -790,7 +790,7 @@ public class JPanelModifySupplier extends javax.swing.JPanel {
 		if (!preis.equals("")) {
 			while (!preisOk && preis != null) {
 				if (!validate.checkPreis(preis)) {
-					preis = JOptionPane.showInputDialog("Ungültiger Peis! Bitte geben Sie den Preis implements Format xx.xx ein!", preis);
+					preis = JOptionPane.showInputDialog("UngÃ¼ltiger Peis! Bitte geben Sie den Preis implements Format xx.xx ein!", preis);
 
 				} else {
 					preisOk = true;
@@ -816,7 +816,7 @@ public class JPanelModifySupplier extends javax.swing.JPanel {
 			row++;
 		}
 
-		//Selektierte Zeile wird gelöscht
+		//Selektierte Zeile wird gelÃ¶scht
 
 		if (selectedPosition >= 0) {
 
@@ -867,7 +867,7 @@ public class JPanelModifySupplier extends javax.swing.JPanel {
 		if (errors.isEmpty()) {
 			String artikel = jComboBoxNeuerLieferantArtikel.getSelectedItem().toString();
 
-			if (!artikel.equals("Bitte wählen")) {
+			if (!artikel.equals("Bitte wÃ¤hlen")) {
 				String preis = jTextFieldLieferantBearbeitenArtikelPreis.getText();
 				int menge = Integer.parseInt(jTextFieldLieferantBearbeitenMindestAbnahme.getText());
 
@@ -881,7 +881,7 @@ public class JPanelModifySupplier extends javax.swing.JPanel {
 
 				if (!zubehoerTabelle.containsValue(String.valueOf(jComboBoxNeuerLieferantArtikel.getSelectedIndex()))) {
 
-					//Position hinzufügen:
+					//Position hinzufÃ¼gen:
 					WiSimComponent teil = new WiSimComponent();
 					WiSimComponent eteil = (WiSimComponent) alleArtikel.get(jComboBoxNeuerLieferantArtikel.getSelectedIndex());
 					teil.setNr(eteil.getNr());
@@ -920,9 +920,9 @@ public class JPanelModifySupplier extends javax.swing.JPanel {
 			}
 		} else {
 			if (errors.size() > 1)
-				JOptionPane.showMessageDialog(this, "Folgende Felder müssen ausgefüllt werden: " + errors.toString().substring(1, errors.toString().length() - 1), "Fehler beim Hinzufügen des Artikels", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this, "Folgende Felder mÃ¼ssen ausgefÃ¼llt werden: " + errors.toString().substring(1, errors.toString().length() - 1), "Fehler beim HinzufÃ¼gen des Artikels", JOptionPane.ERROR_MESSAGE);
 			else
-				JOptionPane.showMessageDialog(this, "Das folgende Feld muss ausgefüllt werden: " + errors.toString().substring(1, errors.toString().length() - 1), "Fehler beim Hinzufügen des Artikels", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this, "Das folgende Feld muss ausgefÃ¼llt werden: " + errors.toString().substring(1, errors.toString().length() - 1), "Fehler beim HinzufÃ¼gen des Artikels", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -930,7 +930,7 @@ public class JPanelModifySupplier extends javax.swing.JPanel {
 		int auswahl = getSelLieferantenID();
 
 		if (auswahl == 0) {
-			JOptionPane.showMessageDialog(this, "Bitte wählen Sie erst einen Lieferanten aus.", "Fehler beim Löschen eines Kunden", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, "Bitte wÃ¤hlen Sie erst einen Lieferanten aus.", "Fehler beim LÃ¶schen eines Kunden", JOptionPane.ERROR_MESSAGE);
 		} else {
 			Vector check = new Vector();
 			if (jTextFieldNeuerLieferantFirma.getText().equals(""))
@@ -950,9 +950,9 @@ public class JPanelModifySupplier extends javax.swing.JPanel {
 			if (!check.isEmpty()) {
 
 				if (check.size() > 1)
-					JOptionPane.showMessageDialog(this, "Folgende Felder müssen ausgefüllt werden: " + check.toString().substring(1, check.toString().length() - 1), "Fehler beim Bearbeiten des Lieferanten", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(this, "Folgende Felder mÃ¼ssen ausgefÃ¼llt werden: " + check.toString().substring(1, check.toString().length() - 1), "Fehler beim Bearbeiten des Lieferanten", JOptionPane.ERROR_MESSAGE);
 				else
-					JOptionPane.showMessageDialog(this, "Folgende Felder müssen ausgefüllt werden: " + check.toString().substring(1, check.toString().length() - 1), "Fehler beim Bearbeiten des Lieferanten", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(this, "Folgende Felder mÃ¼ssen ausgefÃ¼llt werden: " + check.toString().substring(1, check.toString().length() - 1), "Fehler beim Bearbeiten des Lieferanten", JOptionPane.ERROR_MESSAGE);
 			} else {
 
 				//liefert listItem des selektierten Eintrags
@@ -1016,7 +1016,7 @@ public class JPanelModifySupplier extends javax.swing.JPanel {
 					wiSimLogger.log("jButtonLieferantenAnlegen1ActionPerformed()", e);
 				}
 			}
-			JOptionPane.showMessageDialog(this, "Die Änderungen des Lieferanten wurde erfolgreich gespeichert.", "Lieferant", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(this, "Die Ã„nderungen des Lieferanten wurde erfolgreich gespeichert.", "Lieferant", JOptionPane.INFORMATION_MESSAGE);
 		}
 
 	}

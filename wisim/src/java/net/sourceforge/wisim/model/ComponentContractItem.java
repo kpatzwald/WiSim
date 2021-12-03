@@ -2,7 +2,7 @@
 **   Copyright notice                                                       **
 **                                                                          **
 **   (c) 2003 WiSim Development Team					                              **
-**   http://wisim.sourceforge.net/   			                                  **
+**   https://github.com/kpatzwald/WiSim   			                                  **
 **                                                                          **
 **   All rights reserved                                                    **
 **                                                                          **
@@ -24,7 +24,7 @@
 /*
  * EinzelteilauftragPositionen.java
  *
- * Created on 8. März 2003, 15:46
+ * Created on 8. MÃ¤rz 2003, 15:46
  */
 
 package net.sourceforge.wisim.model;

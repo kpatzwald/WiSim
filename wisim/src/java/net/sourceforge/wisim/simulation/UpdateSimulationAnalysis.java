@@ -2,7 +2,7 @@
 **   Copyright notice                                                       **
 **                                                                          **
 **   (c) 2003 WiSim Development Team					                              **
-**   http://wisim.sourceforge.net/   			                                  **
+**   https://github.com/kpatzwald/WiSim   			                                  **
 **                                                                          **
 **   All rights reserved                                                    **
 **                                                                          **
@@ -28,9 +28,9 @@ import java.util.*;
 import net.sourceforge.wisim.controller.JPanelSimulationAnalysis;
 import net.sourceforge.wisim.controller.WiSimMainController;
 
-/** Überprüft das ActualTime Objekt in dem die aktuelle Zeit gespeichert wird. Bei
+/** ÃœberprÃ¼ft das ActualTime Objekt in dem die aktuelle Zeit gespeichert wird. Bei
  *  einem Minutenwechsel aktualisiert der Thread das jPanelSimulationAnalysis, sowie die
- *  Datumsanzeige im Menü von dem aus sich alle Panes das Datum herholen.
+ *  Datumsanzeige im MenÃ¼ von dem aus sich alle Panes das Datum herholen.
  *  @author benjamin.pasero
  */
 public class UpdateSimulationAnalysis extends Thread {
@@ -71,7 +71,7 @@ public class UpdateSimulationAnalysis extends Thread {
 	}
 
 	/** Startet diesen Thread und wartet solange bis sich die Minute im Objekt actTime
-	 * geändert hat.
+	 * geÃ¤ndert hat.
 	 */
 	public void run() {
 		while (true) {
@@ -88,7 +88,7 @@ public class UpdateSimulationAnalysis extends Thread {
 			//Refresh
 			//jPanelSimulationAnalysis.setActDate(new java.sql.Date(actDate.getTime()));
 
-			//Zeitanzeige im Menü wird aktualisiert
+			//Zeitanzeige im MenÃ¼ wird aktualisiert
 			wiSimMainController.refreshTextFieldDate(actDate);
 
 			//Bei Tageswechsel Refresh der Auswertung

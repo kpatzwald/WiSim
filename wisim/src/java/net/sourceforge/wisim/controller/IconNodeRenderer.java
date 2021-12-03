@@ -2,7 +2,7 @@
 **   Copyright notice                                                       **
 **                                                                          **
 **   (c) 2003 WiSim Development Team					                              **
-**   http://wisim.sourceforge.net/   			                                  **
+**   https://github.com/kpatzwald/WiSim   			                                  **
 **                                                                          **
 **   All rights reserved                                                    **
 **                                                                          **
@@ -28,7 +28,7 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.tree.*;
 
-/** Der CellRenderer für einen JTree mit IconNodes. Erlaubt es jedem Node im JTree ein eigenes Icon
+/** Der CellRenderer fÃ¼r einen JTree mit IconNodes. Erlaubt es jedem Node im JTree ein eigenes Icon
  * zuzuweisen.
  * Diese Klasse wurde von:
  * http://www.codeguru.com/java/articles/187.shtml

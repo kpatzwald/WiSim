@@ -2,7 +2,7 @@
 **   Copyright notice                                                       **
 **                                                                          **
 **   (c) 2003 WiSim Development Team					                              **
-**   http://wisim.sourceforge.net/   			                                  **
+**   https://github.com/kpatzwald/WiSim   			                                  **
 **                                                                          **
 **   All rights reserved                                                    **
 **                                                                          **
@@ -67,7 +67,7 @@ public class ConstructWindowMenu implements ActionListener {
       private void constructMenuItems(JMenu sourceMenu, boolean tileMode) {
 
             sourceMenu.add(new BaseMenuItem(this, "Nebeneinander", 'N', -1));
-            sourceMenu.add(new BaseMenuItem(this, "‹berlappend", '‹', -1));
+            sourceMenu.add(new BaseMenuItem(this, "√úberlappend", '√ú', -1));
             sourceMenu.addSeparator();
 
             JMenu autoMenu = new JMenu("Auto");
@@ -83,8 +83,8 @@ public class ConstructWindowMenu implements ActionListener {
 
             radioItem = 
                   new BaseRadioButtonMenuItem(this, 
-                        "‹berlappend", KeyEvent.VK_C, -1, !tileMode);
-						radioItem.setMnemonic('‹');
+                        "√úberlappend", KeyEvent.VK_C, -1, !tileMode);
+						radioItem.setMnemonic('√ú');
             autoMenu.add(radioItem);
             autoMenuGroup.add(radioItem);
 
@@ -92,7 +92,7 @@ public class ConstructWindowMenu implements ActionListener {
             sourceMenu.addSeparator();
 
             sourceMenu.add(new BaseMenuItem(this, 
-                  "Schlieﬂen", KeyEvent.VK_S, KeyEvent.VK_Z));
+                  "Schlie√üen", KeyEvent.VK_S, KeyEvent.VK_Z));
             sourceMenu.addSeparator();
 
       }

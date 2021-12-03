@@ -2,7 +2,7 @@
 **   Copyright notice                                                       **
 **                                                                          **
 **   (c) 2003 WiSim Development Team					                              **
-**   http://wisim.sourceforge.net/   			                                  **
+**   https://github.com/kpatzwald/WiSim   			                                  **
 **                                                                          **
 **   All rights reserved                                                    **
 **                                                                          **
@@ -24,7 +24,7 @@
 /*
  * UpdateWarehouseThread.java
  *
- * Created on 28. M‰rz 2003, 18:51
+ * Created on 28. M√§rz 2003, 18:51
  */
 
 package net.sourceforge.wisim.simulation;
@@ -35,8 +35,8 @@ import net.sourceforge.wisim.controller.JPanelWarehouse;
 import net.sourceforge.wisim.controller.JPanelWorkPlaceStore;
 import net.sourceforge.wisim.controller.WiSimMainController;
 
-/** Solange dieser Thread l‰uft aktualisiert er die WarehouseLocation-Listen. Dazu gehˆrt
- * das JPane Lager und WorkPlace. Es wird auﬂerdem die Einzelteilauftrags-‹bersicht
+/** Solange dieser Thread l√§uft aktualisiert er die WarehouseLocation-Listen. Dazu geh√∂rt
+ * das JPane Lager und WorkPlace. Es wird au√üerdem die Einzelteilauftrags-√úbersicht
  * aktualisiert.
  * @author benjamin.pasero
  */
@@ -85,7 +85,7 @@ public class UpdateWarehouseThread extends Thread {
 		}
 	}
 
-	/** Aktualisiert Lageransichten alle 500ms solange der Thread l‰uft. */
+	/** Aktualisiert Lageransichten alle 500ms solange der Thread l√§uft. */
 	public void run() {
 		while (true) {
 			if (isInterrupted()) {

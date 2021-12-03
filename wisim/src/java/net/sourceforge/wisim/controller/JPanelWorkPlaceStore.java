@@ -2,7 +2,7 @@
 **   Copyright notice                                                       **
 **                                                                          **
 **   (c) 2003 WiSim Development Team					                              **
-**   http://wisim.sourceforge.net/   			                                  **
+**   https://github.com/kpatzwald/WiSim   			                                  **
 **                                                                          **
 **   All rights reserved                                                    **
 **                                                                          **
@@ -24,7 +24,7 @@
 /*
  * JPanelArbeitsplatzlager.java
  *
- * Created on 21. März 2003, 21:04
+ * Created on 21. MÃ¤rz 2003, 21:04
  */
 
 package net.sourceforge.wisim.controller;
@@ -36,7 +36,7 @@ import javax.swing.table.*;
 import javax.swing.*;
 
 /**
- * Gibt eine Tabellenübersicht aller Arbeitsplätze mit den Beständen der
+ * Gibt eine TabellenÃ¼bersicht aller ArbeitsplÃ¤tze mit den BestÃ¤nden der
  * jeweiligen Einzelteile aus. Es lassen sich die Anzahl der Arbeiter
  * pro WorkPlace einstellen.
  * @author  benjamin.pasero
@@ -194,7 +194,7 @@ public class JPanelWorkPlaceStore extends javax.swing.JPanel implements Refresha
 		});
 
 		jTableArbeitsplaetze.setModel(new javax.swing.table.DefaultTableModel(new Object[][] {
-		}, new String[] { "Nr. ", "Beschreibung", "Vorgänger", "Nachfolger", "Zeit", "Eingangslager", "Ausgangslager" }) {
+		}, new String[] { "Nr. ", "Beschreibung", "VorgÃ¤nger", "Nachfolger", "Zeit", "Eingangslager", "Ausgangslager" }) {
 			boolean[] canEdit = new boolean[] { false, false, false, false, false, false, false };
 
 			public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -461,7 +461,7 @@ public class JPanelWorkPlaceStore extends javax.swing.JPanel implements Refresha
 	private void setWorkPlaceStorage() {
 		//DefaultTableModel mit Variablen Zeilen, 4 TableHeads und nicht editierbaren Zellen
 		Object[][] tableInit = new Object[apAnzahl][7];
-		DefaultTableModel defTable = new DefaultTableModel(tableInit, new String[] { "Nr. ", "Beschreibung", "Vorgänger", "Nachfolger", "Zeit", "Eingangslager", "Ausgangslager" }) {
+		DefaultTableModel defTable = new DefaultTableModel(tableInit, new String[] { "Nr. ", "Beschreibung", "VorgÃ¤nger", "Nachfolger", "Zeit", "Eingangslager", "Ausgangslager" }) {
 			boolean[] canEdit = new boolean[] { false, false, false, false, false, false, false };
 			public boolean isCellEditable(int rowIndex, int columnIndex) {
 				return canEdit[columnIndex];
@@ -488,7 +488,7 @@ public class JPanelWorkPlaceStore extends javax.swing.JPanel implements Refresha
 				case 1 :
 					column.setPreferredWidth(300);
 					break;
-					//Vorgänger
+					//VorgÃ¤nger
 				case 2 :
 					column.setPreferredWidth(80);
 					break;
@@ -554,7 +554,7 @@ public class JPanelWorkPlaceStore extends javax.swing.JPanel implements Refresha
 				wiSimLogger.log("refreshArbeitsplatzLagerElementeTabelle()", e);
 			}
 
-			//Zelle wird nur refreshed wenn sich der Bestand geändert hat!
+			//Zelle wird nur refreshed wenn sich der Bestand geÃ¤ndert hat!
 			if (!((String) tempEingangslagerBestand.get(i)).equals(String.valueOf(apLager.getBestand()))) {
 				tempEingangslagerBestand.setElementAt(String.valueOf(apLager.getBestand()), i);
 				jprg = new JProgressBar(0, 10);
@@ -569,7 +569,7 @@ public class JPanelWorkPlaceStore extends javax.swing.JPanel implements Refresha
 				wiSimLogger.log("refreshArbeitsplatzLagerElementeTabelle()", e);
 			}
 
-			//Zelle wird nur refreshed wenn sich der Bestand geändert hat!
+			//Zelle wird nur refreshed wenn sich der Bestand geÃ¤ndert hat!
 			if (!((String) tempAusgangslagerBestand.get(i)).equals(String.valueOf(apLager.getBestand()))) {
 				tempAusgangslagerBestand.setElementAt(String.valueOf(apLager.getBestand()), i);
 				jprg = new JProgressBar(0, 10);
@@ -595,7 +595,7 @@ public class JPanelWorkPlaceStore extends javax.swing.JPanel implements Refresha
 				while (arbeitsplatzLager_it.hasNext()) {
 					WorkPlaceStore apLager = (WorkPlaceStore) arbeitsplatzLager_it.next();
 
-					//Zelle wird nur aktualisiert wenn sich der Bestand geändert hat.
+					//Zelle wird nur aktualisiert wenn sich der Bestand geÃ¤ndert hat.
 					if (jTableGesamtliste.getValueAt(i, 1) != null && !jTableGesamtliste.getValueAt(i, 1).equals("")) {
 						if (apLager.getBestand() != Integer.parseInt((String) jTableGesamtliste.getValueAt(i, 1))) {
 
@@ -626,7 +626,7 @@ public class JPanelWorkPlaceStore extends javax.swing.JPanel implements Refresha
 		}
 	}
 
-	/** Löscht die GesamtListe unterhalb der Arbeitsplatztabelle. */
+	/** LÃ¶scht die GesamtListe unterhalb der Arbeitsplatztabelle. */
 	private void resetMainTable() {
 		int i = jTableGesamtliste.getRowCount() - 1;
 		while (i >= 0) {
@@ -665,8 +665,8 @@ public class JPanelWorkPlaceStore extends javax.swing.JPanel implements Refresha
 	}
 
 	/** Wurde das Pane schon einmal aufgebaut, so ist "isBuilt" = TRUE.
-	 *  Wichtig ist diese Variable für die Simulation: Wurde das Pane
-	 *  schon einmal aufgebaut, so müssen die Simulationsthread das Pane
+	 *  Wichtig ist diese Variable fÃ¼r die Simulation: Wurde das Pane
+	 *  schon einmal aufgebaut, so mÃ¼ssen die Simulationsthread das Pane
 	 *  nicht noch einmal initialisieren!
 	 * @return boolean isBuilt
 	 */

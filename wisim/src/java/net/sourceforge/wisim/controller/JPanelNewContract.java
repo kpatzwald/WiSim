@@ -2,7 +2,7 @@
 **   Copyright notice                                                       **
 **                                                                          **
 **   (c) 2003 WiSim Development Team					                              **
-**   http://wisim.sourceforge.net/   			                                  **
+**   https://github.com/kpatzwald/WiSim   			                                  **
 **                                                                          **
 **   All rights reserved                                                    **
 **                                                                          **
@@ -679,7 +679,7 @@ public class JPanelNewContract extends JPanel {
 	}//GEN-LAST:event_jButtonNeuerVertragSpeichernActionPerformed
 
 	/**
-	 * Method pruefeSkontofrist. Überprüft, ob eine Zahl und das etwas eingegeben wurde.
+	 * Method pruefeSkontofrist. ÃœberprÃ¼ft, ob eine Zahl und das etwas eingegeben wurde.
 	 * Wenn vom Benutzer etwas falsches eingegeben wurde, wird er zu Korrektueingabe
 	 * aufgefordert.
 	 */
@@ -688,12 +688,12 @@ public class JPanelNewContract extends JPanel {
 		String skontofrist = jTextFieldSkontofristTage.getText();
 		boolean skontofristOk = false;
 		if (!skontofrist.equals("") && skontofrist != null) {
-			//So lange der Benutzer keine richtige Eingabe gemacht hat und nicht auf Abbrechen geklickt hat wird die Skontofrist immer wieder überprüft
+			//So lange der Benutzer keine richtige Eingabe gemacht hat und nicht auf Abbrechen geklickt hat wird die Skontofrist immer wieder Ã¼berprÃ¼ft
 			while (!skontofristOk && skontofrist != null) {
 				//Erlaubt sind nur Eingaben von Zahlen
 				if (!validate.checkZahl(skontofrist)) {
 					jOptionPaneConfirm.setWantsInput(true);
-					skontofrist = JOptionPane.showInputDialog(this, "Ungültige Skontofrist! Bitte neu eingeben:", skontofrist);
+					skontofrist = JOptionPane.showInputDialog(this, "UngÃ¼ltige Skontofrist! Bitte neu eingeben:", skontofrist);
 				} else {
 					skontofristOk = true;
 				}
@@ -722,7 +722,7 @@ public class JPanelNewContract extends JPanel {
 	}
 
 	/**
-	 * Method pruefeSkonto. Überprüft, ob ein korrekter Skontowert eingegeben wurde.
+	 * Method pruefeSkonto. ÃœberprÃ¼ft, ob ein korrekter Skontowert eingegeben wurde.
 	 * Wenn vom Benutzer etwas falsches eingegeben wurde, wird er zu Korrektueingabe
 	 * aufgefordert.
 	 */
@@ -734,14 +734,14 @@ public class JPanelNewContract extends JPanel {
 
 		if (!skonto.equals("") && skonto != null) {
 
-			//So lange der Benutzer keine richtige Eingabe gemacht hat und nicht auf Abbrechen geklickt hat wird der Skontowert immer wieder geprüft
+			//So lange der Benutzer keine richtige Eingabe gemacht hat und nicht auf Abbrechen geklickt hat wird der Skontowert immer wieder geprÃ¼ft
 			while (!skontoOk && skonto != null) {
 				/*Erlaubt sind nur Eingaben von 1- oder 2-stellige Zahlen mit 1 Nachkommastelle
 				getrennt durch einen Punkt*/
 
 				if (!validate.checkPercent(skonto)) {
 					jOptionPaneConfirm.setWantsInput(true);
-					skonto = JOptionPane.showInputDialog(this, "Ungültiger Skonto-Wert (Format: xx.xx)! Bitte neu eingeben:", skonto);
+					skonto = JOptionPane.showInputDialog(this, "UngÃ¼ltiger Skonto-Wert (Format: xx.xx)! Bitte neu eingeben:", skonto);
 				} else {
 					skontoOk = true;
 				}
@@ -756,7 +756,7 @@ public class JPanelNewContract extends JPanel {
 	}
 
 	/**
-	 * Method pruefeRabatt. Überprüft, ob ein korrekter Rabattwert eingegeben wurde.
+	 * Method pruefeRabatt. ÃœberprÃ¼ft, ob ein korrekter Rabattwert eingegeben wurde.
 	 * Wenn vom Benutzer etwas falsches eingegeben wurde, wird er zu Korrektueingabe
 	 * aufgefordert.
 	 */
@@ -768,14 +768,14 @@ public class JPanelNewContract extends JPanel {
 
 		if (!rabatt.equals("") && rabatt != null) {
 
-			//So lange der Benutzer keine richtige Eingabe gemacht hat und nicht auf Abbrechen geklickt hat wird der Rabatt immer wieder überprüft
+			//So lange der Benutzer keine richtige Eingabe gemacht hat und nicht auf Abbrechen geklickt hat wird der Rabatt immer wieder Ã¼berprÃ¼ft
 			while (!rabattOk && rabatt != null) {
 				/*Erlaubt sind nur Eingaben von 1- oder 2-stellige Zahlen mit 1 Nachkommastelle
 				getrennt durch einen Punkt*/
 
 				if (!validate.checkPercent(rabatt)) {
 					jOptionPaneConfirm.setWantsInput(true);
-					rabatt = JOptionPane.showInputDialog(this, "Ungültiger Rabatt (Format: xx.xx)! Bitte neu eingeben:", rabatt);
+					rabatt = JOptionPane.showInputDialog(this, "UngÃ¼ltiger Rabatt (Format: xx.xx)! Bitte neu eingeben:", rabatt);
 				} else {
 					rabattOk = true;
 				}
@@ -789,7 +789,7 @@ public class JPanelNewContract extends JPanel {
 	}
 
 	/**
-	 * Method pruefeLieferdatumTag. Überprüft den eingegebenen Lieferdatumstag.
+	 * Method pruefeLieferdatumTag. ÃœberprÃ¼ft den eingegebenen Lieferdatumstag.
 	 * Wenn vom Benutzer etwas falsches eingegeben wurde, wird er zu Korrektueingabe
 	 * aufgefordert.
 	 */
@@ -797,12 +797,12 @@ public class JPanelNewContract extends JPanel {
 		String lieferdatum = jTextFieldNeuerVertragTag.getText();
 		boolean lieferdatumOk = false;
 		if (!lieferdatum.equals("") && lieferdatum != null) {
-			//So lange der Benutzer keine richtige Eingabe gemacht hat und nicht auf Abbrechen geklickt hat wird das Lieferdatum immer wieder überprüft
+			//So lange der Benutzer keine richtige Eingabe gemacht hat und nicht auf Abbrechen geklickt hat wird das Lieferdatum immer wieder Ã¼berprÃ¼ft
 			while (!lieferdatumOk && lieferdatum != null) {
 				//Erlaubt sind nur Eingaben von 1- oder 2-stellige Zahlen
 				if (!validate.checkTwoDigits(lieferdatum) || Integer.parseInt(lieferdatum) > 31) {
 					jOptionPaneConfirm.setWantsInput(true);
-					lieferdatum = JOptionPane.showInputDialog(this, "Ungültiger Tag! Bitte neu eingeben:", lieferdatum);
+					lieferdatum = JOptionPane.showInputDialog(this, "UngÃ¼ltiger Tag! Bitte neu eingeben:", lieferdatum);
 				} else {
 					lieferdatumOk = true;
 				}
@@ -816,7 +816,7 @@ public class JPanelNewContract extends JPanel {
 	}
 
 	/**
-	 * Method pruefeLieferdatumMonat. Überprüft den eingegebenen Lieferdatumsmonat.
+	 * Method pruefeLieferdatumMonat. ÃœberprÃ¼ft den eingegebenen Lieferdatumsmonat.
 	 * Wenn vom Benutzer etwas falsches eingegeben wurde, wird er zu Korrektueingabe
 	 * aufgefordert.
 	 */
@@ -824,12 +824,12 @@ public class JPanelNewContract extends JPanel {
 		String lieferdatum = jTextFieldNeuerVertragMonat.getText();
 		boolean lieferdatumOk = false;
 		if (!lieferdatum.equals("") && lieferdatum != null) {
-			//So lange der Benutzer keine richtige Eingabe gemacht hat und nicht auf Abbrechen geklickt hat wird das Lieferdatum immer wieder überprüft
+			//So lange der Benutzer keine richtige Eingabe gemacht hat und nicht auf Abbrechen geklickt hat wird das Lieferdatum immer wieder Ã¼berprÃ¼ft
 			while (!lieferdatumOk && lieferdatum != null) {
-				//Erlaubt sind nur Eingaben von 1- oder 2-stellige Zahlen || Monatsangabe darf nicht größer 12 sein
+				//Erlaubt sind nur Eingaben von 1- oder 2-stellige Zahlen || Monatsangabe darf nicht grÃ¶ÃŸer 12 sein
 				if (!validate.checkTwoDigits(lieferdatum) || Integer.parseInt(lieferdatum) > 12) {
 					jOptionPaneConfirm.setWantsInput(true);
-					lieferdatum = JOptionPane.showInputDialog(this, "Ungültiger Monat! Bitte neu eingeben:", lieferdatum);
+					lieferdatum = JOptionPane.showInputDialog(this, "UngÃ¼ltiger Monat! Bitte neu eingeben:", lieferdatum);
 				} else {
 					lieferdatumOk = true;
 				}
@@ -843,7 +843,7 @@ public class JPanelNewContract extends JPanel {
 	}
 
 	/**
-	 * Method pruefeLieferdatumJahr. Überprüft das eingegebene Lieferdatumsjahr.
+	 * Method pruefeLieferdatumJahr. ÃœberprÃ¼ft das eingegebene Lieferdatumsjahr.
 	 * Wenn vom Benutzer etwas falsches eingegeben wurde, wird er zu Korrektueingabe
 	 * aufgefordert.
 	 */
@@ -851,12 +851,12 @@ public class JPanelNewContract extends JPanel {
 		String lieferdatum = jTextFieldNeuerVertragJahr.getText();
 		boolean lieferdatumOk = false;
 		if (!lieferdatum.equals("") && lieferdatum != null) {
-			//So lange der Benutzer keine richtige Eingabe gemacht hat und nicht auf Abbrechen geklickt hat wird das Lieferdatum immer wieder überprüft
+			//So lange der Benutzer keine richtige Eingabe gemacht hat und nicht auf Abbrechen geklickt hat wird das Lieferdatum immer wieder Ã¼berprÃ¼ft
 			while (!lieferdatumOk && lieferdatum != null) {
 				/*Erlaubt sind nur Eingaben von 4-stelligen Zahlen die nicht mit 0 beginnen*/
 				if (!validate.checkYear(lieferdatum)) {
 					jOptionPaneConfirm.setWantsInput(true);
-					lieferdatum = JOptionPane.showInputDialog(this, "Ungültiges Jahr! Bitte neu eingeben:", lieferdatum);
+					lieferdatum = JOptionPane.showInputDialog(this, "UngÃ¼ltiges Jahr! Bitte neu eingeben:", lieferdatum);
 				} else {
 					lieferdatumOk = true;
 				}
@@ -870,7 +870,7 @@ public class JPanelNewContract extends JPanel {
 	}
 
 	/**
-	 * Method pruefeAbnahmemenge. Überprüft die Abnahmemenge.
+	 * Method pruefeAbnahmemenge. ÃœberprÃ¼ft die Abnahmemenge.
 	 * Wenn der Benutzer etwas falsche eingibt, wird er zur Korrektureingabe
 	 * gefordert.
 	 */
@@ -878,12 +878,12 @@ public class JPanelNewContract extends JPanel {
 		String abnahmemenge = jTextFieldNeuerVertragAbnahmemenge.getText();
 		boolean abnahmemengeOk = false;
 		if (!abnahmemenge.equals("") && abnahmemenge != null) {
-			//So lange der Benutzer keine richtige Eingabe gemacht hat und nicht auf Abbrechen geklickt hat wird die Abnahmemenge immer wieder überprüft
+			//So lange der Benutzer keine richtige Eingabe gemacht hat und nicht auf Abbrechen geklickt hat wird die Abnahmemenge immer wieder Ã¼berprÃ¼ft
 			while (!abnahmemengeOk && abnahmemenge != null) {
 				/*Erlaubt sind nur Eingaben von Zahlen und nur 10-stellig*/
 				if (!validate.checkZahl(abnahmemenge)) {
 					jOptionPaneConfirm.setWantsInput(true);
-					abnahmemenge = JOptionPane.showInputDialog(this, "Ungültige Mengenangabe (Format: 1 - 999)! Bitte neu eingeben:", abnahmemenge);
+					abnahmemenge = JOptionPane.showInputDialog(this, "UngÃ¼ltige Mengenangabe (Format: 1 - 999)! Bitte neu eingeben:", abnahmemenge);
 				} else {
 					abnahmemengeOk = true;
 				}
@@ -986,7 +986,7 @@ public class JPanelNewContract extends JPanel {
 	}
 
 	/**
-	 * Method ladeKunden. Lädt alle Kunden aus der Datenbank.
+	 * Method ladeKunden. LÃ¤dt alle Kunden aus der Datenbank.
 	 */
 	private void loadCustomer() {
 		Collection kunden = null;
@@ -998,7 +998,7 @@ public class JPanelNewContract extends JPanel {
 
 		DefaultComboBoxModel model = (DefaultComboBoxModel) jComboBoxKunde.getModel();
 		model.removeAllElements();
-		model.addElement("Bitte wählen:");
+		model.addElement("Bitte wÃ¤hlen:");
 
 		// Verhindert NullPointerException bei einer leeren Liste
 		if (kunden != null) {
@@ -1018,15 +1018,15 @@ public class JPanelNewContract extends JPanel {
 	}
 
 	/**
-	 * Method ladeKundendaten. Lädt den Kundentyp, Zahlungsmoral und Ansprüche
-	 * zum ausgewählten Kunden aus der Hashtable kundeObjekt.
+	 * Method ladeKundendaten. LÃ¤dt den Kundentyp, Zahlungsmoral und AnsprÃ¼che
+	 * zum ausgewÃ¤hlten Kunden aus der Hashtable kundeObjekt.
 	 */
 	private void loadCustomerData() {
 
 		//liefert listItem des selektierten Eintrags
 		String listItem = String.valueOf(jComboBoxKunde.getSelectedItem());
 
-		//sucht das ausgewählte KundenObjekt in Hashtabelle kundeObjekt
+		//sucht das ausgewÃ¤hlte KundenObjekt in Hashtabelle kundeObjekt
 		Customer auswahlKunde = (Customer) kundeObjekt.get(listItem);
 
 		if (auswahlKunde != null) {
@@ -1053,7 +1053,7 @@ public class JPanelNewContract extends JPanel {
 				}
 			}
 
-			//Gibt aus dem vorher ausgewähltem und dann gespeichertem Kundenobjekt die Daten zu Kundentyp, Zahlungsmoral und Ansprüche aus
+			//Gibt aus dem vorher ausgewÃ¤hltem und dann gespeichertem Kundenobjekt die Daten zu Kundentyp, Zahlungsmoral und AnsprÃ¼che aus
 			jTextFieldNeuerVertragKundentyp.setText(auswahlKunde.getKundentyp());
 			jTextFieldNeuerVertragAnsprueche.setText(auswahlKunde.getAnspruch());
 			jTextFieldNeuerVertragZahlungsmoral.setText(auswahlKunde.getZahlungsmoral());
@@ -1067,7 +1067,7 @@ public class JPanelNewContract extends JPanel {
 	}
 
 	/**
-	 * Method ladeArtikel. Lädt die Article aus der Datenbank.
+	 * Method ladeArtikel. LÃ¤dt die Article aus der Datenbank.
 	 */
 	private void loadArticle() {
 		Collection artikel = null;
@@ -1079,7 +1079,7 @@ public class JPanelNewContract extends JPanel {
 
 		DefaultComboBoxModel model = (DefaultComboBoxModel) jComboBoxArtikel.getModel();
 		model.removeAllElements();
-		model.addElement("Bitte wählen:");
+		model.addElement("Bitte wÃ¤hlen:");
 
 		// Verhindert NullPointerException bei einer leeren Liste
 		if (artikel != null) {
@@ -1088,7 +1088,7 @@ public class JPanelNewContract extends JPanel {
 				Article artikel2 = (Article) it.next();
 				model.addElement(artikel2.getName());
 				artikelTabelle.put(artikel2.getName(), String.valueOf(artikel2.getNr()));
-				//speichert das Objekt zum ausgewählten Article in die Hashtable artikelObjekt
+				//speichert das Objekt zum ausgewÃ¤hlten Article in die Hashtable artikelObjekt
 				artikelObjekt.put(String.valueOf(artikel2.getNr()), artikel2);
 			}
 			jComboBoxArtikel.setModel(model);
@@ -1096,18 +1096,18 @@ public class JPanelNewContract extends JPanel {
 	}
 
 	/**
-	 * Method ladeStueckpreis. Lädt von dem ausgewähltem Article den Stückpreis aus der Datenbank.
+	 * Method ladeStueckpreis. LÃ¤dt von dem ausgewÃ¤hltem Article den StÃ¼ckpreis aus der Datenbank.
 	 */
 	private void loadPrice() {
 
 		//liefert listItem des selektierten Eintrags
 		String listItem = String.valueOf(jComboBoxArtikel.getSelectedIndex());
 
-		//sucht das ausgewählte ArtikelObjekt in Hashtabelle artikelObjekt
+		//sucht das ausgewÃ¤hlte ArtikelObjekt in Hashtabelle artikelObjekt
 		Article auswahlArtikel = (Article) artikelObjekt.get(listItem);
 
 		if (auswahlArtikel != null) {
-			//Gibt aus dem vorher ausgewähltem und dann gespeichertem Artikelobjekt den Stückpreis aus
+			//Gibt aus dem vorher ausgewÃ¤hltem und dann gespeichertem Artikelobjekt den StÃ¼ckpreis aus
 			jTextFieldNeuerVertragStueckpreis.setText(form.format(auswahlArtikel.getStueckpreis()));
 			calculate();
 		} else {
@@ -1129,11 +1129,11 @@ public class JPanelNewContract extends JPanel {
 		jTextFieldMwst.setText(String.valueOf(mwst));
 	}
 
-	/** Überprüft alle Pflichtfelder auf Inhalt. Gibt eine Fehlemeldung
+	/** ÃœberprÃ¼ft alle Pflichtfelder auf Inhalt. Gibt eine Fehlemeldung
 	   * an den Benutzer, falls ein oder mehrere Felder leer gelassen
 	   * wurden.
-	   * @return false: Es wurden nicht alle Felder gefüllt.
-	   * true: Alle Pflichtfelder sind gefüllt.
+	   * @return false: Es wurden nicht alle Felder gefÃ¼llt.
+	   * true: Alle Pflichtfelder sind gefÃ¼llt.
 	   */
 	private boolean checkFields() {
 		Collection pflichtfelder = new Vector();
@@ -1166,22 +1166,22 @@ public class JPanelNewContract extends JPanel {
 			pflichtfelder.add("Lieferdatum");
 		}
 
-		/*Wurde ein oder mehrere Pflichtfelder nicht ausgefüllt erscheint ein JOptionPane, dass dem
+		/*Wurde ein oder mehrere Pflichtfelder nicht ausgefÃ¼llt erscheint ein JOptionPane, dass dem
 		 *Benutzer die fehlenden noch leeren Felder anzeigt*/
 		if (!pflichtfelder.isEmpty()) {
 			if (pflichtfelder.size() > 1)
-				JOptionPane.showMessageDialog(this, "Folgende Felder müssen ausgefüllt werden: " + pflichtfelder.toString().substring(1, pflichtfelder.toString().length() - 1), "Fehler beim Anlegen des neuen Vertrages", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this, "Folgende Felder mÃ¼ssen ausgefÃ¼llt werden: " + pflichtfelder.toString().substring(1, pflichtfelder.toString().length() - 1), "Fehler beim Anlegen des neuen Vertrages", JOptionPane.ERROR_MESSAGE);
 			else
-				JOptionPane.showMessageDialog(this, "Das folgende Feld muss ausgefüllt werden: " + pflichtfelder.toString().substring(1, pflichtfelder.toString().length() - 1), "Fehler beim Anlegen des neuen Vertrages", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this, "Das folgende Feld muss ausgefÃ¼llt werden: " + pflichtfelder.toString().substring(1, pflichtfelder.toString().length() - 1), "Fehler beim Anlegen des neuen Vertrages", JOptionPane.ERROR_MESSAGE);
 
 			return false;
 		}
 		return true;
 	}
 
-	/** Überprüft das eingegebene Lieferdatum
-	   * @return Gibt das Lieferdatum als GregorianDate zurück. Oder NULL, wenn das
-	   * Datum ungültig ist.
+	/** ÃœberprÃ¼ft das eingegebene Lieferdatum
+	   * @return Gibt das Lieferdatum als GregorianDate zurÃ¼ck. Oder NULL, wenn das
+	   * Datum ungÃ¼ltig ist.
 	   */
 	private GregorianCalendar checkDate() {
 		int lieferTag = Integer.parseInt(jTextFieldNeuerVertragTag.getText());
@@ -1191,7 +1191,7 @@ public class JPanelNewContract extends JPanel {
 		GregorianCalendar lieferDatum = new GregorianCalendar(lieferJahr, lieferMonat, lieferTag);
 
 		if (lieferTag != lieferDatum.get(Calendar.DATE)) {
-			JOptionPane.showMessageDialog(this, "Ungültiges Lieferdatum!", "Fehler", 0);
+			JOptionPane.showMessageDialog(this, "UngÃ¼ltiges Lieferdatum!", "Fehler", 0);
 			return null;
 		}
 
@@ -1202,7 +1202,7 @@ public class JPanelNewContract extends JPanel {
 		return lieferDatum;
 	}
 
-	/** Löscht alle Felder und setzt alle Werte zurück. */
+	/** LÃ¶scht alle Felder und setzt alle Werte zurÃ¼ck. */
 	private void clearFields() {
 		jTextFieldNeuerVertragKundentyp.setText("");
 		jTextFieldNeuerVertragAnsprueche.setText("");
@@ -1249,7 +1249,7 @@ public class JPanelNewContract extends JPanel {
 		}
 		java.sql.Date lieferDateSQL = new java.sql.Date(lieferDatum.getTimeInMillis());
 
-		// Id's in ContractAccount und in Auftrag zählen
+		// Id's in ContractAccount und in Auftrag zÃ¤hlen
 
 		Collection vertraege = null;
 		Collection atrechnungen = null;
@@ -1284,13 +1284,13 @@ public class JPanelNewContract extends JPanel {
 
 		//liefert listItem des selektierten Eintrags aus der ComboBox vom Kunden
 		String listItem1 = String.valueOf(jComboBoxKunde.getSelectedItem());
-		//sucht das ausgewählte KundenObjekt in Hashtabelle kundeObjekt
+		//sucht das ausgewÃ¤hlte KundenObjekt in Hashtabelle kundeObjekt
 		Customer auswahlKunde = (Customer) kundeObjekt.get(listItem1);
 		int kdId = auswahlKunde.getId();
 
 		//liefert listItem des selektierten Eintrags aus der ComboBox vom Article
 		String listItem2 = String.valueOf(jComboBoxArtikel.getSelectedIndex());
-		//sucht das ausgewählte Artikelobjekt in Hashtabelle artikelObjekt
+		//sucht das ausgewÃ¤hlte Artikelobjekt in Hashtabelle artikelObjekt
 		Article auswahlArtikel = (Article) artikelObjekt.get(listItem2);
 		int artId = auswahlArtikel.getNr();
 		boolean zleingang = false;

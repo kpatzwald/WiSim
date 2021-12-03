@@ -2,7 +2,7 @@
 **   Copyright notice                                                       **
 **                                                                          **
 **   (c) 2003 WiSim Development Team					                              **
-**   http://wisim.sourceforge.net/   			                                  **
+**   https://github.com/kpatzwald/WiSim   			                                  **
 **                                                                          **
 **   All rights reserved                                                    **
 **                                                                          **
@@ -24,7 +24,7 @@
 /*
  * JPanelSimulationAnalysis.java
  *
- * Created on 17. März 2003, 14:55
+ * Created on 17. MÃ¤rz 2003, 14:55
  */
 
 package net.sourceforge.wisim.controller;
@@ -83,7 +83,7 @@ public class JPanelSimulationAnalysis extends javax.swing.JPanel implements Refr
 	// Simulation der Produktion
 	private ProductionController runController;
 
-	// Dauer einer Zeiteinheit für die gesamte Simulation
+	// Dauer einer Zeiteinheit fÃ¼r die gesamte Simulation
 	public final static int TIMESTEP = 100;
 
 	// IconNodes als Elemente der JTrees
@@ -98,7 +98,7 @@ public class JPanelSimulationAnalysis extends javax.swing.JPanel implements Refr
 	private IconNode hubVertrieb;
 	private IconNode hubVertriebPos;
 
-	// Icons für einzelene Elemente der JTrees
+	// Icons fÃ¼r einzelene Elemente der JTrees
 	private ImageIcon rightIcon;
 	private ImageIcon vanIcon;
 	private ImageIcon boxIcon;
@@ -112,7 +112,7 @@ public class JPanelSimulationAnalysis extends javax.swing.JPanel implements Refr
 	private WiSimMainController wiSimMainController;
 
 	/**
-	 * [DoItBen] Kommentar für setRunController()
+	 * [DoItBen] Kommentar fÃ¼r setRunController()
 	 * @param runController
 	 */
 	public void setRunController(ProductionController runController) {
@@ -243,14 +243,14 @@ public class JPanelSimulationAnalysis extends javax.swing.JPanel implements Refr
 	private javax.swing.JTree jTreeVertrieb;
 	// End of variables declaration//GEN-END:variables
 
-	/** Baut den JTree mit einer Liste aller Lieferungen auf. Fügt die gelieferten
-	 * Einzelteile außerdem in die Datenbank.
+	/** Baut den JTree mit einer Liste aller Lieferungen auf. FÃ¼gt die gelieferten
+	 * Einzelteile auÃŸerdem in die Datenbank.
 	 */
 	public void refreshJTreeEinkauf() {
 		actDay++;
 		Collection etatListe = new Vector();
 
-		//Liste aller Einzelteilaufträge
+		//Liste aller EinzelteilauftrÃ¤ge
 		try {
 			etatListe = dao.getEinzelteilauftraege();
 		} catch (WiSimDAOException e) {
@@ -308,7 +308,7 @@ public class JPanelSimulationAnalysis extends javax.swing.JPanel implements Refr
 						positionNode = new IconNode("Position: " + i + "    Einzelteil: " + et.getName() + "    Menge: " + etatPos.getBestellmenge() + " wurde ins Lager geschafft!");
 						positionNode.setIcon(boxIcon);
 					} else {
-						positionNode = new IconNode("Position: " + i + "    Einzelteil: " + et.getName() + "    Menge: " + etatPos.getBestellmenge() + " überfüllt das Lager!");
+						positionNode = new IconNode("Position: " + i + "    Einzelteil: " + et.getName() + "    Menge: " + etatPos.getBestellmenge() + " Ã¼berfÃ¼llt das Lager!");
 						positionNode.setIcon(errorIcon);
 					}
 
@@ -405,7 +405,7 @@ public class JPanelSimulationAnalysis extends javax.swing.JPanel implements Refr
 		}
 	}
 
-	/** Baut den JTree mit einer Liste aller verkauften Hubs für einen Tag auf. Leert außerdem
+	/** Baut den JTree mit einer Liste aller verkauften Hubs fÃ¼r einen Tag auf. Leert auÃŸerdem
 	 * das Lager je nach Anzahl der verkauften Hubs
 	 */
 	public void refreshJTreeVertrieb() {
@@ -489,7 +489,7 @@ public class JPanelSimulationAnalysis extends javax.swing.JPanel implements Refr
 		this.actDate = actDate;
 	}
 
-	/** Löscht die JTrees und setzt das Datumsfeld zurück. */
+	/** LÃ¶scht die JTrees und setzt das Datumsfeld zurÃ¼ck. */
 	public void resetFields() {
 		actDate = new Date(new GregorianCalendar(2003, 8, 1, 0, 0).getTimeInMillis());
 		actDay = 0;
@@ -508,7 +508,7 @@ public class JPanelSimulationAnalysis extends javax.swing.JPanel implements Refr
 	}
 
 	/**
-	 * Datenbankinfos für die Simulation
+	 * Datenbankinfos fÃ¼r die Simulation
 	 */
 	public void initializeCollections() {
 		try {
@@ -527,7 +527,7 @@ public class JPanelSimulationAnalysis extends javax.swing.JPanel implements Refr
 	}
 
 	/**
-	 * Expansion Listeners für die JTrees: Expandierte Nodes werden gespeichert
+	 * Expansion Listeners fÃ¼r die JTrees: Expandierte Nodes werden gespeichert
 	 * und gehen nach setModel(newModel) nicht verloren!
 	 */
 	public void addJTreeListener() {

@@ -2,7 +2,7 @@
 **   Copyright notice                                                       **
 **                                                                          **
 **   (c) 2003 WiSim Development Team					                              **
-**   http://wisim.sourceforge.net/   			                                  **
+**   https://github.com/kpatzwald/WiSim   			                                  **
 **                                                                          **
 **   All rights reserved                                                    **
 **                                                                          **
@@ -375,7 +375,7 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
 		add(jComboBoxKundeBearbeitenZahlungsmoral);
 		jComboBoxKundeBearbeitenZahlungsmoral.setBounds(490, 140, 40, 25);
 
-		jComboBoxKundeBearbeitenAnspruch.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Bitte wählen", "Preisfeilscher", "Service-Fan", "Termin-Fan", "Qualitäts-Fan", "Atmosphäre-Typ" }));
+		jComboBoxKundeBearbeitenAnspruch.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Bitte wÃ¤hlen", "Preisfeilscher", "Service-Fan", "Termin-Fan", "QualitÃ¤ts-Fan", "AtmosphÃ¤re-Typ" }));
 		add(jComboBoxKundeBearbeitenAnspruch);
 		jComboBoxKundeBearbeitenAnspruch.setBounds(490, 170, 140, 25);
 
@@ -444,7 +444,7 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
 		if (auswahl != 0) {
 			deleteCostumer(getSelectedCustomerID());
 		} else {
-			JOptionPane.showMessageDialog(this, "Sie müssen erst einen Kunden auswählen.", "Fehler beim Löschen eines Kunden", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, "Sie mÃ¼ssen erst einen Kunden auswÃ¤hlen.", "Fehler beim LÃ¶schen eines Kunden", JOptionPane.ERROR_MESSAGE);
 		}
 	} //GEN-LAST:event_jButtonKundeLoeschenActionPerformed
 
@@ -465,10 +465,10 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
 			if (!jListTextFieldKundeBearbeitenVerlauf.isSelectionEmpty()) {
 				deleteMemo(jListTextFieldKundeBearbeitenVerlauf.getAnchorSelectionIndex());
 			} else {
-				JOptionPane.showMessageDialog(this, "Sie müssen im Verlauf eine Bemerkung markieren um sie zu löschen.", "Hinweis", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(this, "Sie mÃ¼ssen im Verlauf eine Bemerkung markieren um sie zu lÃ¶schen.", "Hinweis", JOptionPane.INFORMATION_MESSAGE);
 			}
 		} else {
-			JOptionPane.showMessageDialog(this, "Sie müssen in Verlauf wechseln um eine Bemerkung zu löschen.", "Hinweis", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(this, "Sie mÃ¼ssen in Verlauf wechseln um eine Bemerkung zu lÃ¶schen.", "Hinweis", JOptionPane.INFORMATION_MESSAGE);
 		}
 	} //GEN-LAST:event_jButtonNotizEntfernenActionPerformed
 
@@ -491,7 +491,7 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
 		loadCustomers();
 	} //GEN-LAST:event_jComboBoxKundenBearbeitenAncestorAdded
 
-	/** Löscht die Eingabemasken
+	/** LÃ¶scht die Eingabemasken
 	 *
 	 */
 	private void clearScreen() {
@@ -509,7 +509,7 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
 		clearmodel1.removeAllElements();
 		jTextAreaKundeBearbeitenBemerkung.setText("");
 		DefaultComboBoxModel modell = (DefaultComboBoxModel) jComboBoxKundeBearbeitenAnspruch.getModel();
-		modell.setSelectedItem("Bitte wählen");
+		modell.setSelectedItem("Bitte wÃ¤hlen");
 		jComboBoxKundeBearbeitenAnspruch.setModel(modell);
 		modell = (DefaultComboBoxModel) jComboBoxKundeBearbeitenKundentyp.getModel();
 		modell.setSelectedItem("B");
@@ -520,7 +520,7 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
 		jTabbedPaneKundeBearbeitenNotizen.setSelectedComponent(jScrollPaneKundeBearbeitenBemerkung);
 	}
 
-	/** Füllt die ComboBox Kundenliste mit den in der DB vorhandenen Kunden */
+	/** FÃ¼llt die ComboBox Kundenliste mit den in der DB vorhandenen Kunden */
 	private void loadCustomers() {
 		clearScreen();
 		Collection kundenliste = null;
@@ -532,7 +532,7 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
 
 		DefaultComboBoxModel model = (DefaultComboBoxModel) jComboBoxKundenBearbeiten.getModel();
 		model.removeAllElements();
-		model.addElement("Bitte wählen");
+		model.addElement("Bitte wÃ¤hlen");
 		// Verhindert NullPointerException bei einer leeren Liste
 		int indexcounter = 0;
 		if (kundenliste != null) {
@@ -565,7 +565,7 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
 			return 0;
 	}
 
-	/** Lädt einen Kunden zum Bearbeiten aus der Datenbank
+	/** LÃ¤dt einen Kunden zum Bearbeiten aus der Datenbank
 	 * @param KdID Kunden ID
 	 */
 	private void loadCustomer(int kdID) {
@@ -595,7 +595,7 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
 		}
 	}
 
-	/** Lädt Kundenverlauf zum Bearbeiten aus der Datenbank
+	/** LÃ¤dt Kundenverlauf zum Bearbeiten aus der Datenbank
 	 * @param KdNr Kunden ID
 	 */
 	private void loadMemoHistory(int kdNr) {
@@ -636,8 +636,8 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
 	/** Gibt Notizobjekt in aktuell TAB aus */
 	private void newMemo() {
 		String neu = "";
-		if (jComboBoxKundenBearbeiten.getSelectedItem().toString().equalsIgnoreCase("Bitte wählen")) {
-			JOptionPane.showMessageDialog(null, "Sie haben keinen Kunden ausgewählt!", "Warunung", JOptionPane.WARNING_MESSAGE);
+		if (jComboBoxKundenBearbeiten.getSelectedItem().toString().equalsIgnoreCase("Bitte wÃ¤hlen")) {
+			JOptionPane.showMessageDialog(null, "Sie haben keinen Kunden ausgewÃ¤hlt!", "Warunung", JOptionPane.WARNING_MESSAGE);
 		} else {
 			neu = JOptionPane.showInputDialog("Neue Notiz eingeben:", neu);
 			if (neu != null && neu.length() > 1) {
@@ -682,7 +682,7 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
 	 * @param KdId ID des Kunden
 	 */
 	private void deleteCostumer(int kdId) {
-		int submit = JOptionPane.showConfirmDialog(this, "Wollen Sie den Kunden aus der Kundenliste löschen?", "Kunden löschen", JOptionPane.YES_NO_OPTION);
+		int submit = JOptionPane.showConfirmDialog(this, "Wollen Sie den Kunden aus der Kundenliste lÃ¶schen?", "Kunden lÃ¶schen", JOptionPane.YES_NO_OPTION);
 		if (submit == 0) {
 			try {
 				dao.setKundenLoeschStatus(kdId, true);
@@ -693,11 +693,11 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
 				logger.log("loescheKunde(int)", e);
 			}
 		}
-		JOptionPane.showMessageDialog(this, "Der Kunde wurde erfolgreich gelöscht.", "Kunde", JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(this, "Der Kunde wurde erfolgreich gelÃ¶scht.", "Kunde", JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	/** Selectiert den Kundentyp entsprechend der Datenbankeintraege
-	 * @param selectitem Der ausgewähle Wert
+	 * @param selectitem Der ausgewÃ¤hle Wert
 	 */
 	private void setTypeSelection(String selectitem) {
 		DefaultComboBoxModel typmodel = (DefaultComboBoxModel) jComboBoxKundeBearbeitenKundentyp.getModel();
@@ -713,13 +713,13 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
 	}
 
 	/** Selectiert den KundenAnspruch entsprechend der Datenbankeintraege
-	 * @param selectitem Der ausgewählte Wert
+	 * @param selectitem Der ausgewÃ¤hlte Wert
 	 */
 	private void setClaimSelection(String selectitem) {
 		DefaultComboBoxModel anmodel = (DefaultComboBoxModel) jComboBoxKundeBearbeitenAnspruch.getModel();
 		int size = anmodel.getSize();
 		if (selectitem.equals("")) {
-			selectitem = "Bitte wählen";
+			selectitem = "Bitte wÃ¤hlen";
 		}
 		String item = "";
 		for (int s = 0; s < size; s++) {
@@ -732,7 +732,7 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
 	}
 
 	/** Selectiert den KundenAnspruch entsprechend der Datenbankeintraege
-	 * @param selectitem Der ausgewählte Wert
+	 * @param selectitem Der ausgewÃ¤hlte Wert
 	 */
 	private void setMorelSelection(String selectitem) {
 		DefaultComboBoxModel zmodel = (DefaultComboBoxModel) jComboBoxKundeBearbeitenZahlungsmoral.getModel();
@@ -809,7 +809,7 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
 		if (!email.equals("") && email != null) {
 			while (!emailOk && email != null) {
 				if (!validate.checkEMail(email)) {
-					email = JOptionPane.showInputDialog("Ungültige EMail! Bitte neu eingeben:", email);
+					email = JOptionPane.showInputDialog("UngÃ¼ltige EMail! Bitte neu eingeben:", email);
 				} else {
 					emailOk = true;
 				}
@@ -829,7 +829,7 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
 		if (!plz.equals("") && plz != null) {
 			while (!plzOk && plz != null) {
 				if (!validate.checkPlz(plz)) {
-					plz = JOptionPane.showInputDialog("Ungültige PLZ! Bitte neu eingeben:", plz);
+					plz = JOptionPane.showInputDialog("UngÃ¼ltige PLZ! Bitte neu eingeben:", plz);
 				} else {
 					plzOk = true;
 				}
@@ -845,7 +845,7 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
 	private void validateMandatoryFields() {
 		int auswahl = getSelectedCustomerID();
 		if (auswahl == 0) {
-			JOptionPane.showMessageDialog(this, "Sie müssen erst einen Kunden auswählen.", "Fehler beim Speichern eines Kunden", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, "Sie mÃ¼ssen erst einen Kunden auswÃ¤hlen.", "Fehler beim Speichern eines Kunden", JOptionPane.ERROR_MESSAGE);
 		} else {
 			Vector check = new Vector();
 			if (jTextFieldKundeBearbeitenFirma.getText().equals(""))
@@ -865,11 +865,11 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
 
 			if (!check.isEmpty()) {
 				if (check.size() > 1)
-					JOptionPane.showMessageDialog(this, "Folgende Felder müssen ausgefüllt werden: " + check.toString().substring(1, check.toString().length() - 1), "Fehler beim Speichern des Kunden", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(this, "Folgende Felder mÃ¼ssen ausgefÃ¼llt werden: " + check.toString().substring(1, check.toString().length() - 1), "Fehler beim Speichern des Kunden", JOptionPane.ERROR_MESSAGE);
 				else
-					JOptionPane.showMessageDialog(this, "Das folgende Feld muss ausgefüllt werden: " + check.toString().substring(1, check.toString().length() - 1), "Fehler beim Speichern des Kunden", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(this, "Das folgende Feld muss ausgefÃ¼llt werden: " + check.toString().substring(1, check.toString().length() - 1), "Fehler beim Speichern des Kunden", JOptionPane.ERROR_MESSAGE);
 			} else {
-				int submit = JOptionPane.showConfirmDialog(this, "Änderungen an diesem Kunden Speichern?", "Kunden Speichern", JOptionPane.YES_NO_OPTION);
+				int submit = JOptionPane.showConfirmDialog(this, "Ã„nderungen an diesem Kunden Speichern?", "Kunden Speichern", JOptionPane.YES_NO_OPTION);
 				if (submit == 0) {
 					saveCustomer();
 				}

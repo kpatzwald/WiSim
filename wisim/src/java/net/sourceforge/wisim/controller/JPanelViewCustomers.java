@@ -2,7 +2,7 @@
 **   Copyright notice                                                       **
 **                                                                          **
 **   (c) 2003 WiSim Development Team					                              **
-**   http://wisim.sourceforge.net/   			                                  **
+**   https://github.com/kpatzwald/WiSim   			                                  **
 **                                                                          **
 **   All rights reserved                                                    **
 **                                                                          **
@@ -24,7 +24,7 @@
 /*
  * JPanelLieferantenliste.java
  *
- * Created on 13. März 2003, 21:06
+ * Created on 13. MÃ¤rz 2003, 21:06
  */
 
 package net.sourceforge.wisim.controller;
@@ -309,7 +309,7 @@ public class JPanelViewCustomers extends javax.swing.JPanel {
 		loadCustomers();
 	} //GEN-LAST:event_jTableKundenAncestorAdded
 
-	/** Füllt die Tabelle Kundenliste mit den in der DB vorhandenen Kunden */
+	/** FÃ¼llt die Tabelle Kundenliste mit den in der DB vorhandenen Kunden */
 	private void loadCustomers() {
 		try {
 			Collection kunden = null;
@@ -355,7 +355,7 @@ public class JPanelViewCustomers extends javax.swing.JPanel {
 		}
 	}
 
-	/** Lädt einen Kunden zum Bearbeiten aus der Datenbank */
+	/** LÃ¤dt einen Kunden zum Bearbeiten aus der Datenbank */
 	private void loadCustomer() {
 
 		//liefert listItem des selektierten Eintrags
@@ -400,7 +400,7 @@ public class JPanelViewCustomers extends javax.swing.JPanel {
 		jTableKunden.setFocusable(false);
 	}
 
-	// Setzt nach dem Speichern und Löschen eines Lieferanten die Werte auf Standard
+	// Setzt nach dem Speichern und LÃ¶schen eines Lieferanten die Werte auf Standard
 	private void setStandard() {
 		jTextFieldKundenUebersichtVorname.setText("");
 		jTextFieldKundenUebersichtNachname.setText("");
@@ -422,7 +422,7 @@ public class JPanelViewCustomers extends javax.swing.JPanel {
 		clearmodel1.removeAllElements();
 	}
 
-	/** Lädt Kundenverlauf zum Bearbeiten aus der Datenbank
+	/** LÃ¤dt Kundenverlauf zum Bearbeiten aus der Datenbank
 	 * @param KdNr Kunden Nummer
 	 */
 	private void loadHistory(int kdNr) {

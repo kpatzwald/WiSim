@@ -2,7 +2,7 @@
 **   Copyright notice                                                       **
 **                                                                          **
 **   (c) 2003 WiSim Development Team					                              **
-**   http://wisim.sourceforge.net/   			                                  **
+**   https://github.com/kpatzwald/WiSim   			                                  **
 **                                                                          **
 **   All rights reserved                                                    **
 **                                                                          **
@@ -29,7 +29,7 @@
 
 package net.sourceforge.wisim.model;
 
-/** Klasse für einen City mit PLZ und Ortsname
+/** Klasse fÃ¼r einen City mit PLZ und Ortsname
  * @author benjamin.pasero
  */
 public class City {

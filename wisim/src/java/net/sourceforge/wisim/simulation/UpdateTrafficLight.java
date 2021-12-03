@@ -2,7 +2,7 @@
 **   Copyright notice                                                       **
 **                                                                          **
 **   (c) 2003 WiSim Development Team					                              **
-**   http://wisim.sourceforge.net/   			                                  **
+**   https://github.com/kpatzwald/WiSim   			                                  **
 **                                                                          **
 **   All rights reserved                                                    **
 **                                                                          **
@@ -111,7 +111,7 @@ public class UpdateTrafficLight extends Thread {
 
 				wiSimMainController.setYellowTrafficLights(status);
 			} else {
-				wiSimMainController.setGreenTrafficLights("Produktion l‰uft!");
+				wiSimMainController.setGreenTrafficLights("Produktion l√§uft!");
 			}
 
 			try {

@@ -2,7 +2,7 @@
 **   Copyright notice                                                       **
 **                                                                          **
 **   (c) 2003 WiSim Development Team					                              **
-**   http://wisim.sourceforge.net/   			                                  **
+**   https://github.com/kpatzwald/WiSim   			                                  **
 **                                                                          **
 **   All rights reserved                                                    **
 **                                                                          **
@@ -24,7 +24,7 @@
 /*
  * WiSimLogger.java
  *
- * Created on 30. März 2003, 18:33
+ * Created on 30. MÃ¤rz 2003, 18:33
  */
 package net.sourceforge.wisim.model;
 
@@ -35,7 +35,7 @@ import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
 
-/** Der Logger für die gesamte WiSim
+/** Der Logger fÃ¼r die gesamte WiSim
  * @author benjamin.pasero
  */
 public class WiSimLogger {

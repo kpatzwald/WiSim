@@ -2,7 +2,7 @@
 **   Copyright notice                                                       **
 **                                                                          **
 **   (c) 2003 WiSim Development Team					                              **
-**   http://wisim.sourceforge.net/   			                                  **
+**   https://github.com/kpatzwald/WiSim   			                                  **
 **                                                                          **
 **   All rights reserved                                                    **
 **                                                                          **
@@ -24,7 +24,7 @@
 /*
  * Einzelteilauftragsrechnung.java
  *
- * Created on 6. März 2003, 19:57
+ * Created on 6. MÃ¤rz 2003, 19:57
  */
 
 package net.sourceforge.wisim.model;

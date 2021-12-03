@@ -2,7 +2,7 @@
 **   Copyright notice                                                       **
 **                                                                          **
 **   (c) 2003 WiSim Development Team					                              **
-**   http://wisim.sourceforge.net/   			                                  **
+**   https://github.com/kpatzwald/WiSim   			                                  **
 **                                                                          **
 **   All rights reserved                                                    **
 **                                                                          **
@@ -24,7 +24,7 @@
 /*
  * ContractAccount.java
  *
- * Created on 21. März 2003, 03:30
+ * Created on 21. MÃ¤rz 2003, 03:30
  */
 
 package net.sourceforge.wisim.model;

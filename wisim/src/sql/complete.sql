@@ -2,7 +2,7 @@
 ##**   Copyright notice                                                       **
 ##**                                                                          **
 ##**   (c) 2003-2020 WiSim Development Team					                              **
-##**   http://wisim.sourceforge.net/   			                                  **
+##**   https://github.com/kpatzwald/WiSim   			                                  **
 ##**                                                                          **
 ##**   All rights reserved                                                    **
 ##**                                                                          **
@@ -235,7 +235,7 @@ INSERT INTO et (et_Nr, et_Name, et_Mindestbestand) VALUES (20, 'Verpackungsfolie
 INSERT INTO et (et_Nr, et_Name, et_Mindestbestand) VALUES (21, 'Gummifuß', 2000);
 INSERT INTO et (et_Nr, et_Name, et_Mindestbestand) VALUES (22, 'Gehäuseschrauben', 2000);
 INSERT INTO et (et_Nr, et_Name, et_Mindestbestand) VALUES (23, 'Netzteil- und Lüfterschrauben', 6000);
-INSERT INTO et (et_Nr, et_Name, et_Mindestbestand) VALUES (24, 'Schutzgitter für Lifter', 1000);
+INSERT INTO et (et_Nr, et_Name, et_Mindestbestand) VALUES (24, 'Schutzgitter für Lüfter', 1000);
 INSERT INTO et (et_Nr, et_Name, et_Mindestbestand) VALUES (25, 'Garantiesiegel', 500);
 INSERT INTO et (et_Nr, et_Name, et_Mindestbestand) VALUES (26, 'Unfertiges Hub', 0);
 INSERT INTO et (et_Nr, et_Name, et_Mindestbestand) VALUES (27, 'Verpackungskarton', 500);

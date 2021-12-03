@@ -2,7 +2,7 @@
 **   Copyright notice                                                       **
 **                                                                          **
 **   (c) 2003-2020 WiSim Development Team	                            **
-**   http://wisim.sourceforge.net/   	                                    **
+**   https://github.com/kpatzwald/WiSim   	                                    **
 **                                                                          **
 **   All rights reserved                                                    **
 **                                                                          **
@@ -24,7 +24,7 @@
 /*
  * Vertrag.java
  *
- * Created on 4. März 2003, 23:46
+ * Created on 4. MÃ¤rz 2003, 23:46
  */
 
 package net.sourceforge.wisim.model;
@@ -74,56 +74,56 @@ public class Contract {
         this.auftragPositionen = auftragPositionen;    
     }
     
-    /** Gibt die Vertrags/AuftragsID zurück
+    /** Gibt die Vertrags/AuftragsID zurÃ¼ck
      * @return Integer
      */
     public int getVertragsId(){
         return nr;
     }
     
-    /** Gibt das Lieferdatum zurück
+    /** Gibt das Lieferdatum zurÃ¼ck
      * @return Date
      */
     public java.sql.Date getLieferdatum(){
         return lieferdatum;
     }
     
-    /** Gibt den Skontowert zurück
+    /** Gibt den Skontowert zurÃ¼ck
      * @return Float
      */
     public double getSkonto(){
         return skonto;
     }
     
-    /** Gibt die Skontofrist zurück
+    /** Gibt die Skontofrist zurÃ¼ck
      * @return Integer
      */
     public long getSkontofrist(){
         return skontofrist;
     }
     
-    /** Gibt den Rabattwert zurück
+    /** Gibt den Rabattwert zurÃ¼ck
      * @return Float
      */
     public double getRabatt(){
         return rabatt;
     }
     
-    /** Gibt das Vertrags-/Auftragsdatum zurück
+    /** Gibt das Vertrags-/Auftragsdatum zurÃ¼ck
      * @return Date
      */
     public java.sql.Date getVertragsdatum(){
         return vertragsdatum;
     }
     
-    /** Gibt die KundenId zurück
+    /** Gibt die KundenId zurÃ¼ck
      * @return Integer
      */
     public int getKundenId(){
         return kd_nr;
     }
     
-    /** Gibt die AuftragsrechnungsId zurück
+    /** Gibt die AuftragsrechnungsId zurÃ¼ck
      * @return Integer
      */
     public int getAuftragsrechnungsId(){

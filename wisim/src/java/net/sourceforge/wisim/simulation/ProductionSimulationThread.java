@@ -2,7 +2,7 @@
 **   Copyright notice                                                       **
 **                                                                          **
 **   (c) 2003 WiSim Development Team					                              **
-**   http://wisim.sourceforge.net/   			                                  **
+**   https://github.com/kpatzwald/WiSim   			                                  **
 **                                                                          **
 **   All rights reserved                                                    **
 **                                                                          **
@@ -24,7 +24,7 @@
 /*
  * ProductionSimulationThread.java
  *
- * Created on 5. M‰rz 2003, 18:14
+ * Created on 5. M√§rz 2003, 18:14
  */
 
 package net.sourceforge.wisim.simulation;
@@ -160,7 +160,7 @@ public class ProductionSimulationThread extends Thread
 				}
 			}
 
-			// Erster WorkPlace ohne Vorg‰nger
+			// Erster WorkPlace ohne Vorg√§nger
 			else
 			{
 

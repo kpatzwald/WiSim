@@ -2,7 +2,7 @@
 **   Copyright notice                                                       **
 **                                                                          **
 **   (c) 2003 WiSim Development Team					                              **
-**   http://wisim.sourceforge.net/   			                                  **
+**   https://github.com/kpatzwald/WiSim   			                                  **
 **                                                                          **
 **   All rights reserved                                                    **
 **                                                                          **
@@ -24,14 +24,14 @@
 /*
  * CoreTime.java
  *
- * Created on 17. M‰rz 2003, 10:23
+ * Created on 17. M√§rz 2003, 10:23
  */
 
 package net.sourceforge.wisim.simulation;
 
 /** Dies ist der CoreTime-Thread der bei Simulationsstart startet. In einem
  * bestimmten Intervall wird die aktuelle Zeit im actTime-Objekt inkrementiert.
- * Der Thread l‰uft solange bis er unterbrochen (interrupted) wird.
+ * Der Thread l√§uft solange bis er unterbrochen (interrupted) wird.
  * @author  benjamin.pasero
  */
 public class CoreTime extends Thread {
@@ -48,10 +48,10 @@ public class CoreTime extends Thread {
     	super("CoreTime");
         this.actTime = actTime;
         this.faktor = faktor;
-        this.timestep = timestep;		//Warte 50*faktor Millisekunden bevor die Zeit ge‰ndert wird.       
+        this.timestep = timestep;		//Warte 50*faktor Millisekunden bevor die Zeit ge√§ndert wird.       
     }
     
-    /** Startet den CoreTime-Thread. Diese l‰uft solange bis er unterbrochen wird.*/
+    /** Startet den CoreTime-Thread. Diese l√§uft solange bis er unterbrochen wird.*/
     public void run() {
         while (true) {
             if (isInterrupted()) {
