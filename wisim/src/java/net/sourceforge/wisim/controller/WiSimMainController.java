@@ -39,7 +39,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.logging.Level;
-
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -48,7 +47,6 @@ import javax.swing.JProgressBar;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-
 import net.sourceforge.wisim.dao.WiSimAuthentificationDAO;
 import net.sourceforge.wisim.dao.WiSimDAO;
 import net.sourceforge.wisim.dao.WiSimDAOException;
@@ -273,7 +271,7 @@ public class WiSimMainController extends javax.swing.JFrame {
     jButtonSimStop = new javax.swing.JButton();
     jButtonSimReset = new javax.swing.JButton();
     jLabelFactor = new javax.swing.JLabel();
-    jComboBoxFactor = new javax.swing.JComboBox();
+    jComboBoxFactor = new javax.swing.JComboBox<>();
     jCheckBoxOneWeek = new javax.swing.JCheckBox();
     jPanelStatus = new javax.swing.JPanel();
     jLabelStatus = new javax.swing.JLabel();
@@ -370,7 +368,7 @@ public class WiSimMainController extends javax.swing.JFrame {
     jLabelFactor.setText("  Zeitfaktor  ");
     jPanelSimControl.add(jLabelFactor);
 
-    jComboBoxFactor.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1x", "1/2x", "1/4x", "1/8x", "1/16x" }));
+    jComboBoxFactor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1x", "1/2x", "1/4x", "1/8x", "1/16x" }));
     jComboBoxFactor.setMaximumSize(new java.awt.Dimension(59, 25));
     jPanelSimControl.add(jComboBoxFactor);
 
@@ -1256,7 +1254,7 @@ public class WiSimMainController extends javax.swing.JFrame {
   private javax.swing.JButton jButtonSimStart;
   private javax.swing.JButton jButtonSimStop;
   private javax.swing.JCheckBox jCheckBoxOneWeek;
-  private javax.swing.JComboBox jComboBoxFactor;
+  private javax.swing.JComboBox<String> jComboBoxFactor;
   private javax.swing.JLabel jLabelDate;
   private javax.swing.JLabel jLabelFactor;
   private javax.swing.JLabel jLabelGreen;

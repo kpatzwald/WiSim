@@ -32,18 +32,17 @@ package net.sourceforge.wisim.dao;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-
 import net.sourceforge.wisim.model.Article;
 import net.sourceforge.wisim.model.City;
 import net.sourceforge.wisim.model.ComponentContract;
-import net.sourceforge.wisim.model.ComponentContractAccount;
+import net.sourceforge.wisim.model.ComponentContractInvoice;
 import net.sourceforge.wisim.model.ComponentContractItem;
 import net.sourceforge.wisim.model.ComponentWarehouseItem;
 import net.sourceforge.wisim.model.Contract;
-import net.sourceforge.wisim.model.ContractAccount;
+import net.sourceforge.wisim.model.ContractInvoice;
+import net.sourceforge.wisim.model.ContractOrderItem;
 import net.sourceforge.wisim.model.Customer;
 import net.sourceforge.wisim.model.Memo;
-import net.sourceforge.wisim.model.OrderItem;
 import net.sourceforge.wisim.model.Supplier;
 import net.sourceforge.wisim.model.SupplyList;
 import net.sourceforge.wisim.model.WarehouseLocation;
@@ -69,7 +68,7 @@ public interface WiSimDAO {
    * connection was never initialized
    * @return KundenNr
    */
-  public int neuerKunde(Customer kunde) throws WiSimDAOException, WiSimDAOWriteException;
+  public int newCustomer(Customer kunde) throws WiSimDAOException, WiSimDAOWriteException;
 
   /**
    * method to get all customer
@@ -78,26 +77,26 @@ public interface WiSimDAO {
    * @throws WiSimDAOException if a database problem occurs or the connection
    * was never initialized
    */
-  public ArrayList<Customer> getKunden() throws WiSimDAOException;
+  public ArrayList<Customer> getCustomers() throws WiSimDAOException;
 
   /**
-   * Gibt eine ContractAccount eines Auftrages zurück.
+   * Gibt eine ContractInvoice eines Auftrages zurück.
    *
    * @param atrNr Auftragrechnungs Nummer
    * @throws WiSimDAOException if a database problem occurs or the connection
    * was never initialized
-   * @return ContractAccount
+   * @return ContractInvoice
    */
-  public ContractAccount getAuftragsrechnung(int atrNr) throws WiSimDAOException;
+  public ContractInvoice getAuftragsrechnung(int atrNr) throws WiSimDAOException;
 
   /**
    * gibt alle Auftragsrechnungen aus
    *
-   * @return Collection von ContractAccount
+   * @return Collection von ContractInvoice
    * @throws WiSimDAOException if a database problem occurs or the connection
    * was never initialized
    */
-  public Collection<ContractAccount> getAuftragsrechnungen() throws WiSimDAOException;
+  public Collection<ContractInvoice> getAuftragsrechnungen() throws WiSimDAOException;
 
   /**
    * Holt einen Kunden aus der Datenbank
@@ -106,7 +105,7 @@ public interface WiSimDAO {
    * @param kdNr Kunden Nummer
    * @throws WiSimDAOException Fehler beim Abfragen der DB
    */
-  public Customer getKunde(int kdNr) throws WiSimDAOException;
+  public Customer getCustomer(int kdNr) throws WiSimDAOException;
 
   /**
    * Aendert Kundendaten
@@ -228,7 +227,7 @@ public interface WiSimDAO {
    * @throws WiSimDAOException Fehler beim Abfragen der DB
    * @return Collection mit Objekten vom Typ Supplier
    */
-  public Collection<Supplier> getLieferanten() throws WiSimDAOException;
+  public ArrayList<Supplier> getSuppliers() throws WiSimDAOException;
 
   /**
    * Markiert einen Lieferanten als geloescht bzw sichtbar
@@ -247,7 +246,7 @@ public interface WiSimDAO {
    * @return Collection
    * @throws WiSimDAOException ToDo
    */
-  public Collection<WiSimComponent> getEinzelteile() throws WiSimDAOException;
+  public Collection<WiSimComponent> getAllComponents() throws WiSimDAOException;
 
   /**
    * Holt ein WiSimComponent aus der Datenbank
@@ -256,7 +255,7 @@ public interface WiSimDAO {
    * @param id Einzelteile Nummer
    * @throws WiSimDAOException ToDo
    */
-  public WiSimComponent getEinzelteil(int id) throws WiSimDAOException;
+  public WiSimComponent getComponent(int id) throws WiSimDAOException;
 
   /**
    * Erstellt eine SupplyList
@@ -296,7 +295,7 @@ public interface WiSimDAO {
    * @throws WiSimDAOException Fehler beim Abfragen der DB
    * @return Collection mit Objekten des Typs Einzeiteil
    */
-  public Collection<SupplyList> getLieferliste(int lieferantenID) throws WiSimDAOException;
+  public ArrayList<SupplyList> getSupplyLists(int lieferantenID) throws WiSimDAOException;
 
   /**
    * Diese Funktion verringert den Bestand eines Einzelteils an einem bestimmten
@@ -360,14 +359,14 @@ public interface WiSimDAO {
   /**
    * Erstellt eine neue EinzelteilAuftragsRechnung
    *
-   * @param einzelteilauftragsrechnung Die ComponentContractAccount.
+   * @param einzelteilauftragsrechnung Die ComponentContractInvoice.
    * @throws WiSimDAOException if a database problem occurs or the connection
    * was never initialized
    * @throws WiSimDAOWriteException if a database problem occurs or the
    * connection was never initialized
    * @return EinzelteilauftragsrechnungsNr
    */
-  public int setEinzelteilauftragsrechnung(ComponentContractAccount einzelteilauftragsrechnung) throws WiSimDAOException, WiSimDAOWriteException;
+  public int setEinzelteilauftragsrechnung(ComponentContractInvoice einzelteilauftragsrechnung) throws WiSimDAOException, WiSimDAOWriteException;
 
   /**
    * Erstellt eine neue AuftragsRechnung
@@ -379,7 +378,7 @@ public interface WiSimDAO {
    * connection was never initialized
    * @return AuftragsrechnungsNr
    */
-  public int setAuftragsrechnung(ContractAccount auftragsrechnung) throws WiSimDAOException, WiSimDAOWriteException;
+  public int setAuftragsrechnung(ContractInvoice auftragsrechnung) throws WiSimDAOException, WiSimDAOWriteException;
 
   /**
    * Holt alle Article aus der Datenbank
@@ -436,7 +435,7 @@ public interface WiSimDAO {
    * was never initialized
    * @return Collection mit allen Einzelteilauftragspositionen
    */
-  public Collection<ComponentContractItem> getEinzelteilAuftragsPositionen(int etatNr) throws WiSimDAOException;
+  public ArrayList<ComponentContractItem> getEinzelteilAuftragsPositionen(int etatNr) throws WiSimDAOException;
 
   /**
    * Gibt alle Positionen eines Auftrages zurück.
@@ -446,18 +445,18 @@ public interface WiSimDAO {
    * was never initialized
    * @return Collection mit allen Auftragspositionen
    */
-  public Collection<OrderItem> getAuftragsPositionen(int atNr) throws WiSimDAOException;
+  public Collection<ContractOrderItem> getAuftragsPositionen(int atNr) throws WiSimDAOException;
 
   /**
-   * Gibt die ComponentContractAccount zurück die zu dem entsprechenden
-   * ComponentContract gehört.
+   * Gibt die ComponentContractInvoice zurück die zu dem entsprechenden
+ ComponentContract gehört.
    *
    * @param etatrNr Einzelteilauftrags Nummer
    * @throws WiSimDAOException if a database problem occurs or the connection
    * was never initialized
-   * @return Die ComponentContractAccount.
+   * @return Die ComponentContractInvoice.
    */
-  public ComponentContractAccount getEinzelteilauftragsrechnung(int etatrNr) throws WiSimDAOException;
+  public ComponentContractInvoice getEinzelteilauftragsrechnung(int etatrNr) throws WiSimDAOException;
 
   /**
    * Gibt alle Lagerplätz des Lagers aus
@@ -576,7 +575,7 @@ public interface WiSimDAO {
    * @return WorkPlaceStore
    * @throws WiSimDAOException
    */
-  public WorkPlaceStore getArbeitsplatzLager(int arbeitsplatzNr, int einzelteilNr, String lagerTyp) throws WiSimDAOException;
+  public WorkPlaceStore getWorkPlaceStore(int arbeitsplatzNr, int einzelteilNr, String lagerTyp) throws WiSimDAOException;
 
   /**
    * @param arbeitsplatzNr
@@ -584,7 +583,7 @@ public interface WiSimDAO {
    * @return Collection
    * @throws WiSimDAOException
    */
-  public Collection<WorkPlaceStore> getArbeitsplatzLager(int arbeitsplatzNr, String lagerTyp) throws WiSimDAOException;
+  public ArrayList<WorkPlaceStore> getArbeitsplatzLager(int arbeitsplatzNr, String lagerTyp) throws WiSimDAOException;
 
   /**
    * Gibt Stueckliste für einen bestimmten Article zurück. Der Key der Hashtable
@@ -595,7 +594,7 @@ public interface WiSimDAO {
    * @throws WiSimDAOException if an database error occurs
    * @return HashMap (Stückliste)
    */
-  public HashMap<String, String> getStueckliste(int artNr) throws WiSimDAOException;
+  public HashMap<String, String> getPartsListForArticle(int artNr) throws WiSimDAOException;
 
   /**
    * Holt alle Verträge aus der Datenbank
@@ -603,7 +602,7 @@ public interface WiSimDAO {
    * @return Collection
    * @throws WiSimDAOException
    */
-  public Collection<Contract> getVertraege() throws WiSimDAOException;
+  public ArrayList<Contract> getContracts() throws WiSimDAOException;
 
   /**
    * Holt einen Contract aus der Datenbank
@@ -622,7 +621,7 @@ public interface WiSimDAO {
    * was never initialized
    * @return Auftragsposition
    */
-  public OrderItem getAuftragsPosition(int atNr) throws WiSimDAOException;
+  public ContractOrderItem getAuftragsPosition(int atNr) throws WiSimDAOException;
 
   /**
    * Gibt die Auftragsposition zurück die zu dem entsprechenden Auftrag gehört.
@@ -633,7 +632,7 @@ public interface WiSimDAO {
    * was never initialized
    * @return Die Auftragsposition.
    */
-  public OrderItem getAuftragsPosition(int atNr, int artNr) throws WiSimDAOException;
+  public ContractOrderItem getContractOrderItem(int atNr, int artNr) throws WiSimDAOException;
 
   /**
    * Gibt die Bestellmenge eines bestimmten Artikels in einem Contract zurück.
@@ -648,11 +647,11 @@ public interface WiSimDAO {
   /**
    * Setzt die Position eines bestimmten Auftrags in einem Contract.
    *
-   * @param atp OrderItem
+   * @param atp ContractOrderItem
    * @return TODO
    * @throws net.sourceforge.wisim.dao.WiSimDAOWriteException Fehler beim Schreiben in die DB   * @return -1
    */
-  public int setAuftragsPosition(OrderItem atp) throws WiSimDAOWriteException;
+  public int setAuftragsPosition(ContractOrderItem atp) throws WiSimDAOWriteException;
 
   /**
    * Setzt die Zahl der Arbeiter für einen WorkPlace
@@ -666,7 +665,7 @@ public interface WiSimDAO {
   /**
    * Setzt Rechnungsstatus auf bezahlt
    *
-   * @param Nr ContractAccount Nummer
+   * @param Nr ContractInvoice Nummer
    * @param status
    * @return TODO
    * @throws net.sourceforge.wisim.dao.WiSimDAOException Fehler beim Abfragen der DB

@@ -20,7 +20,6 @@
  **                                                                          **
  **   This copyright notice MUST APPEAR in all copies of the file!           **
  **   ********************************************************************   */
- 
  /*
  * Created on 25.06.2003
  *
@@ -32,7 +31,7 @@ package net.sourceforge.wisim.model;
  *
  */
 public interface Refreshable {
-	
-	public void refresh();
+
+  public void refresh();
 
 }

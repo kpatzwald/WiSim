@@ -59,6 +59,7 @@ public class JComponentCellEditor implements TableCellEditor, TreeCellEditor, Se
 	/**
 	 * @return editorComponent
 	 */
+        @Override
 	public Object getCellEditorValue() {
 		return editorComponent;
 	}
@@ -67,6 +68,7 @@ public class JComponentCellEditor implements TableCellEditor, TreeCellEditor, Se
 	 * @param anEvent
 	 * @return boolean
 	 */
+        @Override
 	public boolean isCellEditable(EventObject anEvent) {
 		return true;
 	}
@@ -91,11 +93,13 @@ public class JComponentCellEditor implements TableCellEditor, TreeCellEditor, Se
 	/**
 	 * @return boolean
 	 */
+        @Override
 	public boolean stopCellEditing() {
 		fireEditingStopped();
 		return true;
 	}
 
+        @Override
 	public void cancelCellEditing() {
 		fireEditingCanceled();
 	}
@@ -103,6 +107,7 @@ public class JComponentCellEditor implements TableCellEditor, TreeCellEditor, Se
 	/**
 	 * @param l
 	 */
+        @Override
 	public void addCellEditorListener(CellEditorListener l) {
 		listenerList.add(CellEditorListener.class, l);
 	}
@@ -110,6 +115,7 @@ public class JComponentCellEditor implements TableCellEditor, TreeCellEditor, Se
 	/**
 	 * @param l
 	 */
+        @Override
 	public void removeCellEditorListener(CellEditorListener l) {
 		listenerList.remove(CellEditorListener.class, l);
 	}
@@ -153,6 +159,7 @@ public class JComponentCellEditor implements TableCellEditor, TreeCellEditor, Se
 	 * @param row
 	 * @return editorComponent
 	 */
+        @Override
 	public Component getTreeCellEditorComponent(JTree tree, Object value, boolean isSelected, boolean expanded, boolean leaf, int row) {
 		tree.convertValueToText(value, isSelected, expanded, leaf, row, false); //dispensable?			    
 		editorComponent = (JComponent) value;
@@ -169,6 +176,7 @@ public class JComponentCellEditor implements TableCellEditor, TreeCellEditor, Se
 	 * @param column
 	 * @return editorComponent
 	 */
+        @Override
 	public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
 
 		editorComponent = (JComponent) value;

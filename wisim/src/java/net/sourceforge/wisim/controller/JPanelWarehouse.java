@@ -35,10 +35,8 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-
 import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
-
 import net.sourceforge.wisim.dao.WiSimDAO;
 import net.sourceforge.wisim.dao.WiSimDAOException;
 import net.sourceforge.wisim.model.Article;
@@ -60,22 +58,22 @@ public class JPanelWarehouse extends javax.swing.JPanel implements Refreshable {
   private WiSimDAO dao;
   private Collection<WarehouseLocation> lagerplaetze;
   private ArrayList<ComponentWarehouseItem> einzelteileListe;
-  private ArrayList<ComponentWarehouseItem> artikelListe;
+  private ArrayList<ComponentWarehouseItem> articles;
   private int etAnzahl;
-  private ArrayList<ComponentWarehouseItem> etElems;
+  private final ArrayList<ComponentWarehouseItem> etElems;
   private String actLgPlatz;
   private boolean isBuilt;
-  private static Color darkgreen = new Color(51, 153, 51);
-  private static Color red = new Color(255, 0, 0);
-  private static Color orange = new Color(255, 153, 0);
-  private static Color darkgreenDither = new Color(51, 153, 51, 50);
-  private static Color redDither = new Color(255, 0, 0, 50);
-  private static Color orangeDither = new Color(255, 153, 0, 50);
-  private static Color blackDither = new Color(255, 255, 255, 50);
-  private WiSimMainController wiSimMainController;
+  private static final Color DARKGREEN = new Color(51, 153, 51);
+  private static final Color RED = new Color(255, 0, 0);
+  private static final Color ORANGE = new Color(255, 153, 0);
+  private static final Color DARKGREENDITHER = new Color(51, 153, 51, 50);
+  private static final Color REDDITHER = new Color(255, 0, 0, 50);
+  private static final Color ORANGEDITHER = new Color(255, 153, 0, 50);
+  private static final Color BLACKDITHER = new Color(255, 255, 255, 50);
+  private final WiSimMainController wiSimMainController;
 
   //Logger
-  private WiSimLogger wiSimLogger;
+  private final WiSimLogger wiSimLogger;
 
   /**
    * Creates new form JPanelLager
@@ -88,7 +86,7 @@ public class JPanelWarehouse extends javax.swing.JPanel implements Refreshable {
     initDAO(wiSimMainController);
     lagerplaetze = new ArrayList<>();
     einzelteileListe = new ArrayList<>();
-    artikelListe = new ArrayList<>();
+    articles = new ArrayList<>();
     etElems = new ArrayList<>();
     etAnzahl = 0;
     actLgPlatz = "";
@@ -384,6 +382,7 @@ public class JPanelWarehouse extends javax.swing.JPanel implements Refreshable {
         return canEdit[columnIndex];
       }
 
+      @Override
       public Class getColumnClass(int c) {
         return getValueAt(0, c).getClass();
       }
@@ -433,15 +432,15 @@ public class JPanelWarehouse extends javax.swing.JPanel implements Refreshable {
   public void buildMainTable() {
     try {
       einzelteileListe = dao.getEinzelteilLagerElement();
-      artikelListe = dao.getArtikelLagerElement();
+      articles = dao.getArtikelLagerElement();
     } catch (WiSimDAOException e) {
       wiSimLogger.log("buildGesamtListeTabelle()", e);
     }
-    etAnzahl = einzelteileListe.size() + artikelListe.size();
+    etAnzahl = einzelteileListe.size() + articles.size();
     setMainTable();
     int i = 0;
 
-    Iterator art_it = artikelListe.iterator();
+    Iterator art_it = articles.iterator();
     while (art_it.hasNext()) {
       ComponentWarehouseItem artikel = (ComponentWarehouseItem) art_it.next();
       jTableGesamtliste.setValueAt(artikel.getEinzelteilName(), i, 0);
@@ -466,7 +465,7 @@ public class JPanelWarehouse extends javax.swing.JPanel implements Refreshable {
       double actBestand = artikel.getBestand();
       double actMaxBestand = artikel.getMaxBestand();
 
-      double rects = (double) (actBestand / actMaxBestand) * 5;
+      double rects = actBestand / actMaxBestand * 5;
       int filledrectsCount = (int) Math.round(rects);
 
       if (artikel.getBestand() < artikel.getMinBestand()) {
@@ -504,7 +503,7 @@ public class JPanelWarehouse extends javax.swing.JPanel implements Refreshable {
       double actBestand = einzelteil.getBestand();
       double actMaxBestand = einzelteil.getMaxBestand();
 
-      double rects = (double) (actBestand / actMaxBestand) * 5;
+      double rects = actBestand / actMaxBestand * 5;
       int filledrectsCount = (int) Math.round(rects);
 
       if (einzelteil.getBestand() < einzelteil.getMinBestand()) {
@@ -526,14 +525,14 @@ public class JPanelWarehouse extends javax.swing.JPanel implements Refreshable {
     //Grï¿½n
     Image imageIconGreen = new BufferedImage(70, 30, 2);
     Graphics g = imageIconGreen.getGraphics();
-    g.setColor(darkgreen);
+    g.setColor(DARKGREEN);
     g.fillRect(10, 11, 10, 10);
     g.fillRect(22, 11, 10, 10);
     g.fillRect(34, 11, 10, 10);
 
     g.drawRect(46, 11, 9, 9);
     g.drawRect(58, 11, 9, 9);
-    g.setColor(darkgreenDither);
+    g.setColor(DARKGREENDITHER);
     g.fillRect(46, 11, 9, 9);
     g.fillRect(58, 11, 9, 9);
 
@@ -544,14 +543,14 @@ public class JPanelWarehouse extends javax.swing.JPanel implements Refreshable {
     //Orange
     Image imageIconOrange = new BufferedImage(70, 30, 2);
     g = imageIconOrange.getGraphics();
-    g.setColor(orange);
+    g.setColor(ORANGE);
     g.fillRect(10, 11, 10, 10);
     g.fillRect(22, 11, 10, 10);
     g.fillRect(34, 11, 10, 10);
 
     g.drawRect(46, 11, 9, 9);
     g.drawRect(58, 11, 9, 9);
-    g.setColor(orangeDither);
+    g.setColor(ORANGEDITHER);
     g.fillRect(46, 11, 9, 9);
     g.fillRect(58, 11, 9, 9);
     ic = new ImageIcon(imageIconOrange);
@@ -561,14 +560,14 @@ public class JPanelWarehouse extends javax.swing.JPanel implements Refreshable {
     //Rot
     Image imageIconRed = new BufferedImage(70, 30, 2);
     g = imageIconRed.getGraphics();
-    g.setColor(red);
+    g.setColor(RED);
     g.fillRect(10, 11, 10, 10);
     g.fillRect(22, 11, 10, 10);
     g.fillRect(34, 11, 10, 10);
 
     g.drawRect(46, 11, 9, 9);
     g.drawRect(58, 11, 9, 9);
-    g.setColor(redDither);
+    g.setColor(REDDITHER);
     g.fillRect(46, 11, 9, 9);
     g.fillRect(58, 11, 9, 9);
     ic = new ImageIcon(imageIconRed);
@@ -585,7 +584,7 @@ public class JPanelWarehouse extends javax.swing.JPanel implements Refreshable {
     g.drawRect(34, 11, 9, 9);
     g.drawRect(46, 11, 9, 9);
     g.drawRect(58, 11, 9, 9);
-    g.setColor(blackDither);
+    g.setColor(BLACKDITHER);
     g.fillRect(22, 11, 9, 9);
     g.fillRect(34, 11, 9, 9);
     g.fillRect(46, 11, 9, 9);
@@ -604,7 +603,7 @@ public class JPanelWarehouse extends javax.swing.JPanel implements Refreshable {
     g.fillRect(46, 11, 10, 10);
 
     g.drawRect(58, 11, 9, 9);
-    g.setColor(blackDither);
+    g.setColor(BLACKDITHER);
     g.fillRect(58, 11, 9, 9);
     ic = new ImageIcon(imageIconKapazBaldErschoepft);
     jLabelKapazBaldErschoepft.setIcon(ic);
@@ -630,7 +629,7 @@ public class JPanelWarehouse extends javax.swing.JPanel implements Refreshable {
   private void getArticle() {
     if (jComboBoxArtikelImLager.getSelectedItem() != null) {
       if (!jComboBoxArtikelImLager.getSelectedItem().toString().equals("leer")) {
-        ComponentWarehouseItem selectedElem = (ComponentWarehouseItem) etElems.get(jComboBoxArtikelImLager.getSelectedIndex());
+        ComponentWarehouseItem selectedElem = etElems.get(jComboBoxArtikelImLager.getSelectedIndex());
         jTextFieldMindestbestand.setText(String.valueOf(selectedElem.getMinBestand()));
         jTextFieldBestand.setText(String.valueOf(selectedElem.getBestand()));
         jTextFieldBelegung.setText(String.valueOf(selectedElem.getBestand() * 100 / selectedElem.getMaxBestand()));
@@ -660,7 +659,7 @@ public class JPanelWarehouse extends javax.swing.JPanel implements Refreshable {
     if (jComboBoxLagerplatz.getSelectedItem() != null) {
       if (!jComboBoxLagerplatz.getSelectedItem().toString().equals("Select:") && !jComboBoxLagerplatz.getSelectedItem().toString().equals(actLgPlatz)) {
         jComboBoxArtikelImLager.removeAllItems();
-        etElems.removeAll(etElems);
+        etElems.clear();
 
         actLgPlatz = jComboBoxLagerplatz.getSelectedItem().toString();
         ArrayList<ComponentWarehouseItem> etElemsCol = new ArrayList<>();
@@ -697,7 +696,7 @@ public class JPanelWarehouse extends javax.swing.JPanel implements Refreshable {
           ComponentWarehouseItem etElem = (ComponentWarehouseItem) etElems_it.next();
           WiSimComponent et = new WiSimComponent();
           try {
-            et = dao.getEinzelteil(etElem.getId());
+            et = dao.getComponent(etElem.getId());
           } catch (WiSimDAOException e) {
             wiSimLogger.log("getArtikelImLagerplatzInfo()", e);
           }
@@ -718,7 +717,7 @@ public class JPanelWarehouse extends javax.swing.JPanel implements Refreshable {
       if (jComboBoxLagerplatz.getSelectedItem().toString().equals("Select:")) {
         actLgPlatz = jComboBoxLagerplatz.getSelectedItem().toString();
         jComboBoxArtikelImLager.removeAllItems();
-        etElems.removeAll(etElems);
+        etElems.clear();
         jTextFieldMindestbestand.setText("");
         jTextFieldBestand.setText("");
         jTextFieldBelegung.setText("");
@@ -754,7 +753,7 @@ public class JPanelWarehouse extends javax.swing.JPanel implements Refreshable {
 
     //Update der Lagerplatz-Detailansicht
     if (!jComboBoxLagerplatz.getSelectedItem().equals("Select:") && !jComboBoxArtikelImLager.getSelectedItem().equals("leer")) {
-      etElems.removeAll(etElems);
+      etElems.clear();
 
       ArrayList<ComponentWarehouseItem> etElemsCol = new ArrayList<>();
       ArrayList<ComponentWarehouseItem> artElemsCol = new ArrayList<>();
@@ -789,7 +788,7 @@ public class JPanelWarehouse extends javax.swing.JPanel implements Refreshable {
         ComponentWarehouseItem etElem = (ComponentWarehouseItem) etElems_it.next();
         WiSimComponent et = new WiSimComponent();
         try {
-          et = dao.getEinzelteil(etElem.getId());
+          et = dao.getComponent(etElem.getId());
         } catch (WiSimDAOException e) {
           wiSimLogger.log("refreshLagerGesamtliste()", e);
         }
@@ -799,7 +798,7 @@ public class JPanelWarehouse extends javax.swing.JPanel implements Refreshable {
         etElems.add(etElem);
       }
 
-      ComponentWarehouseItem selectedElem = (ComponentWarehouseItem) etElems.get(jComboBoxArtikelImLager.getSelectedIndex());
+      ComponentWarehouseItem selectedElem = etElems.get(jComboBoxArtikelImLager.getSelectedIndex());
 
       //Aktualisiere nur wenn sich der Bestand geï¿½ndert hat!
       if (selectedElem.getBestand() != Integer.parseInt(jTextFieldBestand.getText())) {
@@ -813,32 +812,29 @@ public class JPanelWarehouse extends javax.swing.JPanel implements Refreshable {
     //Update der Gesamtliste
     try {
       einzelteileListe = dao.getEinzelteilLagerElement();
-      artikelListe = dao.getArtikelLagerElement();
+      articles = dao.getArtikelLagerElement();
     } catch (WiSimDAOException e) {
       wiSimLogger.log("refreshLagerGesamtliste()", e);
     }
 
     int i = 0;
-
-    Iterator art_it = artikelListe.iterator();
-    while (art_it.hasNext()) {
-      ComponentWarehouseItem artikel = (ComponentWarehouseItem) art_it.next();
-
-      //Aktualisiere nur wenn sich der Bestand geï¿½ndert hat!
-      if (artikel.getBestand() != Integer.parseInt((String) jTableGesamtliste.getValueAt(i, 1))) {
-        jTableGesamtliste.setValueAt(String.valueOf(artikel.getBestand()), i, 1);
+    for (ComponentWarehouseItem article : articles) {
+    
+      //Aktualisiere nur wenn sich der Bestand geändert hat!
+      if (article.getBestand() != Integer.parseInt((String) jTableGesamtliste.getValueAt(i, 1))) {
+        jTableGesamtliste.setValueAt(String.valueOf(article.getBestand()), i, 1);
 
         IconGenerater iconGen = new IconGenerater();
 
-        double actBestand = artikel.getBestand();
-        double actMaxBestand = artikel.getMaxBestand();
+        double actBestand = article.getBestand();
+        double actMaxBestand = article.getMaxBestand();
 
-        double rects = (double) (actBestand / actMaxBestand) * 5;
+        double rects = actBestand / actMaxBestand * 5;
         int filledrectsCount = (int) Math.round(rects);
 
-        if (artikel.getBestand() < artikel.getMinBestand()) {
+        if (article.getBestand() < article.getMinBestand()) {
           jTableGesamtliste.setValueAt(iconGen.generateIcon(2, filledrectsCount), i, 5);
-        } else if ((artikel.getBestand() - artikel.getMinBestand() / 2) < artikel.getMinBestand()) {
+        } else if ((article.getBestand() - article.getMinBestand() / 2) < article.getMinBestand()) {
           jTableGesamtliste.setValueAt(iconGen.generateIcon(1, filledrectsCount), i, 5);
         } else {
           jTableGesamtliste.setValueAt(iconGen.generateIcon(0, filledrectsCount), i, 5);
@@ -859,7 +855,7 @@ public class JPanelWarehouse extends javax.swing.JPanel implements Refreshable {
         double actBestand = einzelteil.getBestand();
         double actMaxBestand = einzelteil.getMaxBestand();
 
-        double rects = (double) (actBestand / actMaxBestand) * 5;
+        double rects = actBestand / actMaxBestand * 5;
         int filledrectsCount = (int) Math.round(rects);
 
         if (einzelteil.getBestand() < einzelteil.getMinBestand()) {

@@ -21,23 +21,21 @@
 **   This copyright notice MUST APPEAR in all copies of the file!           **
 **   ********************************************************************   */
 
-/*
+ /*
  * JPanelLieferantenliste.java
  *
  * Created on 13. März 2003, 21:06
  */
-
 package net.sourceforge.wisim.controller;
 
 import java.awt.Dimension;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Vector;
-
 import javax.swing.table.DefaultTableModel;
-
 import net.sourceforge.wisim.dao.WiSimDAO;
 import net.sourceforge.wisim.dao.WiSimDAOException;
 import net.sourceforge.wisim.model.Supplier;
@@ -48,42 +46,44 @@ import net.sourceforge.wisim.model.WiSimLogger;
 /**
  * JPanelLieferantenliste zeigt Liste aller Lieferanten.
  */
-
 public class JPanelViewSuppliers extends javax.swing.JPanel {
-	private WiSimDAO dao;
-	private Vector listeArtikel;
-	private Hashtable lieferantenObjekte;
-	private Hashtable lieferantenAuswahl;
-	private Hashtable zubehoerTabelle;
-	private int position;
-	private int positionen;
 
-	//	Logger
-	private WiSimLogger wiSimLogger;
+  private WiSimDAO dao;
+  private Vector listeArtikel;
+  private Hashtable lieferantenObjekte;
+  private Hashtable lieferantenAuswahl;
+  private Hashtable zubehoerTabelle;
+  private int position;
+  private int positionen;
 
-	private DecimalFormat format;
+  //	Logger
+  private WiSimLogger wiSimLogger;
 
-	/** Creates new form JPanelLieferantenliste
-	   * @param wiSimMainController Der Maincontroller
-	   */
-	public JPanelViewSuppliers(WiSimMainController wiSimMainController) {
-		wiSimLogger = wiSimMainController.getWiSimLogger();
-		initComponents();
-		initDAO(wiSimMainController);
-		zubehoerTabelle = new Hashtable();
-		lieferantenAuswahl = new Hashtable();
-		lieferantenObjekte = new Hashtable();
-		listeArtikel = new Vector();
-		listeArtikel.add("Bitte wählen");
-		this.setPreferredSize(new Dimension(800, 600));
-		format = new DecimalFormat("###,##0.00");
-	}
+  private DecimalFormat format;
 
-	private void initDAO(WiSimMainController wiSimMainController) {
-		dao = wiSimMainController.getDAO();
-	}
+  /**
+   * Creates new form JPanelLieferantenliste
+   *
+   * @param wiSimMainController Der Maincontroller
+   */
+  public JPanelViewSuppliers(WiSimMainController wiSimMainController) {
+    wiSimLogger = wiSimMainController.getWiSimLogger();
+    initComponents();
+    initDAO(wiSimMainController);
+    zubehoerTabelle = new Hashtable();
+    lieferantenAuswahl = new Hashtable();
+    lieferantenObjekte = new Hashtable();
+    listeArtikel = new Vector();
+    listeArtikel.add("Bitte wählen");
+    this.setPreferredSize(new Dimension(800, 600));
+    format = new DecimalFormat("###,##0.00");
+  }
 
-	private void initComponents() { //GEN-BEGIN:initComponents
+  private void initDAO(WiSimMainController wiSimMainController) {
+    dao = wiSimMainController.getDAO();
+  }
+
+	private void initComponents() {//GEN-BEGIN:initComponents
 		jLabelLieferantBearbeitenUeberschrift = new javax.swing.JLabel();
 		jTextFieldLieferantName = new javax.swing.JTextField();
 		jTextFieldLieferantVorname = new javax.swing.JTextField();
@@ -258,251 +258,253 @@ public class JPanelViewSuppliers extends javax.swing.JPanel {
 		add(jTextLieferantZuverlaessigkeit);
 		jTextLieferantZuverlaessigkeit.setBounds(510, 410, 30, 20);
 
-	} //GEN-END:initComponents
+	}//GEN-END:initComponents
 
-	private void jTableLieferantenMouseClicked(java.awt.event.MouseEvent evt) { //GEN-FIRST:event_jTableLieferantenMouseClicked
-		loadSupplier();
-	} //GEN-LAST:event_jTableLieferantenMouseClicked
+	private void jTableLieferantenMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableLieferantenMouseClicked
+          loadSupplier();
+	}//GEN-LAST:event_jTableLieferantenMouseClicked
 
-	private void jTableLieferantenAncestorAdded(javax.swing.event.AncestorEvent evt) { //GEN-FIRST:event_jTableLieferantenAncestorAdded
-		setStandard();
-		loadSuppliers();
-		loadSupplier();
-	} //GEN-LAST:event_jTableLieferantenAncestorAdded
+	private void jTableLieferantenAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jTableLieferantenAncestorAdded
+          setStandard();
+          loadSuppliers();
+          loadSupplier();
+	}//GEN-LAST:event_jTableLieferantenAncestorAdded
 
-	//Füllt die Tabelle Lieferantenliste mit den in der DB vorhandenen Lieferanten
-	private void loadSuppliers() {
-		try {
-			Collection lieferanten = null;
-			lieferanten = dao.getLieferanten();
-			Iterator it_lieferanten = lieferanten.iterator();
-			positionen = 0;
-			int row;
+  //Füllt die Tabelle Lieferantenliste mit den in der DB vorhandenen Lieferanten
+  private void loadSuppliers() {
+    try {
+      Collection<Supplier> suppliers = null;
+      suppliers = dao.getSuppliers();
+      positionen = 0;
+      int row;
 
-			while (it_lieferanten.hasNext()) {
+      for (Supplier supplier : suppliers) {
+        //gesamter Tabelleninhalt wird Zwischengespeichert
+        Vector tableTempRow = new Vector();
+        row = 0;
 
-				//gesamter Tabelleninhalt wird Zwischengespeichert
-				Vector tableTempRow = new Vector();
-				row = 0;
+        while (row < positionen) {
+          tableTempRow.add(jTableLieferanten.getValueAt(row, 0));
+          row++;
+        }
 
-				while (row < positionen) {
-					tableTempRow.add(jTableLieferanten.getValueAt(row, 0));
-					row++;
-				}
+        //DefaultTableModel mit Variablen Zeilen, 3 TableHeads und nicht editierbaren Zellen
+        boolean delete = false;
+        updateSupplierTable(delete);
 
-				//DefaultTableModel mit Variablen Zeilen, 3 TableHeads und nicht editierbaren Zellen
-				boolean delete = false;
-				updateSupplierTable(delete);
+        if (tableTempRow.size() > 0) {
+          Iterator it_tableTempRow = tableTempRow.iterator();
+          row = 0;
+          while (it_tableTempRow.hasNext()) {
+            String complete = (String) it_tableTempRow.next();
+            String[] chunks = complete.split(",");
+            jTableLieferanten.setValueAt(chunks[0], row, 0);
+            row++;
+          }
+        }
 
-				if (tableTempRow.size() > 0) {
-					Iterator it_tableTempRow = tableTempRow.iterator();
-					row = 0;
-					while (it_tableTempRow.hasNext()) {
-						String complete = (String) it_tableTempRow.next();
-						String[] chunks = complete.split(",");
-						jTableLieferanten.setValueAt(chunks[0], row, 0);
-						row++;
-					}
-				}
+        lieferantenObjekte.put((String.valueOf(positionen)), supplier);
+        lieferantenAuswahl.put((String.valueOf(positionen)), String.valueOf(supplier.getId()));
+        jTableLieferanten.setValueAt(supplier.getFirma(), positionen, 0);
+        positionen++;
+      }
+    } catch (WiSimDAOException e) {
+      wiSimLogger.log("loadSuppliers()", e);
+    }
+  }
 
-				Supplier liste = (Supplier) it_lieferanten.next();
-				lieferantenObjekte.put((String.valueOf(positionen)), liste);
-				lieferantenAuswahl.put((String.valueOf(positionen)), String.valueOf(liste.getId()));
-				jTableLieferanten.setValueAt(liste.getFirma(), positionen, 0);
-				positionen++;
-			}
-		} catch (WiSimDAOException e) {
-			wiSimLogger.log("ladeLieferanten()", e);
-		}
-	}
+  //Lädt einen Kunden zum Bearbeiten aus der Datenbank
+  private void loadSupplier() {
 
-	//Lädt einen Kunden zum Bearbeiten aus der Datenbank
-	private void loadSupplier() {
+    //liefert listItem des selektierten Eintrags 
+    String listItem = String.valueOf(jTableLieferanten.getSelectedRow());
+    Supplier auswahlLieferant = (Supplier) lieferantenObjekte.get(listItem);
 
-		//liefert listItem des selektierten Eintrags 
-		String listItem = String.valueOf(jTableLieferanten.getSelectedRow());
-		Supplier auswahlLieferant = (Supplier) lieferantenObjekte.get(listItem);
+    position = 0;
+    boolean deleted = true;
+    updatePositionsTable(deleted);
 
-		position = 0;
-		boolean deleted = true;
-		updatePositionsTable(deleted);
+    if (auswahlLieferant != null) {
+      jTextFieldLieferantName.setText(auswahlLieferant.getNachname());
+      jTextFieldLieferantVorname.setText(auswahlLieferant.getVorname());
+      jTextFieldLieferantFirma.setText(auswahlLieferant.getFirma());
+      jTextFieldLieferantStrasse.setText(auswahlLieferant.getStrasse());
+      jTextFieldLieferantTelefon.setText(auswahlLieferant.getTelefon());
+      jTextFieldLieferantFax.setText(auswahlLieferant.getFax());
+      jTextFieldLieferantEMail.setText(auswahlLieferant.getEmail());
+      jTextFieldLieferantPLZ.setText(String.valueOf(auswahlLieferant.getPlz()));
+      jTextFieldLieferantOrt.setText(auswahlLieferant.getOrt());
+      jTextLieferantLieferqualitaet.setText(auswahlLieferant.getLieferqualitaet());
+      jTextLieferantZuverlaessigkeit.setText(auswahlLieferant.getZuverlaessigkeit());
+      zubehoerTabelle.clear();
+      loadDependingSpareParts(auswahlLieferant.getId());
+    }
+  }
 
-		if (auswahlLieferant != null) {
-			jTextFieldLieferantName.setText(auswahlLieferant.getNachname());
-			jTextFieldLieferantVorname.setText(auswahlLieferant.getVorname());
-			jTextFieldLieferantFirma.setText(auswahlLieferant.getFirma());
-			jTextFieldLieferantStrasse.setText(auswahlLieferant.getStrasse());
-			jTextFieldLieferantTelefon.setText(auswahlLieferant.getTelefon());
-			jTextFieldLieferantFax.setText(auswahlLieferant.getFax());
-			jTextFieldLieferantEMail.setText(auswahlLieferant.getEmail());
-			jTextFieldLieferantPLZ.setText(String.valueOf(auswahlLieferant.getPlz()));
-			jTextFieldLieferantOrt.setText(auswahlLieferant.getOrt());
-			jTextLieferantLieferqualitaet.setText(auswahlLieferant.getLieferqualitaet());
-			jTextLieferantZuverlaessigkeit.setText(auswahlLieferant.getZuverlaessigkeit());
-			zubehoerTabelle.clear();
-			loadDependingSpareParts(auswahlLieferant.getId());
-		}
-	}
+  // Ladet die Einzelteile des Lieferanten 
+  private void loadDependingSpareParts(int id) {
 
-	// Ladet die Einzelteile des Lieferanten 
-	private void loadDependingSpareParts(int id) {
+    try {
+      ArrayList<SupplyList> lieferliste = null;
+      WiSimComponent einzelteil = null;
+      lieferliste = dao.getSupplyLists(id);
+      Iterator it_lieferlisten = lieferliste.iterator();
 
-		try {
-			Collection lieferliste = null;
-			WiSimComponent einzelteil = null;
-			lieferliste = dao.getLieferliste(id);
-			Iterator it_lieferlisten = lieferliste.iterator();
+      while (it_lieferlisten.hasNext()) {
+        SupplyList liste = (SupplyList) it_lieferlisten.next();
+        einzelteil = dao.getComponent(liste.getEinzelteilID());
 
-			while (it_lieferlisten.hasNext()) {
-				SupplyList liste = (SupplyList) it_lieferlisten.next();
-				einzelteil = dao.getEinzelteil(liste.getEinzelteilID());
+        //gesamter Tabelleninhalt wird Zwischengespeichert
+        Vector tableTempRow = new Vector();
+        int row = 0;
 
-				//gesamter Tabelleninhalt wird Zwischengespeichert
-				Vector tableTempRow = new Vector();
-				int row = 0;
+        while (row < position) {
+          tableTempRow.add(jTable1.getValueAt(row, 0) + ";" + jTable1.getValueAt(row, 1) + ";" + jTable1.getValueAt(row, 2));
+          row++;
+        }
 
-				while (row < position) {
-					tableTempRow.add(jTable1.getValueAt(row, 0) + ";" + jTable1.getValueAt(row, 1) + ";" + jTable1.getValueAt(row, 2));
-					row++;
-				}
+        //DefaultTableModel mit Variablen Zeilen, 3 TableHeads und nicht editierbaren Zellen
+        boolean deleted = false;
+        updatePositionsTable(deleted);
 
-				//DefaultTableModel mit Variablen Zeilen, 3 TableHeads und nicht editierbaren Zellen
-				boolean deleted = false;
-				updatePositionsTable(deleted);
+        if (tableTempRow.size() > 0) {
+          Iterator it_tableTempRow = tableTempRow.iterator();
+          row = 0;
+          while (it_tableTempRow.hasNext()) {
+            String complete = (String) it_tableTempRow.next();
+            String[] chunks = complete.split(";");
+            jTable1.setValueAt(chunks[0], row, 0);
+            jTable1.setValueAt(chunks[1], row, 1);
+            jTable1.setValueAt(chunks[2], row, 2);
+            row++;
+          }
+        }
 
-				if (tableTempRow.size() > 0) {
-					Iterator it_tableTempRow = tableTempRow.iterator();
-					row = 0;
-					while (it_tableTempRow.hasNext()) {
-						String complete = (String) it_tableTempRow.next();
-						String[] chunks = complete.split(";");
-						jTable1.setValueAt(chunks[0], row, 0);
-						jTable1.setValueAt(chunks[1], row, 1);
-						jTable1.setValueAt(chunks[2], row, 2);
-						row++;
-					}
-				}
+        zubehoerTabelle.put(einzelteil.getName(), String.valueOf(einzelteil.getNr()));
+        jTable1.setValueAt(einzelteil.getName(), position, 0);
+        jTable1.setValueAt(String.valueOf(liste.getMindestBestellMenge()), position, 1);
+        double price = liste.getPreis();
+        jTable1.setValueAt(format.format(price), position, 2);
+        position++;
+      }
+    } catch (WiSimDAOException e) {
+      wiSimLogger.log("ladeZugehoerigeEinzelteile()", e);
+    }
+  }
 
-				zubehoerTabelle.put(einzelteil.getName(), String.valueOf(einzelteil.getNr()));
-				jTable1.setValueAt(einzelteil.getName(), position, 0);
-				jTable1.setValueAt(String.valueOf(liste.getMindestBestellMenge()), position, 1);
-				double price = liste.getPreis();
-				jTable1.setValueAt(format.format(price), position, 2);
-				position++;
-			}
-		} catch (WiSimDAOException e) {
-			wiSimLogger.log("ladeZugehoerigeEinzelteile()", e);
-		}
-	}
+  /**
+   * Schreibt die Positions-Tabelle neu
+   *
+   * @param Deleted boolean
+   */
+  private void updatePositionsTable(boolean deleted) {
+    int rows;
 
-	/** Schreibt die Positions-Tabelle neu
-	 * @param Deleted boolean
-	 */
-	private void updatePositionsTable(boolean deleted) {
-		int rows;
+    if (deleted) {
+      rows = position;
+    } else {
+      rows = position + 1;
+    }
+    //DefaultTableModel mit Variablen Zeilen, 3 TableHeads und nicht editierbaren Zellen
+    Object[][] tableInit = new Object[rows][3];
+    DefaultTableModel defTable = new DefaultTableModel(tableInit, new String[]{"Artikel", "MinAbnahme", "Preis/Stk"}) {
+      boolean[] canEdit = new boolean[]{false, false, false};
 
-		if (deleted) {
-			rows = position;
-		} else {
-			rows = position + 1;
-		}
-		//DefaultTableModel mit Variablen Zeilen, 3 TableHeads und nicht editierbaren Zellen
-		Object[][] tableInit = new Object[rows][3];
-		DefaultTableModel defTable = new DefaultTableModel(tableInit, new String[] { "Artikel", "MinAbnahme", "Preis/Stk" }) {
-			boolean[] canEdit = new boolean[] { false, false, false };
-			public boolean isCellEditable(int rowIndex, int columnIndex) {
-				return canEdit[columnIndex];
-			}
-		};
-		jTable1.setModel(defTable);
-		jTable1.setFocusable(false);
-		javax.swing.table.TableColumn column = null;
+      public boolean isCellEditable(int rowIndex, int columnIndex) {
+        return canEdit[columnIndex];
+      }
+    };
+    jTable1.setModel(defTable);
+    jTable1.setFocusable(false);
+    javax.swing.table.TableColumn column = null;
 
-		//Spaltenbreiten der Tabelle werden gesetzt
-		for (int i = 0; i < 3; i++) {
-			column = jTable1.getColumnModel().getColumn(i);
-			switch (i) {
-				//Article
-				case 0 :
-					column.setPreferredWidth(120);
-					break;
-					//Menge
-				case 1 :
-					column.setPreferredWidth(15);
-					break;
-					//Preis
-				case 2 :
-					column.setPreferredWidth(15);
-					break;
-			}
-		}
-	}
+    //Spaltenbreiten der Tabelle werden gesetzt
+    for (int i = 0; i < 3; i++) {
+      column = jTable1.getColumnModel().getColumn(i);
+      switch (i) {
+        //Article
+        case 0:
+          column.setPreferredWidth(120);
+          break;
+        //Menge
+        case 1:
+          column.setPreferredWidth(15);
+          break;
+        //Preis
+        case 2:
+          column.setPreferredWidth(15);
+          break;
+      }
+    }
+  }
 
-	/** Schreibt die Lieferanten-Tabelle neu
-	 * @param Delete boolean
-	 */
-	private void updateSupplierTable(boolean delete) {
-		int rows;
+  /**
+   * Schreibt die Lieferanten-Tabelle neu
+   *
+   * @param Delete boolean
+   */
+  private void updateSupplierTable(boolean delete) {
+    int rows;
 
-		if (delete) {
-			rows = positionen;
-		} else {
-			rows = positionen + 1;
-		}
-		//DefaultTableModel mit Variablen Zeilen, 1 TableHead und nicht editierbaren Zellen
-		Object[][] tableInit = new Object[rows][1];
-		DefaultTableModel defTable = new DefaultTableModel(tableInit, new String[] { "Lieferant" }) {
-			boolean[] canEdit = new boolean[] { false };
+    if (delete) {
+      rows = positionen;
+    } else {
+      rows = positionen + 1;
+    }
+    //DefaultTableModel mit Variablen Zeilen, 1 TableHead und nicht editierbaren Zellen
+    Object[][] tableInit = new Object[rows][1];
+    DefaultTableModel defTable = new DefaultTableModel(tableInit, new String[]{"Lieferant"}) {
+      boolean[] canEdit = new boolean[]{false};
 
-			public boolean isCellEditable(int rowIndex, int columnIndex) {
-				return canEdit[columnIndex];
-			}
-		};
-		jTableLieferanten.setModel(defTable);
-		jTableLieferanten.setFocusable(false);
-	}
+      public boolean isCellEditable(int rowIndex, int columnIndex) {
+        return canEdit[columnIndex];
+      }
+    };
+    jTableLieferanten.setModel(defTable);
+    jTableLieferanten.setFocusable(false);
+  }
 
-	// Setzt nach dem Speichern und Löschen eines Lieferanten die Werte auf Standard
-	private void setStandard() {
-		jTextFieldLieferantVorname.setText("");
-		jTextFieldLieferantName.setText("");
-		jTextFieldLieferantFirma.setText("");
-		jTextFieldLieferantStrasse.setText("");
-		jTextFieldLieferantOrt.setText("");
-		jTextFieldLieferantPLZ.setText("");
-		jTextFieldLieferantTelefon.setText("");
-		jTextFieldLieferantEMail.setText("");
-		jTextFieldLieferantFax.setText("");
-		jTextLieferantLieferqualitaet.setText("");
-		jTextLieferantZuverlaessigkeit.setText("");
-		position = 0;
-		boolean deleted = true;
-		updatePositionsTable(deleted);
-	}
-	// Variables declaration - do not modify
-	private javax.swing.JTextField jTextFieldLieferantStrasse;
-	private javax.swing.JLabel jLabelLieferantBearbeitenUeberschrift;
-	private javax.swing.JLabel jLabelLieferantLieferqualitaet2;
-	private javax.swing.JLabel jLabelLieferantLieferqualitaet1;
-	private javax.swing.JTextField jTextFieldLieferantOrt;
-	private javax.swing.JTextField jTextLieferantZuverlaessigkeit;
-	private javax.swing.JTable jTable1;
-	private javax.swing.JTextField jTextFieldLieferantVorname;
-	private javax.swing.JTextField jTextFieldLieferantFirma;
-	private javax.swing.JScrollPane jScrollPaneListe;
-	private javax.swing.JTextField jTextLieferantLieferqualitaet;
-	private javax.swing.JTextField jTextFieldLieferantFax;
-	private javax.swing.JTextField jTextFieldLieferantName;
-	private javax.swing.JTextField jTextFieldLieferantTelefon;
-	private javax.swing.JLabel jLabelLieferantZuverlaessigkeit;
-	private javax.swing.JLabel jLabelLieferantLieferqualitaet;
-	private javax.swing.JScrollPane jScrollPanePositionen;
-	private javax.swing.JLabel jLabelLieferantFax;
-	private javax.swing.JLabel jLabelLieferantTelefon;
-	private javax.swing.JLabel jLabel2;
-	private javax.swing.JLabel jLabel1;
-	private javax.swing.JTextField jTextFieldLieferantPLZ;
-	private javax.swing.JTextField jTextFieldLieferantEMail;
-	private javax.swing.JTable jTableLieferanten;
-	// End of variables declaration
+  // Setzt nach dem Speichern und Löschen eines Lieferanten die Werte auf Standard
+  private void setStandard() {
+    jTextFieldLieferantVorname.setText("");
+    jTextFieldLieferantName.setText("");
+    jTextFieldLieferantFirma.setText("");
+    jTextFieldLieferantStrasse.setText("");
+    jTextFieldLieferantOrt.setText("");
+    jTextFieldLieferantPLZ.setText("");
+    jTextFieldLieferantTelefon.setText("");
+    jTextFieldLieferantEMail.setText("");
+    jTextFieldLieferantFax.setText("");
+    jTextLieferantLieferqualitaet.setText("");
+    jTextLieferantZuverlaessigkeit.setText("");
+    position = 0;
+    boolean deleted = true;
+    updatePositionsTable(deleted);
+  }
+  // Variables declaration - do not modify
+  private javax.swing.JTextField jTextFieldLieferantStrasse;
+  private javax.swing.JLabel jLabelLieferantBearbeitenUeberschrift;
+  private javax.swing.JLabel jLabelLieferantLieferqualitaet2;
+  private javax.swing.JLabel jLabelLieferantLieferqualitaet1;
+  private javax.swing.JTextField jTextFieldLieferantOrt;
+  private javax.swing.JTextField jTextLieferantZuverlaessigkeit;
+  private javax.swing.JTable jTable1;
+  private javax.swing.JTextField jTextFieldLieferantVorname;
+  private javax.swing.JTextField jTextFieldLieferantFirma;
+  private javax.swing.JScrollPane jScrollPaneListe;
+  private javax.swing.JTextField jTextLieferantLieferqualitaet;
+  private javax.swing.JTextField jTextFieldLieferantFax;
+  private javax.swing.JTextField jTextFieldLieferantName;
+  private javax.swing.JTextField jTextFieldLieferantTelefon;
+  private javax.swing.JLabel jLabelLieferantZuverlaessigkeit;
+  private javax.swing.JLabel jLabelLieferantLieferqualitaet;
+  private javax.swing.JScrollPane jScrollPanePositionen;
+  private javax.swing.JLabel jLabelLieferantFax;
+  private javax.swing.JLabel jLabelLieferantTelefon;
+  private javax.swing.JLabel jLabel2;
+  private javax.swing.JLabel jLabel1;
+  private javax.swing.JTextField jTextFieldLieferantPLZ;
+  private javax.swing.JTextField jTextFieldLieferantEMail;
+  private javax.swing.JTable jTableLieferanten;
+  // End of variables declaration
 }

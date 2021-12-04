@@ -27,7 +27,7 @@
  */
 package net.sourceforge.wisim.model;
 
-import java.util.Collection;
+import java.util.ArrayList;
 
 /**
  * Die Summe der Einzelteile eines bestimmten Typs (Name, Einzelteile Nr,
@@ -43,7 +43,7 @@ public class ComponentWarehouseItem {
   private int minBestand;
   private int maxBestand;
   private int bestand;
-  private Collection lagerplaetze;
+  private ArrayList<String> workPlaces; // TODO Warum String?
 
   /**
    * Erstellt eine neue Instanz ComponentWarehouseItem. Es kann sich um einen
@@ -54,16 +54,16 @@ public class ComponentWarehouseItem {
    * @param minBestand Mindestbestand
    * @param maxBestand Maximalbestand
    * @param bestand aktueller Bestand
-   * @param lagerplaetze Lagerplätze an denen der Article oder das
+   * @param workplaces Lagerplätze an denen der Article oder das
    * WiSimComponent lagert
    */
-  public ComponentWarehouseItem(String einzelteilName, int id, int minBestand, int maxBestand, int bestand, Collection lagerplaetze) {
+  public ComponentWarehouseItem(String einzelteilName, int id, int minBestand, int maxBestand, int bestand, ArrayList<String> workplaces) {
     this.einzelteilName = einzelteilName;
     this.id = id;
     this.minBestand = minBestand;
     this.maxBestand = maxBestand;
     this.bestand = bestand;
-    this.lagerplaetze = lagerplaetze;
+    this.workPlaces = workplaces;
   }
 
   /**
@@ -120,8 +120,8 @@ public class ComponentWarehouseItem {
   /**
    * @return Anzahl der Lagerplätze
    */
-  public Collection getLagerplaetze() {
-    return lagerplaetze;
+  public ArrayList<String> getLagerplaetze() {
+    return workPlaces;
   }
 
   /**
@@ -161,10 +161,10 @@ public class ComponentWarehouseItem {
   }
 
   /**
-   * @param lagerplaetze
+   * @param workplaces
    */
-  public void setLagerplaetze(Collection lagerplaetze) {
-    this.lagerplaetze = lagerplaetze;
+  public void setLagerplaetze(ArrayList<String> workplaces) {
+    this.workPlaces = workplaces;
   }
 
   /**

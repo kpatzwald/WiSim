@@ -20,7 +20,6 @@
 **                                                                          **
 **   This copyright notice MUST APPEAR in all copies of the file!           **
 **   ********************************************************************   */
-
 package net.sourceforge.wisim.networkplan;
 
 import java.util.ArrayList;
@@ -29,345 +28,387 @@ import java.util.Iterator;
 
 /**
  * Class for calculating a network plan element.
+ *
  * @author Benjamin Pasero
  * @version 0.7a
  */
 public class NetworkplanCalculator {
 
-	private ArrayList<NetworkplanElement> npElemente;
-	private Iterator npElemIt;
+  private ArrayList<NetworkplanElement> npElemente;
+  private Iterator npElemIt;
 
-	/**
-	 * Calculates a networkplan element
-	 * @param npElemente Vector holding all networkplan elements
-	 * @param lightReCalc TRUE if only Faz / Fez, Saz / Sez and Buffer
-	 * have to be calculated. FALSE if its first calculation
-	 */
-	public NetworkplanCalculator(ArrayList<NetworkplanElement> npElemente, boolean lightReCalc) {
-		this.npElemente = npElemente;
-		npElemIt = npElemente.iterator();
+  /**
+   * Calculates a networkplan element
+   *
+   * @param npElemente Vector holding all networkplan elements
+   * @param lightReCalc TRUE if only Faz / Fez, Saz / Sez and Buffer have to be
+   * calculated. FALSE if its first calculation
+   */
+  public NetworkplanCalculator(ArrayList<NetworkplanElement> npElemente, boolean lightReCalc) {
+    this.npElemente = npElemente;
+    npElemIt = npElemente.iterator();
 
-		/** This is the first calculation */
-		if (!lightReCalc) {
+    /**
+     * This is the first calculation
+     */
+    if (!lightReCalc) {
 
-			/** Set index in the vector storing the networkplan elements */
-			setIndex();
+      /**
+       * Set index in the vector storing the networkplan elements
+       */
+      setIndex();
 
-			if (((NetworkplanElement) npElemente.get(0)).isChildSet()) {
+      if (npElemente.get(0).isChildSet()) {
 
-				/** Calculate the parent networkplan elements */
-				setParents();
+        /**
+         * Calculate the parent networkplan elements
+         */
+        setParents();
 
-			} else {
+      } else {
 
-				/** Calculate the child networkplan elements */
-				setChilds();
-			}
-		}
+        /**
+         * Calculate the child networkplan elements
+         */
+        setChilds();
+      }
+    }
 
-		/** Calculation */
-		calculateFazFez();
-		calculateSazSez();
-		calculatePuffer();
-	}
+    /**
+     * Calculation
+     */
+    calculateFazFez();
+    calculateSazSez();
+    calculatePuffer();
+  }
 
-	/** 
-	 * Determination of the parent network elements 
-	 */
-	public void setParents() {
-		npElemIt = npElemente.iterator();
-		while (npElemIt.hasNext()) {
-			NetworkplanElement npElem = (NetworkplanElement) npElemIt.next();
-			int[] child = npElem.getChild();
-			int i = 0;
-			while (i < child.length && child[i] != 0) {
-				((NetworkplanElement) npElemente.get(child[i] - 1)).addIntoParentBasket(new Integer(npElem.getIndex()));
-				i++;
-			}
-		}
+  /**
+   * Determination of the parent network elements
+   */
+  public void setParents() {
+    npElemIt = npElemente.iterator();
+    while (npElemIt.hasNext()) {
+      NetworkplanElement npElem = (NetworkplanElement) npElemIt.next();
+      int[] child = npElem.getChild();
+      int i = 0;
+      while (i < child.length && child[i] != 0) {
+        npElemente.get(child[i] - 1).addIntoParentBasket(npElem.getIndex());
+        i++;
+      }
+    }
 
-		npElemIt = npElemente.iterator();
-		while (npElemIt.hasNext()) {
-			NetworkplanElement npElem = (NetworkplanElement) npElemIt.next();
-			if (npElem.getParentBasket().size() > 0) {
-				npElem.getFromParentBasket();
-			} else {
-				npElem.addIntoParentBasket(new Integer(0));
-				npElem.getFromParentBasket();
-			}
-		}
-	}
+    npElemIt = npElemente.iterator();
+    while (npElemIt.hasNext()) {
+      NetworkplanElement npElem = (NetworkplanElement) npElemIt.next();
+      if (npElem.getParentBasket().size() > 0) {
+        npElem.getFromParentBasket();
+      } else {
+        npElem.addIntoParentBasket(0);
+        npElem.getFromParentBasket();
+      }
+    }
+  }
 
-	/** Forward Calculation */
-	public void calculateFazFez() {
-		npElemIt = npElemente.iterator();
+  /**
+   * Forward Calculation
+   */
+  public void calculateFazFez() {
+    npElemIt = npElemente.iterator();
 
-		while (npElemIt.hasNext()) {
-			NetworkplanElement npElem = (NetworkplanElement) npElemIt.next();
+    while (npElemIt.hasNext()) {
+      NetworkplanElement npElem = (NetworkplanElement) npElemIt.next();
 
-			if (!npElem.isPseudoActivity()) {
-				int parent[] = npElem.getParent();
-				if (parent[0] == 0) {
-					npElem.setFaz(0);
-					npElem.setFez(npElem.getDuration());
-				} else {
-					int i = 0;
-					double maxFez = 0;
-					while (i < parent.length) {
-						NetworkplanElement npElemParent = (NetworkplanElement) npElemente.get(parent[i] - 1);
-						
-						if (maxFez < npElemParent.getFez())
-							maxFez = npElemParent.getFez();
+      if (!npElem.isPseudoActivity()) {
+        int parent[] = npElem.getParent();
+        if (parent[0] == 0) {
+          npElem.setFaz(0);
+          npElem.setFez(npElem.getDuration());
+        } else {
+          int i = 0;
+          double maxFez = 0;
+          while (i < parent.length) {
+            NetworkplanElement npElemParent = npElemente.get(parent[i] - 1);
 
-						i++;
-					}
+            if (maxFez < npElemParent.getFez()) {
+              maxFez = npElemParent.getFez();
+            }
 
-					npElem.setFaz(maxFez);
-					npElem.setFez(npElem.getFaz() + npElem.getDuration());
-				}
-			} else {
-				npElem.setFaz(0);
-				npElem.setFez(npElem.getFaz() + npElem.getDuration());
-			}
-		}
-	}
+            i++;
+          }
 
-	/** Backward Calculation */
-	public void calculateSazSez() {
-		ArrayList<NetworkplanElement> npElementeDesc = new ArrayList<>();
-		int a = npElemente.size() - 1;
+          npElem.setFaz(maxFez);
+          npElem.setFez(npElem.getFaz() + npElem.getDuration());
+        }
+      } else {
+        npElem.setFaz(0);
+        npElem.setFez(npElem.getFaz() + npElem.getDuration());
+      }
+    }
+  }
 
-		while (a >= 0) {
-			npElementeDesc.add(npElemente.get(a));
-			a--;
-		}
+  /**
+   * Backward Calculation
+   */
+  public void calculateSazSez() {
+    ArrayList<NetworkplanElement> npElementeDesc = new ArrayList<>();
+    int a = npElemente.size() - 1;
 
-		npElemIt = npElementeDesc.iterator();
-		ArrayList<NetworkplanElement> uncompleted = new ArrayList<>();
+    while (a >= 0) {
+      npElementeDesc.add(npElemente.get(a));
+      a--;
+    }
 
-		while (npElemIt.hasNext()) {
+    npElemIt = npElementeDesc.iterator();
+    ArrayList<NetworkplanElement> uncompleted = new ArrayList<>();
 
-			NetworkplanElement npElem = (NetworkplanElement) npElemIt.next();
+    while (npElemIt.hasNext()) {
 
-			int child[] = npElem.getChild();
+      NetworkplanElement npElem = (NetworkplanElement) npElemIt.next();
 
-			if (child[0] == 0) {
-				npElem.setSaz(npElem.getFaz());
-				npElem.setSez(npElem.getFez());
-			} else {
-				int i = 0;
-				//				double minSaz = ((NetworkplanElement) npElemente.get(child[0] - 1)).getSaz();
-				double minSaz = Integer.MAX_VALUE;
+      int child[] = npElem.getChild();
 
-				if (minSaz > 0) {
-					while (i < child.length) {
-						NetworkplanElement npElemChild = npElemente.get(child[i] - 1);
-						
-						if (minSaz > npElemChild.getSaz() && !npElemChild.isPseudoActivity())
-							minSaz = npElemChild.getSaz();
-						i++;
-					}
-					npElem.setSaz(minSaz - npElem.getDuration());
-					npElem.setSez(minSaz);
+      if (child[0] == 0) {
+        npElem.setSaz(npElem.getFaz());
+        npElem.setSez(npElem.getFez());
+      } else {
+        int i = 0;
+        //				double minSaz = ((NetworkplanElement) npElemente.get(child[0] - 1)).getSaz();
+        double minSaz = Integer.MAX_VALUE;
 
-					/** This child was not yet calculated */
-				} else {
-					uncompleted.add(npElem);
-				}
-			}
-		}
+        if (minSaz > 0) {
+          while (i < child.length) {
+            NetworkplanElement npElemChild = npElemente.get(child[i] - 1);
 
-		a = 0;
-		/** Calculate the missing elements */
-		while (a < uncompleted.size()) {
-			NetworkplanElement npElem = (NetworkplanElement) uncompleted.get(a);
+            if (minSaz > npElemChild.getSaz() && !npElemChild.isPseudoActivity()) {
+              minSaz = npElemChild.getSaz();
+            }
+            i++;
+          }
+          npElem.setSaz(minSaz - npElem.getDuration());
+          npElem.setSez(minSaz);
 
-			int child[] = npElem.getChild();
-			if (child[0] == 0) {
-				npElem.setSaz(npElem.getFaz());
-				npElem.setSez(npElem.getFez());
-			} else {
-				int i = 1;
-				double minSaz = ((NetworkplanElement) npElemente.get(child[0] - 1)).getSaz();
+          /**
+           * This child was not yet calculated
+           */
+        } else {
+          uncompleted.add(npElem);
+        }
+      }
+    }
 
-				if (minSaz != 0) {
-					while (i < child.length) {
-						NetworkplanElement npElemChild = (NetworkplanElement) npElemente.get(child[i] - 1);
-						if (minSaz > npElemChild.getSaz())
-							minSaz = npElemChild.getSaz();
-						i++;
-					}
-					npElem.setSaz(minSaz - npElem.getDuration());
-					npElem.setSez(minSaz);
-				}
-			}
-			a++;
-		}
-	}
+    a = 0;
+    /**
+     * Calculate the missing elements
+     */
+    while (a < uncompleted.size()) {
+      NetworkplanElement npElem = uncompleted.get(a);
 
-	/** Calculation of total float and free float */
-	public void calculatePuffer() {
+      int child[] = npElem.getChild();
+      if (child[0] == 0) {
+        npElem.setSaz(npElem.getFaz());
+        npElem.setSez(npElem.getFez());
+      } else {
+        int i = 1;
+        double minSaz = npElemente.get(child[0] - 1).getSaz();
 
-		/** total float (SAZ - FAZ) */
-		npElemIt = npElemente.iterator();
-		while (npElemIt.hasNext()) {
-			NetworkplanElement npElem = (NetworkplanElement) npElemIt.next();
-			npElem.setGp(npElem.getSaz() - npElem.getFaz());
-		}
+        if (minSaz != 0) {
+          while (i < child.length) {
+            NetworkplanElement npElemChild = npElemente.get(child[i] - 1);
+            if (minSaz > npElemChild.getSaz()) {
+              minSaz = npElemChild.getSaz();
+            }
+            i++;
+          }
+          npElem.setSaz(minSaz - npElem.getDuration());
+          npElem.setSez(minSaz);
+        }
+      }
+      a++;
+    }
+  }
 
-		/** free float (FAZ[i+1] - FEZ[i]) **/
-		npElemIt = npElemente.iterator();
-		while (npElemIt.hasNext()) {
-			NetworkplanElement npElem = (NetworkplanElement) npElemIt.next();
+  /**
+   * Calculation of total float and free float
+   */
+  public void calculatePuffer() {
 
-			int child[] = npElem.getChild();
-			if (child[0] != 0) {
-				int i = 0;
-				//				double minFaz = ((NetworkplanElement) npElemente.get(child[0] - 1)).getFaz();
-				double minFaz = Integer.MAX_VALUE;
-				while (i < child.length) {
-					NetworkplanElement npElemParent = (NetworkplanElement) npElemente.get(child[i] - 1);
-					if (minFaz > npElemParent.getFaz() && !npElemParent.isPseudoActivity())
-						minFaz = npElemParent.getFaz();
-					i++;
-				}
-				npElem.setFp(minFaz - npElem.getFez());
-			}
-		}
-	}
+    /**
+     * total float (SAZ - FAZ)
+     */
+    npElemIt = npElemente.iterator();
+    while (npElemIt.hasNext()) {
+      NetworkplanElement npElem = (NetworkplanElement) npElemIt.next();
+      npElem.setGp(npElem.getSaz() - npElem.getFaz());
+    }
 
-	/** 
-	 * Critical path containing network plan elements that have total
-	 * float = 0 and free float = 0
-	 * @return Vector with network plan elements of the critical path
-	 */
-	public ArrayList<Integer> getCriticalPath() {
-		ArrayList<Integer> criticalPath = new ArrayList<>();
+    /**
+     * free float (FAZ[i+1] - FEZ[i]) *
+     */
+    npElemIt = npElemente.iterator();
+    while (npElemIt.hasNext()) {
+      NetworkplanElement npElem = (NetworkplanElement) npElemIt.next();
 
-		npElemIt = npElemente.iterator();
-		while (npElemIt.hasNext()) {
-			NetworkplanElement npElem = (NetworkplanElement) npElemIt.next();
-			if (npElem.getFp() == 0 && npElem.getGp() == 0)
-				criticalPath.add(npElem.getIndex());
-		}
-		return criticalPath;
-	}
+      int child[] = npElem.getChild();
+      if (child[0] != 0) {
+        int i = 0;
+        //				double minFaz = ((NetworkplanElement) npElemente.get(child[0] - 1)).getFaz();
+        double minFaz = Integer.MAX_VALUE;
+        while (i < child.length) {
+          NetworkplanElement npElemParent = npElemente.get(child[i] - 1);
+          if (minFaz > npElemParent.getFaz() && !npElemParent.isPseudoActivity()) {
+            minFaz = npElemParent.getFaz();
+          }
+          i++;
+        }
+        npElem.setFp(minFaz - npElem.getFez());
+      }
+    }
+  }
 
-	/** 
-	 * Returns the number of branches in the network plan 
-	 * @return Width (Branches) of the network plan
-	 */
-	public int getCountedBranches() {
-		int countedBranches = 1;
-		npElemIt = npElemente.iterator();
-		while (npElemIt.hasNext()) {
-			NetworkplanElement npElem = (NetworkplanElement) npElemIt.next();
-			int actWidth = npElem.getChild().length;
+  /**
+   * Critical path containing network plan elements that have total float = 0
+   * and free float = 0
+   *
+   * @return Vector with network plan elements of the critical path
+   */
+  public ArrayList<Integer> getCriticalPath() {
+    ArrayList<Integer> criticalPath = new ArrayList<>();
 
-			if (actWidth > 1)
-				countedBranches += actWidth;
-		}
-		return countedBranches;
-	}
+    npElemIt = npElemente.iterator();
+    while (npElemIt.hasNext()) {
+      NetworkplanElement npElem = (NetworkplanElement) npElemIt.next();
+      if (npElem.getFp() == 0 && npElem.getGp() == 0) {
+        criticalPath.add(npElem.getIndex());
+      }
+    }
+    return criticalPath;
+  }
 
-	/**
-	 * @return The calculated network plan elements in a Vector
-	 */
-	public ArrayList<NetworkplanElement> getNpElemente() {
-		return npElemente;
-	}
+  /**
+   * Returns the number of branches in the network plan
+   *
+   * @return Width (Branches) of the network plan
+   */
+  public int getCountedBranches() {
+    int countedBranches = 1;
+    npElemIt = npElemente.iterator();
+    while (npElemIt.hasNext()) {
+      NetworkplanElement npElem = (NetworkplanElement) npElemIt.next();
+      int actWidth = npElem.getChild().length;
 
-	/** Set Index - each element's index is its position in the vector + 1 */
-	public void setIndex() {
+      if (actWidth > 1) {
+        countedBranches += actWidth;
+      }
+    }
+    return countedBranches;
+  }
 
-		int a = 0;
-		Hashtable newElemPos = new Hashtable();
+  /**
+   * @return The calculated network plan elements in a Vector
+   */
+  public ArrayList<NetworkplanElement> getNpElemente() {
+    return npElemente;
+  }
 
-		while (a < npElemente.size()) {
-			NetworkplanElement np = ((NetworkplanElement) npElemente.get(a));
-			np.setIndex(a + 1);
-			newElemPos.put(new Integer(np.getNumber()), new Integer(np.getIndex()));
-			a++;
-		}
+  /**
+   * Set Index - each element's index is its position in the vector + 1
+   */
+  public void setIndex() {
 
-		if (((NetworkplanElement) npElemente.get(0)).isChildSet()) {
+    int a = 0;
+    Hashtable newElemPos = new Hashtable();
 
-			/** Reset the child-Numbers */
-			a = 0;
-			while (a < npElemente.size()) {
-				NetworkplanElement np = (NetworkplanElement) npElemente.get(a);
-				int child[] = np.getChild();
+    while (a < npElemente.size()) {
+      NetworkplanElement np = npElemente.get(a);
+      np.setIndex(a + 1);
+      newElemPos.put(np.getNumber(), np.getIndex());
+      a++;
+    }
 
-				int b = 0;
-				while (b < child.length && child[b] != 0) {
-					child[b] = ((Integer) newElemPos.get(new Integer(child[b]))).intValue();
-					b++;
-				}
-				a++;
-			}
-		} else {
+    if (npElemente.get(0).isChildSet()) {
 
-			/** Reset the parent-Numbers */
-			a = 0;
-			while (a < npElemente.size()) {
-				NetworkplanElement np = (NetworkplanElement) npElemente.get(a);
-				int parent[] = np.getParent();
+      /**
+       * Reset the child-Numbers
+       */
+      a = 0;
+      while (a < npElemente.size()) {
+        NetworkplanElement np = npElemente.get(a);
+        int child[] = np.getChild();
 
-				int b = 0;
-				while (b < parent.length && parent[b] != 0) {
-					parent[b] = ((Integer) newElemPos.get(new Integer(parent[b]))).intValue();
-					b++;
-				}
-				a++;
-			}
-		}
-	}
+        int b = 0;
+        while (b < child.length && child[b] != 0) {
+          child[b] = ((Integer) newElemPos.get(child[b]));
+          b++;
+        }
+        a++;
+      }
+    } else {
 
-	/** 
-	 * Determination of the child network elements 
-	 */
-	public void setChilds() {
+      /**
+       * Reset the parent-Numbers
+       */
+      a = 0;
+      while (a < npElemente.size()) {
+        NetworkplanElement np = npElemente.get(a);
+        int parent[] = np.getParent();
 
-		checkForPseudoActivity();
+        int b = 0;
+        while (b < parent.length && parent[b] != 0) {
+          parent[b] = ((Integer) newElemPos.get(parent[b]));
+          b++;
+        }
+        a++;
+      }
+    }
+  }
 
-		npElemIt = npElemente.iterator();
-		while (npElemIt.hasNext()) {
-			NetworkplanElement npElem = (NetworkplanElement) npElemIt.next();
-			int[] parent = npElem.getParent();
-			int i = 0;
-			while (i < parent.length && parent[i] != 0) {
-				((NetworkplanElement) npElemente.get(parent[i] - 1)).addIntoChildBasket(new Integer(npElem.getIndex()));
-				i++;
-			}
-		}
+  /**
+   * Determination of the child network elements
+   */
+  public void setChilds() {
 
-		npElemIt = npElemente.iterator();
-		while (npElemIt.hasNext()) {
-			NetworkplanElement npElem = (NetworkplanElement) npElemIt.next();
-			if (npElem.getChildBasket().size() > 0) {
-				npElem.getFromChildBasket();
-			} else {
-				npElem.addIntoChildBasket(new Integer(0));
-				npElem.getFromChildBasket();
-			}
-		}
-	}
+    checkForPseudoActivity();
 
-	/** 
-	 * Check from second to last element if parent is 0. If so, its
-	 * a pseudo element.
-	 */
-	public void checkForPseudoActivity() {
+    npElemIt = npElemente.iterator();
+    while (npElemIt.hasNext()) {
+      NetworkplanElement npElem = (NetworkplanElement) npElemIt.next();
+      int[] parent = npElem.getParent();
+      int i = 0;
+      while (i < parent.length && parent[i] != 0) {
+        npElemente.get(parent[i] - 1).addIntoChildBasket(npElem.getIndex());
+        i++;
+      }
+    }
 
-		for (int a = 1; a < npElemente.size(); a++) {
-			NetworkplanElement np = ((NetworkplanElement) npElemente.get(a));
-			int parent[] = np.getParent();
+    npElemIt = npElemente.iterator();
+    while (npElemIt.hasNext()) {
+      NetworkplanElement npElem = (NetworkplanElement) npElemIt.next();
+      if (npElem.getChildBasket().size() > 0) {
+        npElem.getFromChildBasket();
+      } else {
+        npElem.addIntoChildBasket(0);
+        npElem.getFromChildBasket();
+      }
+    }
+  }
 
-			/** This Element is a pseudo Activity */
-			if (parent[0] == 0) {
-				np.setParent(new int[] { 1 });
-				np.setPseudoActivity(true);
-			}
-		}
-	}
+  /**
+   * Check from second to last element if parent is 0. If so, its a pseudo
+   * element.
+   */
+  public void checkForPseudoActivity() {
+
+    for (int a = 1; a < npElemente.size(); a++) {
+      NetworkplanElement np = npElemente.get(a);
+      int parent[] = np.getParent();
+
+      /**
+       * This Element is a pseudo Activity
+       */
+      if (parent[0] == 0) {
+        np.setParent(new int[]{1});
+        np.setPseudoActivity(true);
+      }
+    }
+  }
 }

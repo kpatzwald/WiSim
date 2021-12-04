@@ -21,95 +21,96 @@
 **   This copyright notice MUST APPEAR in all copies of the file!           **
 **   ********************************************************************   */
 
-/*
- * EinzelteilauftragPositionen.java
+ /*
+ * ComponentContractItem.java
  *
  * Created on 8. März 2003, 15:46
  */
-
 package net.sourceforge.wisim.model;
 
 /**
  *
- * @author  benjamin.pasero
+ * @author benjamin.pasero
  */
 public class ComponentContractItem {
-    
-		private int etNr;
-		private int etatNr;
-		private int bestellmenge;
-		private double preis;
-    
-    /** Creates a new instance of EinzelteilauftragPositionen */
-    public ComponentContractItem() {
-    }
-    
-    /**
-     * @param Preis
-     * @param etNr
-     * @param etatNr
-     * @param Bestellmenge
-     */    
-    public ComponentContractItem(int etNr, int etatNr, int bestellmenge, double preis) {
-        this.etNr = etNr;
-        this.etatNr = etatNr;
-        this.bestellmenge = bestellmenge;
-        this.preis = preis;
-    }
-    
-    /**
-     * @return Einzelteilenummer
-     */    
-    public int getEtNr(){
-        return etNr;
-    }
-    
-    /**
-     * @return Einzelteilauftragsnummer
-     */    
-    public int getEtatNr() {
-        return etatNr;
-    }
-    
-    /**
-     * @return Bestellmenge
-     */    
-    public int getBestellmenge() {
-        return bestellmenge;
-    }
-    
-    /**
-     * @return Preis
-     */    
-    public double getPreis() {
-        return preis;
-    }
-    
-    /**
-     * @param etNr
-     */    
-    public void setEtNr(int etNr){
-        this.etNr = etNr;
-    }
-    
-    /**
-     * @param etatNr
-     */    
-    public void setEtatNr(int etatNr) {
-        this.etatNr = etatNr;
-    }
-    
-    /**
-     * @param Bestellmenge
-     */    
-    public void setBestellmenge(int bestellmenge) {
-        this.bestellmenge = bestellmenge;
-    }   
-    
-    /**
-     * @param Preis
-     */    
-    public void setPreis(double preis) {
-        this.preis = preis;
-    }
+
+  private int etNr;
+  private int etatNr;
+  private int bestellmenge;
+  private double preis;
+
+  /**
+   * Creates a new instance of EinzelteilauftragPositionen
+   */
+  public ComponentContractItem() {
+  }
+
+  /**
+   * @param preis
+   * @param etNr
+   * @param etatNr
+   * @param bestellmenge
+   */
+  public ComponentContractItem(int etNr, int etatNr, int bestellmenge, double preis) {
+    this.etNr = etNr;
+    this.etatNr = etatNr;
+    this.bestellmenge = bestellmenge;
+    this.preis = preis;
+  }
+
+  /**
+   * @return Einzelteilenummer
+   */
+  public int getEtNr() {
+    return etNr;
+  }
+
+  /**
+   * @return Einzelteilauftragsnummer
+   */
+  public int getEtatNr() {
+    return etatNr;
+  }
+
+  /**
+   * @return Bestellmenge
+   */
+  public int getBestellmenge() {
+    return bestellmenge;
+  }
+
+  /**
+   * @return Preis
+   */
+  public double getPreis() {
+    return preis;
+  }
+
+  /**
+   * @param etNr
+   */
+  public void setEtNr(int etNr) {
+    this.etNr = etNr;
+  }
+
+  /**
+   * @param etatNr
+   */
+  public void setEtatNr(int etatNr) {
+    this.etatNr = etatNr;
+  }
+
+  /**
+   * @param bestellmenge
+   */
+  public void setBestellmenge(int bestellmenge) {
+    this.bestellmenge = bestellmenge;
+  }
+
+  /**
+   * @param preis
+   */
+  public void setPreis(double preis) {
+    this.preis = preis;
+  }
 }

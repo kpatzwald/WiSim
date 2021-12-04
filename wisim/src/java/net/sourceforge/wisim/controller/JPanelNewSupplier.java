@@ -32,12 +32,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.Vector;
-
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
-
 import net.sourceforge.wisim.dao.WiSimDAO;
 import net.sourceforge.wisim.dao.WiSimDAOException;
 import net.sourceforge.wisim.dao.WiSimDAOWriteException;
@@ -419,7 +416,7 @@ public class JPanelNewSupplier extends javax.swing.JPanel {
 	}//GEN-LAST:event_jButtonLieferantenAnlegenActionPerformed
 
   private void checkArticle() {
-    Vector check = checkFormArtikel();
+    ArrayList<String> check = checkFormArtikel();
     if (check.isEmpty()) {
       addArticle();
     } else {
@@ -568,7 +565,7 @@ public class JPanelNewSupplier extends javax.swing.JPanel {
       for (int i = 0; i < model.getSize(); i++) {
         WiSimComponent teil = null;
         try {
-          teil = dao.getEinzelteil(Integer.parseInt(einzelteileTabelle.get(model.getElementAt(i).toString()).toString()));
+          teil = dao.getComponent(Integer.parseInt(einzelteileTabelle.get(model.getElementAt(i).toString()).toString()));
         } catch (WiSimDAOException e) {
           wiSimLogger.log("neuerLieferant()", e);
         }
@@ -637,8 +634,8 @@ public class JPanelNewSupplier extends javax.swing.JPanel {
    * @author Kay Patzwald
    * @return Vector
    */
-  private Vector checkFormArtikel() {
-    Vector errors = new Vector();
+  private ArrayList<String> checkFormArtikel() {
+    ArrayList<String> errors = new ArrayList<>();
     if (jTextFieldNeuerLieferantPreis.getText().equals("")) {
       errors.add("Preis");
     }
@@ -681,9 +678,9 @@ public class JPanelNewSupplier extends javax.swing.JPanel {
    * @author Kay Patzwald
    */
   private void loadSpareParts() {
-    Collection teile = null;
+    Collection<WiSimComponent> components = null;
     try {
-      teile = dao.getEinzelteile();
+      components = dao.getAllComponents();
     } catch (WiSimDAOException e) {
       wiSimLogger.log("ladeEinzelteile()", e);
     }
@@ -692,8 +689,8 @@ public class JPanelNewSupplier extends javax.swing.JPanel {
     model.removeAllElements();
 
     // Verhindert NullPointerException bei einer leeren Liste
-    if (teile != null) {
-      Iterator it = teile.iterator();
+    if (components != null) {
+      Iterator it = components.iterator();
       while (it.hasNext()) {
         WiSimComponent teil = (WiSimComponent) it.next();
         if (teil.getNr() != HUB) {

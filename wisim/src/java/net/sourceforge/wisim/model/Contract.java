@@ -22,13 +22,14 @@
 **   ********************************************************************   */
 
 /*
- * Vertrag.java
+ * Contract.java
  *
  * Created on 4. März 2003, 23:46
  */
 
 package net.sourceforge.wisim.model;
 
+import java.sql.Date;
 import java.util.Collection;
 
 /**
@@ -38,14 +39,14 @@ import java.util.Collection;
 public class Contract {
     
     private int nr; //Vertrags ID
-    private java.sql.Date lieferdatum;
+    private Date lieferdatum;
     private double skonto;
     private long skontofrist;
     private double rabatt;
-    private java.sql.Date vertragsdatum;
+    private Date vertragsdatum;
     private int kd_nr;
     private int atr_nr;//Auftrags-Rechnungs-ID
-    private Collection <OrderItem> auftragPositionen;
+    private Collection <ContractOrderItem> auftragPositionen;
     
     /** Creates a new instance of Contract */
     public Contract() {
@@ -62,7 +63,7 @@ public class Contract {
      * @param atr_nr
      * @param skonto 
      */
-    public Contract(int nr, java.sql.Date lieferdatum, double skonto, long skontofrist, double rabatt, java.sql.Date vertragsdatum, int kd_nr, int atr_nr, Collection <OrderItem> auftragPositionen){
+    public Contract(int nr, Date lieferdatum, double skonto, long skontofrist, double rabatt, Date vertragsdatum, int kd_nr, int atr_nr, Collection <ContractOrderItem> auftragPositionen){
         this.nr = nr;
         this.lieferdatum = lieferdatum;
         this.skonto = skonto;
@@ -84,7 +85,7 @@ public class Contract {
     /** Gibt das Lieferdatum zurück
      * @return Date
      */
-    public java.sql.Date getLieferdatum(){
+    public Date getLieferdatum(){
         return lieferdatum;
     }
     
@@ -131,9 +132,9 @@ public class Contract {
     }
     
     /** Liste der einzelnen Positionen aus dem Auftrag
-     * @return Collection mit Objekten des Typs OrderItem
+     * @return Collection mit Objekten des Typs ContractOrderItem
      */
-    public Collection <OrderItem> getAuftragPositionen() {
+    public Collection <ContractOrderItem> getAuftragPositionen() {
         return auftragPositionen;
     }
     
@@ -204,7 +205,7 @@ public class Contract {
     /**
      * @param col Collection mit Objekten vom Typ AuftragPosition
      */
-    public void setAuftragPositionen(Collection <OrderItem> col) {
+    public void setAuftragPositionen(Collection <ContractOrderItem> col) {
         this.auftragPositionen = col;
     }
     

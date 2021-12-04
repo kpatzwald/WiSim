@@ -29,7 +29,7 @@
 
 package net.sourceforge.wisim.model;
 
-/**
+/** Describe a WiSim Component
  *
  * @author  Kay Patzwald
  */

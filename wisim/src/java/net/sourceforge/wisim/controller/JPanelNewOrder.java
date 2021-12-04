@@ -30,22 +30,21 @@ package net.sourceforge.wisim.controller;
 
 import java.text.DecimalFormat;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.Vector;
 import java.util.logging.Level;
-
 import javax.swing.JOptionPane;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.table.DefaultTableModel;
-
 import net.sourceforge.wisim.dao.WiSimDAO;
 import net.sourceforge.wisim.dao.WiSimDAOException;
 import net.sourceforge.wisim.dao.WiSimDAOWriteException;
 import net.sourceforge.wisim.model.ComponentContract;
-import net.sourceforge.wisim.model.ComponentContractAccount;
+import net.sourceforge.wisim.model.ComponentContractInvoice;
 import net.sourceforge.wisim.model.ComponentContractItem;
 import net.sourceforge.wisim.model.Supplier;
 import net.sourceforge.wisim.model.SupplyList;
@@ -64,18 +63,18 @@ public class JPanelNewOrder extends javax.swing.JPanel {
   private Vector colLt;
   private Vector colArtikel;
   private Vector positionen;
-  private Vector einzelteile;
+  private final ArrayList<ComponentContractItem> einzelteile;
   private int position;
   private double summe;
   private double skontoToCalc;
   private double lieferrabattToCalc;
-  private Validator validate;
-  private WiSimMainController wiSimMainController;
+  private final Validator validate;
+  private final WiSimMainController wiSimMainController;
 
   //	Logger
-  private WiSimLogger wiSimLogger;
+  private final WiSimLogger wiSimLogger;
 
-  private DecimalFormat format;
+  private final DecimalFormat format;
 
   /**
    * Creates new form JPanelBestellung
@@ -91,7 +90,7 @@ public class JPanelNewOrder extends javax.swing.JPanel {
     colArtikel = new Vector();
     colArtikel.add("Select:");
     positionen = new Vector();
-    einzelteile = new Vector();
+    einzelteile = new ArrayList<>();
     position = 0;
     summe = 0;
     skontoToCalc = 0;
@@ -760,7 +759,7 @@ public class JPanelNewOrder extends javax.swing.JPanel {
    * Pflichtfelder sind gefüllt.
    */
   private boolean checkAllFields() {
-    Collection pflichtfelder = new Vector();
+    ArrayList<String> pflichtfelder = new ArrayList<>();
     if (jTextFieldSkonto.getText().equals("")) {
       pflichtfelder.add("Skonto");
     }
@@ -984,7 +983,7 @@ public class JPanelNewOrder extends javax.swing.JPanel {
     etat.setEinzelteilAuftragsRechnungNr(etatNr);
 
     //Einzelteilauftragsrechnung
-    ComponentContractAccount etatr = new ComponentContractAccount();
+    ComponentContractInvoice etatr = new ComponentContractInvoice();
     etatr.setBetrag(summe);
 
     //MwSt-Satz bestimmen
@@ -1323,17 +1322,15 @@ public class JPanelNewOrder extends javax.swing.JPanel {
 
     setSumme();
     try {
-      Collection lieferanten = dao.getLieferanten();
-      Iterator lt_it = lieferanten.iterator();
-
+      Collection<Supplier> suppliers = dao.getSuppliers();
+      
       colLt.removeAllElements();
       colLt.add("Select:");
 
-      while (lt_it.hasNext()) {
-        Supplier lieferant = (Supplier) lt_it.next();
-        String item = lieferant.getFirma() + " (#" + lieferant.getId() + ")";
+      for (Supplier supplier : suppliers) {
+        String item = supplier.getFirma() + " (#" + supplier.getId() + ")";
         jComboBoxLieferanten.addItem(item);
-        colLt.add(lieferant);
+        colLt.add(supplier);
       }
     } catch (WiSimDAOException e) {
       wiSimLogger.log("getLieferanten()", e);
@@ -1346,8 +1343,8 @@ public class JPanelNewOrder extends javax.swing.JPanel {
   private void getArticle() {
     //Tabelle wiederherstellen
     DefaultTableModel defTable = new DefaultTableModel(0, 3);
-    Vector tableHeader = new Vector();
-    tableHeader.add("Article");
+    Vector<String> tableHeader = new Vector();
+    tableHeader.add("Artikel");
     tableHeader.add("Menge");
     tableHeader.add("Preis");
     defTable.setColumnIdentifiers(tableHeader);
@@ -1357,7 +1354,7 @@ public class JPanelNewOrder extends javax.swing.JPanel {
 
     //Positionen löschen
     positionen.removeAllElements();
-    einzelteile.removeAllElements();
+    einzelteile.clear();
     colArtikel.removeAllElements();
     colArtikel.add("Select:");
 
@@ -1384,11 +1381,9 @@ public class JPanelNewOrder extends javax.swing.JPanel {
             jComboBoxArtikel.addItem("Select:");
           }
 
-          Collection lieferlisten = dao.getLieferliste(lieferant.getId());
-          Iterator it_lieferlisten = lieferlisten.iterator();
-          while (it_lieferlisten.hasNext()) {
-            SupplyList lieferliste = (SupplyList) it_lieferlisten.next();
-            WiSimComponent einzelteil = dao.getEinzelteil(lieferliste.getEinzelteilID());
+          Collection<SupplyList> lieferlisten = dao.getSupplyLists(lieferant.getId());
+          for (SupplyList lieferliste:lieferlisten) {
+            WiSimComponent einzelteil = dao.getComponent(lieferliste.getEinzelteilID());
             jComboBoxArtikel.addItem(einzelteil.getName());
             colArtikel.add(lieferliste);
           }

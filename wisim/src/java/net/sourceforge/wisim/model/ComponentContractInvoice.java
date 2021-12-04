@@ -22,17 +22,17 @@
 **   ********************************************************************   */
 
 /*
- * Einzelteilauftragsrechnung.java
+ * ComponentContractInvoice.java
  *
  * Created on 6. März 2003, 19:57
  */
 
 package net.sourceforge.wisim.model;
 
-/** ComponentContractAccount
+/** ComponentContractInvoice
  * @author Ben
  */
-public class ComponentContractAccount {
+public class ComponentContractInvoice {
     
 		private int nr;
 		private double betrag;
@@ -42,7 +42,7 @@ public class ComponentContractAccount {
     /** Einzelteileauftragsrechnung wenn die HUBFirma Einzelteile bei einem
      * Lieferanten bestellt.
      */
-    public ComponentContractAccount() {
+    public ComponentContractInvoice() {
     }
     
     /** ComponentContractAccount
@@ -51,7 +51,7 @@ public class ComponentContractAccount {
      * @param EinzelteilauftragNr Referenz auf den ComponentContract
      * @param MwSt Mehrwertsteuer
      */
-    public ComponentContractAccount(int nr, double betrag, int einzelteilauftragNr, float mwSt) {
+    public ComponentContractInvoice(int nr, double betrag, int einzelteilauftragNr, float mwSt) {
         this.nr = nr;
         this.betrag = betrag;
         this.einzelteilauftragNr = einzelteilauftragNr;

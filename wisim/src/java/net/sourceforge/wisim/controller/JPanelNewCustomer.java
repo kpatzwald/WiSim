@@ -444,7 +444,7 @@ public class JPanelNewCustomer extends javax.swing.JPanel {
       try {
         int plzId = dao.neuerOrt(ort);
         kunde.setPlzId(plzId);
-        int id = dao.neuerKunde(kunde);
+        int id = dao.newCustomer(kunde);
         kunde.setId(id);
 
         if (!jTextAreaNeuerKundeNotiz.getText().equals("")) {

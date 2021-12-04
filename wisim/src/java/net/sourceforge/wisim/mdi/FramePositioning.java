@@ -24,7 +24,6 @@
 package net.sourceforge.wisim.mdi;
 import java.awt.Point;
 import java.awt.Rectangle;
-
 import javax.swing.JInternalFrame;
 
 
@@ -140,9 +139,9 @@ public class FramePositioning implements DesktopConstants {
           // position relative to the current viewport (viewP.x/viewP.y)
           // (so new windows appear onscreen)
           int xLoc = viewP.x + X_OFFSET*((count+1) - 
-                  (numFramesWide-1)*(int)(count/numFramesWide));
+                  (numFramesWide-1)*(count/numFramesWide));
           int yLoc = viewP.y + Y_OFFSET*((count+1) - 
-                  numFramesHigh*(int)(count/numFramesHigh));
+                  numFramesHigh*(count/numFramesHigh));
 
           return new Point(xLoc, yLoc);
 

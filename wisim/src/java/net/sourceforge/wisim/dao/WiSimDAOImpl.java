@@ -54,14 +54,14 @@ import javax.swing.UnsupportedLookAndFeelException;
 import net.sourceforge.wisim.model.Article;
 import net.sourceforge.wisim.model.City;
 import net.sourceforge.wisim.model.ComponentContract;
-import net.sourceforge.wisim.model.ComponentContractAccount;
+import net.sourceforge.wisim.model.ComponentContractInvoice;
 import net.sourceforge.wisim.model.ComponentContractItem;
 import net.sourceforge.wisim.model.ComponentWarehouseItem;
 import net.sourceforge.wisim.model.Contract;
-import net.sourceforge.wisim.model.ContractAccount;
+import net.sourceforge.wisim.model.ContractInvoice;
+import net.sourceforge.wisim.model.ContractOrderItem;
 import net.sourceforge.wisim.model.Customer;
 import net.sourceforge.wisim.model.Memo;
-import net.sourceforge.wisim.model.OrderItem;
 import net.sourceforge.wisim.model.Supplier;
 import net.sourceforge.wisim.model.SupplyList;
 import net.sourceforge.wisim.model.WarehouseLocation;
@@ -381,9 +381,9 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
   }
 
   /**
-   * method to create a new customer
+   * Method to create a new customer
    *
-   * @param kunde Objekt: kunde
+   * @param customer Object: customer
    * @throws WiSimDAOException if a database problem occurs or the connection
    * was never initialized
    * @throws WiSimDAOWriteException if a database problem occurs or the
@@ -391,7 +391,7 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
    * @return KundenNr
    */
   @Override
-  public int neuerKunde(Customer kunde) throws WiSimDAOException, WiSimDAOWriteException {
+  public int newCustomer(Customer customer) throws WiSimDAOException, WiSimDAOWriteException {
     // Serverlog
     logger.finest("com.pixelpark.wisim.dao.WiSimDAOImpl.createContract(Contract) Action: start");
     String sql;
@@ -408,23 +408,23 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
         sql
                 = "insert into kd "
                 + "(kd_Name, kd_Vorname, kd_Firma, kd_Strasse, f_ort_Nr, kd_Telefon, kd_Fax, kd_Email, kd_Typ) values (\""
-                + kunde.getNachname()
+                + customer.getNachname()
                 + "\", \""
-                + kunde.getVorname()
+                + customer.getVorname()
                 + "\", \""
-                + kunde.getFirma()
+                + customer.getFirma()
                 + "\", \""
-                + kunde.getStrasse()
+                + customer.getStrasse()
                 + "\", \""
-                + kunde.getPlzId()
+                + customer.getPlzId()
                 + "\", \""
-                + kunde.getTelefon()
+                + customer.getTelefon()
                 + "\", \""
-                + kunde.getFax()
+                + customer.getFax()
                 + "\", \""
-                + kunde.getEmail()
+                + customer.getEmail()
                 + "\", \""
-                + kunde.getKundentyp()
+                + customer.getKundentyp()
                 + "\") ";
 
         stmt.executeUpdate(sql);
@@ -446,13 +446,13 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
   /**
    * Holt alle Kunden aus der Datenbank
    *
-   * @return ArrayList
+   * @return ArrayList All customers
    * @throws WiSimDAOException Fehler beim Abfragen der DB
    */
   @Override
-  public ArrayList<Customer> getKunden() throws WiSimDAOException {
+  public ArrayList<Customer> getCustomers() throws WiSimDAOException {
     String sql = "SELECT * FROM kd WHERE kd_deleted = 'FALSE'";
-    ArrayList<Customer> kunden = new ArrayList<Customer>();
+    ArrayList<Customer> customers = new ArrayList<Customer>();
     try {
       // Create a Statement
       Statement stmt = conn.createStatement();
@@ -460,50 +460,50 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
       City ort;
 
       while (rset.next()) {
-        Customer kundendaten = new Customer();
-        kundendaten.setId(rset.getInt("kd_Nr"));
-        kundendaten.setKundentyp(rset.getString("kd_Typ"));
-        kundendaten.setAnspruch(rset.getString("kd_Anspruch"));
-        kundendaten.setZahlungsmoral(rset.getString("kd_Zahlungsmoral"));
-        kundendaten.setFirma(rset.getString("kd_Firma"));
-        kundendaten.setVorname(rset.getString("kd_Vorname"));
-        kundendaten.setNachname(rset.getString("kd_Name"));
-        kundendaten.setStrasse(rset.getString("kd_Strasse"));
-        kundendaten.setEmail(rset.getString("kd_Email"));
-        kundendaten.setTelefon(rset.getString("kd_Telefon"));
-        kundendaten.setFax(rset.getString("kd_Fax"));
-        kundendaten.setPlzId(rset.getInt("f_ort_Nr"));
-        //Kunden-Ort und PLZ wird aus Tabelle ort geladen
+        Customer customer = new Customer();
+        customer.setId(rset.getInt("kd_Nr"));
+        customer.setKundentyp(rset.getString("kd_Typ"));
+        customer.setAnspruch(rset.getString("kd_Anspruch"));
+        customer.setZahlungsmoral(rset.getString("kd_Zahlungsmoral"));
+        customer.setFirma(rset.getString("kd_Firma"));
+        customer.setVorname(rset.getString("kd_Vorname"));
+        customer.setNachname(rset.getString("kd_Name"));
+        customer.setStrasse(rset.getString("kd_Strasse"));
+        customer.setEmail(rset.getString("kd_Email"));
+        customer.setTelefon(rset.getString("kd_Telefon"));
+        customer.setFax(rset.getString("kd_Fax"));
+        customer.setPlzId(rset.getInt("f_ort_Nr"));
+        //Kunden-Ort und PLZ wird aus Tabelle city geladen
         ort = getOrt(rset.getInt("f_ort_Nr"));
-        kundendaten.setPlz(ort.getPlz());
-        kundendaten.setOrt(ort.getName());
-        kunden.add(kundendaten);
+        customer.setPlz(ort.getPlz());
+        customer.setOrt(ort.getName());
+        customers.add(customer);
       }
 
     } catch (SQLException sqlE) {
       throw new WiSimDAOException(sqlE.getMessage());
     }
-    return kunden;
+    return customers;
   }
 
   /**
-   * gibt alle Auftragsrechnungen aus
+   * Gibt alle Auftragsrechnungen aus
    *
-   * @return Collection&lt;ContractAccount&gt;
+   * @return Collection&lt;ContractInvoice&gt;
    * @throws WiSimDAOException if a database problem occurs or the connection
    * was never initialized
    */
   @Override
-  public Collection<ContractAccount> getAuftragsrechnungen() throws WiSimDAOException {
+  public Collection<ContractInvoice> getAuftragsrechnungen() throws WiSimDAOException {
     String sql = "SELECT * FROM atr";
-    Collection<ContractAccount> atrechnungen = new ArrayList<>();
+    Collection<ContractInvoice> atrechnungen = new ArrayList<>();
     try {
       // Create a Statement
       Statement stmt = conn.createStatement();
       ResultSet rset = stmt.executeQuery(sql);
 
       while (rset.next()) {
-        ContractAccount atr = new ContractAccount();
+        ContractInvoice atr = new ContractInvoice();
         atr.setNr(rset.getInt("atr_Nr"));
         atr.setBetrag(rset.getDouble("atr_Betrag"));
         atr.setAuftragNr(rset.getInt("f_at_Nr"));
@@ -523,36 +523,36 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
    * Holt einen Kunden aus der Datenbank
    *
    * @return Object Customer
-   * @param kdNr Kundennummer
+   * @param customerID Customer ID
    * @throws WiSimDAOException Fehler beim Abfragen der DB
    */
   @Override
-  public Customer getKunde(int kdNr) throws WiSimDAOException {
-    String sql = "SELECT * FROM kd WHERE kd_Nr = " + kdNr + "";
+  public Customer getCustomer(int customerID) throws WiSimDAOException {
+    String sql = "SELECT * FROM kd WHERE kd_Nr = " + customerID + "";
     try {
       // Create a Statement
       Statement stmt = conn.createStatement();
       ResultSet rset = stmt.executeQuery(sql);
-      City ort;
-      Customer kundendaten = new Customer();
+      City city;
+      Customer customer = new Customer();
       while (rset.next()) {
-        kundendaten.setId(rset.getInt("kd_Nr"));
-        kundendaten.setKundentyp(rset.getString("kd_Typ"));
-        kundendaten.setAnspruch(rset.getString("kd_Anspruch"));
-        kundendaten.setZahlungsmoral(rset.getString("kd_Zahlungsmoral"));
-        kundendaten.setFirma(rset.getString("kd_Firma"));
-        kundendaten.setVorname(rset.getString("kd_Vorname"));
-        kundendaten.setNachname(rset.getString("kd_Name"));
-        kundendaten.setStrasse(rset.getString("kd_Strasse"));
-        kundendaten.setEmail(rset.getString("kd_Email"));
-        kundendaten.setTelefon(rset.getString("kd_Telefon"));
-        kundendaten.setFax(rset.getString("kd_Fax"));
-        kundendaten.setPlzId(rset.getInt("f_ort_Nr"));
-        //Kunden-Ort und PLZ wird aus Tabelle ort geladen
-        ort = getOrt(rset.getInt("f_ort_Nr"));
-        kundendaten.setPlz(ort.getPlz());
-        kundendaten.setOrt(ort.getName());
-        return kundendaten;
+        customer.setId(rset.getInt("kd_Nr"));
+        customer.setKundentyp(rset.getString("kd_Typ"));
+        customer.setAnspruch(rset.getString("kd_Anspruch"));
+        customer.setZahlungsmoral(rset.getString("kd_Zahlungsmoral"));
+        customer.setFirma(rset.getString("kd_Firma"));
+        customer.setVorname(rset.getString("kd_Vorname"));
+        customer.setNachname(rset.getString("kd_Name"));
+        customer.setStrasse(rset.getString("kd_Strasse"));
+        customer.setEmail(rset.getString("kd_Email"));
+        customer.setTelefon(rset.getString("kd_Telefon"));
+        customer.setFax(rset.getString("kd_Fax"));
+        customer.setPlzId(rset.getInt("f_ort_Nr"));
+        //Kunden-Ort und PLZ wird aus Tabelle city geladen
+        city = getOrt(rset.getInt("f_ort_Nr"));
+        customer.setPlz(city.getPlz());
+        customer.setOrt(city.getName());
+        return customer;
       }
     } catch (SQLException sqlE) {
       throw new WiSimDAOException(sqlE.getMessage());
@@ -842,7 +842,7 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
   }
 
   /**
-   * Aendert ContractAccount
+   * Aendert ContractInvoice
    *
    * @return Boolean
    * @param Nr Auftragsrechnungsnummer
@@ -1115,11 +1115,11 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
    * @return Collection mit Objekten vom Typ Supplier
    */
   @Override
-  public Collection<Supplier> getLieferanten() throws WiSimDAOException {
+  public ArrayList<Supplier> getSuppliers() throws WiSimDAOException {
     // Serverlog
     logger.finest("com.pixelpark.wisim.dao.WiSimDAOImpl.getLieferanten() Action: start");
     String sql;
-    Collection<Supplier> lieferanten = new ArrayList<>();
+    ArrayList<Supplier> suppliers = new ArrayList<>();
     try {
       Statement stmt = conn.createStatement();
       sql = "select * from lt WHERE lt_deleted = 'FALSE'";
@@ -1129,7 +1129,7 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 
         City ort = getOrt(resLieferanten.getInt("f_ort_Nr"));
 
-        Supplier lieferant
+        Supplier supplier
                 = new Supplier(
                         resLieferanten.getInt("lt_Nr"),
                         resLieferanten.getString("lt_Firma"),
@@ -1144,69 +1144,69 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
                         resLieferanten.getString("lt_Email"),
                         resLieferanten.getString("lt_Zuverlaessigkeit"),
                         resLieferanten.getString("lt_Qualitaet"));
-        lieferanten.add(lieferant);
+        suppliers.add(supplier);
       }
     } catch (SQLException sqlE) {
       throw new WiSimDAOException(sqlE.getMessage());
     }
-    return lieferanten;
+    return suppliers;
   }
 
   /**
    * Holt alle Einzelteile aus der Datenbank
    *
-   * @return Collection
+   * @return Collection all Components
    * @throws WiSimDAOException Fehler beim Abfragen der DB
    */
   @Override
-  public Collection<WiSimComponent> getEinzelteile() throws WiSimDAOException {
+  public Collection<WiSimComponent> getAllComponents() throws WiSimDAOException {
     String sql = "SELECT * FROM et";
 
-    Collection<WiSimComponent> einzelteile = new ArrayList<>();
+    Collection<WiSimComponent> components = new ArrayList<>();
     try {
       // Create a Statement
       Statement stmt = conn.createStatement();
       ResultSet rset = stmt.executeQuery(sql);
 
       while (rset.next()) {
-        WiSimComponent einzelteil = new WiSimComponent();
-        einzelteil.setNr(rset.getInt(1));
-        einzelteil.setName(rset.getString(2));
-        einzelteil.setMindestbestand(rset.getInt(3));
-        einzelteile.add(einzelteil);
+        WiSimComponent component = new WiSimComponent();
+        component.setNr(rset.getInt(1));
+        component.setName(rset.getString(2));
+        component.setMindestbestand(rset.getInt(3));
+        components.add(component);
       }
     } catch (SQLException sqlE) {
       throw new WiSimDAOException(sqlE.getMessage());
     }
-    return einzelteile;
+    return components;
   }
 
   /**
    * Holt ein WiSimComponent aus der Datenbank
    *
    * @return WiSimComponent
-   * @param id EinzelteilNr
+   * @param id Component ID
    * @throws WiSimDAOException Fehler beim Abfragen der DB
    */
   @Override
-  public WiSimComponent getEinzelteil(int id) throws WiSimDAOException {
+  public WiSimComponent getComponent(int id) throws WiSimDAOException {
     String sql = "SELECT * FROM et WHERE et_Nr = " + id;
 
-    WiSimComponent einzelteil = new WiSimComponent();
+    WiSimComponent component = new WiSimComponent();
     try {
       // Create a Statement
       Statement stmt = conn.createStatement();
       ResultSet rset = stmt.executeQuery(sql);
 
       while (rset.next()) {
-        einzelteil.setNr(rset.getInt(1));
-        einzelteil.setName(rset.getString(2));
-        einzelteil.setMindestbestand(rset.getInt(3));
+        component.setNr(rset.getInt(1));
+        component.setName(rset.getString(2));
+        component.setMindestbestand(rset.getInt(3));
       }
     } catch (SQLException sqlE) {
       throw new WiSimDAOException(sqlE.getMessage());
     }
-    return einzelteil;
+    return component;
   }
 
   /**
@@ -1264,43 +1264,43 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
   /**
    * Collection mit allen Lieferlisten des Lieferanten
    *
-   * @param lieferantenID LieferantNr
+   * @param supplierID LieferantNr
    * @throws WiSimDAOException Fehler beim Ablesen aus der DB
-   * @return Collection mit Objekten vom Typ SupplyList
+   * @return ArrayList mit Objekten vom Typ SupplyList
    */
   @Override
-  public Collection<SupplyList> getLieferliste(int lieferantenID) throws WiSimDAOException {
-    Collection<SupplyList> lieferlisten = new ArrayList<>();
+  public ArrayList<SupplyList> getSupplyLists(int supplierID) throws WiSimDAOException {
+    ArrayList<SupplyList> supplyLists = new ArrayList<>();
     String sql;
 
-    SupplyList lieferliste;
+    SupplyList supplyList;
     try {
       // Create a Statement
       Statement stmt = conn.createStatement();
-      sql = "select * from rel_lt_et WHERE f_lt_Nr = " + lieferantenID;
+      sql = "select * from rel_lt_et WHERE f_lt_Nr = " + supplierID;
       ResultSet rset = stmt.executeQuery(sql);
 
       while (rset.next()) {
-        lieferliste = new SupplyList();
-        lieferliste.setEinzelteilID(rset.getInt(1));
-        lieferliste.setLieferantenID(rset.getInt(2));
-        lieferliste.setPreis(rset.getDouble(3));
-        lieferliste.setMindestBestellMenge(rset.getLong(4));
+        supplyList = new SupplyList();
+        supplyList.setEinzelteilID(rset.getInt(1));
+        supplyList.setLieferantenID(rset.getInt(2));
+        supplyList.setPreis(rset.getDouble(3));
+        supplyList.setMindestBestellMenge(rset.getLong(4));
 
-        lieferlisten.add(lieferliste);
+        supplyLists.add(supplyList);
       }
 
     } catch (SQLException sqlE) {
       throw new WiSimDAOException(sqlE.getMessage());
     }
-    return lieferlisten;
+    return supplyLists;
   }
 
   /* (non-Javadoc)
 	 * @see com.pixelpark.wisim.dao.WiSimDAO#setEinzelteilArbeitsplatzBestand(int, int, java.lang.String)
    */
   /**
-   * ï¿½ndert den Bestand an Einzelteilen an einem WorkPlace
+   * Ändert den Bestand an Einzelteilen an einem WorkPlace
    *
    * @param arbeitsplatzNr Arbeitsplatznummer
    * @param einzelteilNr Einzelteilnummer
@@ -1367,7 +1367,7 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 	 * @see com.pixelpark.wisim.dao.WiSimDAO#setEinzelteilArbeitsplatzBestand(int, int, int, java.lang.String)
    */
   /**
-   * ï¿½ndert den Bestand an Einzelteilen an einem WorkPlace
+   * Ändert den Bestand an Einzelteilen an einem WorkPlace
    *
    * @param arbeitsplatzNr Arbeitsplatznummer
    * @param einzelteilNr Einzelteilnummer
@@ -1570,7 +1570,7 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
    * connection was never initialized
    */
   @Override
-  public int setEinzelteilauftragsrechnung(ComponentContractAccount etatr) throws WiSimDAOException, WiSimDAOWriteException {
+  public int setEinzelteilauftragsrechnung(ComponentContractInvoice etatr) throws WiSimDAOException, WiSimDAOWriteException {
     String sql = "insert into etatr (etatr_Nr, etatr_Betrag, f_etat_Nr, f_mwst_Satz) " + "VALUES ( " + etatr.getNr() + ", " + etatr.getBetrag() + ", " + etatr.getEinzelteilauftragNr() + ", " + etatr.getMwSt() + ");";
 
     try {
@@ -1599,7 +1599,7 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
    * connection was never initialized
    */
   @Override
-  public int setAuftragsrechnung(ContractAccount atr) throws WiSimDAOException, WiSimDAOWriteException {
+  public int setAuftragsrechnung(ContractInvoice atr) throws WiSimDAOException, WiSimDAOWriteException {
 
     String dbZlEingang;
 
@@ -1710,37 +1710,37 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
   }
 
   /**
-   * Holt alle Vertrï¿½ge aus der Datenbank
+   * Holt alle Verträge aus der Datenbank
    *
-   * @return Collection
+   * @return ArrayList
    * @throws WiSimDAOException Fehler beim Lesen von der DB
    */
   @Override
-  public Collection<Contract> getVertraege() throws WiSimDAOException {
+  public ArrayList<Contract> getContracts() throws WiSimDAOException {
     String sql = "SELECT * FROM at";
 
-    Collection<Contract> vertraege = new ArrayList<>();
+    ArrayList<Contract> contracts = new ArrayList<>();
     try {
       // Create a Statement
       Statement stmt = conn.createStatement();
       ResultSet rset = stmt.executeQuery(sql);
 
       while (rset.next()) {
-        Contract vertrag = new Contract();
-        vertrag.setVertragsId(rset.getInt("at_Nr"));
-        vertrag.setLieferdatum(rset.getDate("at_Lieferdatum"));
-        vertrag.setSkonto(rset.getDouble("at_Skonto"));
-        vertrag.setSkontofrist(rset.getLong("at_Skontofrist"));
-        vertrag.setRabatt(rset.getDouble("at_Rabatt"));
-        vertrag.setVertragsdatum(rset.getDate("at_Datum"));
-        vertrag.setKundenId(rset.getInt("f_kd_Nr"));
-        vertrag.setAuftragsrechnungsId(rset.getInt("f_atr_Nr"));
-        vertraege.add(vertrag);
+        Contract contract = new Contract();
+        contract.setVertragsId(rset.getInt("at_Nr"));
+        contract.setLieferdatum(rset.getDate("at_Lieferdatum"));
+        contract.setSkonto(rset.getDouble("at_Skonto"));
+        contract.setSkontofrist(rset.getLong("at_Skontofrist"));
+        contract.setRabatt(rset.getDouble("at_Rabatt"));
+        contract.setVertragsdatum(rset.getDate("at_Datum"));
+        contract.setKundenId(rset.getInt("f_kd_Nr"));
+        contract.setAuftragsrechnungsId(rset.getInt("f_atr_Nr"));
+        contracts.add(contract);
       }
     } catch (SQLException sqlE) {
       throw new WiSimDAOException(sqlE.getMessage());
     }
-    return vertraege;
+    return contracts;
   }
 
   /**
@@ -1880,11 +1880,11 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
    * @return Collection mit allen Einzelteilauftragspositionen
    */
   @Override
-  public Collection<ComponentContractItem> getEinzelteilAuftragsPositionen(int etatNr) throws WiSimDAOException {
+  public ArrayList<ComponentContractItem> getEinzelteilAuftragsPositionen(int etatNr) throws WiSimDAOException {
     // Serverlog
     logger.finest("com.pixelpark.wisim.dao.WiSimDAOImpl.getEtat Action: start");
     String sql;
-    Collection<ComponentContractItem> etatPositionen = new ArrayList<>();
+    ArrayList<ComponentContractItem> etatPositionen = new ArrayList<>();
     try {
       sql = "SELECT f_et_Nr, f_etat_Nr, rel_etat_et_Bestellmenge, rel_etat_et_Stueckpreis FROM rel_etat_et WHERE " + "f_etat_Nr = " + etatNr + "";
       Statement stmt = conn.createStatement();
@@ -1914,21 +1914,21 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
    * @return Collection mit allen Auftragspositionen
    */
   @Override
-  public Collection<OrderItem> getAuftragsPositionen(int atNr) throws WiSimDAOException {
+  public Collection<ContractOrderItem> getAuftragsPositionen(int atNr) throws WiSimDAOException {
     // Serverlog
     logger.finest("com.pixelpark.wisim.dao.WiSimDAOImpl.getEtat Action: start");
     String sql;
-    Collection<OrderItem> atPositionen = new ArrayList<>();
+    Collection<ContractOrderItem> atPositionen = new ArrayList<>();
     try {
       sql = "SELECT f_art_Nr, f_at_Nr, rel_at_art_Bestellmenge FROM rel_at_art WHERE " + "f_at_Nr = " + atNr + "";
       Statement stmt = conn.createStatement();
       ResultSet rset = stmt.executeQuery(sql);
 
       while (rset.next()) {
-        OrderItem atPos = new OrderItem();
+        ContractOrderItem atPos = new ContractOrderItem();
         atPos.setArtNr(rset.getInt(1));
         atPos.setAtNr(rset.getInt(2));
-        atPos.setBestellmenge(rset.getLong(3));
+        atPos.setBestellmenge(rset.getInt(3));
 
         atPositionen.add(atPos);
       }
@@ -1948,11 +1948,11 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
    * @return Auftragsposition
    */
   @Override
-  public OrderItem getAuftragsPosition(int atNr) throws WiSimDAOException {
+  public ContractOrderItem getAuftragsPosition(int atNr) throws WiSimDAOException {
     // Serverlog
     logger.finest("com.pixelpark.wisim.dao.WiSimDAOImpl.getVertrag Action: start");
     String sql;
-    OrderItem atp = new OrderItem();
+    ContractOrderItem atp = new ContractOrderItem();
     try {
       sql = "SELECT f_art_Nr, f_at_Nr, rel_at_art_Bestellmenge FROM rel_at_art WHERE " + "f_at_Nr = " + atNr + "";
       Statement stmt = conn.createStatement();
@@ -1961,7 +1961,7 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
       while (rset.next()) {
         atp.setArtNr(rset.getInt(1));
         atp.setAtNr(rset.getInt(2));
-        atp.setBestellmenge(rset.getLong(3));
+        atp.setBestellmenge(rset.getInt(3));
       }
 
     } catch (SQLException sqlE) {
@@ -1971,19 +1971,19 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
   }
 
   /**
-   * Gibt eine ContractAccount eines Auftrages zurï¿½ck.
+   * Gibt eine ContractInvoice eines Auftrages zurï¿½ck.
    *
    * @param atrNr Auftragrechnungs Nummer
    * @throws WiSimDAOException if a database problem occurs or the connection
    * was never initialized
-   * @return ContractAccount
+   * @return ContractInvoice
    */
   @Override
-  public ContractAccount getAuftragsrechnung(int atrNr) throws WiSimDAOException {
+  public ContractInvoice getAuftragsrechnung(int atrNr) throws WiSimDAOException {
     // Serverlog
     logger.finest("com.pixelpark.wisim.dao.WiSimDAOImpl.getVertrag Action: start");
     String sql;
-    ContractAccount atr = new ContractAccount();
+    ContractInvoice atr = new ContractInvoice();
     try {
       sql = "SELECT atr_Nr, atr_Betrag, f_at_Nr, f_mwst_Satz, atr_zleingang FROM atr WHERE " + "atr_Nr = " + atrNr + "";
       Statement stmt = conn.createStatement();
@@ -2004,20 +2004,20 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
   }
 
   /**
-   * Gibt die ComponentContractAccount zurï¿½ck die zu dem entsprechenden
+   * Gibt die ComponentContractInvoice zurï¿½ck die zu dem entsprechenden
    * ComponentContract gehï¿½rt.
    *
    * @param etatrNr Einzelteilauftrags Nummer
    * @throws WiSimDAOException if a database problem occurs or the connection
    * was never initialized
-   * @return Die ComponentContractAccount.
+   * @return Die ComponentContractInvoice.
    */
   @Override
-  public ComponentContractAccount getEinzelteilauftragsrechnung(int etatrNr) throws WiSimDAOException {
+  public ComponentContractInvoice getEinzelteilauftragsrechnung(int etatrNr) throws WiSimDAOException {
     // Serverlog
     logger.finest("com.pixelpark.wisim.dao.WiSimDAOImpl.getEtat Action: start");
     String sql;
-    ComponentContractAccount etatr = new ComponentContractAccount();
+    ComponentContractInvoice etatr = new ComponentContractInvoice();
     try {
       sql = "SELECT etatr_Betrag, f_mwst_Satz FROM etatr WHERE etatr_Nr = " + etatrNr;
       Statement stmt = conn.createStatement();
@@ -2176,7 +2176,7 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
       ResultSet rset = stmt.executeQuery(sql);
       int i = 0;
       while (rset.next()) {
-        WiSimComponent et = getEinzelteil(rset.getInt(1));
+        WiSimComponent et = getComponent(rset.getInt(1));
         ComponentWarehouseItem etElem = new ComponentWarehouseItem();
         etElem.setEinzelteilName(et.getName());
         etElem.setId(et.getNr());
@@ -2190,7 +2190,7 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
       int a = einzelteillagerelemente.size() - 1;
       while (a >= 0) {
         ComponentWarehouseItem etElem = einzelteillagerelemente.get(a);
-        Collection<String> lagerplaetze = new ArrayList<>();
+        ArrayList<String> lagerplaetze = new ArrayList<>(); // TODO Warum String?
         sql = "SELECT f_lg_StellplatzNr FROM rel_et_lg WHERE f_et_Nr = " + etElem.getId();
         stmt = conn.createStatement();
         rset = stmt.executeQuery(sql);
@@ -2280,7 +2280,7 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
       int a = artikellagerelemente.size() - 1;
       while (a >= 0) {
         ComponentWarehouseItem etElem = artikellagerelemente.get(a);
-        Collection<String> lagerplaetze = new ArrayList<>();
+        ArrayList<String> lagerplaetze = new ArrayList<>();
         sql = "SELECT f_lg_StellplatzNr FROM rel_art_lg WHERE f_art_Nr = " + etElem.getId();
         stmt = conn.createStatement();
         rset = stmt.executeQuery(sql);
@@ -2509,10 +2509,10 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
    * @return Collection
    */
   @Override
-  public synchronized Collection<WorkPlaceStore> getArbeitsplatzLager(int arbeitsplatzNr, String lagerTyp) throws WiSimDAOException {
+  public synchronized ArrayList<WorkPlaceStore> getArbeitsplatzLager(int arbeitsplatzNr, String lagerTyp) throws WiSimDAOException {
     String sql = "SELECT * FROM rel_et_ap" + " WHERE f_ap_Nr = " + arbeitsplatzNr + " AND rel_et_ap_Lagertyp = '" + lagerTyp + "';";
 
-    Collection<WorkPlaceStore> apLager = new ArrayList<>();
+    ArrayList<WorkPlaceStore> apLager = new ArrayList<>();
 
     try {
       Statement stmt = conn.createStatement();
@@ -2537,83 +2537,81 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
    * @param einzelteilNr Einzelteilnummer
    * @param typ Lagertyp
    * @throws WiSimDAOException Fehler beim Lesen aus der DB
-   * @return Arbeitsplatzlager
+   * @return WorkPlaceStore
    */
   @Override
-  public synchronized WorkPlaceStore getArbeitsplatzLager(int arbeitsplatzNr, int einzelteilNr, String typ) throws WiSimDAOException {
+  public synchronized WorkPlaceStore getWorkPlaceStore(int arbeitsplatzNr, int einzelteilNr, String typ) throws WiSimDAOException {
     String sql = "SELECT * FROM rel_et_ap" + " WHERE f_ap_Nr = " + arbeitsplatzNr + " AND rel_et_ap_Lagertyp = '" + typ + "' AND f_et_Nr = " + einzelteilNr;
 
-    WorkPlaceStore apLager = new WorkPlaceStore();
+    WorkPlaceStore workPlaceStore = new WorkPlaceStore();
 
     try {
       Statement stmt = conn.createStatement();
       ResultSet res = stmt.executeQuery(sql);
       while (res.next()) {
-        apLager = new WorkPlaceStore(res.getInt(1), res.getInt(2), res.getString(3), res.getInt(4), res.getInt(5), res.getInt(6));
+        workPlaceStore = new WorkPlaceStore(res.getInt(1), res.getInt(2), res.getString(3), res.getInt(4), res.getInt(5), res.getInt(6));
       }
     } catch (SQLException e) {
       System.err.println(e.getMessage());
     }
-    return apLager;
+    return workPlaceStore;
   }
 
   /**
-   * Gibt Stueckliste für einen bestimmten Artikel zurück. Der Key der Hashmap
+   * Gibt Stückliste für einen bestimmten Artikel zurück. Der Key der Hashmap
    * ist die WiSimComponent-Nummer, der Value ist die erforderliche Menge um 1
    * Stück von diesem Artikel zu produzieren.
    *
-   * @param artNr Article Nummer
+   * @param artNr Article nummer
    * @throws WiSimDAOException if an database error occurs
-   * @return HashMap (Stückliste)
+   * @return HashMap (parts list of the article)
    */
   @Override
-  public HashMap<String, String> getStueckliste(int artNr) throws WiSimDAOException {
-    HashMap<String, String> stueckliste = new HashMap<>();
+  public HashMap<String, String> getPartsListForArticle(int artNr) throws WiSimDAOException {
+    HashMap<String, String> partsList = new HashMap<>();
     String sql = "SELECT f_et_Nr, rel_art_et_EinzelteileMenge FROM rel_art_et WHERE f_art_Nr = " + artNr;
 
     try {
       Statement stmt = conn.createStatement();
       ResultSet rset = stmt.executeQuery(sql);
       while (rset.next()) {
-        stueckliste.put(String.valueOf(rset.getInt(1)), String.valueOf(rset.getInt(2)));
+        partsList.put(String.valueOf(rset.getInt(1)), String.valueOf(rset.getInt(2)));
       }
     } catch (SQLException e) {
       throw new WiSimDAOException(e.getMessage());
     }
-    return stueckliste;
+    return partsList;
   }
 
   /**
-   * Gibt die Auftragsposition zurï¿½ck die zu dem entsprechenden Auftrag
-   * gehï¿½rt.
+   * Gibt die Auftragsposition zurück die zu dem entsprechenden Auftrag gehört.
    *
-   * @param atNr Auftrags Nummer
-   * @param artNr Article Nummer
+   * @param atNr Auftragsnummer
+   * @param artNr Artikelnummer
    * @throws WiSimDAOException if a database problem occurs or the connection
    * was never initialized
-   * @return Die Auftragsposition.
+   * @return ContractOrderItem.
    */
   @Override
-  public OrderItem getAuftragsPosition(int atNr, int artNr) throws WiSimDAOException {
+  public ContractOrderItem getContractOrderItem(int atNr, int artNr) throws WiSimDAOException {
     // Serverlog
     logger.finest("com.pixelpark.wisim.dao.WiSimDAOImpl.getAuftrag Action: start");
-    String sql;
-    OrderItem atp = new OrderItem();
+    ContractOrderItem contractOrderItem = new ContractOrderItem();
     try {
-      sql = "SELECT f_art_Nr, f_at_Nr, rel_at_art_Bestellmenge FROM rel_at_art WHERE f_at_Nr = " + atNr + " AND f_art_Nr = " + artNr;
+      String sql = "SELECT f_art_Nr, f_at_Nr, rel_at_art_Bestellmenge FROM rel_at_art WHERE f_at_Nr = " + atNr + " AND f_art_Nr = " + artNr;
       Statement stmt = conn.createStatement();
       ResultSet rset = stmt.executeQuery(sql);
 
       while (rset.next()) {
-        atp.setArtNr(rset.getInt(1));
-        atp.setAtNr(rset.getInt(2));
-        atp.setBestellmenge(rset.getLong(3));
+        contractOrderItem.setArtNr(rset.getInt(1));
+        contractOrderItem.setAtNr(rset.getInt(2));
+        contractOrderItem.setBestellmenge(rset.getInt(3));
       }
 
     } catch (SQLException sqlE) {
       throw new WiSimDAOException(sqlE.getMessage());
     }
-    return atp;
+    return contractOrderItem;
   }
 
   /**
@@ -2648,7 +2646,7 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
    * @throws WiSimDAOWriteException Fehler beim Schreiben in die DB
    */
   @Override
-  public int setAuftragsPosition(OrderItem atp) throws WiSimDAOWriteException {
+  public int setAuftragsPosition(ContractOrderItem atp) throws WiSimDAOWriteException {
     String sql = "insert into rel_at_art (f_art_Nr, f_at_Nr, rel_at_art_Bestellmenge) " + "VALUES ( " + atp.getArtNr() + ", " + atp.getAtNr() + ", " + atp.getBestellmenge() + ");";
 
     try {

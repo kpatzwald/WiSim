@@ -29,12 +29,12 @@ package net.sourceforge.wisim.controller;
 
 import java.text.DecimalFormat;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.GregorianCalendar;
 import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.Vector;
 import java.util.logging.Level;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
@@ -44,9 +44,9 @@ import net.sourceforge.wisim.dao.WiSimDAOException;
 import net.sourceforge.wisim.dao.WiSimDAOWriteException;
 import net.sourceforge.wisim.model.Article;
 import net.sourceforge.wisim.model.Contract;
-import net.sourceforge.wisim.model.ContractAccount;
+import net.sourceforge.wisim.model.ContractInvoice;
+import net.sourceforge.wisim.model.ContractOrderItem;
 import net.sourceforge.wisim.model.Customer;
-import net.sourceforge.wisim.model.OrderItem;
 import net.sourceforge.wisim.model.Validator;
 import net.sourceforge.wisim.model.WiSimLogger;
 
@@ -990,12 +990,12 @@ public class JPanelNewContract extends JPanel {
   }
 
   /**
-   * Method ladeKunden. Lädt alle Kunden aus der Datenbank.
+   * Method loadCustomer. Lädt alle Kunden aus der Datenbank.
    */
   private void loadCustomer() {
-    Collection kunden = null;
+    Collection<Customer> customers = null;
     try {
-      kunden = dao.getKunden();
+      customers = dao.getCustomers();
     } catch (WiSimDAOException e) {
       wiSimLogger.log("ladeKunden()", e);
     }
@@ -1005,16 +1005,14 @@ public class JPanelNewContract extends JPanel {
     model.addElement("Bitte wählen:");
 
     // Verhindert NullPointerException bei einer leeren Liste
-    if (kunden != null) {
-      Iterator it = kunden.iterator();
-      while (it.hasNext()) {
-        Customer kunde = (Customer) it.next();
+    if (customers != null) {
+      for (Customer customer : customers) {
         //Merken des Nachnamen und Vornamen, um diese in die ComboBox einzutragen
-        String merkeName = String.valueOf(kunde.getVorname()).concat(" ");
-        merkeName = merkeName.concat(String.valueOf(kunde.getNachname()));
+        String merkeName = String.valueOf(customer.getVorname()).concat(" ");
+        merkeName = merkeName.concat(String.valueOf(customer.getNachname()));
         model.addElement(merkeName);
         //kundeObjekt.put(String.valueOf(kunde.getId()), kunde);
-        kundeObjekt.put(merkeName, kunde);
+        kundeObjekt.put(merkeName, customer);
         //	kundenTabelle.put(kunde.getNachname(), String.valueOf(kunde.getId()));
       }
       jComboBoxKunde.setModel(model);
@@ -1036,22 +1034,19 @@ public class JPanelNewContract extends JPanel {
     if (auswahlKunde != null) {
 
       // sucht vorhandenen Vertraege zum Kunden
-      Collection vertraege = null;
+      Collection<Contract> contracts = null;
       int vertragszaehler = 0;
 
       try {
-        vertraege = dao.getVertraege();
+        contracts = dao.getContracts();
       } catch (WiSimDAOException e) {
         wiSimLogger.log("ladeKundendaten()", e);
       }
 
-      if (vertraege != null) {
-        Iterator it = vertraege.iterator();
+      if (contracts != null) {
+        for (Contract contract : contracts) {
 
-        while (it.hasNext()) {
-          Contract vertrag = (Contract) it.next();
-
-          if (vertrag.getKundenId() == auswahlKunde.getId()) {
+          if (contract.getKundenId() == auswahlKunde.getId()) {
             vertragszaehler++;
           }
         }
@@ -1074,9 +1069,9 @@ public class JPanelNewContract extends JPanel {
    * Method ladeArtikel. Lädt die Article aus der Datenbank.
    */
   private void loadArticle() {
-    Collection artikel = null;
+    Collection<Article> articles = null;
     try {
-      artikel = dao.getAlleArtikel();
+      articles = dao.getAlleArtikel();
     } catch (WiSimDAOException e) {
       wiSimLogger.log("ladeArtikel()", e);
     }
@@ -1086,14 +1081,12 @@ public class JPanelNewContract extends JPanel {
     model.addElement("Bitte wählen:");
 
     // Verhindert NullPointerException bei einer leeren Liste
-    if (artikel != null) {
-      Iterator it = artikel.iterator();
-      while (it.hasNext()) {
-        Article artikel2 = (Article) it.next();
-        model.addElement(artikel2.getName());
-        artikelTabelle.put(artikel2.getName(), String.valueOf(artikel2.getNr()));
+    if (articles != null) {
+      for (Article article : articles) {
+        model.addElement(article.getName());
+        artikelTabelle.put(article.getName(), String.valueOf(article.getNr()));
         //speichert das Objekt zum ausgewählten Article in die Hashtable artikelObjekt
-        artikelObjekt.put(String.valueOf(artikel2.getNr()), artikel2);
+        artikelObjekt.put(String.valueOf(article.getNr()), article);
       }
       jComboBoxArtikel.setModel(model);
     }
@@ -1142,7 +1135,7 @@ public class JPanelNewContract extends JPanel {
    * Pflichtfelder sind gefüllt.
    */
   private boolean checkFields() {
-    Collection pflichtfelder = new Vector();
+    ArrayList<String> pflichtfelder = new ArrayList<>();
 
     if (jComboBoxKunde.getSelectedIndex() == 0) {
       pflichtfelder.add("Kunde");
@@ -1260,18 +1253,18 @@ public class JPanelNewContract extends JPanel {
     }
     java.sql.Date lieferDateSQL = new java.sql.Date(lieferDatum.getTimeInMillis());
 
-    // Id's in ContractAccount und in Auftrag zählen
-    Collection vertraege = null;
-    Collection atrechnungen = null;
+    // Id's in ContractInvoice und in Auftrag zählen
+    Collection<Contract> contracts = null;
+    Collection<ContractInvoice> atrechnungen = null;
 
     try {
-      vertraege = dao.getVertraege();
+      contracts = dao.getContracts();
     } catch (WiSimDAOException e) {
       wiSimLogger.log("speicherVertrag()", e);
     }
     // Verhindert NullPointerException bei einer leeren Liste
-    if (vertraege != null) {
-      Iterator it = vertraege.iterator();
+    if (contracts != null) {
+      Iterator it = contracts.iterator();
       while (it.hasNext()) {
         it.next(); //dispensable?
         i++;
@@ -1305,7 +1298,7 @@ public class JPanelNewContract extends JPanel {
     int artId = auswahlArtikel.getNr();
     boolean zleingang = false;
 
-    ContractAccount atr = new ContractAccount();
+    ContractInvoice atr = new ContractInvoice();
     // Auftragsrechnungsdaten vorbereiten
     atr.setNr(j + 1);
     try {
@@ -1340,11 +1333,11 @@ public class JPanelNewContract extends JPanel {
       wiSimLogger.log("speicherVertrag()", e);
     }
 
-    OrderItem atp = new OrderItem();
+    ContractOrderItem atp = new ContractOrderItem();
     //AuftragsPositionsdaten vorbereiten
     atp.setAtNr(i + 1);
     atp.setArtNr(artId);
-    atp.setBestellmenge(Long.parseLong(jTextFieldNeuerVertragAbnahmemenge.getText()));
+    atp.setBestellmenge(Integer.parseInt(jTextFieldNeuerVertragAbnahmemenge.getText()));
 
     try {
       dao.setAuftragsPosition(atp);

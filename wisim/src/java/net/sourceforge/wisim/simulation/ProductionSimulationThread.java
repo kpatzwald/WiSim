@@ -100,7 +100,7 @@ public class ProductionSimulationThread extends Thread
 				try
 				{
 					apLager =
-						dao.getArbeitsplatzLager(ap.getNr(), HUB, "Eingang");
+						dao.getWorkPlaceStore(ap.getNr(), HUB, "Eingang");
 				}
 				catch (WiSimDAOException e4)
 				{

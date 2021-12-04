@@ -22,14 +22,14 @@
 **   ********************************************************************   */
 
  /*
- * Einzelteilauftrag.java
+ * ComponentContract.java
  *
  * Created on 6. März 2003, 19:24
  */
 package net.sourceforge.wisim.model;
 
 import java.sql.Date;
-import java.util.Collection;
+import java.util.ArrayList;
 
 /**
  * ComponentContract für Einzelteile
@@ -46,7 +46,7 @@ public class ComponentContract {
   private Date lieferdatum;
   private Date auftragsdatum;
   private float skonto;
-  private Collection einzelteilauftragPositionen;
+  private ArrayList<ComponentContractItem> einzelteilauftragPositionen;
 
   /**
    * Creates a new instance of ComponentContract
@@ -67,7 +67,7 @@ public class ComponentContract {
    * @param skonto
    * @param einzelteilauftragPositionen
    */
-  public ComponentContract(int nr, int lieferantNr, int einzelteilAuftragsRechnungNr, float lieferrabatt, int skontofrist, Date lieferdatum, Date auftragsdatum, float skonto, Collection einzelteilauftragPositionen) {
+  public ComponentContract(int nr, int lieferantNr, int einzelteilAuftragsRechnungNr, float lieferrabatt, int skontofrist, Date lieferdatum, Date auftragsdatum, float skonto, ArrayList<ComponentContractItem> einzelteilauftragPositionen) {
     this.nr = nr;
     this.lieferantNr = lieferantNr;
     this.einzelteilAuftragsRechnungNr = einzelteilAuftragsRechnungNr;
@@ -156,7 +156,7 @@ public class ComponentContract {
    *
    * @return Collection mit Objekten des Typs EinzelteilAuftragsPosition
    */
-  public Collection getEinzelteilauftragPositionen() {
+  public ArrayList<ComponentContractItem> getEinzelteilauftragPositionen() {
     return einzelteilauftragPositionen;
   }
 
@@ -235,7 +235,7 @@ public class ComponentContract {
   /**
    * @param col Collection mit Objekten vom Typ EinzelteilAuftragPosition
    */
-  public void setEinzelteilauftragPositionen(Collection col) {
+  public void setEinzelteilauftragPositionen(ArrayList<ComponentContractItem> col) {
     this.einzelteilauftragPositionen = col;
   }
 }

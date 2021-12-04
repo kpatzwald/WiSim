@@ -32,10 +32,8 @@ package net.sourceforge.wisim.controller;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
-
 import javax.swing.DefaultListModel;
 import javax.swing.table.DefaultTableModel;
-
 import net.sourceforge.wisim.dao.WiSimDAO;
 import net.sourceforge.wisim.dao.WiSimDAOException;
 import net.sourceforge.wisim.model.Customer;
@@ -320,7 +318,7 @@ public class JPanelViewCustomers extends javax.swing.JPanel {
 	private void loadCustomers() {
 		try {
 			ArrayList<Customer> kunden = null;
-			kunden = dao.getKunden();
+			kunden = dao.getCustomers();
 			               Iterator<Customer> it_kunden = kunden.iterator();
 			positionen = 0;
 			int row;
@@ -351,7 +349,7 @@ public class JPanelViewCustomers extends javax.swing.JPanel {
 					}
 				}
 
-				Customer liste = (Customer) it_kunden.next();
+				Customer liste = it_kunden.next();
 				kundenObjekte.put((String.valueOf(positionen)), liste);
 				kundenAuswahl.put((String.valueOf(positionen)), String.valueOf(liste.getId()));
 				jTableKunden.setValueAt(liste.getNachname(), positionen, 0);

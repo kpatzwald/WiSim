@@ -32,11 +32,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Hashtable;
 import java.util.Iterator;
-
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
-
 import net.sourceforge.wisim.dao.WiSimDAO;
 import net.sourceforge.wisim.dao.WiSimDAOException;
 import net.sourceforge.wisim.dao.WiSimDAOWriteException;
@@ -534,9 +532,9 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
    */
   private void loadCustomers() {
     clearScreen();
-    Collection kundenliste = null;
+    Collection<Customer> kundenliste = null;
     try {
-      kundenliste = dao.getKunden();
+      kundenliste = dao.getCustomers();
     } catch (WiSimDAOException e) {
       logger.log("ladeKunden()", e);
     }
@@ -588,7 +586,7 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
     if (kdID != 0) {
       Customer lkunde = new Customer();
       try {
-        lkunde = dao.getKunde(kdID);
+        lkunde = dao.getCustomer(kdID);
       } catch (WiSimDAOException e) {
         logger.log("ladeKunden(int)", e);
       }
@@ -771,7 +769,7 @@ public class JPanelModifyCustomer extends javax.swing.JPanel {
     int size = zmodel.getSize();
     String item = "";
     for (int s = 0; s < size; s++) {
-      item = (String) jComboBoxKundeBearbeitenZahlungsmoral.getItemAt(s);
+      item = jComboBoxKundeBearbeitenZahlungsmoral.getItemAt(s);
       if (item.equals(selectitem)) {
         zmodel.setSelectedItem(item);
         jComboBoxKundeBearbeitenZahlungsmoral.setModel(zmodel);

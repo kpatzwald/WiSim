@@ -21,108 +21,109 @@
 **   This copyright notice MUST APPEAR in all copies of the file!           **
 **   ********************************************************************   */
 
-/*
- * Lagerplatz.java
+ /*
+ * WarehouseLocation.java
  *
  * Created on 15. März 2003, 18:45
  */
-
 package net.sourceforge.wisim.model;
 
 /**
  *
- * @author  Ben
+ * @author Ben
  */
 public class WarehouseLocation {
-    
-    private String stellplatzNr;
-    private int einzelteilNr;
-    private int bestand;
-    private int maxBestand;
-    
-    /** Creates a new instance of WarehouseLocation
-     * @param stellplatzNr
-     */
-    public WarehouseLocation(String stellplatzNr) {
-        this.stellplatzNr = stellplatzNr;
-    }
-		
-		/** Creates a new instance of WarehouseLocation*/
-    public WarehouseLocation()
-    {
-    }
-    
-		/** Creates a new instance of WarehouseLocation*/
-		public WarehouseLocation(String stellplatzNr, int einzelteilNr, int bestand, int maxBestand)
-		{
-			this.stellplatzNr = stellplatzNr;
-			this.einzelteilNr = einzelteilNr;
-			this.bestand = bestand;
-			this.maxBestand = maxBestand;
-		}
-  
-    /**
-     * @param stellplatzNr
-     */    
-    public void setStellplatzNr(String stellplatzNr) {
-        this.stellplatzNr = stellplatzNr;
-    }
-    
-    /**
-     * @return Stellplatz
-     */    
-    public String getStellplatzNr() {
-        return stellplatzNr;
-    } 
-	/**
-	 * @return int
-	 */
-	public int getBestand()
-	{
-		return bestand;
-	}
 
-	/**
-	 * @return int
-	 */
-	public int getEinzelteilNr()
-	{
-		return einzelteilNr;
-	}
+  private String stellplatzNr;
+  private int einzelteilNr;
+  private int bestand;
+  private int maxBestand;
 
-	/**
-	 * @return int
-	 */
-	public int getMaxBestand()
-	{
-		return maxBestand;
-	}
+  /**
+   * Creates a new instance of WarehouseLocation
+   *
+   * @param stellplatzNr
+   */
+  public WarehouseLocation(String stellplatzNr) {
+    this.stellplatzNr = stellplatzNr;
+  }
 
-	/**
-	 * Sets the bestand.
-	 * @param bestand The bestand to set
-	 */
-	public void setBestand(int bestand)
-	{
-		this.bestand = bestand;
-	}
+  /**
+   * Creates a new instance of WarehouseLocation
+   */
+  public WarehouseLocation() {
+  }
 
-	/**
-	 * Sets the einzelteilNr.
-	 * @param einzelteilNr The einzelteilNr to set
-	 */
-	public void setEinzelteilNr(int einzelteilNr)
-	{
-		this.einzelteilNr = einzelteilNr;
-	}
+  /**
+   * Creates a new instance of WarehouseLocation
+   */
+  public WarehouseLocation(String stellplatzNr, int einzelteilNr, int bestand, int maxBestand) {
+    this.stellplatzNr = stellplatzNr;
+    this.einzelteilNr = einzelteilNr;
+    this.bestand = bestand;
+    this.maxBestand = maxBestand;
+  }
 
-	/**
-	 * Sets the maxBestand.
-	 * @param maxBestand The maxBestand to set
-	 */
-	public void setMaxBestand(int maxBestand)
-	{
-		this.maxBestand = maxBestand;
-	}
+  /**
+   * @param stellplatzNr
+   */
+  public void setStellplatzNr(String stellplatzNr) {
+    this.stellplatzNr = stellplatzNr;
+  }
+
+  /**
+   * @return Stellplatz
+   */
+  public String getStellplatzNr() {
+    return stellplatzNr;
+  }
+
+  /**
+   * @return int
+   */
+  public int getBestand() {
+    return bestand;
+  }
+
+  /**
+   * @return int
+   */
+  public int getEinzelteilNr() {
+    return einzelteilNr;
+  }
+
+  /**
+   * @return int
+   */
+  public int getMaxBestand() {
+    return maxBestand;
+  }
+
+  /**
+   * Sets the bestand.
+   *
+   * @param bestand The bestand to set
+   */
+  public void setBestand(int bestand) {
+    this.bestand = bestand;
+  }
+
+  /**
+   * Sets the einzelteilNr.
+   *
+   * @param einzelteilNr The einzelteilNr to set
+   */
+  public void setEinzelteilNr(int einzelteilNr) {
+    this.einzelteilNr = einzelteilNr;
+  }
+
+  /**
+   * Sets the maxBestand.
+   *
+   * @param maxBestand The maxBestand to set
+   */
+  public void setMaxBestand(int maxBestand) {
+    this.maxBestand = maxBestand;
+  }
 
 }

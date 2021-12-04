@@ -22,17 +22,17 @@
 **   ********************************************************************   */
 
 /*
- * ContractAccount.java
+ * ContractInvoice.java
  *
  * Created on 21. März 2003, 03:30
  */
 
 package net.sourceforge.wisim.model;
 
-/** ContractAccount
+/** ContractInvoice
  * @author Denise freitag
  */
-public class ContractAccount {
+public class ContractInvoice {
     
     private int nr;
 		private double betrag;
@@ -43,7 +43,7 @@ public class ContractAccount {
     /** ContractAccount wenn die HUBFirma einen neuen Contract mit 
      * 	einem Kunden macht.
      */
-    public ContractAccount() {
+    public ContractInvoice() {
     }
     
     /** ContractAccount
@@ -52,7 +52,7 @@ public class ContractAccount {
      * @param AuftragNr Referenz auf den Auftrag
      * @param MwSt Mehrwertsteuer
      */
-    public ContractAccount(int nr, double betrag, int auftragNr, float mwSt, boolean zEingang) {
+    public ContractInvoice(int nr, double betrag, int auftragNr, float mwSt, boolean zEingang) {
         this.nr = nr;
         this.betrag = betrag;
         this.auftragNr = auftragNr;

@@ -35,18 +35,14 @@ import java.awt.image.BufferedImage;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
-import java.util.Vector;
-
 import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
-
 import net.sourceforge.wisim.dao.WiSimDAO;
 import net.sourceforge.wisim.dao.WiSimDAOException;
 import net.sourceforge.wisim.model.ComponentContract;
-import net.sourceforge.wisim.model.ComponentContractAccount;
+import net.sourceforge.wisim.model.ComponentContractInvoice;
 import net.sourceforge.wisim.model.ComponentContractItem;
 import net.sourceforge.wisim.model.Refreshable;
 import net.sourceforge.wisim.model.Supplier;
@@ -61,7 +57,7 @@ public class JPanelViewOrders extends javax.swing.JPanel implements Refreshable 
 
 	private WiSimDAO dao;
 	private ArrayList<ComponentContract> etatListe;
-	private Collection etatPos;
+	private ArrayList<ComponentContractItem> etatPos;
 	private int etatAnzahl;
 	private int etatPosAnzahl;
 	private double summe;
@@ -70,14 +66,14 @@ public class JPanelViewOrders extends javax.swing.JPanel implements Refreshable 
 	private double calcedLieferrabatt;
 	private double calcedSkonto;
 	private double calcedGesamt;
-	private static Color darkgreen = new Color(51, 153, 51);
-	private static Color red = new Color(255, 0, 0);
+	private final static Color DARKGREEN = new Color(51, 153, 51);
+	private final static Color RED = new Color(255, 0, 0);
 	private boolean isBuilt;
-	private WiSimMainController wiSimMainController;
-	private DecimalFormat format;
+	private final WiSimMainController wiSimMainController;
+	private final DecimalFormat format;
 
 	//Logger
-	private WiSimLogger wiSimLogger;
+	private final WiSimLogger wiSimLogger;
 
 	/** Creates new form JPanelEtatEinsehen
 	 * @param wiSimMainController Der WiSimMainController
@@ -87,7 +83,7 @@ public class JPanelViewOrders extends javax.swing.JPanel implements Refreshable 
 		wiSimLogger = wiSimMainController.getWiSimLogger();
 		initDAO(wiSimMainController);
 		etatListe = new ArrayList<>();
-		etatPos = new Vector();
+		etatPos = new ArrayList<>();
 		etatAnzahl = 0;
 		etatPosAnzahl = 0;
 		summe = 0;
@@ -561,7 +557,7 @@ public class JPanelViewOrders extends javax.swing.JPanel implements Refreshable 
 
 	/** Zeigt die Positionen des selektierten Einzelteilauftrages */
 	private void getEtatInfo() {
-		ComponentContract etat = (ComponentContract) etatListe.get(jTableEtatListe.getSelectedRow());
+		ComponentContract etat = etatListe.get(jTableEtatListe.getSelectedRow());
 
 		jTextFieldLieferrabatt.setText(format.format(etat.getLieferrabatt()));
 		jTextFieldSkonto.setText(format.format(etat.getSkonto()));
@@ -578,7 +574,7 @@ public class JPanelViewOrders extends javax.swing.JPanel implements Refreshable 
 
 		try {
 			etatPos = dao.getEinzelteilAuftragsPositionen(etat.getNr());
-			ComponentContractAccount etatr = dao.getEinzelteilauftragsrechnung(etat.getNr());
+			ComponentContractInvoice etatr = dao.getEinzelteilauftragsrechnung(etat.getNr());
 			jTextLTSumme.setText(format.format(etatr.getBetrag()));
 			summe = etatr.getBetrag();
 		} catch (WiSimDAOException e) {
@@ -594,7 +590,7 @@ public class JPanelViewOrders extends javax.swing.JPanel implements Refreshable 
 			ComponentContractItem etatPosItem = (ComponentContractItem) etatPos_it.next();
 
 			try {
-				WiSimComponent et = dao.getEinzelteil(etatPosItem.getEtNr());
+				WiSimComponent et = dao.getComponent(etatPosItem.getEtNr());
 				jTableEtatPos.setValueAt(et.getName(), i, 0);
 				jTableEtatPos.setValueAt(String.valueOf(etatPosItem.getBestellmenge()), i, 1);
 				SupplyList lieferliste = dao.getLieferliste(etat.getLieferantNr(), etatPosItem.getEtNr());
@@ -649,9 +645,9 @@ public class JPanelViewOrders extends javax.swing.JPanel implements Refreshable 
 			Graphics g = image.getGraphics();
 
 			if (etat.getLieferdatum().before(wiSimMainController.getActDate())) {
-				g.setColor(darkgreen);
+				g.setColor(DARKGREEN);
 			} else {
-				g.setColor(red);
+				g.setColor(RED);
 			}
 			g.fillRoundRect(10, 11, 10, 10, 3, 3);
 
@@ -667,14 +663,14 @@ public class JPanelViewOrders extends javax.swing.JPanel implements Refreshable 
 		//Legende
 		Image imageIconGreen = new BufferedImage(28, 30, 2);
 		Graphics g = imageIconGreen.getGraphics();
-		g.setColor(darkgreen);
+		g.setColor(DARKGREEN);
 		g.fillRoundRect(10, 11, 10, 10, 3, 3);
 		ImageIcon ic = new ImageIcon(imageIconGreen);
 		jLabelGruen.setIcon(ic);
 
 		Image imageIconRed = new BufferedImage(28, 30, 2);
 		g = imageIconRed.getGraphics();
-		g.setColor(red);
+		g.setColor(RED);
 		g.fillRoundRect(10, 11, 10, 10, 3, 3);
 		ic = new ImageIcon(imageIconRed);
 		jLabelRot.setIcon(ic);
@@ -700,9 +696,9 @@ public class JPanelViewOrders extends javax.swing.JPanel implements Refreshable 
 			Graphics g = image.getGraphics();
 
 			if (etat.getLieferdatum().before(new java.sql.Date(wiSimMainController.getActDate().getTime()))) {
-				g.setColor(darkgreen);
+				g.setColor(DARKGREEN);
 			} else {
-				g.setColor(red);
+				g.setColor(RED);
 			}
 			g.fillRoundRect(10, 11, 10, 10, 3, 3);
 

@@ -21,84 +21,82 @@
 **   This copyright notice MUST APPEAR in all copies of the file!           **
 **   ********************************************************************   */
 
-/*
+ /*
  * EinzelteilauftragPositionen.java
  *
  * Created on 21. März 2003, 04:14
  */
-
 package net.sourceforge.wisim.model;
 
 /**
+ * The order items for the contract.
  *
- * @author  Denise freitag
+ * @author Denise freitag
  */
-public class OrderItem {
-    
-		private int atNr;
-		private int artNr;
-		private long bestellmenge;
-    
-    
-    /** Creates a new instance of AuftragPositionen */
-    public OrderItem() {
-    }
-    
-    /**
-     * @param atNr Referenz auf den Auftrag
-     * @param artNr Referenz auf Article
-     * @param Bestellmenge Menge eines Artikels
-     */    
-    public OrderItem(int atNr, int artNr, long bestellmenge) {
-        this.atNr = atNr;
-        this.artNr = artNr;
-        this.bestellmenge = bestellmenge;
-        
-    }
-    
-    /**
-     * @return Auftragsnummer
-     */    
-    public int getAtNr(){
-        return atNr;
-    }
-    
-    /**
-     * @return Artikelnummer
-     */    
-    public int getArtNr() {
-        return artNr;
-    }
-    
-    /**
-     * @return Bestellmenge
-     */    
-    public long getBestellmenge() {
-        return bestellmenge;
-    }
-    
-    
-    
-    /**
-     * @param atNr
-     */    
-    public void setAtNr(int atNr){
-        this.atNr = atNr;
-    }
-    
-    /**
-     * @param artNr
-     */    
-    public void setArtNr(int artNr) {
-        this.artNr = artNr;
-    }
-    
-    /**
-     * @param Bestellmenge
-     */    
-    public void setBestellmenge(long bestellmenge) {
-        this.bestellmenge = bestellmenge;
-    }   
-    
-    
+public class ContractOrderItem {
+
+  private int atNr;
+  private int artNr;
+  private int bestellmenge;
+
+  /**
+   * Creates a new instance of AuftragPositionen
+   */
+  public ContractOrderItem() {
+  }
+
+  /**
+   * @param atNr Referenz auf den Auftrag
+   * @param artNr Referenz auf Article
+   * @param bestellmenge Menge eines Artikels
+   */
+  public ContractOrderItem(int atNr, int artNr, int bestellmenge) {
+    this.atNr = atNr;
+    this.artNr = artNr;
+    this.bestellmenge = bestellmenge;
+
+  }
+
+  /**
+   * @return Auftragsnummer
+   */
+  public int getAtNr() {
+    return atNr;
+  }
+
+  /**
+   * @return Artikelnummer
+   */
+  public int getArtNr() {
+    return artNr;
+  }
+
+  /**
+   * @return Bestellmenge
+   */
+  public long getBestellmenge() {
+    return bestellmenge;
+  }
+
+  /**
+   * @param atNr
+   */
+  public void setAtNr(int atNr) {
+    this.atNr = atNr;
+  }
+
+  /**
+   * @param artNr
+   */
+  public void setArtNr(int artNr) {
+    this.artNr = artNr;
+  }
+
+  /**
+   * @param bestellmenge
+   */
+  public void setBestellmenge(int bestellmenge) {
+    this.bestellmenge = bestellmenge;
+  }
+
 }
