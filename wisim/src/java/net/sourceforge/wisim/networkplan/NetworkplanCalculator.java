@@ -23,9 +23,9 @@
 
 package net.sourceforge.wisim.networkplan;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.Vector;
 
 /**
  * Class for calculating a network plan element.
@@ -34,7 +34,7 @@ import java.util.Vector;
  */
 public class NetworkplanCalculator {
 
-	private Vector npElemente;
+	private ArrayList<NetworkplanElement> npElemente;
 	private Iterator npElemIt;
 
 	/**
@@ -43,7 +43,7 @@ public class NetworkplanCalculator {
 	 * @param lightReCalc TRUE if only Faz / Fez, Saz / Sez and Buffer
 	 * have to be calculated. FALSE if its first calculation
 	 */
-	public NetworkplanCalculator(Vector npElemente, boolean lightReCalc) {
+	public NetworkplanCalculator(ArrayList<NetworkplanElement> npElemente, boolean lightReCalc) {
 		this.npElemente = npElemente;
 		npElemIt = npElemente.iterator();
 
@@ -134,7 +134,7 @@ public class NetworkplanCalculator {
 
 	/** Backward Calculation */
 	public void calculateSazSez() {
-		Vector npElementeDesc = new Vector();
+		ArrayList<NetworkplanElement> npElementeDesc = new ArrayList<>();
 		int a = npElemente.size() - 1;
 
 		while (a >= 0) {
@@ -143,7 +143,7 @@ public class NetworkplanCalculator {
 		}
 
 		npElemIt = npElementeDesc.iterator();
-		Vector uncompleted = new Vector();
+		ArrayList<NetworkplanElement> uncompleted = new ArrayList<>();
 
 		while (npElemIt.hasNext()) {
 
@@ -161,7 +161,7 @@ public class NetworkplanCalculator {
 
 				if (minSaz > 0) {
 					while (i < child.length) {
-						NetworkplanElement npElemChild = (NetworkplanElement) npElemente.get(child[i] - 1);
+						NetworkplanElement npElemChild = npElemente.get(child[i] - 1);
 						
 						if (minSaz > npElemChild.getSaz() && !npElemChild.isPseudoActivity())
 							minSaz = npElemChild.getSaz();
@@ -241,14 +241,14 @@ public class NetworkplanCalculator {
 	 * float = 0 and free float = 0
 	 * @return Vector with network plan elements of the critical path
 	 */
-	public Vector getCriticalPath() {
-		Vector criticalPath = new Vector();
+	public ArrayList<Integer> getCriticalPath() {
+		ArrayList<Integer> criticalPath = new ArrayList<>();
 
 		npElemIt = npElemente.iterator();
 		while (npElemIt.hasNext()) {
 			NetworkplanElement npElem = (NetworkplanElement) npElemIt.next();
 			if (npElem.getFp() == 0 && npElem.getGp() == 0)
-				criticalPath.add(new Integer(npElem.getIndex()));
+				criticalPath.add(npElem.getIndex());
 		}
 		return criticalPath;
 	}
@@ -273,7 +273,7 @@ public class NetworkplanCalculator {
 	/**
 	 * @return The calculated network plan elements in a Vector
 	 */
-	public Vector getNpElemente() {
+	public ArrayList<NetworkplanElement> getNpElemente() {
 		return npElemente;
 	}
 

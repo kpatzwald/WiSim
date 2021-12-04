@@ -26,7 +26,7 @@ package net.sourceforge.wisim.controller;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.util.Vector;
+import java.util.ArrayList;
 
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
@@ -36,6 +36,7 @@ import net.sourceforge.wisim.dao.WiSimDAO;
 import net.sourceforge.wisim.dao.WiSimDAOException;
 import net.sourceforge.wisim.model.*;
 import net.sourceforge.wisim.networkplan.JNetworkplan;
+import net.sourceforge.wisim.networkplan.NetworkplanElement;
 
 /**
  * [DoItBen] Kommentar Klasse JPanelNetworkplan
@@ -44,7 +45,7 @@ import net.sourceforge.wisim.networkplan.JNetworkplan;
 public class JPanelNetworkplan extends javax.swing.JPanel {
 
 	/** Vector containing all networkplan elements */
-	private Vector npElemente;
+	private ArrayList<NetworkplanElement> npElemente;
 
 	/** Extends JPanel and holds all JNetworkplanElements */
 	private JNetworkplan netzplanGrafik;

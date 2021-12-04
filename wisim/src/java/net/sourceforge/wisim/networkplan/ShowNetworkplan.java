@@ -32,6 +32,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Vector;
 
@@ -48,7 +49,7 @@ import javax.swing.JTextArea;
 public class ShowNetworkplan extends JFrame {
 
 	/** Vector containing all networkplan elements */
-	private Vector npElemente;
+	private ArrayList<NetworkplanElement> npElemente;
 
 	/** Extends JPanel and holds all JNetworkplanElements */
 	private JNetworkplan netzplanGrafik;
@@ -142,9 +143,9 @@ public class ShowNetworkplan extends JFrame {
 	 * Gets a filled Vector with the network plan elements
 	 * @return Vector with network plan elements
 	 */
-	public Vector getNetworkPlanElements() {
+	public ArrayList<NetworkplanElement> getNetworkPlanElements() {
 
-		Vector filled = new Vector();
+		ArrayList<NetworkplanElement> filled = new ArrayList<>();
 
 		/** Selected network plan */
 		int show = 10;
@@ -259,7 +260,7 @@ public class ShowNetworkplan extends JFrame {
 
 							/** This is an existing element with more than one child */
 						} else {
-							((Vector) parentBasket.get(new Integer(np.getNumber()))).add(new Integer(rset.getInt(4)));
+							((Vector) parentBasket.get(np.getNumber())).add(rset.getInt(4));
 						}
 					}
 

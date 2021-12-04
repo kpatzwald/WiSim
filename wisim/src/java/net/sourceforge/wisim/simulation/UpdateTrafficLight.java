@@ -23,7 +23,9 @@
 
 package net.sourceforge.wisim.simulation;
 
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Vector;
 
@@ -42,13 +44,13 @@ public class UpdateTrafficLight extends Thread {
 
 	private WiSimMainController wiSimMainController;
 	private WiSimDAO dao;
-	private Hashtable etCapacity;
+	private HashMap<String, ArrayList<Integer>> etCapacity;
 	private WiSimLogger wiSimLogger;
 
 	public UpdateTrafficLight(WiSimMainController wiSimMainController) {
 		this.wiSimMainController = wiSimMainController;
 		initDAO(wiSimMainController);
-		etCapacity = new Hashtable();
+		etCapacity = new HashMap<>();
 		wiSimLogger = wiSimMainController.getWiSimLogger();
 	}
 
@@ -69,14 +71,14 @@ public class UpdateTrafficLight extends Thread {
 				wiSimLogger.log("UpdateTrafficLight.run()", e);
 			}
 
-			Vector yellowStatus = new Vector();
-			Vector redStatus = new Vector();
+			ArrayList<String> yellowStatus = new ArrayList<>();
+			ArrayList<String> redStatus = new ArrayList<>();
 
-			Enumeration ets = etCapacity.keys();
-			while (ets.hasMoreElements()) {
-				String et = (String) ets.nextElement();
-				int minBestand = ((int[]) etCapacity.get(et))[0];
-				int bestand = ((int[]) etCapacity.get(et))[1];
+			for (String et : etCapacity.keySet()) {
+			//while (ets.hasMoreElements()) {
+				//String et = (String) ets.nextElement();
+				int minBestand = etCapacity.get(et).get(0);
+				int bestand = etCapacity.get(et).get(1);
 
 				/** Check red status */
 				if (bestand < minBestand)

@@ -31,6 +31,7 @@ import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -62,7 +63,7 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 	//	Logger
 	private WiSimLogger wiSimLogger;
 
-	private Vector npElemente;
+	private ArrayList<NetworkplanElement> npElemente;
 	private NetworkplanCalculator npCalc;
 	private int[][] position;
 	private Vector tupel[];
@@ -112,7 +113,7 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 	 * Add each networkplan element on this JPanel. 
 	 * @param npElemente Vector with all networkplan elements
 	 */
-	public JNetworkplan(WiSimMainController wiSimMainController, Vector npElemente) {
+	public JNetworkplan(WiSimMainController wiSimMainController, ArrayList<NetworkplanElement> npElemente) {
 		wiSimLogger = wiSimMainController.getWiSimLogger();
 		initDAO(wiSimMainController);
 
@@ -184,7 +185,7 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 		 * Add each networkplan element on this JPanel. 
 		 * @param npElemente Vector with all networkplan elements
 		 */
-	public JNetworkplan(Vector npElemente) {
+	public JNetworkplan(ArrayList<NetworkplanElement> npElemente) {
 
 		/** Initializing */
 		x1 = 0;
@@ -638,10 +639,10 @@ public class JNetworkplan extends JPanel implements MouseListener, MouseMotionLi
 
 	/** Display the critical path */
 	public void showCriticalPath() {
-		Vector criticalPath = npCalc.getCriticalPath();
+		ArrayList<Integer> criticalPath = npCalc.getCriticalPath();
 		Iterator criticalPathIt = criticalPath.iterator();
 		while (criticalPathIt.hasNext()) {
-			((NetworkplanElement) npElemente.get(((Integer) criticalPathIt.next()).intValue() - 1)).setCriticalPath(true);
+			npElemente.get(((Integer) criticalPathIt.next()).intValue() - 1).setCriticalPath(true);
 		}
 	}
 

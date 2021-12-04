@@ -1,8 +1,8 @@
 /*   ********************************************************************   **
 **   Copyright notice                                                       **
 **                                                                          **
-**   (c) 2003 WiSim Development Team					                              **
-**   https://github.com/kpatzwald/WiSim   			                                  **
+**   (c) 2003 WiSim Development Team					    **
+**   https://github.com/kpatzwald/WiSim   			            **
 **                                                                          **
 **   All rights reserved                                                    **
 **                                                                          **
@@ -47,6 +47,7 @@ public class IconNodeRenderer extends DefaultTreeCellRenderer {
 	 * @param hasFocus
 	 * @return WiSimComponent
 	 */
+        @Override
 	public Component getTreeCellRendererComponent(JTree tree, Object value, boolean sel, boolean expanded, boolean leaf, int row, boolean hasFocus) {
 
 		super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
