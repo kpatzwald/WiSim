@@ -1,8 +1,8 @@
 /*   ********************************************************************   **
 **   Copyright notice                                                       **
 **                                                                          **
-**   (c) 2003 WiSim Development Team					                              **
-**   https://github.com/kpatzwald/WiSim   			                                  **
+**   (c) 2003-2021 WiSim Development Team                                   **
+**   https://github.com/kpatzwald/WiSim                                     **
 **                                                                          **
 **   All rights reserved                                                    **
 **                                                                          **
@@ -21,67 +21,74 @@
 **   This copyright notice MUST APPEAR in all copies of the file!           **
 **   ********************************************************************   */
 
-/*
+ /*
  * Article.java
  *
  * Created on 4. März 2003, 23:12
  */
-
 package net.sourceforge.wisim.model;
 
 /**
  *
- * @author  Denise Freitag
+ * @author Denise Freitag
  */
-
 public class Article {
-    
-    private int nr;
-    private String name;
-    private float stueckpreis;
-    private int mindestbestand;
-    
-    /** Creates a new instance of Article */
-    public Article() {
-    }
-    
-    /** Creates a new instance of Einzelteile */
-    public Article(int nr, String name, float stueckpreis, int mindestbestand){
-        this.nr = nr;
-        this.name = name;
-        this.stueckpreis = stueckpreis;
-        this.mindestbestand = mindestbestand;    
-    }
-    
-  public int getNr(){
+
+  private int nr;
+  private String name;
+  private float stueckpreis;
+  private int mindestbestand;
+
+  /**
+   * Creates a new instance of Article
+   */
+  public Article() {
+  }
+
+  /**
+   * Creates a new instance of Einzelteile
+   *
+   * @param nr
+   * @param name
+   * @param stueckpreis
+   * @param mindestbestand
+   */
+  public Article(int nr, String name, float stueckpreis, int mindestbestand) {
+    this.nr = nr;
+    this.name = name;
+    this.stueckpreis = stueckpreis;
+    this.mindestbestand = mindestbestand;
+  }
+
+  public int getNr() {
     return nr;
   }
-  
-  public String getName(){
+
+  public String getName() {
     return name;
   }
-  
-  public float getStueckpreis(){
+
+  public float getStueckpreis() {
     return stueckpreis;
   }
-  
-  public int getMindestbestand(){
+
+  public int getMindestbestand() {
     return mindestbestand;
   }
-  
-  public void setNr(int nr){
+
+  public void setNr(int nr) {
     this.nr = nr;
   }
-    
-  public void setName(String name){
+
+  public void setName(String name) {
     this.name = name;
   }
-  
-  public void setStueckpreis(float stueckpreis){
-      this.stueckpreis = stueckpreis;
+
+  public void setStueckpreis(float stueckpreis) {
+    this.stueckpreis = stueckpreis;
   }
-    
-  public void setMindestbestand(int mindestbestand){
+
+  public void setMindestbestand(int mindestbestand) {
     this.mindestbestand = mindestbestand;
   }
 }

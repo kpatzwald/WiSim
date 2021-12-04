@@ -1,7 +1,7 @@
 /*   ********************************************************************   **
 **   Copyright notice                                                       **
 **                                                                          **
-**   (c) 2003 WiSim Development Team					                    **
+**   (c) 2003-2021 WiSim Development Team					                    **
 **   https://github.com/kpatzwald/WiSim   			                            **
 **                                                                          **
 **   All rights reserved                                                    **

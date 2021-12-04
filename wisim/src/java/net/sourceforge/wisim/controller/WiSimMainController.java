@@ -1,8 +1,8 @@
 /*   ********************************************************************    **
  **   Copyright notice                                                       **
  **                                                                          **
- **   (c) 2003 WiSim Development Team					                               **
- **   https://github.com/kpatzwald/WiSim   			                                 **
+ **   (c) 2003-2021 WiSim Development Team                                   **
+ **   https://github.com/kpatzwald/WiSim                                     **
  **                                                                          **
  **   All rights reserved                                                    **
  **                                                                          **
@@ -21,25 +21,23 @@
  **   This copyright notice MUST APPEAR in all copies of the file!           **
  **   ********************************************************************   */
 
-/*
+ /*
  * WiSimMainController.java
  *
  * Created on 18. Januar 2003, 18:16
  */
-
 package net.sourceforge.wisim.controller;
 
 import java.awt.BorderLayout;
 import java.awt.Cursor;
 import java.awt.GraphicsEnvironment;
 import java.text.DateFormat;
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
-import java.util.Vector;
 import java.util.logging.Level;
 
 import javax.swing.JInternalFrame;
@@ -49,6 +47,7 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import net.sourceforge.wisim.dao.WiSimAuthentificationDAO;
 import net.sourceforge.wisim.dao.WiSimDAO;
@@ -65,196 +64,203 @@ import net.sourceforge.wisim.simulation.UpdateSimulationAnalysis;
 import net.sourceforge.wisim.simulation.UpdateTrafficLight;
 import net.sourceforge.wisim.simulation.UpdateWarehouseThread;
 
-/** Main Class of WiSim - Business Game
+/**
+ * Main Class of WiSim - Business Game
+ *
  * @author Kay Patzwald
  */
 public class WiSimMainController extends javax.swing.JFrame {
 
-	private Hashtable actions;
-	private Hashtable titles;
-	private WiSimDAO dao;
-	private WiSimAuthentificationDAO authDAO;
-	private WiSimLogger wiSimLogger;
-	private Date actDate;
-	private GregorianCalendar actDateGC;
-	private DateFormat df;
-	private DateFormat justDate;
-	private JScrollableDesktopPane desktopPane;
-	private ActualTime actTime;
-	private CoreTime coreTime;
-	private GregorianCalendar gc;
-	private boolean simulationState;
-	private boolean suspendState;
-	private Collection activPanels;
-	private String trafficLightsStatusText;
-	private String trafficLightStatus;
+  private HashMap<String, JPanel> actions;
+  private HashMap<String, String> titles;
+  private WiSimDAO dao;
+  private WiSimAuthentificationDAO authDAO;
+  private WiSimLogger wiSimLogger;
+  private Date actDate;
+  private GregorianCalendar actDateGC;
+  private DateFormat df;
+  private DateFormat justDate;
+  private JScrollableDesktopPane desktopPane;
+  private ActualTime actTime;
+  private CoreTime coreTime;
+  private GregorianCalendar gc;
+  private boolean simulationState;
+  private boolean suspendState;
+  private ArrayList<JPanel> activPanels;
+  private String trafficLightsStatusText;
+  private String trafficLightStatus;
 
-	// Sets the length of one timestep of the simulation
-	// 1 Timestep = 1 min = 100 ms
-	private final static int TIMESTEP = 100;
+  // Sets the length of one timestep of the simulation
+  // 1 Timestep = 1 min = 100 ms
+  private final static int TIMESTEP = 100;
 
-	//	Simulation of the production
-	private ProductionController runController;
-	private ProductionSimulationThread[] threads;
+  //	Simulation of the production
+  private ProductionController runController;
+  private ProductionSimulationThread[] threads;
 
-	// Simulation
-	private UpdateSimulationAnalysis updateSimulationsauswertung;
-	private UpdateWarehouseThread updateLagerThread;
-	private UpdateTrafficLight updateTrafficLight;
+  // Simulation
+  private UpdateSimulationAnalysis updateSimulationsauswertung;
+  private UpdateWarehouseThread updateLagerThread;
+  private UpdateTrafficLight updateTrafficLight;
 
-	// Splashscreen Status
-	private static JProgressBar loadStatusBar;
-	private static JLabel statusText;
+  // Splashscreen Status
+  private static JProgressBar loadStatusBar;
+  private static JLabel statusText;
 
-	/** Creates new form WiSimMainController */
-	public WiSimMainController() {
-		wiSimLogger = new WiSimLogger("wisimlog.xml");
-		initDAO();
-		initComponents();
-		initActions();
-		initApplication();
-		initTitles();
-		initSimulationSettings();
+  /**
+   * Creates new form WiSimMainController
+   */
+  public WiSimMainController() {
+    wiSimLogger = new WiSimLogger("wisimlog.xml");
+    initDAO();
+    initComponents();
+    initActions();
+    initApplication();
+    initTitles();
+    initSimulationSettings();
 
-		trafficLightsStatusText = "Simulation gestoppt!";
-		trafficLightStatus = "aus";
+    trafficLightsStatusText = "Simulation gestoppt!";
+    trafficLightStatus = "aus";
 
-		/** Complete Splashscreen status bar */
-		loadStatusBar.setValue(100);
-		statusText.setText("Fertig!");
+    /**
+     * Complete Splashscreen status bar
+     */
+    loadStatusBar.setValue(100);
+    statusText.setText("Fertig!");
 
-		actDate = new Date(new GregorianCalendar(2003, 8, 1, 0, 0).getTimeInMillis());
-		actDateGC = new GregorianCalendar();
-		df = DateFormat.getDateTimeInstance(DateFormat.FULL, DateFormat.SHORT, Locale.GERMANY);
-		justDate = DateFormat.getDateInstance(DateFormat.FULL, Locale.GERMANY);
-	}
+    actDate = new Date(new GregorianCalendar(2003, 8, 1, 0, 0).getTimeInMillis());
+    actDateGC = new GregorianCalendar();
+    df = DateFormat.getDateTimeInstance(DateFormat.FULL, DateFormat.SHORT, Locale.GERMANY);
+    justDate = DateFormat.getDateInstance(DateFormat.FULL, Locale.GERMANY);
+  }
 
-	/** Initializate the settings for the simulation
-	 *
-	 */
-	private void initSimulationSettings() {
-		actDate = new Date(new GregorianCalendar(2003, 8, 1, 0, 0).getTimeInMillis());
-		gc = new GregorianCalendar();
-		simulationState = false;
-		suspendState = false;
-		activPanels = (Collection) new Vector();
-	}
+  /**
+   * Initializate the settings for the simulation
+   *
+   */
+  private void initSimulationSettings() {
+    actDate = new Date(new GregorianCalendar(2003, 8, 1, 0, 0).getTimeInMillis());
+    gc = new GregorianCalendar();
+    simulationState = false;
+    suspendState = false;
+    activPanels = new ArrayList<>();
+  }
 
-	/*Hashtable with all possible actions. Every action represent a JPanel / JInternalFrame.*/
-	private void initActions() {
-		actions = new Hashtable();
+  /*Hashtable with all possible actions. Every action represent a JPanel / JInternalFrame.*/
+  private void initActions() {
+    actions = new HashMap<>();
 
-		loadStatusBar.setValue(28);
-		statusText.setText("Lade \"Bestellung\"...");
-		actions.put("NewOrder", new JPanelNewOrder(this));
+    loadStatusBar.setValue(28);
+    statusText.setText("Lade \"Bestellung\"...");
+    actions.put("NewOrder", new JPanelNewOrder(this));
 
-		loadStatusBar.setValue(33);
-		statusText.setText("Lade \"Hilfe\"...");
-		actions.put("Help", new JPanelHelp(this));
+    loadStatusBar.setValue(33);
+    statusText.setText("Lade \"Hilfe\"...");
+    actions.put("Help", new JPanelHelp(this));
 
-		loadStatusBar.setValue(35);
-		statusText.setText("Lade \"Kunde bearbeiten\"...");
-		actions.put("ModifyCustomer", new JPanelModifyCustomer(this));
+    loadStatusBar.setValue(35);
+    statusText.setText("Lade \"Kunde bearbeiten\"...");
+    actions.put("ModifyCustomer", new JPanelModifyCustomer(this));
 
-		loadStatusBar.setValue(39);
-		statusText.setText("Lade \"Lager\"...");
-		actions.put("Warehouse", new JPanelWarehouse(this));
+    loadStatusBar.setValue(39);
+    statusText.setText("Lade \"Lager\"...");
+    actions.put("Warehouse", new JPanelWarehouse(this));
 
-		loadStatusBar.setValue(45);
-		statusText.setText("Lade \"Lieferant bearbeiten\"...");
-		actions.put("ModifySupplier", new JPanelModifySupplier(this));
+    loadStatusBar.setValue(45);
+    statusText.setText("Lade \"Lieferant bearbeiten\"...");
+    actions.put("ModifySupplier", new JPanelModifySupplier(this));
 
-		loadStatusBar.setValue(49);
-		statusText.setText("Lade \"Lieferantenliste\"...");
-		actions.put("ViewSuppliers", new JPanelViewSuppliers(this));
+    loadStatusBar.setValue(49);
+    statusText.setText("Lade \"Lieferantenliste\"...");
+    actions.put("ViewSuppliers", new JPanelViewSuppliers(this));
 
-		loadStatusBar.setValue(53);
-		statusText.setText("Lade \"Neuer Kunde\"...");
-		actions.put("NewCustomer", new JPanelNewCustomer(this));
+    loadStatusBar.setValue(53);
+    statusText.setText("Lade \"Neuer Kunde\"...");
+    actions.put("NewCustomer", new JPanelNewCustomer(this));
 
-		loadStatusBar.setValue(56);
-		statusText.setText("Lade \"Kundenuebersicht\"...");
-		actions.put("ViewCustomers", new JPanelViewCustomers(this));
+    loadStatusBar.setValue(56);
+    statusText.setText("Lade \"Kundenuebersicht\"...");
+    actions.put("ViewCustomers", new JPanelViewCustomers(this));
 
-		loadStatusBar.setValue(60);
-		statusText.setText("Lade \"Neuer Lieferant\"...");
-		actions.put("NewSupplier", new JPanelNewSupplier(this));
+    loadStatusBar.setValue(60);
+    statusText.setText("Lade \"Neuer Lieferant\"...");
+    actions.put("NewSupplier", new JPanelNewSupplier(this));
 
-		loadStatusBar.setValue(64);
-		statusText.setText("Lade \"Neuer Vertrag\"...");
-		actions.put("NewContract", new JPanelNewContract(this));
+    loadStatusBar.setValue(64);
+    statusText.setText("Lade \"Neuer Vertrag\"...");
+    actions.put("NewContract", new JPanelNewContract(this));
 
-		loadStatusBar.setValue(70);
-		statusText.setText("Lade \"Vertrag einsehen\"...");
-		actions.put("ViewContract", new JPanelViewContract(this));
+    loadStatusBar.setValue(70);
+    statusText.setText("Lade \"Vertrag einsehen\"...");
+    actions.put("ViewContract", new JPanelViewContract(this));
 
-		loadStatusBar.setValue(75);
-		statusText.setText("Lade \"Optionen\"...");
-		actions.put("Options", new JPanelOptions(this));
+    loadStatusBar.setValue(75);
+    statusText.setText("Lade \"Optionen\"...");
+    actions.put("Options", new JPanelOptions(this));
 
-		loadStatusBar.setValue(78);
-		statusText.setText("Lade \"Auftrag einsehen\"...");
-		actions.put("ViewOrders", new JPanelViewOrders(this));
+    loadStatusBar.setValue(78);
+    statusText.setText("Lade \"Auftrag einsehen\"...");
+    actions.put("ViewOrders", new JPanelViewOrders(this));
 
-		loadStatusBar.setValue(82);
-		statusText.setText("Lade \"Auswertung Simulation\"...");
-		actions.put("SimulationAnalysis", new JPanelSimulationAnalysis(this));
+    loadStatusBar.setValue(82);
+    statusText.setText("Lade \"Auswertung Simulation\"...");
+    actions.put("SimulationAnalysis", new JPanelSimulationAnalysis(this));
 
-		loadStatusBar.setValue(86);
-		statusText.setText("Lade \"Arbeitsplatzlager\"...");
-		actions.put("WorkPlaceStore", new JPanelWorkPlaceStore(this));
+    loadStatusBar.setValue(86);
+    statusText.setText("Lade \"Arbeitsplatzlager\"...");
+    actions.put("WorkPlaceStore", new JPanelWorkPlaceStore(this));
 
-		loadStatusBar.setValue(92);
-		statusText.setText("Lade \"Netzplan\"...");
-		actions.put("Networkplan", new JPanelNetworkplan(this));
+    loadStatusBar.setValue(92);
+    statusText.setText("Lade \"Netzplan\"...");
+    actions.put("Networkplan", new JPanelNetworkplan(this));
 
-		loadStatusBar.setValue(97);
-		statusText.setText("Lade \"Zahlungseingang\"...");
-		actions.put("IncomingPayment", new JPanelIncomingPayments(this));
-	}
+    loadStatusBar.setValue(97);
+    statusText.setText("Lade \"Zahlungseingang\"...");
+    actions.put("IncomingPayment", new JPanelIncomingPayments(this));
+  }
 
-	/*Hashtable titles with the german titles of the JInternalFrames.*/
-	private void initTitles() {
-		titles = new Hashtable();
-		titles.put("NewCustomer", "Neuer Kunde");
-		titles.put("ModifyCustomer", "Kunde bearbeiten");
-		titles.put("ViewCustomers", "Kundenübersicht");
-		titles.put("NewContract", "Neuer Vertrag");
-		titles.put("ViewContract", "Vertrag einsehen");
-		titles.put("Warehouse", "Lager");
-		titles.put("Help", "Hilfe");
-		titles.put("NewOrder", "Einzelteil bestellen");
-		titles.put("ModifySupplier", "Lieferanten bearbeiten");
-		titles.put("ViewSuppliers", "Lieferanten einsehen");
-		titles.put("NewSupplier", "Neuer Lieferant");
-		titles.put("Options", "Optionen");
-		titles.put("ViewOrders", "Einzelteilauftrag einsehen");
-		titles.put("SimulationAnalysis", "Simulation auswerten");
-		titles.put("Networkplan", "Netzplaneditor");
-		titles.put("WorkPlaceStore", "Arbeitsplatzlager");
-		titles.put("IncomingPayment", "Zahlungseingang");
-	}
+  /*Hashtable titles with the german titles of the JInternalFrames.*/
+  private void initTitles() {
+    titles = new HashMap<>();
+    titles.put("NewCustomer", "Neuer Kunde");
+    titles.put("ModifyCustomer", "Kunde bearbeiten");
+    titles.put("ViewCustomers", "Kundenübersicht");
+    titles.put("NewContract", "Neuer Vertrag");
+    titles.put("ViewContract", "Vertrag einsehen");
+    titles.put("Warehouse", "Lager");
+    titles.put("Help", "Hilfe");
+    titles.put("NewOrder", "Einzelteil bestellen");
+    titles.put("ModifySupplier", "Lieferanten bearbeiten");
+    titles.put("ViewSuppliers", "Lieferanten einsehen");
+    titles.put("NewSupplier", "Neuer Lieferant");
+    titles.put("Options", "Optionen");
+    titles.put("ViewOrders", "Einzelteilauftrag einsehen");
+    titles.put("SimulationAnalysis", "Simulation auswerten");
+    titles.put("Networkplan", "Netzplaneditor");
+    titles.put("WorkPlaceStore", "Arbeitsplatzlager");
+    titles.put("IncomingPayment", "Zahlungseingang");
+  }
 
-	/*Initialize the data access object (dao)*/
-	private void initDAO() {
-		statusText.setText("Initialisiere DB-Verbindung...");
-		loadStatusBar.setValue(0);
-		dao = null;
-		authDAO = null;
-		try {
-			WiSimDAOFactory factory = new WiSimDAOFactory();
-			dao = factory.getDAO();
-			authDAO = factory.getAuthDAO();
-		} catch (Throwable t) {
-			wiSimLogger.log(Level.WARNING, "initDAO", t, true);
-		}
-	}
+  /*Initialize the data access object (dao)*/
+  private void initDAO() {
+    statusText.setText("Initialisiere DB-Verbindung...");
+    loadStatusBar.setValue(0);
+    dao = null;
+    authDAO = null;
+    try {
+      WiSimDAOFactory factory = new WiSimDAOFactory();
+      dao = factory.getDAO();
+      authDAO = factory.getAuthDAO();
+    } catch (Throwable t) {
+      wiSimLogger.log(Level.WARNING, "initDAO", t, true);
+    }
+  }
 
-	/** This method is called from within the constructor to
-	 * initialize the form.
-	 * WARNING: Do NOT modify this code. The content of this method is
-	 * always regenerated by the Form Editor.
-	 */
+  /**
+   * This method is called from within the constructor to initialize the form.
+   * WARNING: Do NOT modify this code. The content of this method is always
+   * regenerated by the Form Editor.
+   */
   // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
   private void initComponents() {
 
@@ -660,548 +666,590 @@ public class WiSimMainController extends javax.swing.JFrame {
   }// </editor-fold>//GEN-END:initComponents
 
 	private void jLabelRedMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelRedMouseExited
-		setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+          setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 	}//GEN-LAST:event_jLabelRedMouseExited
 
 	private void jLabelYellowMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelYellowMouseExited
-		setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+          setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 	}//GEN-LAST:event_jLabelYellowMouseExited
 
 	private void jLabelGreenMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelGreenMouseExited
-		setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+          setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 	}//GEN-LAST:event_jLabelGreenMouseExited
 
 	private void jLabelRedMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelRedMouseEntered
-		setCursor(new Cursor(Cursor.HAND_CURSOR));
+          setCursor(new Cursor(Cursor.HAND_CURSOR));
 	}//GEN-LAST:event_jLabelRedMouseEntered
 
 	private void jLabelYellowMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelYellowMouseEntered
-		setCursor(new Cursor(Cursor.HAND_CURSOR));
+          setCursor(new Cursor(Cursor.HAND_CURSOR));
 	}//GEN-LAST:event_jLabelYellowMouseEntered
 
 	private void jLabelGreenMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelGreenMouseEntered
-		setCursor(new Cursor(Cursor.HAND_CURSOR));
+          setCursor(new Cursor(Cursor.HAND_CURSOR));
 	}//GEN-LAST:event_jLabelGreenMouseEntered
 
 	private void jLabelRedMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelRedMouseClicked
-		showTrafficLightStatus();
+          showTrafficLightStatus();
 	}//GEN-LAST:event_jLabelRedMouseClicked
 
 	private void jLabelYellowMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelYellowMouseClicked
-		showTrafficLightStatus();
+          showTrafficLightStatus();
 	}//GEN-LAST:event_jLabelYellowMouseClicked
 
 	private void jLabelGreenMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelGreenMouseClicked
-		showTrafficLightStatus();
+          showTrafficLightStatus();
 	}//GEN-LAST:event_jLabelGreenMouseClicked
 
 	private void jPanelStatusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanelStatusMouseClicked
-		showTrafficLightStatus();
+          showTrafficLightStatus();
 	}//GEN-LAST:event_jPanelStatusMouseClicked
 
 	private void jMenuItemSimulationAnalysisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSimulationAnalysisActionPerformed
-		addPanel("SimulationAnalysis");
+          addPanel("SimulationAnalysis");
 	}//GEN-LAST:event_jMenuItemSimulationAnalysisActionPerformed
 
 	private void jMenuItemNetzplanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemNetzplanActionPerformed
-		addPanel("Networkplan");
+          addPanel("Networkplan");
 	}//GEN-LAST:event_jMenuItemNetzplanActionPerformed
 
 	private void jButtonSimStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSimStartActionPerformed
-		simulationController();
+          simulationController();
 	}//GEN-LAST:event_jButtonSimStartActionPerformed
 
 	private void jButtonSimResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSimResetActionPerformed
-		resetSimulation();
+          resetSimulation();
 	}//GEN-LAST:event_jButtonSimResetActionPerformed
 
 	private void jButtonSimStopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSimStopActionPerformed
-		stopSimulation();
+          stopSimulation();
 	}//GEN-LAST:event_jButtonSimStopActionPerformed
 
 	private void jMenuItemZahlungseingangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemZahlungseingangActionPerformed
-		addPanel("IncomingPayment");
+          addPanel("IncomingPayment");
 	}//GEN-LAST:event_jMenuItemZahlungseingangActionPerformed
 
 	private void jMenuItemKundenuebersichtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemKundenuebersichtActionPerformed
-		addPanel("ViewCustomers");
+          addPanel("ViewCustomers");
 	}//GEN-LAST:event_jMenuItemKundenuebersichtActionPerformed
 
 	private void jMenuItemArbeitsplatzlagerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemArbeitsplatzlagerActionPerformed
-		addPanel("WorkPlaceStore");
+          addPanel("WorkPlaceStore");
 	}//GEN-LAST:event_jMenuItemArbeitsplatzlagerActionPerformed
 
 	private void jMenuItemLieferantenlisteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemLieferantenlisteActionPerformed
-		addPanel("ViewSuppliers");
+          addPanel("ViewSuppliers");
 	}//GEN-LAST:event_jMenuItemLieferantenlisteActionPerformed
 
 	private void jMenuItemEtatEinsehenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemEtatEinsehenActionPerformed
-		addPanel("ViewOrders");
+          addPanel("ViewOrders");
 	}//GEN-LAST:event_jMenuItemEtatEinsehenActionPerformed
 
 	private void jMenuItemOptionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemOptionsActionPerformed
-		addPanel("Options");
+          addPanel("Options");
 	}//GEN-LAST:event_jMenuItemOptionsActionPerformed
 
 	private void jMenuItemBeendenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemBeendenActionPerformed
-		System.exit(0);
+          System.exit(0);
 	}//GEN-LAST:event_jMenuItemBeendenActionPerformed
 
 	private void jMenuItemLieferantenBearbeitenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemLieferantenBearbeitenActionPerformed
-		addPanel("ModifySupplier");
+          addPanel("ModifySupplier");
 	}//GEN-LAST:event_jMenuItemLieferantenBearbeitenActionPerformed
 
 	private void jMenuItemVertragEinsehenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemVertragEinsehenActionPerformed
-		addPanel("ViewContract");
+          addPanel("ViewContract");
 	}//GEN-LAST:event_jMenuItemVertragEinsehenActionPerformed
 
 	private void jMenuItemNeuerLieferantActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemNeuerLieferantActionPerformed
-		addPanel("NewSupplier");
+          addPanel("NewSupplier");
 	}//GEN-LAST:event_jMenuItemNeuerLieferantActionPerformed
 
 	private void jMenuItemLagerUebersichtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemLagerUebersichtActionPerformed
-		addPanel("Warehouse");
+          addPanel("Warehouse");
 	}//GEN-LAST:event_jMenuItemLagerUebersichtActionPerformed
 
 	private void jMenuItemBestellungActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemBestellungActionPerformed
-		addPanel("NewOrder");
+          addPanel("NewOrder");
 	}//GEN-LAST:event_jMenuItemBestellungActionPerformed
 
 	private void jMenuItemNeuerVertragActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemNeuerVertragActionPerformed
-		addPanel("NewContract");
+          addPanel("NewContract");
 	}//GEN-LAST:event_jMenuItemNeuerVertragActionPerformed
 
 	private void jMenuItemInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemInfoActionPerformed
-		addPanel("Help");
+          addPanel("Help");
 	}//GEN-LAST:event_jMenuItemInfoActionPerformed
 
 	private void jMenuItemNeuerKundeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemNeuerKundeActionPerformed
-		addPanel("NewCustomer");
+          addPanel("NewCustomer");
 	}//GEN-LAST:event_jMenuItemNeuerKundeActionPerformed
 
 	private void jMenuItemKundeEditierenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemKundeEditierenActionPerformed
-		addPanel("ModifyCustomer");
+          addPanel("ModifyCustomer");
 	}//GEN-LAST:event_jMenuItemKundeEditierenActionPerformed
 
-	/** Exit the Application */
+  /**
+   * Exit the Application
+   */
 	private void exitForm(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_exitForm
-		System.exit(0);
+          System.exit(0);
 	}//GEN-LAST:event_exitForm
 
-	/*
+  /*
 	 * Sets after NetBeans generated code properties
-	 */
-	private void initApplication() {
-		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-		setSize(ge.getMaximumWindowBounds().width, ge.getMaximumWindowBounds().height);
-		setLocation(0, 0);
-		desktopPane = new JScrollableDesktopPane(jMenuBarWiSim);
-		getContentPane().add(desktopPane, BorderLayout.CENTER);
+   */
+  private void initApplication() {
+    GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+    setSize(ge.getMaximumWindowBounds().width, ge.getMaximumWindowBounds().height);
+    setLocation(0, 0);
+    desktopPane = new JScrollableDesktopPane(jMenuBarWiSim);
+    getContentPane().add(desktopPane, BorderLayout.CENTER);
 
-		/** Set JFrame maximized */
-		setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
-	}
+    /**
+     * Set JFrame maximized
+     */
+    setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
+  }
 
-	/** Adds a new JInternalFrame to the ScrollableDesktopPane
-	 * @param String Name of the panel, representing the JInternalFrame-Content
-	 */
-	public void addPanel(String panelName) {
+  /**
+   * Adds a new JInternalFrame to the ScrollableDesktopPane
+   *
+   * @param panelName String Name of the panel, representing the JInternalFrame-Content
+   */
+  public void addPanel(String panelName) {
 
-		//Update Plugable look and feel
-		SwingUtilities.updateComponentTreeUI((JPanel) actions.get(panelName));
-		SwingUtilities.updateComponentTreeUI(jMenuBarWiSim);
+    //Update Plugable look and feel
+    SwingUtilities.updateComponentTreeUI(actions.get(panelName));
+    SwingUtilities.updateComponentTreeUI(jMenuBarWiSim);
 
-		JInternalFrame frames[] = desktopPane.getAllFrames();
-		boolean isOpen = false;
-		int frameIndex = -1;
-		for (int i = 0; i < frames.length; i++) {
-			if (frames[i].getTitle().equals((String) titles.get(panelName))) {
-				isOpen = true;
-				frameIndex = i;
-			}
-		}
-		if (isOpen) {
-			desktopPane.setSelectedFrame(frames[frameIndex]);
-		} else {
-			desktopPane.add((String) titles.get(panelName), (JPanel) actions.get(panelName));
-		}
-	}
+    JInternalFrame frames[] = desktopPane.getAllFrames();
+    boolean isOpen = false;
+    int frameIndex = -1;
+    for (int i = 0; i < frames.length; i++) {
+      if (frames[i].getTitle().equals(titles.get(panelName))) {
+        isOpen = true;
+        frameIndex = i;
+      }
+    }
+    if (isOpen) {
+      desktopPane.setSelectedFrame(frames[frameIndex]);
+    } else {
+      desktopPane.add(titles.get(panelName), actions.get(panelName));
+    }
+  }
 
-	/** Returns the WiSim-DAO
-	 * @return WiSimDao
-	 */
-	public WiSimDAO getDAO() {
-		return dao;
-	}
+  /**
+   * Returns the WiSim-DAO
+   *
+   * @return WiSimDao
+   */
+  public WiSimDAO getDAO() {
+    return dao;
+  }
 
-	/** Returns the hashtable actions
-	 * @return Hashtable
-	 */
-	public Hashtable getActions() {
-		return actions;
-	}
+  /**
+   * Returns the hashtable actions
+   *
+   * @return Hashtable
+   */
+  public HashMap<String, JPanel> getActions() {
+    return actions;
+  }
 
-	/** Returns the logger
-	 * @return WiSimLogger
-	 */
-	public WiSimLogger getWiSimLogger() {
-		return wiSimLogger;
-	}
+  /**
+   * Returns the logger
+   *
+   * @return WiSimLogger
+   */
+  public WiSimLogger getWiSimLogger() {
+    return wiSimLogger;
+  }
 
-	/** Main function of WiSim - Business Game
-	 * @param args the command line arguments
-	 */
-	public static void main(String args[]) {
+  /**
+   * Main function of WiSim - Business Game
+   *
+   * @param args the command line arguments
+   */
+  public static void main(String args[]) {
 
-		try {
-			/** Update the PLAF */
-			com.incors.plaf.kunststoff.KunststoffLookAndFeel plaf = new com.incors.plaf.kunststoff.KunststoffLookAndFeel();
-			try {
-				UIManager.setLookAndFeel(plaf);
-			} catch (Exception e) {
-			}
+    try {
+      /**
+       * Update the PLAF
+       */
+      com.incors.plaf.kunststoff.KunststoffLookAndFeel plaf = new com.incors.plaf.kunststoff.KunststoffLookAndFeel();
+      try {
+        UIManager.setLookAndFeel(plaf);
+      } catch (UnsupportedLookAndFeelException e) {
+      }
 
-			/** Initialize splashscreen swing components */
-			loadStatusBar = new JProgressBar(0, 100);
-			statusText = new JLabel();
+      /**
+       * Initialize splashscreen swing components
+       */
+      loadStatusBar = new JProgressBar(0, 100);
+      statusText = new JLabel();
 
-			/** Start the splashscreen and load the wiSimMainController */
-			new WiSimSplashscreen(loadStatusBar, statusText).runSplashscreen();
-		} catch (Throwable t) {
-			System.err.println("Schwerer Fehler. WiSim kann nicht gestartet werden. Wurde das korrekte JDK (1.4.x) verwendet?");
-			//DoItBen Bitte den obigen Satz übersetzen. Aber das Deutsche auch stehen lassen.
-			System.err.println(t.getMessage());
-			System.exit(1);
-		}
-	}
+      /**
+       * Start the splashscreen and load the wiSimMainController
+       */
+      new WiSimSplashscreen(loadStatusBar, statusText).runSplashscreen();
+    } catch (Throwable t) {
+      System.err.println("Schwerer Fehler. WiSim kann nicht gestartet werden. Wurde das korrekte JDK (1.4.x) verwendet?");
+      //DoItBen Bitte den obigen Satz übersetzen. Aber das Deutsche auch stehen lassen.
+      System.err.println(t.getMessage());
+      System.exit(1);
+    }
+  }
 
-	/** Setzt das Datumsfeld dieses Panes zurück */
-	public void resetTextFieldDate() {
-		actDate = new Date(new GregorianCalendar(2003, 8, 1, 0, 0).getTimeInMillis());
-		jLabelDate.setText(justDate.format(actDate) + "   ");
-	}
+  /**
+   * Setzt das Datumsfeld dieses Panes zurück
+   */
+  public void resetTextFieldDate() {
+    // TODO Datum auf das aktuelle Datum setzen, SQL muss angepasst werden
+    actDate = new Date(new GregorianCalendar(2003, 8, 1, 0, 0).getTimeInMillis());
+    jLabelDate.setText(justDate.format(actDate) + "   ");
+  }
 
-	/** Actualice the simulation time
-	 * @param actDate The simulation time to set
-	 */
-	public void refreshTextFieldDate(java.util.Date actDate) {
-		this.actDate = actDate;
-		actDateGC.setTimeInMillis(actDate.getTime());
-		jLabelDate.setText(df.format(actDate) + "   ");
-	}
+  /**
+   * Actualice the simulation time
+   *
+   * @param actDate The simulation time to set
+   */
+  public void refreshTextFieldDate(java.util.Date actDate) {
+    this.actDate = actDate;
+    actDateGC.setTimeInMillis(actDate.getTime());
+    jLabelDate.setText(df.format(actDate) + "   ");
+  }
 
-	/** Returns the simulation time
-	 * @return Date The simulation time
-	 */
-	public Date getActDate() {
-		return actDate;
-	}
+  /**
+   * Returns the simulation time
+   *
+   * @return Date The simulation time
+   */
+  public Date getActDate() {
+    return actDate;
+  }
 
-	/** Resets the date */
-	private void resetFields() {
-		actDate = new Date(new GregorianCalendar(2003, 8, 1, 0, 0).getTimeInMillis());
-		resetTextFieldDate();
-	}
+  /**
+   * Resets the date
+   */
+  private void resetFields() {
+    actDate = new Date(new GregorianCalendar(2003, 8, 1, 0, 0).getTimeInMillis());
+    resetTextFieldDate();
+  }
 
-	private void simulationController() {
-		if (simulationState == false)
-			startSimulation();
-		else if (suspendState)
-			resumeSimulation();
-		else
-			suspendSimulation();
+  private void simulationController() {
+    if (simulationState == false) {
+      startSimulation();
+    } else if (suspendState) {
+      resumeSimulation();
+    } else {
+      suspendSimulation();
+    }
 
-	}
+  }
 
-	/** Starts the simulation if jToggledButtonWiSimStart is pressed
-	 *
-	 */
-	private void startSimulation() {
-		jButtonSimStart.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/suspend.gif")));
-		jButtonSimStart.setText("Pause");
-		JPanelOptions jPanelOptions = (JPanelOptions) actions.get("Options");
-		jPanelOptions.setJButtonRefreshEnable(false);
-		jComboBoxFactor.setEnabled(false);
-		jCheckBoxOneWeek.setEnabled(false);
+  /**
+   * Starts the simulation if jToggledButtonWiSimStart is pressed
+   *
+   */
+  private void startSimulation() {
+    jButtonSimStart.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/suspend.gif")));
+    jButtonSimStart.setText("Pause");
+    JPanelOptions jPanelOptions = (JPanelOptions) actions.get("Options");
+    jPanelOptions.setJButtonRefreshEnable(false);
+    jComboBoxFactor.setEnabled(false);
+    jCheckBoxOneWeek.setEnabled(false);
 
-		/** Reset the jPanelSimulationAnalysis */
-		 ((JPanelSimulationAnalysis) actions.get("SimulationAnalysis")).resetFields();
+    /**
+     * Reset the jPanelSimulationAnalysis
+     */
+    ((JPanelSimulationAnalysis) actions.get("SimulationAnalysis")).resetFields();
 
-		resetFields();
-		//jComboBoxZeitfaktor.setEnabled(false);
-		jButtonSimReset.setEnabled(false);
-		//jCheckBoxEineWoche.setEnabled(false);
-		actTime = new ActualTime();
-		int faktor = jComboBoxFactor.getSelectedIndex() + 1;
-		coreTime = new CoreTime(actTime, faktor, TIMESTEP);
-		gc.setTime(actDate);
-		boolean beendeNachEinerWoche = false;
-		if (jCheckBoxOneWeek.getSelectedObjects() != null && jCheckBoxOneWeek.getSelectedObjects().length > 0)
-			beendeNachEinerWoche = true;
-		else
-			beendeNachEinerWoche = false;
-		updateSimulationsauswertung = new UpdateSimulationAnalysis(actTime, this, beendeNachEinerWoche, false);
-		updateLagerThread = new UpdateWarehouseThread(this);
-		updateTrafficLight = new UpdateTrafficLight(this);
+    resetFields();
+    //jComboBoxZeitfaktor.setEnabled(false);
+    jButtonSimReset.setEnabled(false);
+    //jCheckBoxEineWoche.setEnabled(false);
+    actTime = new ActualTime();
+    int faktor = jComboBoxFactor.getSelectedIndex() + 1;
+    coreTime = new CoreTime(actTime, faktor, TIMESTEP);
+    gc.setTime(actDate);
+    boolean beendeNachEinerWoche;
+    beendeNachEinerWoche = jCheckBoxOneWeek.getSelectedObjects() != null && jCheckBoxOneWeek.getSelectedObjects().length > 0;
+    updateSimulationsauswertung = new UpdateSimulationAnalysis(actTime, this, beendeNachEinerWoche, false);
+    updateLagerThread = new UpdateWarehouseThread(this);
+    updateTrafficLight = new UpdateTrafficLight(this);
 
-		coreTime.start();
-		updateSimulationsauswertung.start();
-		updateLagerThread.start();
-		updateTrafficLight.start();
+    coreTime.start();
+    updateSimulationsauswertung.start();
+    updateLagerThread.start();
+    updateTrafficLight.start();
 
-		// Simulation of the production
-		int anzahlArbeitsplaetze = -1;
-		try {
-			anzahlArbeitsplaetze = dao.getAnzahlArbeitsplaetze();
-		} catch (WiSimDAOException e) {
-			wiSimLogger.log("startSimulation()", e);
-		}
+    // Simulation of the production
+    int anzahlArbeitsplaetze = -1;
+    try {
+      anzahlArbeitsplaetze = dao.getAnzahlArbeitsplaetze();
+    } catch (WiSimDAOException e) {
+      wiSimLogger.log("startSimulation()", e);
+    }
 
-		runController = new ProductionController(this);
+    runController = new ProductionController(this);
 
-		/** Set the runController in the Analys of the Production */
-		 ((JPanelSimulationAnalysis) actions.get("SimulationAnalysis")).setRunController(runController);
+    /**
+     * Set the runController in the Analys of the Production
+     */
+    ((JPanelSimulationAnalysis) actions.get("SimulationAnalysis")).setRunController(runController);
 
-		try {
-			threads = new ProductionSimulationThread[anzahlArbeitsplaetze + 1];
-			for (int i = 1; i <= anzahlArbeitsplaetze; i++) {
+    try {
+      threads = new ProductionSimulationThread[anzahlArbeitsplaetze + 1];
+      for (int i = 1; i <= anzahlArbeitsplaetze; i++) {
 
-				threads[i] = new ProductionSimulationThread(dao.getArbeitsplatz(i), runController, this, faktor, TIMESTEP);
-				threads[i].start();
+        threads[i] = new ProductionSimulationThread(dao.getArbeitsplatz(i), runController, this, faktor, TIMESTEP);
+        threads[i].start();
 
-			}
-		} catch (WiSimDAOException e) {
-			wiSimLogger.log("startSimulation()", e);
-		}
-		// End of simulation of the production
+      }
+    } catch (WiSimDAOException e) {
+      wiSimLogger.log("startSimulation()", e);
+    }
+    // End of simulation of the production
 
-		simulationState = true;
-		suspendState = false;
-	}
+    simulationState = true;
+    suspendState = false;
+  }
 
-	/** Suspends the simulation */
-	private void suspendSimulation() {
-		if (simulationState) {
-			jButtonSimStart.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/resume.gif")));
-			jButtonSimStart.setText("Weiter");
+  /**
+   * Suspends the simulation
+   */
+  private void suspendSimulation() {
+    if (simulationState) {
+      jButtonSimStart.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/resume.gif")));
+      jButtonSimStart.setText("Weiter");
 
-			coreTime.interrupt();
-			updateSimulationsauswertung.interrupt();
-			updateLagerThread.interrupt();
-			updateTrafficLight.interrupt();
+      coreTime.interrupt();
+      updateSimulationsauswertung.interrupt();
+      updateLagerThread.interrupt();
+      updateTrafficLight.interrupt();
 
-			int anzahlArbeitsplaetze = -1;
-			try {
-				anzahlArbeitsplaetze = dao.getAnzahlArbeitsplaetze();
-			} catch (WiSimDAOException e) {
-				wiSimLogger.log("startStopSimulation()", e);
-			}
+      int anzahlArbeitsplaetze = -1;
+      try {
+        anzahlArbeitsplaetze = dao.getAnzahlArbeitsplaetze();
+      } catch (WiSimDAOException e) {
+        wiSimLogger.log("startStopSimulation()", e);
+      }
 
-			// Stops the simulation of the produktion
-			for (int i = 1; i <= anzahlArbeitsplaetze; i++) {
-				threads[i].interrupt();
-			}
-			// End of stoping the simulation of the produktion
+      // Stops the simulation of the produktion
+      for (int i = 1; i <= anzahlArbeitsplaetze; i++) {
+        threads[i].interrupt();
+      }
+      // End of stoping the simulation of the produktion
 
-			simulationState = true;
-			suspendState = true;
-		}
-	}
+      simulationState = true;
+      suspendState = true;
+    }
+  }
 
-	/** Resumes the simulation */
-	private void resumeSimulation() {
-		jButtonSimStart.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/suspend.gif")));
-		jButtonSimStart.setText("Pause");
+  /**
+   * Resumes the simulation
+   */
+  private void resumeSimulation() {
+    jButtonSimStart.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/suspend.gif")));
+    jButtonSimStart.setText("Pause");
 
-		//jComboBoxZeitfaktor.setEnabled(false);
-		jButtonSimReset.setEnabled(false);
-		//jCheckBoxEineWoche.setEnabled(false);
-		int faktor = jComboBoxFactor.getSelectedIndex() + 1;
-		coreTime = new CoreTime(actTime, faktor, TIMESTEP);
-		gc.setTime(actDate);
-		boolean beendeNachEinerWoche = false;
-		if (jCheckBoxOneWeek.getSelectedObjects() != null && jCheckBoxOneWeek.getSelectedObjects().length > 0)
-			beendeNachEinerWoche = true;
-		else
-			beendeNachEinerWoche = false;
-		updateSimulationsauswertung = new UpdateSimulationAnalysis(actTime, this, beendeNachEinerWoche, true);
-		updateLagerThread = new UpdateWarehouseThread(this);
-		updateTrafficLight = new UpdateTrafficLight(this);
+    //jComboBoxZeitfaktor.setEnabled(false);
+    jButtonSimReset.setEnabled(false);
+    //jCheckBoxEineWoche.setEnabled(false);
+    int faktor = jComboBoxFactor.getSelectedIndex() + 1;
+    coreTime = new CoreTime(actTime, faktor, TIMESTEP);
+    gc.setTime(actDate);
+    boolean beendeNachEinerWoche;
+    beendeNachEinerWoche = jCheckBoxOneWeek.getSelectedObjects() != null && jCheckBoxOneWeek.getSelectedObjects().length > 0;
+    updateSimulationsauswertung = new UpdateSimulationAnalysis(actTime, this, beendeNachEinerWoche, true);
+    updateLagerThread = new UpdateWarehouseThread(this);
+    updateTrafficLight = new UpdateTrafficLight(this);
 
-		coreTime.start();
-		updateSimulationsauswertung.start();
-		updateLagerThread.start();
-		updateTrafficLight.start();
+    coreTime.start();
+    updateSimulationsauswertung.start();
+    updateLagerThread.start();
+    updateTrafficLight.start();
 
-		// Simulation of the production
-		int anzahlArbeitsplaetze = -1;
-		try {
-			anzahlArbeitsplaetze = dao.getAnzahlArbeitsplaetze();
-		} catch (WiSimDAOException e) {
-			wiSimLogger.log("startSimulation()", e);
-		}
+    // Simulation of the production
+    int anzahlArbeitsplaetze = -1;
+    try {
+      anzahlArbeitsplaetze = dao.getAnzahlArbeitsplaetze();
+    } catch (WiSimDAOException e) {
+      wiSimLogger.log("startSimulation()", e);
+    }
 
-		runController = new ProductionController(this);
-		try {
-			threads = new ProductionSimulationThread[anzahlArbeitsplaetze + 1];
-			for (int i = 1; i <= anzahlArbeitsplaetze; i++) {
+    runController = new ProductionController(this);
+    try {
+      threads = new ProductionSimulationThread[anzahlArbeitsplaetze + 1];
+      for (int i = 1; i <= anzahlArbeitsplaetze; i++) {
 
-				threads[i] = new ProductionSimulationThread(dao.getArbeitsplatz(i), runController, this, faktor, TIMESTEP);
-				threads[i].start();
+        threads[i] = new ProductionSimulationThread(dao.getArbeitsplatz(i), runController, this, faktor, TIMESTEP);
+        threads[i].start();
 
-			}
-		} catch (WiSimDAOException e) {
-			wiSimLogger.log("startSimulation()", e);
-		}
-		// End of simulation of the production
+      }
+    } catch (WiSimDAOException e) {
+      wiSimLogger.log("startSimulation()", e);
+    }
+    // End of simulation of the production
 
-		simulationState = true;
-		suspendState = false;
-	}
+    simulationState = true;
+    suspendState = false;
+  }
 
-	/** Stops the simulation
-	 *
-	 */
-	public void stopSimulation() {
-		jButtonSimStart.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/run.gif")));
-		jButtonSimStart.setText("Start");
-		jButtonSimStart.setSelected(false);
-		jButtonSimReset.setEnabled(true);
-		JPanelOptions jPanelOptions = (JPanelOptions) actions.get("Options");
-		jPanelOptions.setJButtonRefreshEnable(true);
-		jComboBoxFactor.setEnabled(true);
-		jCheckBoxOneWeek.setEnabled(true);
+  /**
+   * Stops the simulation
+   *
+   */
+  public void stopSimulation() {
+    jButtonSimStart.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/run.gif")));
+    jButtonSimStart.setText("Start");
+    jButtonSimStart.setSelected(false);
+    jButtonSimReset.setEnabled(true);
+    JPanelOptions jPanelOptions = (JPanelOptions) actions.get("Options");
+    jPanelOptions.setJButtonRefreshEnable(true);
+    jComboBoxFactor.setEnabled(true);
+    jCheckBoxOneWeek.setEnabled(true);
 
-		if (simulationState) {
-			coreTime.interrupt();
-			updateSimulationsauswertung.interrupt();
-			updateLagerThread.interrupt();
-			updateTrafficLight.interrupt();
+    if (simulationState) {
+      coreTime.interrupt();
+      updateSimulationsauswertung.interrupt();
+      updateLagerThread.interrupt();
+      updateTrafficLight.interrupt();
 
-			int anzahlArbeitsplaetze = -1;
-			try {
-				anzahlArbeitsplaetze = dao.getAnzahlArbeitsplaetze();
-			} catch (WiSimDAOException e) {
-				wiSimLogger.log("startStopSimulation()", e);
-			}
+      int anzahlArbeitsplaetze = -1;
+      try {
+        anzahlArbeitsplaetze = dao.getAnzahlArbeitsplaetze();
+      } catch (WiSimDAOException e) {
+        wiSimLogger.log("startStopSimulation()", e);
+      }
 
-			// Stops the simulation of the produktion
-			for (int i = 1; i <= anzahlArbeitsplaetze; i++) {
-				threads[i].interrupt();
-			}
-			// End of stoping the simulation of the produktion
-			simulationState = false;
-			suspendState = false;
-		}
-		setTrafficLightsOff();
-	}
+      // Stops the simulation of the produktion
+      for (int i = 1; i <= anzahlArbeitsplaetze; i++) {
+        threads[i].interrupt();
+      }
+      // End of stoping the simulation of the produktion
+      simulationState = false;
+      suspendState = false;
+    }
+    setTrafficLightsOff();
+  }
 
-	/** Resets the simulation */
-	private void resetSimulation() {
-		setTrafficLightsOff();
-		WiSimDAO dao = this.getDAO();
-		int choise = JOptionPane.showConfirmDialog(this, "Die Simulation wird zurückgesetzt.", "Achtung!", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-		if (choise == JOptionPane.YES_OPTION) {
-			try {
-				dao.simulationReset();
-				resetFields();
-			} catch (WiSimDAOException e) {
-				wiSimLogger.log(Level.WARNING, "resetDB()", e, false);
-			}
+  /**
+   * Resets the simulation
+   */
+  private void resetSimulation() {
+    setTrafficLightsOff();
+    WiSimDAO daoL = this.getDAO();
+    int choise = JOptionPane.showConfirmDialog(this, "Die Simulation wird zurückgesetzt.", "Achtung!", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+    if (choise == JOptionPane.YES_OPTION) {
+      try {
+        daoL.simulationReset();
+        resetFields();
+      } catch (WiSimDAOException e) {
+        wiSimLogger.log(Level.WARNING, "resetDB()", e, false);
+      }
 
-			Iterator it = activPanels.iterator();
-			while (it.hasNext()) {
-				Refreshable simPane = (Refreshable) it.next();
-				simPane.refresh();
-			}
-			JOptionPane.showMessageDialog(this, "Die Simulation wurde zurückgesetzt!");
-		}
-	}
+      Iterator<JPanel> it = activPanels.iterator();
+      while (it.hasNext()) {
+        Refreshable simPane = (Refreshable) it.next();
+        simPane.refresh();
+      }
+      JOptionPane.showMessageDialog(this, "Die Simulation wurde zurückgesetzt!");
+    }
+  }
 
-	/**
-	 * @return
-	 */
-	public Collection getActivPanels() {
-		return activPanels;
-	}
+  /**
+   * @return
+   */
+  public ArrayList<JPanel> getActivPanels() {
+    return activPanels;
+  }
 
-	/**
-	 * @param activPanel
-	 */
-	public void addActivPanel(JPanel activPanel) {
-		this.activPanels.add(activPanel);
-	}
+  /**
+   * @param activPanel
+   */
+  public void addActivPanel(JPanel activPanel) {
+    this.activPanels.add(activPanel);
+  }
 
-	public void removeActivPanel(JPanel activPanel) {
-		activPanels.remove(activPanel);
-	}
+  public void removeActivPanel(JPanel activPanel) {
+    activPanels.remove(activPanel);
+  }
 
-	public void setGreenTrafficLights(String status) {
-		jLabelGreen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ampel_gruen.gif")));
-		jLabelYellow.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ampel_aus.gif")));
-		jLabelRed.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ampel_aus.gif")));
+  public void setGreenTrafficLights(String status) {
+    jLabelGreen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ampel_gruen.gif")));
+    jLabelYellow.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ampel_aus.gif")));
+    jLabelRed.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ampel_aus.gif")));
 
-		jLabelGreen.setToolTipText("Status: Grün. Produktion läuft!");
-		jLabelYellow.setToolTipText(null);
-		jLabelRed.setToolTipText(null);
-		trafficLightsStatusText = status;
-		trafficLightStatus = "green";
-	}
+    jLabelGreen.setToolTipText("Status: Grün. Produktion läuft!");
+    jLabelYellow.setToolTipText(null);
+    jLabelRed.setToolTipText(null);
+    trafficLightsStatusText = status;
+    trafficLightStatus = "green";
+  }
 
-	public void setYellowTrafficLights(String status) {
-		jLabelGreen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ampel_gruen.gif")));
-		jLabelYellow.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ampel_gelb.gif")));
-		jLabelRed.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ampel_aus.gif")));
+  public void setYellowTrafficLights(String status) {
+    jLabelGreen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ampel_gruen.gif")));
+    jLabelYellow.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ampel_gelb.gif")));
+    jLabelRed.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ampel_aus.gif")));
 
-		jLabelGreen.setToolTipText(null);
-		jLabelYellow.setToolTipText("Status: Gelb. Bitte klicken für Informationen!");
-		jLabelRed.setToolTipText(null);
-		trafficLightsStatusText = status;
-		trafficLightStatus = "yellow";
-	}
+    jLabelGreen.setToolTipText(null);
+    jLabelYellow.setToolTipText("Status: Gelb. Bitte klicken für Informationen!");
+    jLabelRed.setToolTipText(null);
+    trafficLightsStatusText = status;
+    trafficLightStatus = "yellow";
+  }
 
-	public void setRedTrafficLights(String status) {
-		jLabelGreen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ampel_aus.gif")));
-		jLabelYellow.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ampel_aus.gif")));
-		jLabelRed.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ampel_rot.gif")));
+  public void setRedTrafficLights(String status) {
+    jLabelGreen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ampel_aus.gif")));
+    jLabelYellow.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ampel_aus.gif")));
+    jLabelRed.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ampel_rot.gif")));
 
-		jLabelGreen.setToolTipText(null);
-		jLabelYellow.setToolTipText(null);
-		jLabelRed.setToolTipText("Status: Rot. Bitte klicken für Informationen!");
-		trafficLightsStatusText = status;
-		trafficLightStatus = "red";
-	}
+    jLabelGreen.setToolTipText(null);
+    jLabelYellow.setToolTipText(null);
+    jLabelRed.setToolTipText("Status: Rot. Bitte klicken für Informationen!");
+    trafficLightsStatusText = status;
+    trafficLightStatus = "red";
+  }
 
-	public void setTrafficLightsOff() {
-		jLabelGreen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ampel_aus.gif")));
-		jLabelYellow.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ampel_aus.gif")));
-		jLabelRed.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ampel_aus.gif")));
+  public void setTrafficLightsOff() {
+    jLabelGreen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ampel_aus.gif")));
+    jLabelYellow.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ampel_aus.gif")));
+    jLabelRed.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ampel_aus.gif")));
 
-		jLabelGreen.setToolTipText("Simulation gestoppt!");
-		jLabelYellow.setToolTipText("Simulation gestoppt!");
-		jLabelRed.setToolTipText("Simulation gestoppt!");
-		trafficLightsStatusText = "Simulation gestoppt!";
-		trafficLightStatus = "off";
-	}
+    jLabelGreen.setToolTipText("Simulation gestoppt!");
+    jLabelYellow.setToolTipText("Simulation gestoppt!");
+    jLabelRed.setToolTipText("Simulation gestoppt!");
+    trafficLightsStatusText = "Simulation gestoppt!";
+    trafficLightStatus = "off";
+  }
 
-	/**
-	 * @return
-	 */
-	public WiSimAuthentificationDAO getAuthDAO() {
-		return authDAO;
-	}
+  /**
+   * @return
+   */
+  public WiSimAuthentificationDAO getAuthDAO() {
+    return authDAO;
+  }
 
-	private void showTrafficLightStatus() {
+  private void showTrafficLightStatus() {
 
-		if (trafficLightStatus.equals("red"))
-			JOptionPane.showMessageDialog(this, trafficLightsStatusText, "Produktionsstatus: Rot", JOptionPane.ERROR_MESSAGE);
-		else if (trafficLightStatus.equals("yellow"))
-			JOptionPane.showMessageDialog(this, trafficLightsStatusText, "Produktionsstatus: Gelb", JOptionPane.WARNING_MESSAGE);
-		else if (trafficLightStatus.equals("green"))
-			JOptionPane.showMessageDialog(this, trafficLightsStatusText, "Produktionsstatus: Grün", JOptionPane.INFORMATION_MESSAGE);
-		else
-			JOptionPane.showMessageDialog(this, trafficLightsStatusText, "Produktionsstatus: Aus", JOptionPane.INFORMATION_MESSAGE);
-	}
+    switch (trafficLightStatus) {
+      case "red":
+        JOptionPane.showMessageDialog(this, trafficLightsStatusText, "Produktionsstatus: Rot", JOptionPane.ERROR_MESSAGE);
+        break;
+      case "yellow":
+        JOptionPane.showMessageDialog(this, trafficLightsStatusText, "Produktionsstatus: Gelb", JOptionPane.WARNING_MESSAGE);
+        break;
+      case "green":
+        JOptionPane.showMessageDialog(this, trafficLightsStatusText, "Produktionsstatus: Grün", JOptionPane.INFORMATION_MESSAGE);
+        break;
+      default:
+        JOptionPane.showMessageDialog(this, trafficLightsStatusText, "Produktionsstatus: Aus", JOptionPane.INFORMATION_MESSAGE);
+        break;
+    }
+  }
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JButton jButtonSimReset;

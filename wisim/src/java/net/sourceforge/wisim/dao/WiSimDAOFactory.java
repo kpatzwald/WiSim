@@ -1,8 +1,8 @@
 /*   ********************************************************************   **
 **   Copyright notice                                                       **
 **                                                                          **
-**   (c) 2003 WiSim Development Team					                              **
-**   https://github.com/kpatzwald/WiSim   			                                  **
+**   (c) 2003-2021 WiSim Development Team                                   **
+**   https://github.com/kpatzwald/WiSim                                     **
 **                                                                          **
 **   All rights reserved                                                    **
 **                                                                          **
@@ -21,38 +21,42 @@
 **   This copyright notice MUST APPEAR in all copies of the file!           **
 **   ********************************************************************   */
 
-/*
+ /*
  * WiSimDAOFactory.java
  *
  * Created on 23. April 2002, 10:15
  */
-
 package net.sourceforge.wisim.dao;
 
-/** Initializing the DOA-object
+/**
+ * Initializing the DOA-object
  *
  * @author Kay Patzwald
  */
 public class WiSimDAOFactory {
 
-	/** Creates a new instance of WiSimDAOFactory */
-	public WiSimDAOFactory() {
-	}
+  /**
+   * Creates a new instance of WiSimDAOFactory
+   */
+  public WiSimDAOFactory() {
+  }
 
-	/** returns a object with implements the <code>WiSimDAO</code> interface.
-	 * @throws com.pixelpark.wisim.dao.WiSimDAOException if a database problem occurs
-	 * @return the initialized DOA-object
-	 */
-	public WiSimDAO getDAO() throws WiSimDAOException {
+  /**
+   * returns a object with implements the <code>WiSimDAO</code> interface.
+   *
+   * @return the initialized DOA-object
+   * @throws net.sourceforge.wisim.dao.WiSimDAOException
+   */
+  public WiSimDAO getDAO() throws WiSimDAOException {
 
-		WiSimDAOImpl daoI = new WiSimDAOImpl();
-		daoI.initialize();
-		return ((WiSimDAO) daoI);
-	}
+    WiSimDAOImpl daoI = new WiSimDAOImpl();
+    daoI.initialize();
+    return ((WiSimDAO) daoI);
+  }
 
-	public WiSimAuthentificationDAO getAuthDAO() throws WiSimDAOException {
-		WiSimDAOImpl dao = new WiSimDAOImpl();
-		dao.initialize();
-		return (WiSimAuthentificationDAO) dao;
-	}
+  public WiSimAuthentificationDAO getAuthDAO() throws WiSimDAOException {
+    WiSimDAOImpl dao = new WiSimDAOImpl();
+    dao.initialize();
+    return (WiSimAuthentificationDAO) dao;
+  }
 }

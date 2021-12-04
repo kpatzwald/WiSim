@@ -1,26 +1,25 @@
-/*   ********************************************************************   **
-**   Copyright notice                                                       **
-**                                                                          **
-**   (c) 2003 WiSim Development Team	   			            **
-**   			                                                    **
-**   https://github.com/kpatzwald/WiSim   			            **
-**                                                                          **
-**   All rights reserved                                                    **
-**                                                                          **
-**   This script is part of the WiSim Business Game project. The WiSim      **
-**   project is free software; you can redistribute it and/or modify        **
-**   it under the terms of the GNU General Public License as published by   **
-**   the Free Software Foundation; either version 2 of the License, or      **
-**   (at your option) any later version.                                    **
-**                                                                          **
-**   The GNU General Public License can be found at                         **
-**   http://www.gnu.org/copyleft/gpl.html.                                  **
-**   A copy is found in the textfile GPL.txt and important notices to the   **
-**   license from the team is found in the textfile LICENSE.txt distributed **
-**   in these package.                                                      **
-**                                                                          **
-**   This copyright notice MUST APPEAR in all copies of the file!           **
-**   ********************************************************************   */
+/*   ********************************************************************    **
+ **   Copyright notice                                                       **
+ **                                                                          **
+ **   (c) 2003-2021 WiSim Development Team                                   **
+ **   https://github.com/kpatzwald/WiSim                                     **
+ **                                                                          **
+ **   All rights reserved                                                    **
+ **                                                                          **
+ **   This script is part of the WiSim Business Game project. The WiSim      **
+ **   project is free software; you can redistribute it and/or modify        **
+ **   it under the terms of the GNU General Public License as published by   **
+ **   the Free Software Foundation; either version 2 of the License, or      **
+ **   (at your option) any later version.                                    **
+ **                                                                          **
+ **   The GNU General Public License can be found at                         **
+ **   http://www.gnu.org/copyleft/gpl.html.                                  **
+ **   A copy is found in the textfile GPL.txt and important notices to the   **
+ **   license from the team is found in the textfile LICENSE.txt distributed **
+ **   in these package.                                                      **
+ **                                                                          **
+ **   This copyright notice MUST APPEAR in all copies of the file!           **
+ **   ********************************************************************   */
 
  /*
  * WiSimDAOImpl.java
@@ -49,11 +48,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
-
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-
 import net.sourceforge.wisim.model.Article;
 import net.sourceforge.wisim.model.City;
 import net.sourceforge.wisim.model.ComponentContract;
@@ -182,7 +179,7 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
       // You must put a database name after the @ sign in the connection URL.
       // You can use either the fully specified SQL*net syntax or a short cut
       // syntax as <host>:<port>:<sid>.
-      //Zunï¿½chst wird ï¿½berprï¿½ft ob eine Datenbank mit dem Namen "wisim" vorhanden ist
+      //Zunächst wird überprüft, ob eine Datenbank mit dem Namen "wisim" vorhanden ist
       conn = DriverManager.getConnection("jdbc:mysql://" + hostName + ":" + port + "/?useUnicode=true&characterEncoding=utf-8", user, password);
       conn.setAutoCommit(false);
 
@@ -340,7 +337,7 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
         hostName = "localhost";
       }
 
-      //Port muss evtl. geï¿½ndert werden
+      //Port muss evtl. geändert werden
       port = JOptionPane.showInputDialog(nachricht + "Schritt 2) Port überprüfen (Standard: 3306): ", port);
       if (port == null) {
         System.exit(1);
@@ -349,7 +346,7 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
         port = "3306";
       }
 
-      //Username muss evtl. geï¿½ndert werden
+      //Username muss evtl. geändert werden
       user = JOptionPane.showInputDialog(nachricht + "Schritt 3) Benutzername überprüfen: ", user);
       if (user == null) {
         System.exit(1);
@@ -358,7 +355,7 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
         user = "root";
       }
 
-      //PW muss evtl. geï¿½ndert werden
+      //PW muss evtl. geändert werden
       password = JOptionPane.showInputDialog(nachricht + "Schritt 4) Passwort überprüfen (wird nicht angezeigt!): ");
       if (password == null) {
         System.exit(1);
@@ -449,13 +446,13 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
   /**
    * Holt alle Kunden aus der Datenbank
    *
-   * @return Collection
+   * @return ArrayList
    * @throws WiSimDAOException Fehler beim Abfragen der DB
    */
   @Override
-  public Collection<Customer> getKunden() throws WiSimDAOException {
+  public ArrayList<Customer> getKunden() throws WiSimDAOException {
     String sql = "SELECT * FROM kd WHERE kd_deleted = 'FALSE'";
-    Collection<Customer> kunden = (Collection<Customer>) new ArrayList<Customer>();
+    ArrayList<Customer> kunden = new ArrayList<Customer>();
     try {
       // Create a Statement
       Statement stmt = conn.createStatement();
@@ -568,7 +565,8 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
    *
    * @param kunde the object, containing the changed data of a customer
    * @return Boolean
-   * @throws net.sourceforge.wisim.dao.WiSimDAOException Fehler beim Abfragen der DB
+   * @throws net.sourceforge.wisim.dao.WiSimDAOException Fehler beim Abfragen
+   * der DB
    * @throws net.sourceforge.wisim.dao.WiSimDAOWriteException
    */
   @Override
@@ -650,7 +648,8 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
    * @return int Lieferantennummer des neuen Supplier oder 0 wenn ein Fehler
    * aufgetreten ist.
    * @param lieferant Supplier
-   * @throws net.sourceforge.wisim.dao.WiSimDAOException Fehler beim Abfragen der DB
+   * @throws net.sourceforge.wisim.dao.WiSimDAOException Fehler beim Abfragen
+   * der DB
    */
   @Override
   public int neuerLieferant(Supplier lieferant) throws WiSimDAOException, WiSimDAOWriteException {
@@ -713,7 +712,8 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
    * @return com.pixelpark.wisim.model.Supplier oder null wenn kein Supplier mit
    * der ï¿½bergebenen Nummer existiert.
    * @param lieferantenId LieferantNr
-   * @throws net.sourceforge.wisim.dao.WiSimDAOException Fehler beim Abfragen der DB
+   * @throws net.sourceforge.wisim.dao.WiSimDAOException Fehler beim Abfragen
+   * der DB
    */
   @Override
   public Supplier getLieferant(int lieferantenId) throws WiSimDAOException {
@@ -764,8 +764,10 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
    *
    * @param lieferant beinhaltet die geaenderten Daten des Lieferanten
    * @return Boolean
-   * @throws net.sourceforge.wisim.dao.WiSimDAOException Fehler beim Abfragen der DB
-   * @throws net.sourceforge.wisim.dao.WiSimDAOWriteException Fehler beim Schreiben in die DB
+   * @throws net.sourceforge.wisim.dao.WiSimDAOException Fehler beim Abfragen
+   * der DB
+   * @throws net.sourceforge.wisim.dao.WiSimDAOWriteException Fehler beim
+   * Schreiben in die DB
    */
   @Override
   public int aendereLieferant(Supplier lieferant) throws WiSimDAOException, WiSimDAOWriteException {
@@ -845,7 +847,8 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
    * @return Boolean
    * @param Nr Auftragsrechnungsnummer
    * @param status Status der Rechnung
-   * @throws net.sourceforge.wisim.dao.WiSimDAOException Fehler beim Abfragen der DB
+   * @throws net.sourceforge.wisim.dao.WiSimDAOException Fehler beim Abfragen
+   * der DB
    */
   @Override
   public int aendereAuftragsrechnung(int Nr, boolean status) throws WiSimDAOException, WiSimDAOWriteException {
@@ -879,8 +882,10 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
    * @return int
    * @param status Status des Lieferanten
    * @param LtNr the object, containing the changed data of a Supplier
-   * @throws net.sourceforge.wisim.dao.WiSimDAOException Fehler beim Abfragen der DB
-   * @throws net.sourceforge.wisim.dao.WiSimDAOWriteException Fehler beim Schreiben in die DB
+   * @throws net.sourceforge.wisim.dao.WiSimDAOException Fehler beim Abfragen
+   * der DB
+   * @throws net.sourceforge.wisim.dao.WiSimDAOWriteException Fehler beim
+   * Schreiben in die DB
    */
   @Override
   public int setLieferantLoeschStatus(int LtNr, boolean status) throws WiSimDAOException, WiSimDAOWriteException {
@@ -918,7 +923,7 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
    * was never initialized
    */
   @Override
-  public Collection<Memo> getNotizen(int KdNr) throws WiSimDAOException {
+  public ArrayList<Memo> getNotizen(int KdNr) throws WiSimDAOException {
     // Serverlog
     logger.finest("com.pixelpark.wisim.dao.WiSimDAOImpl.getNotizen() Action: start");
     String sql;
@@ -1035,7 +1040,8 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
    *
    * @return City der zu der PLZ gehört
    * @param Nr Id des Ortes
-   * @throws net.sourceforge.wisim.dao.WiSimDAOException Fehler beim Abfragen der DB
+   * @throws net.sourceforge.wisim.dao.WiSimDAOException Fehler beim Abfragen
+   * der DB
    */
   @Override
   public City getOrt(int Nr) throws WiSimDAOException {
@@ -2034,8 +2040,10 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
    * @return int
    * @param KdNr Kundennummer
    * @param status Löschstatus
-   * @throws net.sourceforge.wisim.dao.WiSimDAOException Fehler beim Abfragen der DB
-   * @throws net.sourceforge.wisim.dao.WiSimDAOWriteException Fehler beim Schreiben in die DB
+   * @throws net.sourceforge.wisim.dao.WiSimDAOException Fehler beim Abfragen
+   * der DB
+   * @throws net.sourceforge.wisim.dao.WiSimDAOWriteException Fehler beim
+   * Schreiben in die DB
    */
   @Override
   public int setKundenLoeschStatus(int KdNr, boolean status) throws WiSimDAOException, WiSimDAOWriteException {
@@ -2719,7 +2727,7 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
 
       while (rset.next()) {
 
-        NetworkplanElement np = new NetworkplanElement(rset.getInt(1), (double)(rset.getInt(2)), rset.getString(3), new int[0]);
+        NetworkplanElement np = new NetworkplanElement(rset.getInt(1), (double) (rset.getInt(2)), rset.getString(3), new int[0]);
 
         /**
          * This is a new element
@@ -2969,7 +2977,8 @@ public class WiSimDAOImpl implements WiSimDAO, WiSimAuthentificationDAO {
     }
   }
 
-  /** TODO
+  /**
+   * TODO
    *
    * @return
    * @throws WiSimDAOException
