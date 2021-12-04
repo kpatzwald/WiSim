@@ -28,10 +28,24 @@
  */
 package net.sourceforge.wisim.controller;
 
-import java.util.*;
-import javax.swing.*;
-import net.sourceforge.wisim.dao.*;
-import net.sourceforge.wisim.model.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.Vector;
+
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
+
+import net.sourceforge.wisim.dao.WiSimDAO;
+import net.sourceforge.wisim.dao.WiSimDAOException;
+import net.sourceforge.wisim.dao.WiSimDAOWriteException;
+import net.sourceforge.wisim.model.Supplier;
+import net.sourceforge.wisim.model.SupplyList;
+import net.sourceforge.wisim.model.Validator;
+import net.sourceforge.wisim.model.WiSimComponent;
+import net.sourceforge.wisim.model.WiSimLogger;
 
 /**
  * Das Panel Neuer Supplier

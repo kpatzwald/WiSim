@@ -28,10 +28,23 @@
  */
 package net.sourceforge.wisim.controller;
 
-import net.sourceforge.wisim.dao.*;
-import net.sourceforge.wisim.model.*;
-import javax.swing.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Hashtable;
+import java.util.Iterator;
+
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
+
+import net.sourceforge.wisim.dao.WiSimDAO;
+import net.sourceforge.wisim.dao.WiSimDAOException;
+import net.sourceforge.wisim.dao.WiSimDAOWriteException;
+import net.sourceforge.wisim.model.City;
+import net.sourceforge.wisim.model.Customer;
+import net.sourceforge.wisim.model.Memo;
+import net.sourceforge.wisim.model.Validator;
+import net.sourceforge.wisim.model.WiSimLogger;
 
 /**
  * Das Panel Customer Bearbeiten

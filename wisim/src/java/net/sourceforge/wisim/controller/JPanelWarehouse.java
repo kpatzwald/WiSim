@@ -28,15 +28,25 @@
  */
 package net.sourceforge.wisim.controller;
 
-import net.sourceforge.wisim.model.*;
-import net.sourceforge.wisim.dao.*;
-import javax.swing.table.DefaultTableModel;
-import java.awt.*;
-import java.awt.image.*;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import javax.swing.*;
+
+import javax.swing.ImageIcon;
+import javax.swing.table.DefaultTableModel;
+
+import net.sourceforge.wisim.dao.WiSimDAO;
+import net.sourceforge.wisim.dao.WiSimDAOException;
+import net.sourceforge.wisim.model.Article;
+import net.sourceforge.wisim.model.ComponentWarehouseItem;
+import net.sourceforge.wisim.model.Refreshable;
+import net.sourceforge.wisim.model.WarehouseLocation;
+import net.sourceforge.wisim.model.WiSimComponent;
+import net.sourceforge.wisim.model.WiSimLogger;
 
 /**
  * Gibt eine ï¿½bersicht des Lager aus. Bestï¿½nde und Kapazitï¿½ten werden

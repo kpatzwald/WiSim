@@ -26,12 +26,14 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.util.ArrayList;
+
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+
 import net.sourceforge.wisim.dao.WiSimDAO;
 import net.sourceforge.wisim.dao.WiSimDAOException;
-import net.sourceforge.wisim.model.*;
+import net.sourceforge.wisim.model.WiSimLogger;
 import net.sourceforge.wisim.networkplan.JNetworkplan;
 import net.sourceforge.wisim.networkplan.NetworkplanElement;
 

@@ -23,9 +23,11 @@
 
 package net.sourceforge.wisim.controller;
 
-import javax.swing.table.*;
 import java.awt.Component;
-import javax.swing.*;
+
+import javax.swing.JComponent;
+import javax.swing.JTable;
+import javax.swing.table.TableCellRenderer;
 
 /**
  * @author Zafir Anjum

@@ -28,9 +28,12 @@
  */
 package net.sourceforge.wisim.controller;
 
-import java.awt.*;
-import java.awt.image.*;
-import javax.swing.*;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+
+import javax.swing.ImageIcon;
 
 /**
  * Erzeugt eine neue Instanz IconGenerater

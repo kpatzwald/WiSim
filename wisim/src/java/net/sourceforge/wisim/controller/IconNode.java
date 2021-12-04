@@ -22,8 +22,8 @@
 **   ********************************************************************   */
 package net.sourceforge.wisim.controller;
 
-import javax.swing.*;
-import javax.swing.tree.*;
+import javax.swing.Icon;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 /**
  * Ein IconNode ist ein Element im JTree. Das IconNode kann ein eigenes Icon

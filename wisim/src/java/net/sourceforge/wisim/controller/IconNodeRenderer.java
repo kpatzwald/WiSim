@@ -23,10 +23,11 @@
 
 package net.sourceforge.wisim.controller;
 
-import java.awt.*;
-import java.util.*;
-import javax.swing.*;
-import javax.swing.tree.*;
+import java.awt.Component;
+import java.util.HashMap;
+import javax.swing.Icon;
+import javax.swing.JTree;
+import javax.swing.tree.DefaultTreeCellRenderer;
 
 /** Der CellRenderer für einen JTree mit IconNodes. Erlaubt es jedem Node im JTree ein eigenes Icon
  * zuzuweisen.
@@ -55,10 +56,10 @@ public class IconNodeRenderer extends DefaultTreeCellRenderer {
 		Icon icon = ((IconNode) value).getIcon();
 
 		if (icon == null) {
-			Hashtable icons = (Hashtable) tree.getClientProperty("JTree.icons");
+			HashMap<String, Icon> icons = (HashMap<String, Icon>) tree.getClientProperty("JTree.icons");
 			String name = ((IconNode) value).getIconName();
 			if ((icons != null) && (name != null)) {
-				icon = (Icon) icons.get(name);
+				icon = icons.get(name);
 				if (icon != null) {
 					setIcon(icon);
 				}

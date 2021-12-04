@@ -28,7 +28,8 @@ package net.sourceforge.wisim.simulation;
  *
  * Created on 17. März 2003, 14:14
  */
-import java.util.*;
+import java.util.Date;
+import java.util.GregorianCalendar;
 /** Speichert die aktuelle Zeit.
  * Der CoreThread greift auf dieses Objekt zu um die Zeit zu ändern.
  * @author benjamin.pasero

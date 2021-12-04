@@ -23,7 +23,7 @@
 
 package net.sourceforge.wisim.simulation;
 
-import java.util.*;
+import java.util.GregorianCalendar;
 
 import net.sourceforge.wisim.controller.JPanelSimulationAnalysis;
 import net.sourceforge.wisim.controller.WiSimMainController;

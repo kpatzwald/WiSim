@@ -29,7 +29,7 @@
 package net.sourceforge.wisim.model;
 
 import java.sql.Date;
-import java.util.*;
+import java.util.Collection;
 
 /**
  * ComponentContract für Einzelteile

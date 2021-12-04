@@ -32,10 +32,15 @@ package net.sourceforge.wisim.controller;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
-import net.sourceforge.wisim.dao.*;
-import net.sourceforge.wisim.model.*;
-import javax.swing.*;
+
+import javax.swing.DefaultListModel;
 import javax.swing.table.DefaultTableModel;
+
+import net.sourceforge.wisim.dao.WiSimDAO;
+import net.sourceforge.wisim.dao.WiSimDAOException;
+import net.sourceforge.wisim.model.Customer;
+import net.sourceforge.wisim.model.Memo;
+import net.sourceforge.wisim.model.WiSimLogger;
 
 /** Auflistung der Kundendaten
  */

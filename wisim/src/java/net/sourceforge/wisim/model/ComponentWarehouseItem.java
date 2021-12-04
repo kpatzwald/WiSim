@@ -27,7 +27,7 @@
  */
 package net.sourceforge.wisim.model;
 
-import java.util.*;
+import java.util.Collection;
 
 /**
  * Die Summe der Einzelteile eines bestimmten Typs (Name, Einzelteile Nr,
